@@ -13,7 +13,7 @@ export default class Translate extends olInteractionTranslate {
     const mapFeature = map.forEachFeatureAtPixel(pixel,
       function (feature) {
         if (!this.features_ ||
-            olArray.includes(this.features_.getArray(), feature)) {
+          olArray.binarySearch(this.features_.getArray(), feature)) {
           return feature
         }
       }.bind(this), {

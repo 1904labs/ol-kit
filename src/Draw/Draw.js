@@ -11,7 +11,6 @@ import { DrawToolbar } from 'DrawToolbar'
 import olFeature from 'ol/Feature'
 import olDrawInteraction from 'ol/interaction/Draw'
 import olSnapInteraction from 'ol/interaction/Snap'
-import olGeomTypes from 'ol/geom/GeometryType'
 import { VectorLayer } from '../classes'
 import olLayerVector from 'ol/layer/Vector'
 import olSourceVector from 'ol/source/Vector'
@@ -21,7 +20,7 @@ import olCollection from 'ol/Collection'
 import { connectToContext } from 'Provider'
 import { getStyledFeatures } from './utils'
 
-const OL_DRAW_TYPES = [...Object.values(olGeomTypes)]
+const OL_DRAW_TYPES = [...Object.values('Point', 'LineString', 'LinearRing', 'Polygon', 'MultiPoint', 'MultiLineString', 'MultiPolygon', 'GeometryCollection', 'Circle')]
 
 /**
  * A component for rendering basic draw tools
@@ -279,10 +278,10 @@ Draw.defaultProps = {
   source: new olSourceVector(),
   snapOpts: {},
   snap: true,
-  onDrawFinish: () => {},
-  onDrawBegin: () => {},
-  onInteractionAdded: () => {},
-  onDrawCancel: () => {}
+  onDrawFinish: () => { },
+  onDrawBegin: () => { },
+  onInteractionAdded: () => { },
+  onDrawCancel: () => { }
 }
 
 export default connectToContext(Draw)

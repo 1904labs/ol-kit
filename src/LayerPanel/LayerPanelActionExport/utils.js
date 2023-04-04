@@ -1,6 +1,6 @@
 import olFormatGeoJSON from 'ol/format/GeoJSON'
 import olFormatKml from 'ol/format/KML'
-import shpwrite from 'shp-write' // mapbox shapefile writer
+// import shpwrite from 'shp-write' // mapbox shapefile writer
 import olFeature from 'ol/Feature'
 import ugh from 'ugh'
 
@@ -12,7 +12,7 @@ try {
   // do nothing
 }
 
-function groupBy (list, getGroupName) { // eslint-disable-line
+function groupBy(list, getGroupName) { // eslint-disable-line
   return list.reduce((groups, item) => {
     const val = getGroupName(item)
 
@@ -31,7 +31,7 @@ function groupBy (list, getGroupName) { // eslint-disable-line
  * @param {String} [type] - The desired file type ('shp' or 'kml').
  * @param {Object[]} [features] - An array of the features to be included in the generated file.
  */
-export function exportFeatures (type, features, opts) {
+export function exportFeatures(type, features, opts) {
   const visibleFeatures = features.map(feature => {
     const clone = feature.clone()
 
@@ -68,7 +68,7 @@ export function exportFeatures (type, features, opts) {
   }
 }
 
-function saveAs (blob, filename) {
+function saveAs(blob, filename) {
   try {
     // create an <a> element
     const a = document.createElement('a')
@@ -91,7 +91,7 @@ function saveAs (blob, filename) {
   }
 }
 
-function flattenFeatures (features) {
+function flattenFeatures(features) {
   return features.reduce((acc, feature) => {
     const geom = feature.getGeometry()
     const type = geom.getType()
@@ -136,7 +136,7 @@ function flattenFeatures (features) {
   }, [])
 }
 
-function exportShapefile ({ format, visibleFeatures, sourceProjection, targetProjection = 'EPSG:4326', filename = 'export.zip' }) {
+function exportShapefile({ format, visibleFeatures, sourceProjection, targetProjection = 'EPSG:4326', filename = 'export.zip' }) {
   const flattenedFeatures = flattenFeatures(visibleFeatures) // as of writing this shpwrite is bugged and can't handle multi geometries or GeometryCollections so we flatten these into their constituent parts.
   const featureCollection = format.writeFeaturesObject(flattenedFeatures, {
     dataProjection: targetProjection,
@@ -146,10 +146,10 @@ function exportShapefile ({ format, visibleFeatures, sourceProjection, targetPro
   const types = Array.from(new Set(featureCollection.features.map(feature => feature.geometry.type)))
   const options = { folder: filename, types }
 
-  return shpwrite.download(featureCollection, options)
+  // return shpwrite.download(featureCollection, options)
 }
 
-function exportGeoJSON ({ format, visibleFeatures, sourceProjection, targetProjection = 'EPSG:4326', filename = 'export.geojson' }) {
+function exportGeoJSON({ format, visibleFeatures, sourceProjection, targetProjection = 'EPSG:4326', filename = 'export.geojson' }) {
   const featureCollection = format.writeFeaturesObject(visibleFeatures, {
     dataProjection: targetProjection,
     featureProjection: sourceProjection
@@ -162,7 +162,7 @@ function exportGeoJSON ({ format, visibleFeatures, sourceProjection, targetProje
   return saveAs(new Blob([jsonString], { type: 'octet/stream' }), filename)
 }
 
-function exportKml (args) {
+function exportKml(args) {
   const {
     format,
     visibleFeatures,
