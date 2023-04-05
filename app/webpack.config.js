@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const babelConfig = require('../babel.config.js')
 
 // during development be sure to pass this env variable so that we get the alias to src gets created
-const alias = process.env.OL_KIT_DEVELOPMENT ? { '@bayer/ol-kit': path.resolve(__dirname, '../', 'src') }: {}
+const alias = process.env.OL_KIT_DEVELOPMENT ? { '@bayer/ol-kit': path.resolve(__dirname, '../', 'src') } : {}
 
 module.exports = {
   mode: 'development',
@@ -25,7 +25,7 @@ module.exports = {
 
   resolve: {
     // Create aliases to import or require certain modules more easily
-    alias: {...alias},
+    alias: { ...alias },
     fallback: {
       fs: false,
       "stream": false
@@ -52,9 +52,15 @@ module.exports = {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: 'file-loader',
-          },
-        ],
+            loader: 'file-loader'
+          }
+        ]
+      },
+      {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false
+        }
       }
     ]
   },
@@ -64,13 +70,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: path.resolve(__dirname, 'index.html'),
-      favicon: path.resolve(__dirname, 'favicon.ico'),
+      favicon: path.resolve(__dirname, 'favicon.ico')
     }),
 
     new webpack.ProvidePlugin({
-      process: 'process/browser',
+      process: 'process/browser'
     }),
-    
 
     // Do not emit compiled assets that include errors
     new webpack.NoEmitOnErrorsPlugin()
@@ -78,9 +83,13 @@ module.exports = {
 
   devServer: {
     port: 2020,
-    clientLogLevel: 'none',
-    publicPath: path.resolve('/'),
-    contentBase: path.resolve(__dirname, '../', 'build'),
+    client: {
+      logging: 'none'
+    },
+    devMiddleware: {
+      publicPath: path.resolve('/')
+    },
+    static: path.resolve(__dirname, '../', 'build'),
     historyApiFallback: true
   }
 }

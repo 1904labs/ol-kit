@@ -188,8 +188,8 @@ export const getLayersAndFeaturesForEvent = (event, opts = {}) => {
     }
   }).filter(Boolean)
 
-  const wmsSelector = layer => {
-    if (layer.get('_ol_kit_parent')?.isGeoserverLayer) {
+  const wmsSelector = (_, layer) => {
+    if (layer?.get('_ol_kit_parent')?.isGeoserverLayer) {
       // this logic handles clicks on GeoserverLayers
       const geoserverLayer = layer.get('_ol_kit_parent')
       const coords = map.getCoordinateFromPixel(pixel)
@@ -205,7 +205,7 @@ export const getLayersAndFeaturesForEvent = (event, opts = {}) => {
   }
 
   // We have to look for ImageLayers with a parent GeoserverLayer this way, as the ImageLayer doesn't show up in map.getLayers()
-  map.forEachLayerAtPixel(pixel, wmsSelector)
+  map.forEachFeatureAtPixel(pixel, wmsSelector)
 
   return promises
 }

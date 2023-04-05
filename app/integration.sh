@@ -16,7 +16,7 @@ trap cleanup EXIT TERM
 
 if [[ $* != *--no-dev-server* ]]; then
 	printf "Starting the dev server...\n"
-	webpack-dev-server --hot --inline --config app/webpack.config.js & SERVER_PID=$! pids+=( "$SERVER_PID" )
+	webpack-dev-server --hot --config app/webpack.config.js & SERVER_PID=$! pids+=( "$SERVER_PID" )
 	sleep 10
 	printf "Server process ID: $SERVER_PID\n"
 fi
