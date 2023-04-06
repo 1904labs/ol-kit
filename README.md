@@ -77,6 +77,6 @@ If you find a bug or think of a new feature, please submit a Github issue.
 The current maintainers are listed in [MAINTAINERS.md](https://github.com/Bayer-Group/ol-kit/blob/master/MAINTAINERS.md). If you would like contribute to the project see [CONTRIBUTING.md](https://github.com/Bayer-Group/ol-kit/blob/master/CONTRIBUTING.md).
 
 ## Sponsor
-The ol-kit project was internally developed at Bayer Crop Science. Without the generous support of various stakeholders at Bayer, this project would never have become an open source reality. Thank you for the support, resources & final approval!
+The ol-kit project was internally developed at Bayer Crop Science. Without the generous support of various stakeholders at Bayer, this project would never have become an open source reality. Thank you for the support, resources & final approval! 1904 has officially taken over as the sponsor and maintainer.
 
-![ol-kit logo](./config/jsdoc/template/static/readme-bayer-logo.png)
+![ol-kit logo](./config/jsdoc/template/static/1904labsNoTag_lightBG.svg)
