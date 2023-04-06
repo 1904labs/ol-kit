@@ -1,10 +1,3 @@
-#  DEPRECATED.
-THIS PROJECT IS NO LONGER BEING MAINTAINED.
-
-It will not receive any future updates or bug fixes. 
-If you are using it, please consider using the latest offerings from [OpenLayers](https://openlayers.org/) and other related [Libraries](https://openlayers.org/3rd-party/).
-
-
 ![ol-kit logo](./config/jsdoc/template/static/readme-ol-kit-logo.png)
 
 ![npm version](https://img.shields.io/npm/v/@bayer/ol-kit)
