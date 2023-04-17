@@ -47,7 +47,7 @@ const getNonLabelStyles = (ss = []) => ss.filter(s => s.symbolizers[0].kind !== 
 const getLabelStyle = (ss = []) => ss.find(s => s.symbolizers[0].kind === 'Text')
 
 class StyleManager extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -59,7 +59,7 @@ class StyleManager extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { layers } = this.props
 
     // this auto-selects the item if there is only one layer to manage
@@ -74,7 +74,7 @@ class StyleManager extends Component {
     this.setState({ activeIdx })
   }
 
-  onCollapseToggle (type) {
+  onCollapseToggle(type) {
     this.setState({ [type]: !this.state[type] })
   }
 
@@ -121,7 +121,7 @@ class StyleManager extends Component {
     onDefaultStyleReset(layers[activeIdx])
   }
 
-  render () {
+  render() {
     const {
       translations,
       filters,
@@ -180,7 +180,7 @@ class StyleManager extends Component {
 
     return (
       <div data-testid='StyleManager'>
-        {layerSelected ? (
+        {layers.length !== 0 ? (
           <HeaderContainer>
             <InputContainer>
               <FormControl style={{ width: '300px', margin: '20px' }}>
@@ -206,7 +206,7 @@ class StyleManager extends Component {
         {layerSelected && (
           layers[activeIdx] instanceof HeatmapLayer ? (
             <HeatmapControls layer={layers[activeIdx]} />
-          ):(
+          ) : (
             <SelectTabs>
               <div title={translations['_ol_kit.StyleManager.styleTab']}>
                 <LayerStyler
