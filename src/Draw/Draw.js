@@ -20,7 +20,7 @@ import olCollection from 'ol/Collection'
 import { connectToContext } from 'Provider'
 import { getStyledFeatures } from './utils'
 
-const OL_DRAW_TYPES = [...Object.values('Point', 'LineString', 'LinearRing', 'Polygon', 'MultiPoint', 'MultiLineString', 'MultiPolygon', 'GeometryCollection', 'Circle')]
+const OL_DRAW_TYPES = ['Point', 'LineString', 'LinearRing', 'Polygon', 'MultiPoint', 'MultiLineString', 'MultiPolygon', 'GeometryCollection', 'Circle']
 
 /**
  * A component for rendering basic draw tools
@@ -29,7 +29,7 @@ const OL_DRAW_TYPES = [...Object.values('Point', 'LineString', 'LinearRing', 'Po
  * @since 0.18.0
  */
 class Draw extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -41,7 +41,7 @@ class Draw extends React.Component {
     this.escFunction = this.escFunction.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { selectInteraction } = this.props
 
     if (selectInteraction) {
@@ -51,7 +51,7 @@ class Draw extends React.Component {
     document.addEventListener('keydown', this.escFunction, false)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     const { selectInteraction } = this.props
     const { interactions } = this.state
 
@@ -60,7 +60,7 @@ class Draw extends React.Component {
     document.removeEventListener('keydown', this.escFunction, false)
   }
 
-  escFunction (event) {
+  escFunction(event) {
     if (event.keyCode === 27) { // esc key
       this.handleDrawCancel()
     }
@@ -189,7 +189,7 @@ class Draw extends React.Component {
     this.setState({ interactions: [], type: null, feature: null })
   }
 
-  render () {
+  render() {
     const { type, freehand, geometryFunction, interactions } = this.state
     const { translations } = this.props
 

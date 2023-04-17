@@ -71,7 +71,7 @@ npm run app
 ```
 
 ## Bugs & Feature Requests
-If you find a bug or think of a new feature, please submit a Github issue.
+If you find a bug or think of a new featuhttps://github.com/1904labs/ol-kit/security/dependabotre, please submit a Github issue.
 
 ## Maintainers & Contributions
 The current maintainers are listed in [MAINTAINERS.md](https://github.com/Bayer-Group/ol-kit/blob/master/MAINTAINERS.md). If you would like contribute to the project see [CONTRIBUTING.md](https://github.com/Bayer-Group/ol-kit/blob/master/CONTRIBUTING.md).
