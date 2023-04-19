@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Flex, TabButton, TabList, TabsContainer, TabSlider } from './styled'
 
 class SelectTabs extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -13,17 +13,17 @@ class SelectTabs extends Component {
   }
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps({ selectedIdx }) {
+  UNSAFE_componentWillReceiveProps ({ selectedIdx }) {
     if (selectedIdx !== this.props.selectedIdx) this.setState({ selectedIdx })
   }
 
-  onChange(i) {
+  onChange (i) {
     this.setState({ selectedIdx: i })
 
     if (this.props.onChange) this.props.onChange(i)
   }
 
-  render() {
+  render () {
     const { children } = this.props
     const { selectedIdx } = this.state
 

@@ -46,7 +46,7 @@ class GenericSymbolizer extends Component {
     onSymbolizerChange(newSymbolizers)
   }
 
-  render() {
+  render () {
     const { translations } = this.props
 
     // this symbolizer UI is based off of the fill symbolizer

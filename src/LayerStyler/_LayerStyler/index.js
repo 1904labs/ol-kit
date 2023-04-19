@@ -71,7 +71,7 @@ class LayerStyler extends Component {
     onStylesChange(newStyles.map(group => group.reverse()))
   }
 
-  render() {
+  render () {
     const {
       translations,
       collapsed,
@@ -221,7 +221,8 @@ LayerStyler.propTypes = {
   /** Callback function which resolves a promise to the values available for a given attribute */
   getValuesForAttribute: PropTypes.func,
 
-  attributeValues: PropTypes.array
+  attributeValues: PropTypes.array,
+  commaDelimitedAttributes: PropTypes.array
 }
 
 LayerStyler.defaultProps = {

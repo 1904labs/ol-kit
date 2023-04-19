@@ -10,7 +10,7 @@ import { connectToContext } from 'Provider'
 import Selector from 'LayerStyler/_Selector'
 import GenericSymbolizer from './_GenericSymbolizer'
 import escapeRegExp from 'lodash.escaperegexp'
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import AddCircleIcon from '@material-ui/icons/AddCircle'
 
 import {
   AddNew,
@@ -23,7 +23,7 @@ import {
 } from './styled'
 
 class StyleGroup extends Component {
-  componentDidMount() {
+  componentDidMount () {
     const { styles } = this.props
 
     styles.map(style => {
@@ -147,7 +147,7 @@ class StyleGroup extends Component {
     }
   }
 
-  render() {
+  render () {
     const { translations, styles, attributes, attributeValues } = this.props
     // since styles are grouped, if the first doesn't have filter, neither will the others
     const hasFilter = styles[0].filter

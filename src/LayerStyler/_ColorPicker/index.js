@@ -29,7 +29,7 @@ const colors = [
 ]
 
 class ColorPicker extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -63,15 +63,15 @@ class ColorPicker extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     document.addEventListener('click', this.handleOffClick)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     document.removeEventListener('click', this.handleOffClick)
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate (prevProps, prevState) {
     // hacky dom manipulations to force styling on the BlockPicker component
     if (!prevState.colorPickerOpen && this.state.colorPickerOpen) {
       // add border to white swatch
@@ -88,7 +88,7 @@ class ColorPicker extends Component {
     }
   }
 
-  render() {
+  render () {
     const { currentColor, left } = this.props
     const { colorPickerOpen, uid, yClick } = this.state
 
