@@ -59,7 +59,7 @@ Array [
         "radius": 4,
         "strokeColor": "#000000",
         "strokeWidth": 2,
-        "wellKnownName": "Circle",
+        "wellKnownName": "circle",
       },
       Object {
         "color": "#ffffff",

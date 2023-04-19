@@ -46,7 +46,7 @@ class GenericSymbolizer extends Component {
     onSymbolizerChange(newSymbolizers)
   }
 
-  render () {
+  render() {
     const { translations } = this.props
 
     // this symbolizer UI is based off of the fill symbolizer
@@ -63,10 +63,10 @@ class GenericSymbolizer extends Component {
       <Container>
         <Fourth>
           {opacity >= 0.5 &&
-          <Fragment>
-            <Title>{translations['_ol_kit.GenericSymbolizer.fill']}</Title>
-            <ColorPicker handleSelect={val => this.aggregateChanges('color', val)} currentColor={color} />
-          </Fragment>}
+            <Fragment>
+              <Title>{translations['_ol_kit.GenericSymbolizer.fill']}</Title>
+              <ColorPicker left={-8} handleSelect={val => this.aggregateChanges('color', val)} currentColor={color} />
+            </Fragment>}
         </Fourth>
         <Fourth>
           <Title>{translations['_ol_kit.GenericSymbolizer.width']}</Title>
@@ -74,14 +74,14 @@ class GenericSymbolizer extends Component {
             style={{ padding: 'unset', marginTop: '10px', width: '100%' }}
             value={widthValue}
             onChange={e => this.aggregateChanges('radius', Number(e.target.value))} >
-            { [widthValue, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((option, i) => {
+            {[widthValue, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((option, i) => {
               return <MenuItem key={i} value={option}>{option}</MenuItem>
-            }) }
+            })}
           </Select>
         </Fourth>
         <Fourth>
           <Title>{translations['_ol_kit.GenericSymbolizer.stroke']}</Title>
-          <ColorPicker handleSelect={val => this.aggregateChanges('strokeColor', val)} currentColor={strokeColor || outlineColor} />
+          <ColorPicker left={172} handleSelect={val => this.aggregateChanges('strokeColor', val)} currentColor={strokeColor || outlineColor} />
         </Fourth>
         <Fourth>
           <Title>{translations['_ol_kit.GenericSymbolizer.remove']}</Title>
@@ -109,8 +109,8 @@ GenericSymbolizer.propTypes = {
 }
 
 GenericSymbolizer.defaultProps = {
-  onSymbolizerChange: () => {},
-  onSymbolizerDelete: () => {}
+  onSymbolizerChange: () => { },
+  onSymbolizerDelete: () => { }
 }
 
 export default connectToContext(GenericSymbolizer)

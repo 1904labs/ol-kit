@@ -16,7 +16,7 @@ const userStyles = {
     name: 'OL Style Rule 0',
     symbolizers: [{
       kind: 'Mark',
-      wellKnownName: 'Circle',
+      wellKnownName: 'circle',
       color: '#FF0000',
       radius: 6
     }]

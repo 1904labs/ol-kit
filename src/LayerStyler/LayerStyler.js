@@ -20,7 +20,7 @@ import { connectToContext } from 'Provider'
  * @category LayerStyler
  */
 class LayerStyler extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -30,7 +30,7 @@ class LayerStyler extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { map } = this.props
     const layers = map.getLayers()
 
@@ -47,7 +47,7 @@ class LayerStyler extends React.Component {
     this.setState({ listeners: [...listeners, onAddKey, onRemoveKey] })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     const { listeners } = this.state
 
     removeMovementListener(listeners)
@@ -179,7 +179,7 @@ class LayerStyler extends React.Component {
     return validLayers
   }
 
-  render () {
+  render() {
     const layers = this.getValidLayers()
     const { attributeValues } = this.state
     const { translations } = this.props

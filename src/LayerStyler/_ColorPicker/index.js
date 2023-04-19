@@ -29,12 +29,13 @@ const colors = [
 ]
 
 class ColorPicker extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       colorPickerOpen: false,
-      uid: Math.floor((Math.random() * 10000))
+      uid: Math.floor((Math.random() * 10000)),
+      yClick: 0
     }
   }
 
@@ -48,7 +49,7 @@ class ColorPicker extends Component {
       let offClick = true
 
       // loop through elements in clicked path to determine off-click
-      e.path.forEach(elem => {
+      e.composedPath().forEach(elem => {
         elem.classList && elem.classList.forEach(className => {
           // uid in className avoids bug where two color pickers can be open at once
           const { uid } = this.state
@@ -62,15 +63,15 @@ class ColorPicker extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     document.addEventListener('click', this.handleOffClick)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     document.removeEventListener('click', this.handleOffClick)
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     // hacky dom manipulations to force styling on the BlockPicker component
     if (!prevState.colorPickerOpen && this.state.colorPickerOpen) {
       // add border to white swatch
@@ -87,15 +88,17 @@ class ColorPicker extends Component {
     }
   }
 
-  render () {
-    const { currentColor } = this.props
-    const { colorPickerOpen, uid } = this.state
+  render() {
+    const { currentColor, left } = this.props
+    const { colorPickerOpen, uid, yClick } = this.state
 
     return (
       <Container>
-        <CurrentColor className={`current-color-${uid}`} color={currentColor} onClick={() => this.setState({ colorPickerOpen: !colorPickerOpen })} />
+        <CurrentColor className={`current-color-${uid}`} color={currentColor} onClick={(e) => {
+          this.setState({ colorPickerOpen: !colorPickerOpen, yClick: e.clientY })
+        }} />
         {colorPickerOpen &&
-          <ColorPickerPositioner>
+          <ColorPickerPositioner left={left} top={yClick}>
             <BlockPicker color={currentColor} colors={colors} onChangeComplete={this.handleColorChange} />
           </ColorPickerPositioner>
         }
@@ -109,12 +112,14 @@ ColorPicker.propTypes = {
   currentColor: PropTypes.string.isRequired,
 
   /** Callback function which passes the hex value of the color selected */
-  handleSelect: PropTypes.func
+  handleSelect: PropTypes.func,
+
+  left: PropTypes.number
 }
 
 ColorPicker.defaultProps = {
   currentColor: '#ffffff',
-  handleSelect: () => {}
+  handleSelect: () => { }
 }
 
 export default ColorPicker

@@ -27,7 +27,7 @@ const DEFAULT_STYLE = {
     radius: 4,
     strokeColor: '#000000',
     strokeWidth: 2,
-    wellKnownName: 'Circle'
+    wellKnownName: 'circle'
   }, {
     kind: 'Line',
     color: '#ffffff',
@@ -71,7 +71,7 @@ class LayerStyler extends Component {
     onStylesChange(newStyles.map(group => group.reverse()))
   }
 
-  render () {
+  render() {
     const {
       translations,
       collapsed,

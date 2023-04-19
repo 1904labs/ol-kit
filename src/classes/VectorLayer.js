@@ -18,7 +18,7 @@ import olGeomMultiLinestring from 'ol/geom/MultiLineString'
  * @param {Object} [opts] - Object of optional params for olLayerVector
  */
 class VectorLayer extends olLayerVector {
-  constructor (opts) {
+  constructor(opts) {
     if (!opts?.className) opts.className = `_ol_kit_vector_layer_${nanoid()}`
     super(opts)
 
@@ -39,7 +39,7 @@ class VectorLayer extends olLayerVector {
    * @since 0.1.0
    * @returns {Array} VectorLayer attributes
    */
-  getAttributes () {
+  getAttributes() {
     return Object.keys(this.getSource().getFeatures()[0].getProperties())
   }
 
@@ -50,7 +50,7 @@ class VectorLayer extends olLayerVector {
    * @param {String} - olFeature property
    * @returns {Array} VectorLayer values of a specific attribute
    */
-  fetchValuesForAttribute (attribute) {
+  fetchValuesForAttribute(attribute) {
     const dupes = this.getSource().getFeatures().map(feature => feature.getProperties()[`${attribute}`])
 
     return [...new Set(dupes)]
@@ -62,7 +62,7 @@ class VectorLayer extends olLayerVector {
    * @since 0.1.0
    * @param {Object} - Geostyler OpenLayers Parser rules object {@link https://github.com/geostyler/geostyler-openlayers-parser}
    */
-  setUserVectorStyles (styles) {
+  setUserVectorStyles(styles) {
     this.userStyles = styles
 
     this._applyVectorStyles()
@@ -74,7 +74,7 @@ class VectorLayer extends olLayerVector {
    * @since 0.1.0
    * @returns {Object} Geostyler rules object
    */
-  getUserVectorStyles () {
+  getUserVectorStyles() {
     return this.userStyles
   }
 
@@ -83,10 +83,10 @@ class VectorLayer extends olLayerVector {
    * @function
    * @since 0.1.0
    */
-  setDefaultVectorStyles () {
+  setDefaultVectorStyles() {
     return this.parser.readStyle(this.getStyleFunction()()).then(style => {
-      this._defaultStylesCache = style.rules
-      this.defaultStyles = style.rules
+      this._defaultStylesCache = style.output.rules
+      this.defaultStyles = style.output.rules
     })
   }
 
@@ -96,7 +96,7 @@ class VectorLayer extends olLayerVector {
    * @since 0.1.0
    * @returns {Object} Geostyler rules object
    */
-  getDefaultVectorStyles () {
+  getDefaultVectorStyles() {
     return this.defaultStyles
   }
 
@@ -106,7 +106,7 @@ class VectorLayer extends olLayerVector {
    * @since 0.1.0
    * @param {Object} - Geostyler OpenLayers Parser rules object {@link https://github.com/geostyler/geostyler-openlayers-parser}
    */
-  updateDefaultVectorStyles (styles) {
+  updateDefaultVectorStyles(styles) {
     this.defaultStyles = styles
 
     this._applyVectorStyles()
@@ -117,13 +117,13 @@ class VectorLayer extends olLayerVector {
    * @function
    * @since 0.1.0
    */
-  resetDefaultVectorStyles () {
+  resetDefaultVectorStyles() {
     this.defaultStyles = this._defaultStylesCache
 
     this._applyVectorStyles()
   }
 
-  _applyVectorStyles () {
+  _applyVectorStyles() {
     const filteredUserStyles = this.getUserVectorStyles().filter(style => {
       // do a safe check for the filter key
       if (!Array.isArray(style.filter)) return true
@@ -140,15 +140,26 @@ class VectorLayer extends olLayerVector {
       ]
     }
 
+    // return this.parser
+    //   .writeStyle(style)
+    //   .then(olStyle => {
+    //     if (style.errors) {
+    //       console.log(style.errors)
+    //     } else {
+    //       // update the sld_body which is what geoserver uses to style the layer
+    //       this.setStyle(olStyle.output)
+    //     }
+    //   })
+
     return this.parser
       .writeStyle(style)
-      .then(olStyle => {
-        // update the sld_body which is what geoserver uses to style the layer
+      .then(({ output: olStyle }) => {
         this.setStyle(olStyle)
       })
+      .catch(error => console.log(error))
   }
 
-  _setInitialStyle () {
+  _setInitialStyle() {
     let style = {}
     const hasFeatures = this.getSource().getFeatures().length
     const geomType = hasFeatures ? this.getSource().getFeatures()[0].getGeometry() : null
@@ -166,15 +177,19 @@ class VectorLayer extends olLayerVector {
         stroke: new olStyleStroke({ color: '#3399CC', width: 2 })
       })]
     } else {
-      style = [new olStyleStyle({
-        image: new olStyleCircle({
+      style = [
+        new olStyleStyle({
           fill: new olStyleFill({ color: 'rgba(255,255,255,0.4)' }),
-          stroke: new olStyleStroke({ color: '#3399CC', width: 2 }),
-          radius: 5
+          stroke: new olStyleStroke({ color: '#3399CC', width: 2 })
         }),
-        fill: new olStyleFill({ color: 'rgba(255,255,255,0.4)' }),
-        stroke: new olStyleStroke({ color: '#3399CC', width: 2 })
-      })]
+        new olStyleStyle({
+          image: new olStyleCircle({
+            fill: new olStyleFill({ color: 'rgba(255,255,255,0.4)' }),
+            stroke: new olStyleStroke({ color: '#3399CC', width: 2 }),
+            radius: 5
+          })
+        })
+      ]
     }
 
     this.setStyle(() => style)

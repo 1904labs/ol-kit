@@ -13,7 +13,6 @@ import escapeRegExp from 'lodash.escaperegexp'
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import {
-  AddNewContainer,
   AddNew,
   Card,
   AttributeContainer,
@@ -24,7 +23,7 @@ import {
 } from './styled'
 
 class StyleGroup extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { styles } = this.props
 
     styles.map(style => {
@@ -86,6 +85,8 @@ class StyleGroup extends Component {
     const { styles, onStylesChange } = this.props
     const newStyles = [...styles]
 
+    this.props.getValuesForAttribute(event.target.value)
+
     try {
       onStylesChange(newStyles.map(s => {
         // styles will look like this ['&&', ['==', 'attribute', 'value'] ...]
@@ -146,7 +147,7 @@ class StyleGroup extends Component {
     }
   }
 
-  render () {
+  render() {
     const { translations, styles, attributes, attributeValues } = this.props
     // since styles are grouped, if the first doesn't have filter, neither will the others
     const hasFilter = styles[0].filter
@@ -176,7 +177,7 @@ class StyleGroup extends Component {
           <AttributeContainer>
             {hasFilter &&
               <Half>
-                <FormControl style={{ width: '200px', margin: '15px' }}>
+                <FormControl style={{ width: '100%', margin: '15px' }}>
                   <InputLabel htmlFor='attribute-selector'>{translations['_ol_kit.StyleGroup.chooseAttribute']}</InputLabel>
                   <Select
                     inputProps={{ 'data-testid': 'StyleGroup.attributeSelector' }}
@@ -205,14 +206,16 @@ class StyleGroup extends Component {
                 <Fragment key={i}>
                   <StyleContainer key={`${getAttributeValue(s.filter)}-${i}`}>
                     {hasFilter &&
-                      <Selector
-                        data-testid={'StyleGroup.attributeValueSelector'}
-                        style={{ flex: 1 }}
-                        header={translations['_ol_kit.StyleGroup.value']}
-                        onClick={() => this.props.getValuesForAttribute(getAttributeValue(s.filter))}
-                        selected={getSelectedValue(s.filter)}
-                        options={attributeValues.map(v => `${v}`) /* string interpolation here ensures booleans display properly */}
-                        onValueChange={(e) => this.debounceValueChange(i, e)} />
+                      <Half>
+                        <Selector
+                          data-testid={'StyleGroup.attributeValueSelector'}
+                          style={{ flex: 1 }}
+                          header={translations['_ol_kit.StyleGroup.value']}
+                          onClick={() => this.props.getValuesForAttribute(getAttributeValue(s.filter))}
+                          selected={getSelectedValue(s.filter)}
+                          options={attributeValues.map(v => `${v}`) /* string interpolation here ensures booleans display properly */}
+                          onValueChange={(e) => this.debounceValueChange(i, e)} />
+                      </Half>
                     }
                   </StyleContainer>
                   <StyleContainer key={i}>
@@ -253,7 +256,7 @@ StyleGroup.propTypes = {
 }
 
 StyleGroup.defaultProps = {
-  onStylesChange: () => {},
+  onStylesChange: () => { },
   attributeValues: []
 }
 
