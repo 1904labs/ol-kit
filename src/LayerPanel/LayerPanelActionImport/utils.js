@@ -152,7 +152,7 @@ export function transformFeature (opts) {
   return new olFeature({ ...opts.feature.getProperties(), geometry: opts.feature.clone().getGeometry().transform('EPSG:4326', proj) })
 }
 
-export function convertFormatToLayer({ format, results }, map, fileName) {
+export function convertFormatToLayer ({ format, results }, map, fileName) {
   const features = convertFormatToFeatures({ format, results }, map, fileName)
 
   const buildLayer = (feats) => {
@@ -162,10 +162,11 @@ export function convertFormatToLayer({ format, results }, map, fileName) {
       name: fileName
     })
   }
+
   return Array.isArray(features) ? features.map(buildLayer) : [buildLayer(features)]
 }
 
-export function convertFormatToFeatures({ format, results }, map) {
+export function convertFormatToFeatures ({ format, results }, map) {
   if (!format || !results) throw new Error('File failed to properly')
 
   const getFeatures = (res) => {
