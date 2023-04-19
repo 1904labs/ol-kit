@@ -1,6 +1,5 @@
 import React, { createRef, PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Virtuoso } from 'react-virtuoso'
 import LayerPanelPage from 'LayerPanel/LayerPanelPage'
 import LayerPanelContent from 'LayerPanel/LayerPanelContent'
 import LayerPanelList from 'LayerPanel/LayerPanelList'
@@ -26,7 +25,6 @@ import LayerPanelActionOpacity from 'LayerPanel/LayerPanelActionOpacity'
 import LayerPanelActionRemove from 'LayerPanel/LayerPanelActionRemove'
 import LayerPanelActionExtent from 'LayerPanel/LayerPanelActionExtent'
 import LayerPanelActionHeatmap from 'LayerPanel/LayerPanelActionHeatmap'
-import LayerPanelActionDuplicate from 'LayerPanel/LayerPanelActionDuplicate'
 
 import TextField from '@material-ui/core/TextField'
 
@@ -52,7 +50,7 @@ const INDETERMINATE = 'indeterminate'
  * @since 0.5.0
  */
 class LayerPanelLayersPage extends PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -149,7 +147,7 @@ class LayerPanelLayersPage extends PureComponent {
     this.removeFeatureListeners()
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate (prevProps, prevState) {
     // if there were previous layers but then removed to none set layers to empty and hanlde the mastercheckbox
     if (prevState.layers.length > 0 && this.state.layers.length === 0) {
       this.setState({ layers: [] })
@@ -404,7 +402,7 @@ class LayerPanelLayersPage extends PureComponent {
     )
   )
 
-  render() {
+  render () {
     const {
       translations, layerFilter, handleLayerDoubleClick, disableDrag, tabIcon, onLayerRemoved,
       onLayerReorder, enableFilter, getMenuItemsForLayer, shouldAllowLayerRemoval, map, onExportFeatures,
@@ -412,8 +410,6 @@ class LayerPanelLayersPage extends PureComponent {
     } = this.props
     const { layers, masterCheckboxVisibility, filterText, expandedLayers } = this.state
     const isExpandedLayer = (layer) => !!expandedLayers.find(expandedLayerId => expandedLayerId === layer.ol_uid)
-
-    console.log(this.initialItemCount)
 
     return (
       <LayerPanelPage tabIcon={tabIcon}>
@@ -466,9 +462,6 @@ class LayerPanelLayersPage extends PureComponent {
               }).map((layer, i) => {
                 const features = this.getFeaturesForLayer(layer)
                 const isExpanded = isExpandedLayer(layer)
-                const data = this.formatFeatureRows(features, layer)
-                const initialItemCount = data.length > this.props.initialItemCount
-                  ? this.props.initialItemCount : data.length
 
                 return (
                   <div key={i}
@@ -491,25 +484,19 @@ class LayerPanelLayersPage extends PureComponent {
                           map={map} >
                           {getMenuItemsForLayer(layer) ||
                             [<LayerPanelActionRemove key='removeLayer' shouldAllowLayerRemoval={shouldAllowLayerRemoval} />,
-                            <LayerPanelActionExtent key='gotoExtent' />,
-                            <LayerPanelActionDuplicate key='duplicateLayer' />,
-                            <LayerPanelActionMergeFeatures key='mergeFeatures' />,
-                            <LayerPanelActionHeatmap key='heatmap' layer={layer} onCreateHeatmap={onCreateHeatmap} />,
-                            <LayerPanelActionOpacity key='layerOpacity' />]}
+                              <LayerPanelActionExtent key='gotoExtent' />,
+                              <LayerPanelActionMergeFeatures key='mergeFeatures' />,
+                              <LayerPanelActionHeatmap key='heatmap' layer={layer} onCreateHeatmap={onCreateHeatmap} />,
+                              <LayerPanelActionOpacity key='layerOpacity' />]}
                         </LayerPanelActions>
                       </ListItemSecondaryAction>
                     </LayerPanelListItem>
                     {isExpanded
-                      ? <Collapse in={isExpanded} timeout='auto'>
-                        <Virtuoso
-                          style={{ paddingLeft: '36px', height: features.length * 52 > expandedHeight ? expandedHeight : features.length * 52 }}
-                          data={data}
-                          ref={this.virtuoso}
-                          itemContent={this.renderFeatureRow}
-                          rangeChanged={this.handleRangeChange}
-                          initialItemCount={initialItemCount}
-                        />
-                      </Collapse>
+                      ? (
+                        <Collapse in={isExpanded} timeout='auto' style={{ paddingLeft: '36px', height: features.length * 52 > expandedHeight ? expandedHeight : features.length * 52 }}>
+                          {features.map((f, i) => this.renderFeatureRow(i, { feature: f, layer }))}
+                        </Collapse>
+                      )
                       : null
                     }
                   </div>

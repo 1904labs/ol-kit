@@ -136,7 +136,6 @@
     "react-rotary-knob": "^3.0.3",
     "react-select": "^3.2.0",
     "react-viewer": "~3.2.2",
-    "react-virtuoso": "~1.10.8",
     "shp-write-update": "^2.0.1",
     "shpjs": "~4.0.4",
     "tinycolor2": "~1.4.2",
