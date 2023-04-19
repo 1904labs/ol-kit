@@ -28,7 +28,8 @@ module.exports = {
     alias: { ...alias },
     fallback: {
       fs: false,
-      "stream": false
+      stream: false,
+      assert: require.resolve('assert')
     }
   },
 
