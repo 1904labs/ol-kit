@@ -85,8 +85,8 @@ class VectorLayer extends olLayerVector {
    */
   setDefaultVectorStyles () {
     return this.parser.readStyle(this.getStyleFunction()()).then(style => {
-      this._defaultStylesCache = style.rules
-      this.defaultStyles = style.rules
+      this._defaultStylesCache = style.output.rules
+      this.defaultStyles = style.output.rules
     })
   }
 
@@ -140,10 +140,20 @@ class VectorLayer extends olLayerVector {
       ]
     }
 
+    // return this.parser
+    //   .writeStyle(style)
+    //   .then(olStyle => {
+    //     if (style.errors) {
+    //       console.log(style.errors)
+    //     } else {
+    //       // update the sld_body which is what geoserver uses to style the layer
+    //       this.setStyle(olStyle.output)
+    //     }
+    //   })
+
     return this.parser
       .writeStyle(style)
-      .then(olStyle => {
-        // update the sld_body which is what geoserver uses to style the layer
+      .then(({ output: olStyle }) => {
         this.setStyle(olStyle)
       })
   }
@@ -166,15 +176,19 @@ class VectorLayer extends olLayerVector {
         stroke: new olStyleStroke({ color: '#3399CC', width: 2 })
       })]
     } else {
-      style = [new olStyleStyle({
-        image: new olStyleCircle({
+      style = [
+        new olStyleStyle({
           fill: new olStyleFill({ color: 'rgba(255,255,255,0.4)' }),
-          stroke: new olStyleStroke({ color: '#3399CC', width: 2 }),
-          radius: 5
+          stroke: new olStyleStroke({ color: '#3399CC', width: 2 })
         }),
-        fill: new olStyleFill({ color: 'rgba(255,255,255,0.4)' }),
-        stroke: new olStyleStroke({ color: '#3399CC', width: 2 })
-      })]
+        new olStyleStyle({
+          image: new olStyleCircle({
+            fill: new olStyleFill({ color: 'rgba(255,255,255,0.4)' }),
+            stroke: new olStyleStroke({ color: '#3399CC', width: 2 }),
+            radius: 5
+          })
+        })
+      ]
     }
 
     this.setStyle(() => style)

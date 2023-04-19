@@ -12,8 +12,7 @@ import { HeatmapControls } from 'Heatmap'
 import LabelStyler from 'LayerStyler/_LabelStyler'
 import LayerStyler from 'LayerStyler/_LayerStyler'
 import SelectTabs from 'LayerStyler/_SelectTabs'
-import AttributesFilter from 'LayerStyler/_AttributesFilter'
-import { HeaderContainer, NoLayerText, InputContainer, FilterContainer, Tooltip } from './styled'
+import { HeaderContainer, NoLayerText, InputContainer } from './styled'
 
 const DEFAULT_LABEL_STYLE = {
   name: 'New Label Style',
@@ -47,7 +46,7 @@ const getNonLabelStyles = (ss = []) => ss.filter(s => s.symbolizers[0].kind !== 
 const getLabelStyle = (ss = []) => ss.find(s => s.symbolizers[0].kind === 'Text')
 
 class StyleManager extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -59,7 +58,7 @@ class StyleManager extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { layers } = this.props
 
     // this auto-selects the item if there is only one layer to manage
@@ -74,7 +73,7 @@ class StyleManager extends Component {
     this.setState({ activeIdx })
   }
 
-  onCollapseToggle(type) {
+  onCollapseToggle (type) {
     this.setState({ [type]: !this.state[type] })
   }
 
@@ -121,10 +120,9 @@ class StyleManager extends Component {
     onDefaultStyleReset(layers[activeIdx])
   }
 
-  render() {
+  render () {
     const {
       translations,
-      filters,
       layers,
       userStyles,
       defaultStyles,
@@ -170,13 +168,6 @@ class StyleManager extends Component {
     }
     const layerTitles = layers.map(getTitleForLayer)
     const layerSelected = activeIdx !== null // eslint-disable-line
-    let tooltipMsg = ''
-
-    if (!layerSelected) {
-      tooltipMsg = translations['_ol_kit.StyleManager.nolayerSelected']
-    } else if (!layers[activeIdx].isGeoserverLayer) {
-      tooltipMsg = translations['_ol_kit.StyleManager.fitlerTooltip']
-    }
 
     return (
       <div data-testid='StyleManager'>

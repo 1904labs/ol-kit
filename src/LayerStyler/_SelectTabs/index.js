@@ -43,7 +43,7 @@ class SelectTabs extends Component {
             })}
           </Flex>
         </TabList>
-        <div>
+        <div style={{ maxHeight: 450, overflow: 'scroll' }}>
           {React.Children.toArray(children)[selectedIdx]}
         </div>
       </TabsContainer>

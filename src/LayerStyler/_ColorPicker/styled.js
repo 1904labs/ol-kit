@@ -5,9 +5,9 @@ export const Container = styled.div`
 `
 
 export const ColorPickerPositioner = styled.div`
-  position: absolute;
-  top: 50px;
-  left: -53px;
+  position: fixed;
+  left: ${props => props.left}px;
+  top: ${props => props.top + 20}px;
   box-shadow: rgba(0,0,0,0.2) 0px 2px 4px, rgba(0,0,0,0.02) 0px -1px 0px;
   z-index: 1;
 `
