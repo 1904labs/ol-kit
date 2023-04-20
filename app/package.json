@@ -81,7 +81,7 @@
     "runjs": "~4.4.2",
     "styled-components": "~5.0.1",
     "webpack": "~4.43.0",
-    "webpack-dev-server": "~3.11.0",
+    "webpack-dev-server": "~4.13.3",
     "yup": "^0.29.3"
   },
   "peerDependencies": {
