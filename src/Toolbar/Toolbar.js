@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import { Grid } from '@material-ui/core'
+import { Grid } from '@mui/material'
 import { Container } from './styled'
 
 class Toolbar extends React.Component {
@@ -10,12 +10,12 @@ class Toolbar extends React.Component {
 
     return ReactDOM.createPortal(
       <Container>
-        <Grid container justify='center' alignItems='center'>
+        <Grid container justifyContent='center' alignItems='center'>
           {children}
         </Grid>
       </Container>,
       document.body
-    )
+    );
   }
 }
 

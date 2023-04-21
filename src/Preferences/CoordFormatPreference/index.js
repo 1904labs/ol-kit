@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MenuItem, FormControl, Select } from '@material-ui/core'
+import { MenuItem, FormControl, Select } from '@mui/material'
 
 export class CoordFormatPreference extends React.Component {
   constructor (props) {

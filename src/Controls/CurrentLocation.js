@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ControlGroupButton from './ControlGroupButton'
-import GpsFixedIcon from '@material-ui/icons/GpsFixed'
+import GpsFixedIcon from '@mui/icons-material/GpsFixed'
 import { centerAndZoom } from 'Map'
 import { connectToContext } from 'Provider'
 import ugh from 'ugh'

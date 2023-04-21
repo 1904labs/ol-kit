@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Tooltip, IconButton } from './styled'
-import TimelineOutlinedIcon from '@material-ui/icons/TimelineOutlined'
+import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined'
 
 /**
  * A button for drawing line strings.

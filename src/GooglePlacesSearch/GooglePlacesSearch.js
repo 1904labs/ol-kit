@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import IconButton from '@material-ui/core/IconButton'
-import SearchIcon from '@material-ui/icons/Search'
+import makeStyles from '@mui/styles/makeStyles';
+import Paper from '@mui/material/Paper'
+import IconButton from '@mui/material/IconButton'
+import SearchIcon from '@mui/icons-material/Search'
 import { centerAndZoom } from 'Map'
 import { connectToContext } from 'Provider'
 import VectorLayer from '../classes/VectorLayer'
@@ -125,13 +125,17 @@ function GooglePlacesSearch (props) {
             placeholder='Search Google Maps'
             ref={register}
           />
-          <IconButton type='submit' className={classes.iconButton} aria-label='search' >
+          <IconButton
+            type='submit'
+            className={classes.iconButton}
+            aria-label='search'
+            size="large">
             <SearchIcon />
           </IconButton>
         </Paper>
       </form>
     </div>
-  )
+  );
 }
 
 GooglePlacesSearch.propTypes = {

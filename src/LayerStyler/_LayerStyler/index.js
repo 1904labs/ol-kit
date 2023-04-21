@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { connectToContext } from 'Provider'
 import SelectTabs from 'LayerStyler/_SelectTabs'
 import StyleGroup from './_StyleGroup'
-import AddCircleIcon from '@material-ui/icons/AddCircle'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 import {
   Button,
   ButtonContainer,

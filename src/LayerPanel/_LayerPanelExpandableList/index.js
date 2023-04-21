@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ExpandLess from '@material-ui/icons/ExpandMore'
-import ExpandMore from '@material-ui/icons/ChevronRight'
+import ExpandLess from '@mui/icons-material/ExpandMore'
+import ExpandMore from '@mui/icons-material/ChevronRight'
 
 class LayerPanelExpandableList extends Component {
   render () {

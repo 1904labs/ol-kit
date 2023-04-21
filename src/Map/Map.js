@@ -167,7 +167,7 @@ class Map extends React.Component {
             id={this.target}
             fullScreen={fullScreen}
             style={style}>
-            <MapLogo logoPosition={logoPosition} translations={translations} />
+            {/* <MapLogo logoPosition={logoPosition} translations={translations} /> */}
           </StyledMap>
         }
         {mapInitialized // wait for map to initialize before rendering children

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import en from 'locales/en'
 import { Container, UomContainer } from './styled'
-import MenuItem from '@material-ui/core/MenuItem'
+import MenuItem from '@mui/material/MenuItem'
 import { calculateAreaAndDistance } from './utils'
 import { MeasureLabelPreference } from 'Preferences'
 import { connectToContext } from 'Provider'

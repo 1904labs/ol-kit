@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Tooltip, IconButton } from './styled'
-import PinDrop from '@material-ui/icons/PinDrop'
+import PinDrop from '@mui/icons-material/PinDrop'
 
 /**
  * A button for drawing points.

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import MaterialTooltip from '@material-ui/core/Tooltip'
-import { withStyles } from '@material-ui/core'
+import MaterialTooltip from '@mui/material/Tooltip'
+import withStyles from '@mui/styles/withStyles';
 
 export const HeaderContainer = styled.div`
   padding-top: 15px;

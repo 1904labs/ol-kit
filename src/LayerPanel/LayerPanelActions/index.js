@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { ActionsContainer } from './styled'
-import IconButton from '@material-ui/core/IconButton'
+import IconButton from '@mui/material/IconButton'
 import LayerPanelMenu from 'LayerPanel/LayerPanelMenu'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import PropTypes from 'prop-types'
 
@@ -33,7 +33,12 @@ class LayerPanelActions extends Component {
 
     return (
       <ActionsContainer>
-        <IconButton data-testid='LayerPanel.actionsButton' aria-label='more' aria-haspopup='true' onClick={this.handleMenuClick}>
+        <IconButton
+          data-testid='LayerPanel.actionsButton'
+          aria-label='more'
+          aria-haspopup='true'
+          onClick={this.handleMenuClick}
+          size="large">
           {icon}
         </IconButton>
         <LayerPanelMenu
@@ -45,7 +50,7 @@ class LayerPanelActions extends Component {
           {React.Children.map(children, child => child)}
         </LayerPanelMenu>
       </ActionsContainer>
-    )
+    );
   }
 }
 
@@ -53,10 +58,10 @@ LayerPanelActions.propTypes = {
   /** An bject with key/value pairs for translated strings */
   translations: PropTypes.object,
 
-  /** An array of components to be displayed inside `LayerPanelMenu` (like `@material-ui/core/MenuItems`) */
+  /** An array of components to be displayed inside `LayerPanelMenu` (like `@mui/material/MenuItems`) */
   children: PropTypes.node,
 
-  /** An icon component for the button to open the `LayerPanelMenu` (like `@material-ui/icons`) */
+  /** An icon component for the button to open the `LayerPanelMenu` (like `@mui/icons-material`) */
   icon: PropTypes.node.isRequired
 }
 

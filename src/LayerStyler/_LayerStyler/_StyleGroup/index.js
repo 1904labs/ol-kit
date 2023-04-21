@@ -1,16 +1,16 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import InputLabel from '@mui/material/InputLabel'
 
 import ugh from 'ugh'
 import { connectToContext } from 'Provider'
 import Selector from 'LayerStyler/_Selector'
 import GenericSymbolizer from './_GenericSymbolizer'
 import escapeRegExp from 'lodash.escaperegexp'
-import AddCircleIcon from '@material-ui/icons/AddCircle'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 
 import {
   AddNew,

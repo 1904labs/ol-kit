@@ -26,7 +26,7 @@ LayerPanelPage.propTypes = {
   /** A string title of the page. Will be used as tab title. */
   label: PropTypes.string,
 
-  /** A @material-ui/icon. Check LayerPanelPage example.md for more clarification */
+  /** A @mui/icon. Check LayerPanelPage example.md for more clarification */
   tabIcon: PropTypes.node
 }
 

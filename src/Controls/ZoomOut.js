@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import RemoveIcon from '@material-ui/icons/Remove'
+import RemoveIcon from '@mui/icons-material/Remove'
 import ControlGroupButton from './ControlGroupButton'
 import { zoomDelta } from './utils'
 import { connectToContext } from 'Provider'

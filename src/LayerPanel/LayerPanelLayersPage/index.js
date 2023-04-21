@@ -9,9 +9,9 @@ import LayerPanelExpandableList from 'LayerPanel/_LayerPanelExpandableList'
 import LayerPanelActions from 'LayerPanel/LayerPanelActions'
 import { ListItem, ListItemText } from 'LayerPanel/LayerPanelListItem/styled'
 import { ListItemSecondaryAction } from './styled'
-import Collapse from '@material-ui/core/Collapse'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import LayersIcon from '@material-ui/icons/Layers'
+import Collapse from '@mui/material/Collapse'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import LayersIcon from '@mui/icons-material/Layers'
 import olStroke from 'ol/style/Stroke'
 import olFill from 'ol/style/Fill'
 import olCircle from 'ol/style/Circle'
@@ -19,14 +19,14 @@ import ugh from 'ugh'
 
 import { addSelectInteraction } from 'Map'
 
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 
 import LayerPanelActionOpacity from 'LayerPanel/LayerPanelActionOpacity'
 import LayerPanelActionRemove from 'LayerPanel/LayerPanelActionRemove'
 import LayerPanelActionExtent from 'LayerPanel/LayerPanelActionExtent'
 import LayerPanelActionHeatmap from 'LayerPanel/LayerPanelActionHeatmap'
 
-import TextField from '@material-ui/core/TextField'
+import TextField from '@mui/material/TextField'
 
 import olLayerVector from 'ol/layer/Vector'
 import olSourceVector from 'ol/source/Vector'
@@ -567,7 +567,7 @@ LayerPanelLayersPage.propTypes = {
   /** A callback fired when layers are merged */
   onMergeLayers: PropTypes.func,
 
-  /** A callback function to set custom Menu Items for a specific layer. Should recieve an array of `@material-ui/core/MenuItem` */
+  /** A callback function to set custom Menu Items for a specific layer. Should recieve an array of `@mui/material/MenuItem` */
   getMenuItemsForLayer: PropTypes.func,
 
   /** A boolean to disable the drag event on the LayerPanelList */

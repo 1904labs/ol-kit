@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
 
 import { connectToContext } from 'Provider'
 import ugh from 'ugh'

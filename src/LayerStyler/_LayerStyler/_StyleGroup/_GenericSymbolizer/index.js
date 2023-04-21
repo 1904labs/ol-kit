@@ -5,9 +5,9 @@ import { Trashcan } from '../styled'
 import { Container, Fourth, Title } from './styled'
 
 import { connectToContext } from 'Provider'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
-import Delete from '@material-ui/icons/Delete'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import Delete from '@mui/icons-material/Delete'
 
 // the incoming keys are based on the mark (point) symbolizer -- if the UI
 // was based on a different symbolizer then these would have to change

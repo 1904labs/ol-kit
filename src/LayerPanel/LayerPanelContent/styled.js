@@ -1,6 +1,6 @@
 import React from 'react'
-import { styled } from '@material-ui/core/styles'
-import MaterialCardContent from '@material-ui/core/CardContent'
+import { styled } from '@mui/material/styles'
+import MaterialCardContent from '@mui/material/CardContent'
 
 export const CardContent = styled(({ ...props }) => <MaterialCardContent {...props} />)({
   maxHeight: '565px',

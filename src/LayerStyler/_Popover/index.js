@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from '@material-ui/core/Button'
-import MaterialPopover from '@material-ui/core/Popover'
-import { withStyles } from '@material-ui/core/styles'
+import Button from '@mui/material/Button'
+import MaterialPopover from '@mui/material/Popover'
+import withStyles from '@mui/styles/withStyles';
 
 const Popover = withStyles(() => ({
   paper: {

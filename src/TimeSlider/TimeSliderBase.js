@@ -6,16 +6,16 @@ import moment from 'moment'
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 
-import Button from '@material-ui/core/Button'
-import Card from '@material-ui/core/Card'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import Box from '@material-ui/core/Box'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
-import CloseIcon from '@material-ui/icons/Close'
-import SyncIcon from '@material-ui/icons/Sync'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
+import SyncIcon from '@mui/icons-material/Sync'
 
 import en from 'locales/en'
 import { connectToContext } from 'Provider'
@@ -359,7 +359,7 @@ class TimeSliderBase extends React.Component {
             axis='both'
             handle='.timesliderdrag'>
             <Container id='timesliderbase'>
-              <Grid container justify='center'>
+              <Grid container justifyContent='center'>
                 <Card style={{ width: '100%', paddingTop: '4px' }}>
                   {draggable ? <DragHandle className='timesliderdrag' /> : null}
                   <Tabs
@@ -442,11 +442,15 @@ class TimeSliderBase extends React.Component {
                       {translations['_ol_kit_.TimeSliderBase.next']}
                     </Button>
 
-                    <IconButton onClick={this.resetState}>
+                    <IconButton onClick={this.resetState} size="large">
                       <SyncIcon color='primary' />
                     </IconButton>
                   </BottomContainer>
-                  <IconButton onClick={this.props.onClose} style={{ position: 'absolute', top: '5px', right: '5px' }} aria-label='delete'>
+                  <IconButton
+                    onClick={this.props.onClose}
+                    style={{ position: 'absolute', top: '5px', right: '5px' }}
+                    aria-label='delete'
+                    size="large">
                     <CloseIcon />
                   </IconButton>
                 </Card>
@@ -455,7 +459,7 @@ class TimeSliderBase extends React.Component {
           </Draggable>
         </Typography>
       </MuiPickersUtilsProvider>
-    )
+    );
   }
 }
 

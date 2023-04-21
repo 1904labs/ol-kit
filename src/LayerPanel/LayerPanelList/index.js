@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import List from '@material-ui/core/List'
+import List from '@mui/material/List'
 import LayerPanelListItem from 'LayerPanel/LayerPanelListItem'
 import { nanoid } from 'nanoid'
 import PropTypes from 'prop-types'

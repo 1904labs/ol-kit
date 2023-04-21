@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Card, Tabs, Tab, InitialTab } from './styled'
 
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import { connectToContext } from 'Provider'
 
 /**

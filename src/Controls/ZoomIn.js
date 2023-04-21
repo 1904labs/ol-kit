@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import AddIcon from '@material-ui/icons/Add'
+import AddIcon from '@mui/icons-material/Add'
 import ControlGroupButton from './ControlGroupButton'
 import { zoomDelta } from './utils'
 import { connectToContext } from 'Provider'

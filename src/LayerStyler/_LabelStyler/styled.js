@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import MaterialSwitch from '@material-ui/core/Switch'
-import { withStyles } from '@material-ui/styles'
+import MaterialSwitch from '@mui/material/Switch'
+import { withStyles } from '@mui/styles'
 
 
 export const TopControls = styled.div`

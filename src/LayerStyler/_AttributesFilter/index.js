@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { nanoid } from 'nanoid'
 
-import CloseIcon from '@material-ui/icons/Close'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
+import CloseIcon from '@mui/icons-material/Close'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
 
 import { connectToContext } from 'Provider'
 import Popover from 'LayerStyler/_Popover'

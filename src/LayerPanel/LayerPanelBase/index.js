@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Card, Tabs, Tab, InitialTab, CardContent } from './styled'
 // material-ui-icons
-import LayersIcon from '@material-ui/icons/Layers'
-import IconButton from '@material-ui/core/IconButton'
-import CloseIcon from '@material-ui/icons/Close'
-import Typography from '@material-ui/core/Typography'
+import LayersIcon from '@mui/icons-material/Layers'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
+import Typography from '@mui/material/Typography'
 import { connectToContext } from 'Provider'
 
 /**
@@ -40,25 +40,23 @@ class LayerPanelBase extends Component {
     const { activeIndex, showLayerPanel } = this.state
     const tabDataTestId = showLayerPanel ? 'LayerPanel.close' : 'LayerPanel.open'
 
-    return (
-      <>
-        {!showLayerPanel && <InitialTab id='initialtab' onClick={this.showLayerPanel} icon={<LayersIcon data-testid={tabDataTestId} />} />}
-        <Card open={showLayerPanel} styles={style} numoftabs={children.length || 1} inline={inline} className='_popup_boundary' >
-          <CardContent>
-            <Typography variant='h5' component='h5'>{layerPanelTitle}</Typography>
-            <IconButton onClick={this.hideLayerPanel}><CloseIcon /></IconButton>
-          </CardContent>
-          <Tabs open={showLayerPanel} value={activeIndex} onChange={this.handleChange} >
-            {showLayerPanel &&
-              React.Children.map(children, (child, i) => {
-                if (child) return <Tab key={i} label={child.props.tabIcon || child.props.label} />
-              })
-            }
-          </Tabs>
-          {translations && React.Children.toArray(children)[activeIndex]}
-        </Card>
-      </>
-    )
+    return <>
+      {!showLayerPanel && <InitialTab id='initialtab' onClick={this.showLayerPanel} icon={<LayersIcon data-testid={tabDataTestId} />} />}
+      <Card open={showLayerPanel} styles={style} numoftabs={children.length || 1} inline={inline} className='_popup_boundary' >
+        <CardContent>
+          <Typography variant='h5' component='h5'>{layerPanelTitle}</Typography>
+          <IconButton onClick={this.hideLayerPanel} size="large"><CloseIcon /></IconButton>
+        </CardContent>
+        <Tabs open={showLayerPanel} value={activeIndex} onChange={this.handleChange} >
+          {showLayerPanel &&
+            React.Children.map(children, (child, i) => {
+              if (child) return <Tab key={i} label={child.props.tabIcon || child.props.label} />
+            })
+          }
+        </Tabs>
+        {translations && React.Children.toArray(children)[activeIndex]}
+      </Card>
+    </>;
   }
 }
 

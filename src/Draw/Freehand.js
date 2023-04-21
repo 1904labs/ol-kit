@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Tooltip, IconButton } from './styled'
-import GestureOutlinedIcon from '@material-ui/icons/GestureOutlined'
+import GestureOutlinedIcon from '@mui/icons-material/GestureOutlined'
 
 /**
  * A button for drawing freehand line strings.

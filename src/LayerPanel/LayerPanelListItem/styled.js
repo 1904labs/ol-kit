@@ -1,6 +1,6 @@
-import { withStyles } from '@material-ui/core/styles'
-import MaterialListItem from '@material-ui/core/ListItem'
-import MaterialListItemText from '@material-ui/core/ListItemText'
+import withStyles from '@mui/styles/withStyles';
+import MaterialListItem from '@mui/material/ListItem'
+import MaterialListItemText from '@mui/material/ListItemText'
 
 export const ListItem = withStyles(() => ({
   root: {

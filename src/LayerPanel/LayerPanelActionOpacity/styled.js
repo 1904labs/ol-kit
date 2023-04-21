@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { withStyles } from '@material-ui/core/styles'
-import MaterialTypography from '@material-ui/core/Typography'
-import MateriaSlider from '@material-ui/core/Slider'
+import withStyles from '@mui/styles/withStyles';
+import MaterialTypography from '@mui/material/Typography'
+import MateriaSlider from '@mui/material/Slider'
 
 export const OpacityTitle = withStyles(() => ({
   root: {

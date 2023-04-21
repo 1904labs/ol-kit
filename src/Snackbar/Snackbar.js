@@ -2,11 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import MaterialSnackbar from '@material-ui/core/Snackbar'
-import SnackbarContent from '@material-ui/core/SnackbarContent'
+import MaterialSnackbar from '@mui/material/Snackbar'
+import SnackbarContent from '@mui/material/SnackbarContent'
 
-import { amber, green, grey } from '@material-ui/core/colors'
-import { makeStyles } from '@material-ui/core/styles'
+import { amber, green, grey } from '@mui/material/colors'
+import makeStyles from '@mui/styles/makeStyles';
 
 const useWrapperStyles = makeStyles((theme) => ({
   success: {

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { withStyles } from '@material-ui/core/styles'
-import MaterialTooltip from '@material-ui/core/Tooltip'
+import withStyles from '@mui/styles/withStyles';
+import MaterialTooltip from '@mui/material/Tooltip'
 
 export const ActionsContainer = styled.div`
   margin-top: 4px;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import MenuItem from '@material-ui/core/MenuItem'
+import MenuItem from '@mui/material/MenuItem'
 import olFeature from 'ol/Feature'
 import olLayerVector from 'ol/layer/Vector'
 import { connectToContext } from 'Provider'

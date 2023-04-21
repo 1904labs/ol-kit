@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { withStyles } from '@material-ui/core/styles'
-import MaterialCardHeader from '@material-ui/core/CardHeader'
+import withStyles from '@mui/styles/withStyles';
+import MaterialCardHeader from '@mui/material/CardHeader'
 
 export const HeaderContainer = styled.div`
   height: 50px;

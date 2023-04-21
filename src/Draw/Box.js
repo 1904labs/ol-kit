@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Tooltip, IconButton } from './styled'
 import { createBox } from 'ol/interaction/Draw'
-import CropSquareSharpIcon from '@material-ui/icons/CropSquareSharp'
+import CropSquareSharpIcon from '@mui/icons-material/CropSquareSharp'
 
 const BOX_CONFIG = {
   type: 'Circle',

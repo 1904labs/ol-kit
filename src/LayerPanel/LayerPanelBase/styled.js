@@ -1,10 +1,10 @@
 import React from 'react'
-import MaterialCard from '@material-ui/core/Card'
-import MaterialTabs from '@material-ui/core/Tabs'
-import MaterialTab from '@material-ui/core/Tab'
-import MaterialCheckbox from '@material-ui/core/Checkbox'
-import MaterialCardContent from '@material-ui/core/CardContent'
-import { styled } from '@material-ui/styles'
+import MaterialCard from '@mui/material/Card'
+import MaterialTabs from '@mui/material/Tabs'
+import MaterialTab from '@mui/material/Tab'
+import MaterialCheckbox from '@mui/material/Checkbox'
+import MaterialCardContent from '@mui/material/CardContent'
+import { styled } from '@mui/styles'
 
 export const Card = styled(({ ...props }) => <MaterialCard {...props} />)({
   maxHeight: '645px',

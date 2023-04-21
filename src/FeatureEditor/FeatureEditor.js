@@ -6,8 +6,8 @@ import { getVectorContext } from 'ol/render'
 import { Toolbar } from 'Toolbar'
 import { Knob } from 'react-rotary-knob'
 import { connectToContext } from 'Provider'
-import { Card, Grid, CardActions, Button, FormControlLabel } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
+import { Card, Grid, CardActions, Button, FormControlLabel } from '@mui/material'
+import withStyles from '@mui/styles/withStyles';
 import centroid from '@turf/centroid'
 import { olKitTurf } from './utils'
 

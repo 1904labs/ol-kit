@@ -1,6 +1,6 @@
-import { withStyles } from '@material-ui/core/styles'
-import MaterialContainer from '@material-ui/core/Container'
-import MaterialFormControl from '@material-ui/core/FormControl'
+import withStyles from '@mui/styles/withStyles';
+import MaterialContainer from '@mui/material/Container'
+import MaterialFormControl from '@mui/material/FormControl'
 
 export const Container = withStyles(() => ({
   root: {

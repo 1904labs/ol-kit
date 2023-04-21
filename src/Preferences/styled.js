@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { TextField as MaterialTextField, Switch as MaterialSwitch, Select as MaterialSelect } from '@material-ui/core'
-import { withStyles } from '@material-ui/styles'
+import { TextField as MaterialTextField, Switch as MaterialSwitch, Select as MaterialSelect } from '@mui/material'
+import { withStyles } from '@mui/styles'
 
 export const FormControlWrapper = styled.div`
   width: 100%;

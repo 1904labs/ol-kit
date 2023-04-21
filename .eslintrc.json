@@ -2,7 +2,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "standard"
+    "standard",
+    "plugin:storybook/recommended"
   ],
   "parser": "babel-eslint",
   "plugins": [

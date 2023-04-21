@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Tooltip, IconButton } from './styled'
-import ChangeHistoryOutlinedIcon from '@material-ui/icons/ChangeHistoryOutlined'
+import ChangeHistoryOutlinedIcon from '@mui/icons-material/ChangeHistoryOutlined'
 
 /**
  * A button for drawing polygons.

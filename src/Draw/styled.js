@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { withStyles } from '@material-ui/core/styles'
-import MaterialIconButton from '@material-ui/core/IconButton'
-import MaterialContainer from '@material-ui/core/Container'
-import MaterialTooltip from '@material-ui/core/Tooltip'
+import withStyles from '@mui/styles/withStyles';
+import MaterialIconButton from '@mui/material/IconButton'
+import MaterialContainer from '@mui/material/Container'
+import MaterialTooltip from '@mui/material/Tooltip'
 
 export const Container = styled.div`
   padding: 15px;

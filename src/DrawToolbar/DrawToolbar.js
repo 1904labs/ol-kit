@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Toolbar } from 'Toolbar'
-import { withStyles } from '@material-ui/core/styles'
-import MaterialSwitch from '@material-ui/core/Switch'
-import { Card, Grid, CardActions, Button, FormControlLabel } from '@material-ui/core'
+import withStyles from '@mui/styles/withStyles';
+import MaterialSwitch from '@mui/material/Switch'
+import { Card, Grid, CardActions, Button, FormControlLabel } from '@mui/material'
 
 const ButtonCardActions = withStyles(() => ({
   root: {

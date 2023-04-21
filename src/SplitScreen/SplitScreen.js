@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Tooltip } from '@material-ui/core'
+import { Tooltip } from '@mui/material'
 
 import { connectToContext } from 'Provider'
 import MapDisplayElement from './MapDisplayElement'
