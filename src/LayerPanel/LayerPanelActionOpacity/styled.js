@@ -1,21 +1,14 @@
 import styled from 'styled-components'
-import withStyles from '@mui/styles/withStyles';
-import MaterialTypography from '@mui/material/Typography'
-import MateriaSlider from '@mui/material/Slider'
 
-export const OpacityTitle = withStyles(() => ({
-  root: {
-    fontSize: '12px',
-    paddingTop: '0.3rem',
-    color: '#868686'
-  }
-}))(MaterialTypography)
+export const OpacityTitle = styled.div`
+font-size: 12px,
+    paddingTop: 0.3rem,
+    color: #868686
+`
 
-export const Slider = withStyles(() => ({
-  root: {
-    padding: '0'
-  }
-}))(MateriaSlider)
+export const Slider =  styled.div`
+ padding: 0px;
+`
 
 export const OpacityWrapper = styled.div`
   width: auto;

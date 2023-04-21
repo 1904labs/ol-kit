@@ -17,6 +17,14 @@ export const Slider = withStyles(() => ({
   }
 }))(MateriaSlider)
 
+export const Menu = style.div`
+
+`
+
+export const MenuItem = styled.div`
+
+`
+
 export const OpacityWrapper = styled.div`
   width: 100%;
   flex-direction: column;

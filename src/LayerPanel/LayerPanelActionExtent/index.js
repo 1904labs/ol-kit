@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import MenuItem from '@mui/material/MenuItem'
 import { connectToContext } from 'Provider'
+import { MenuItem } from '../LayerPanelMenu/styled'
 
 /**
  * @component

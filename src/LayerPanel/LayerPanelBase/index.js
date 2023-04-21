@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Card, Tabs, Tab, InitialTab, CardContent } from './styled'
-// material-ui-icons
-import LayersIcon from '@mui/icons-material/Layers'
-import IconButton from '@mui/material/IconButton'
-import CloseIcon from '@mui/icons-material/Close'
-import Typography from '@mui/material/Typography'
 import { connectToContext } from 'Provider'
 
 /**
@@ -41,11 +36,11 @@ class LayerPanelBase extends Component {
     const tabDataTestId = showLayerPanel ? 'LayerPanel.close' : 'LayerPanel.open'
 
     return <>
-      {!showLayerPanel && <InitialTab id='initialtab' onClick={this.showLayerPanel} icon={<LayersIcon data-testid={tabDataTestId} />} />}
+      {!showLayerPanel && <InitialTab id='initialtab' onClick={this.showLayerPanel} icon={<></>} />}
       <Card open={showLayerPanel} styles={style} numoftabs={children.length || 1} inline={inline} className='_popup_boundary' >
         <CardContent>
-          <Typography variant='h5' component='h5'>{layerPanelTitle}</Typography>
-          <IconButton onClick={this.hideLayerPanel} size="large"><CloseIcon /></IconButton>
+          <h5>{layerPanelTitle}</h5>
+          <button onClick={this.hideLayerPanel} size="large">x</button>
         </CardContent>
         <Tabs open={showLayerPanel} value={activeIndex} onChange={this.handleChange} >
           {showLayerPanel &&

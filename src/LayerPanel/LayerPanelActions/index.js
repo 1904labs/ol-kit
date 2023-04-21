@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { ActionsContainer } from './styled'
-import IconButton from '@mui/material/IconButton'
 import LayerPanelMenu from 'LayerPanel/LayerPanelMenu'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import PropTypes from 'prop-types'
 
@@ -33,14 +31,14 @@ class LayerPanelActions extends Component {
 
     return (
       <ActionsContainer>
-        <IconButton
+        <button
           data-testid='LayerPanel.actionsButton'
           aria-label='more'
           aria-haspopup='true'
           onClick={this.handleMenuClick}
           size="large">
           {icon}
-        </IconButton>
+        </button>
         <LayerPanelMenu
           {...this.props}
           translations={translations}

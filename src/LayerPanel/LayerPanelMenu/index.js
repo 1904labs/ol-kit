@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import Menu from '@mui/material/Menu'
 
 import PropTypes from 'prop-types'
+
+import { Menu } from './styled'
 
 /**
  * @component

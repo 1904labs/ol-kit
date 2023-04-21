@@ -9,9 +9,6 @@ import LayerPanelExpandableList from 'LayerPanel/_LayerPanelExpandableList'
 import LayerPanelActions from 'LayerPanel/LayerPanelActions'
 import { ListItem, ListItemText } from 'LayerPanel/LayerPanelListItem/styled'
 import { ListItemSecondaryAction } from './styled'
-import Collapse from '@mui/material/Collapse'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import LayersIcon from '@mui/icons-material/Layers'
 import olStroke from 'ol/style/Stroke'
 import olFill from 'ol/style/Fill'
 import olCircle from 'ol/style/Circle'
@@ -19,14 +16,10 @@ import ugh from 'ugh'
 
 import { addSelectInteraction } from 'Map'
 
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-
 import LayerPanelActionOpacity from 'LayerPanel/LayerPanelActionOpacity'
 import LayerPanelActionRemove from 'LayerPanel/LayerPanelActionRemove'
 import LayerPanelActionExtent from 'LayerPanel/LayerPanelActionExtent'
 import LayerPanelActionHeatmap from 'LayerPanel/LayerPanelActionHeatmap'
-
-import TextField from '@mui/material/TextField'
 
 import olLayerVector from 'ol/layer/Vector'
 import olSourceVector from 'ol/source/Vector'
@@ -413,7 +406,7 @@ class LayerPanelLayersPage extends PureComponent {
 
     return (
       <LayerPanelPage tabIcon={tabIcon}>
-        <TextField
+        <input
           id='feature-filter-input'
           label={translations['_ol_kit.LayerPanelLayersPage.filterText']}
           type='text'
@@ -429,10 +422,10 @@ class LayerPanelLayersPage extends PureComponent {
             <LayerPanelCheckbox
               checkboxState={masterCheckboxVisibility}
               handleClick={this.setVisibilityForAllLayers} />
-            <ListItemText primary={'All Layers'} />
+            <p primary={'All Layers'} />
             <ListItemSecondaryAction style={{ right: '0px !important' }}>
               <LayerPanelActions
-                icon={<MoreHorizIcon data-testid='LayerPanel.masterActionsIcon' />}
+                icon={<></>}
                 translations={translations}
                 layers={layers}
                 map={map}>

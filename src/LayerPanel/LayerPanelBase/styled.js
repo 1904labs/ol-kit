@@ -55,28 +55,17 @@ export const InitialTab = styled(({ ...props }) => <MaterialTab {...props} />)({
   opacity: 1
 })
 
-export const Checkbox = styled(({ ...props }) => <MaterialCheckbox {...props} />)({
-  '&.MuiCheckbox-colorSecondary.Mui-checked': {
-    color: '#152357',
-    padding: '9px',
-    '&:hover': {
-      backgroundColor: 'rgba(1, 8, 90, 0.08)'
-    }
-  },
-  '&.MuiIconButton-colorSecondary': {
-    color: '#152357',
-    padding: '9px',
-    '&:hover': {
-      backgroundColor: 'rgba(1, 8, 90, 0.08)'
-    }
-  }
-})
+export const Checkbox = styled.input``
 
-export const CardContent = styled(({ ...props }) => <MaterialCardContent {...props} />)({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: '0px 0px 0px 16px',
-  background: '#ededed',
-  overflow: 'scroll'
-})
+export const CardContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 0px 0px 16px;
+  background: #ededed;
+  overflow: scroll;
+`
+
+export const IconButton = styled.button`
+
+`

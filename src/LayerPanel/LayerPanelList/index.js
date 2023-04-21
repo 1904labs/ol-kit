@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 
-import List from '@mui/material/List'
 import LayerPanelListItem from 'LayerPanel/LayerPanelListItem'
 import { nanoid } from 'nanoid'
 import PropTypes from 'prop-types'
@@ -89,7 +88,6 @@ class LayerPanelList extends Component {
 
     if (children) {
       return (
-        <List>
           <div id='_ol_kit_layer_panel_drag_container' onDragEnd={this.onDragEnd} >
             {React.Children.map(this.props.children, (child, i) => {
               const id = `${i}_${nanoid(6)}`
@@ -101,11 +99,9 @@ class LayerPanelList extends Component {
               )
             })}
           </div>
-        </List>
       )
     } else if (items) {
       return (
-        <List>
           <div id='_ol_kit_layer_panel_drag_container' onDragEnd={this.onDragEnd}>
             {items.map((item, i) => {
               const id = `${i}_${nanoid(6)}`
@@ -120,7 +116,6 @@ class LayerPanelList extends Component {
             }
             )}
           </div>
-        </List>
       )
     } else {
       return <div>Must either pass `children` or a prop of `items` for LayerPanelList to render its list</div>

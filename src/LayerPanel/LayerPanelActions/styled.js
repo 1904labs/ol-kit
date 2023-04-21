@@ -1,6 +1,4 @@
 import styled from 'styled-components'
-import withStyles from '@mui/styles/withStyles';
-import MaterialTooltip from '@mui/material/Tooltip'
 
 export const ActionsContainer = styled.div`
   margin-top: 4px;
@@ -24,8 +22,4 @@ export const UploadInput = styled.input`
   position: absolute;
 `
 
-export const Tooltip = withStyles(() => ({
-  tooltip: {
-    fontSize: '15px'
-  }
-}))(MaterialTooltip)
+export const Tooltip = styled.div``

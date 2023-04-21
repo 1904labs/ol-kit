@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import MenuItem from '@mui/material/MenuItem'
+import { MenuItem } from '../LayerPanelMenu/styled'
 import { UploadInput } from './styled'
 import { connectToContext } from 'Provider'
 
@@ -42,14 +42,14 @@ class LayerPanelActionImport extends Component {
         <label htmlFor='file-upload'>
           {translations['_ol_kit.LayerPanelActions.import']}
         </label>
-        <UploadInput
+        <input
           value={this.state.value || ''}
           type='file'
           accept={fileTypes.map(f => f.extension).join(',')}
           id='file-upload'
           hidden={true}
           onChange={(e) => this.onFileChange('file-upload')}
-          className='zmdi zmdi-upload'
+          className='uploadInput'
         />
       </MenuItem>
     )
