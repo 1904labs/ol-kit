@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import { connectToContext } from 'Provider'
-import { CompassContainer } from './styled'
 import { rotateMap } from './utils'
 
 const colors = {
@@ -59,7 +58,17 @@ function Compass (props) {
   const degrees = radians * 57.296 // the number of degrees per radian
 
   return (
-    <CompassContainer size={size} background={colors[variation].background}>
+    <div 
+      className='compassContainer'
+      style={{
+        width: size,
+        height: size,
+        borderRadius: size,
+        background: background
+      }}
+      size={size}
+      background={colors[variation].background}
+    >
       <svg width={size} height={size} viewBox='0 0 48 48' version='1.1' xmlns='http://www.w3.org/2000/svg'>
         <g onClick={() => rotate('left')} transform='translate(8, 11)' id='_ol_kit_rotate_left'>
           <path stroke={colors[variation].arrows} strokeWidth='2' strokeLinecap='square' fill='transparent' d='M6.08917588,0.274482759 C2.08917588,3.50525199 0.0891758754,7.27448276 0.0891758754,11.5821751 C0.0891758754,18.0437135 3.5177473,21.2744828 3.5177473,21.2744828'></path>
@@ -74,7 +83,7 @@ function Compass (props) {
           <polygon fill={colors[variation].arrows} transform='translate(5.838799, 24.192853) rotate(143.000000) translate(-5.838799, -24.192853) ' points='5.93396953 20.6928529 8.83879936 27.636638 2.83879936 27.6928529'></polygon>
         </g>
       </svg>
-    </CompassContainer>
+    </div>
   )
 }
 

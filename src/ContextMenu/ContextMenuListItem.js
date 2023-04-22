@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ListItem } from './styled'
-
 /** A context menu list item with a title and click handler
  * @component
  * @category ContextMenu
@@ -13,9 +11,16 @@ class ContextMenuListItem extends React.PureComponent {
     const { title, disabled, onClick } = this.props
 
     return (
-      <ListItem disabled={disabled} onClick={e => !disabled ? onClick(e) : null}>
+      <div 
+        className={disabled ? 'listItem-disabled' : 'listItem'}
+        style={{
+          cursor: disabled ? 'default' : 'pointer',
+          color: disabled ? '#ccc' : '#000'
+        }}
+        disabled={disabled}
+        onClick={e => !disabled ? onClick(e) : null}>
         {title}
-      </ListItem>
+      </div>
     )
   }
 }

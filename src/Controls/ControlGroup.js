@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ControlGroupContainer } from './styled'
 import { connectToContext } from 'Provider'
 
 import ZoomIn from './ZoomIn'
@@ -22,9 +21,11 @@ function ControlGroup ({ children, map, orientation }) {
   ]
 
   return (
-    <ControlGroupContainer orientation={orientation}>
+    <div className='controlGroupContainer'
+      style={{ flexDirection: orientation === 'vertical' ? 'column' : 'row' }}
+      orientation={orientation}>
       {controlChildren}
-    </ControlGroupContainer>
+    </div>
   )
 }
 

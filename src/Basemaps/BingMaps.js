@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import olLayerTile from 'ol/layer/Tile'
 import olSourceBingMaps from 'ol/source/BingMaps'
-import { BasemapOption, BasemapThumbnail, Label } from './styled'
 import { connectToContext } from 'Provider'
 
 const DEFAULT_OPTS = {
@@ -63,10 +62,10 @@ class BasemapBingMaps extends React.Component {
     const isActive = layerArray.length ? layerArray[0].get(layerTypeID) === layerID : false
 
     return (
-      <BasemapOption className='_ol_kit_basemapOption' isActive={isActive} onClick={this.onClick}>
-        <BasemapThumbnail thumbnail={thumbnail} />
-        <Label>{translations['_ol_kit.BingMaps.title']}</Label>
-      </BasemapOption>
+      <div className='_ol_kit_basemapOption basemapOption' isActive={isActive} onClick={this.onClick}>
+        <div className='basemapThumbnail' thumbnail={thumbnail} />
+        <label className='label'>{translations['_ol_kit.BingMaps.title']}</label>
+      </div>
     )
   }
 }

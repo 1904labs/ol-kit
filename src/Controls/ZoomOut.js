@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import RemoveIcon from '@mui/icons-material/Remove'
 import ControlGroupButton from './ControlGroupButton'
 import { zoomDelta } from './utils'
 import { connectToContext } from 'Provider'
@@ -49,10 +48,11 @@ function ZoomOut (props) {
     <ControlGroupButton
       id='_ol_kit_zoom_out'
       data-testid='_ol_kit_zoom_out'
-      icon={<RemoveIcon />}
       onMouseOut={() => stopZoom()}
       onMouseUp={() => stopZoom()}
-      onMouseDown={() => handleMouseDown()} />
+      onMouseDown={() => handleMouseDown()}>
+        -
+        </ControlGroupButton>
   )
 }
 

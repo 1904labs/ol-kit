@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Container } from './styled'
 import OpenStreetMap from './OpenStreetMap'
 import BlankWhite from './BlankWhite'
 import StamenTerrain from './StamenTerrain'
@@ -24,14 +23,14 @@ class BasemapManager extends React.Component {
     const { children } = this.props
 
     return (
-      <Container>
+      <div className='container'>
         <OpenStreetMap layerTypeID={LAYER_TYPE_ID} />
         <StamenTerrain layerTypeID={LAYER_TYPE_ID} />
         <StamenTonerDark layerTypeID={LAYER_TYPE_ID} />
         <StamenTonerLite layerTypeID={LAYER_TYPE_ID} />
         <BlankWhite layerTypeID={LAYER_TYPE_ID} />
         {children}
-      </Container>
+      </div>
     )
   }
 }

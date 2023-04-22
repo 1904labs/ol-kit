@@ -1,10 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import IconButton from '@mui/material/IconButton'
 import { connectToContext } from 'Provider'
-
-import { IconWrapper } from './styled'
 
 /**
  * A control group button wrapper using a Material IconButton
@@ -14,11 +11,11 @@ import { IconWrapper } from './styled'
  */
 function ControlGroupButton (props) {
   return (
-    <IconWrapper>
-      <IconButton {...props} style={{ padding: '3px' }} size="large">
+    <div className='iconWrapper'>
+      <button {...props} style={{ padding: '3px' }} size="large">
         {props.icon || props.children}
-      </IconButton>
-    </IconWrapper>
+      </button>
+    </div>
   );
 }
 

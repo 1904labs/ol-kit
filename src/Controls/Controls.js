@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
-import { ControlsContainer } from './styled'
 import ControlGroup from './ControlGroup'
 import CurrentLocation from './CurrentLocation'
 
@@ -23,7 +22,16 @@ function Controls (props) {
 
   return (
     ReactDOM.createPortal(
-      <ControlsContainer position={position} orientation={orientation} style={style}>
+      <div className='controlsContainer'
+        style={{
+          left: position.includes('left') ? '14px' : 'unset',
+          right: position.includes('right') ? '14px' : 'unset',
+          bottom: position.includes('bottom') ? '0px' : 'unset',
+          top: position.includes('top') ? '14px' : 'unset',
+          flexDirection: position.orientation === 'vertical' ? 'column' : 'row',
+          ...style
+        }}
+        >
         {children || (
           <>
             <ScaleLine map={map} orientation={orientation}/>
@@ -35,7 +43,7 @@ function Controls (props) {
             <Compass map={map} />
           </>
         )}
-      </ControlsContainer>,
+      </div>,
       map.getTargetElement()
     )
   )

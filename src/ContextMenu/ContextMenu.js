@@ -1,12 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import debounce from 'lodash.debounce'
 
 import { convertXYtoLatLong } from 'Map'
 import { connectToContext } from 'Provider'
 import ContextMenuCoordinateGroup from './ContextMenuCoords'
-
-import { Container } from './styled'
 
 /** A context menu component useful for contextual geospatial actions
  * @component
@@ -24,7 +21,7 @@ class ContextMenu extends React.Component {
     }
 
     // debounce time was changed from 400 to 50 due to inaccurate pointer/coords location
-    this.pointerMoveHandler = debounce(this.pointerMoveHandler, 50)
+    this.pointerMoveHandler = this.debounce(this.pointerMoveHandler, 50)
   }
 
   componentDidMount () {
@@ -46,6 +43,14 @@ class ContextMenu extends React.Component {
     document.removeEventListener('contextmenu', this.rightClickHandler)
     document.removeEventListener('click', this.clickHandler)
     map.un('pointermove', this.pointerMoveHandler)
+  }
+
+  debounce = (func, timeout = 300) => {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
   }
 
   pointerMoveHandler = e => {
@@ -116,13 +121,12 @@ class ContextMenu extends React.Component {
 
     return (
       <React.Fragment>
-        <Container
-          show={show}
-          top={pixel.y}
-          left={pixel.x}
+        <div
+          className='container'
+          style={{ top: pixel.y, left: pixel.x, display: props.show ? 'block' : 'none' }}
           innerRef={node => { this.contextMenuRef = node }}>
           {show && getChildren()}
-        </Container>
+        </div>
       </React.Fragment>
     )
   }

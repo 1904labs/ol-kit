@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ControlGroupButton from './ControlGroupButton'
-import GpsFixedIcon from '@mui/icons-material/GpsFixed'
 import { centerAndZoom } from 'Map'
 import { connectToContext } from 'Provider'
 import ugh from 'ugh'
@@ -38,7 +37,7 @@ class CurrentLocation extends React.Component {
       <ControlGroupButton
         onClick={this.gotoCurrentLocation}
         data-testid='_ol_kit_current_location'>
-        <GpsFixedIcon style={{ fontSize: '1.2rem' }} />
+        {/* <GpsFixedIcon style={{ fontSize: '1.2rem' }} /> */}
       </ControlGroupButton>
     )
   }

@@ -3,8 +3,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connectToContext } from 'Provider'
 
-import { CoordWrapper, CoordGroup, CoordTitle, CoordRaw } from './styled'
-
 /** A context menu coordinate display and copy/paste header
  * @component
  * @category ContextMenu
@@ -34,9 +32,9 @@ class ContextMenuCoords extends React.PureComponent {
 
   renderCoord (text, coord) {
     return (
-      <CoordGroup>
-        <CoordTitle>{text}</CoordTitle><CoordRaw>{coord}</CoordRaw>
-      </CoordGroup>
+      <div className='coordGroup'>
+        <div>{text}</div><span className='coordRaw'>{coord}</span>
+      </div>
     )
   }
 
@@ -46,10 +44,10 @@ class ContextMenuCoords extends React.PureComponent {
     const longDisplay = this.renderCoord(translations['_ol_kit_.ContextMenuCoords.long'], coords.long)
 
     return (
-      <CoordWrapper id='coordCopier'>
+      <div className='coordWrapper' id='coordCopier'>
         {latDisplay}
         {longDisplay}
-      </CoordWrapper>
+      </div>
     )
   }
 }

@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ScaleLineContainer } from './styled'
 import { ScaleLine as olScaleLine } from 'ol/control'
 
 import { connectToContext } from 'Provider'
@@ -28,7 +27,7 @@ class ScaleLine extends React.Component {
 
   render () {
     return (
-      <ScaleLineContainer ref={this.scaleLineContainer} />
+      <div className='scaleLineContainer' ref={this.scaleLineContainer} />
     )
   }
 }

@@ -1,0 +1,66 @@
+.container {
+  z-index: 9999;
+  height: auto;
+  width: 215px;
+  position: absolute;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.15);
+  font-family: sans-serif;
+  overflow: hidden;
+  color: #494949;
+}
+
+.listItem {
+  padding: 10px;
+  border-top: 1px solid #ebebeb;
+  transition: all 0.15s ease-in;
+}
+
+.listItem:hover {
+  color: #fff;
+  background: #3f51b5;
+  transition: all 0.15s ease-out;
+}
+
+.listItem-disabled {
+  padding: 10px;
+  border-top: 1px solid #ebebeb;
+  transition: all 0.15s ease-in;
+}
+
+.listItem-disabled:hover {
+  color: #ccc;
+  background: #fff;
+  transition: all 0.15s ease-out;
+}
+
+.coordWrapper {
+  padding: 5px 0;
+  font-size: 14px;
+  transition: all 0.15s ease-in;
+}
+
+.coordWrapper:hover {
+  color: #fff;
+  background: #3f51b5;
+  transition: all 0.15s ease-out;
+}
+
+.coordGroup {
+  padding: 5px 10px;
+  overflow: auto;
+  cursor: copy;
+}
+
+.coordTitle {
+  float: left;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-right: 10px;
+}
+
+.coordRaw { 
+  float: right;
+}

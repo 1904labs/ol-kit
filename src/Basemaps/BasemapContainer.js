@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { BasemapThumbnail, Label, BasemapSliderContainer, BasemapOption } from './styled'
 import { stamenTerrain, osm, stamenTonerDark, stamenTonerLite } from './thumbnails'
 import OpenStreetMap from './OpenStreetMap'
 import BlankWhite from './BlankWhite'
@@ -63,7 +62,8 @@ class BasemapContainer extends Component {
 
       if (showBasemaps) {
         return (
-          <BasemapSliderContainer
+          <div
+            className='basemapSliderContainer'
             variation={variation}
             style={style}
             zIndex={zIndex}
@@ -71,22 +71,23 @@ class BasemapContainer extends Component {
             bottom={14 + (i * 90)}
             key={i}>
             {React.cloneElement(basemap, { onBasemapChanged: (layer) => this.onBasemapChanged(layer) })}
-          </BasemapSliderContainer>
+          </div>
         )
       } else {
         return (
-          <BasemapSliderContainer
+          <div
+            className='basemapSliderContainer'
             variation={variation}
             style={style}
             zIndex={zIndex}
             onClick={() => this.setState({ showBasemaps: true })}
             key={i}
             noBoxShadow={i !== 0}>
-            <BasemapOption>
-              <BasemapThumbnail thumbnail={basemap.props.thumbnail} />
-              <Label>{translations[`_ol_kit.${translationKey(basemap.key)}.title`]}</Label>
-            </BasemapOption>
-          </BasemapSliderContainer>
+            <div className='basemapOption'>
+              <div className='basemapThumbnail' thumbnail={basemap.props.thumbnail} />
+              <label className='label'>{translations[`_ol_kit.${translationKey(basemap.key)}.title`]}</label>
+            </div>
+          </div>
         )
       }
     })

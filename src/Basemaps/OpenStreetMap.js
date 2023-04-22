@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import olLayerTile from 'ol/layer/Tile'
 import olSourceOSM from 'ol/source/OSM'
-import { BasemapOption, BasemapThumbnail, Label } from './styled'
 import { osm } from './thumbnails'
 import { connectToContext } from 'Provider'; // eslint-disable-line
 
@@ -59,10 +58,10 @@ class BasemapOpenStreetMap extends React.Component {
     const isActive = layerArray.length ? layerArray[0].get(layerTypeID) === 'osm' : false
 
     return (
-      <BasemapOption className='_ol_kit_basemapOption' isActive={isActive} onClick={this.onClick}>
-        <BasemapThumbnail thumbnail={thumbnail} />
-        <Label>{translations['_ol_kit.OpenStreetMap.title']}</Label>
-      </BasemapOption>
+      <div className='_ol_kit_basemapOption basemapOption' isActive={isActive} onClick={this.onClick}>
+        <div className='basemapThumbnail' thumbnail={thumbnail} />
+        <label className='label'>{translations['_ol_kit.OpenStreetMap.title']}</label>
+      </div>
     )
   }
 }
