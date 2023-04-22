@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Tooltip, IconButton } from './styled'
-import LensIcon from '@mui/icons-material/Lens'
 
 /**
  * A button for drawing points.
@@ -14,14 +12,14 @@ class DrawPoint extends Component {
     const { addInteraction, type, tooltipTitle } = this.props
 
     return (
-      <Tooltip title={tooltipTitle}>
-        <IconButton
+      <div className='tooltip' title={tooltipTitle}>
+        <button className='iconButton'
           data-testid='Draw.point'
           size='small'
           onClick={() => addInteraction({ type: 'Point' })}>
-          <LensIcon fontSize={'small'} size={0.5} htmlColor={type === 'Point' ? '#1976D2' : '#656565'} />
-        </IconButton>
-      </Tooltip>
+          LensIcon
+        </button>
+      </div>
     )
   }
 }

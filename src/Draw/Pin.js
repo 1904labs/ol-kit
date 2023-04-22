@@ -1,7 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Tooltip, IconButton } from './styled'
-import PinDrop from '@mui/icons-material/PinDrop'
 
 /**
  * A button for drawing points.
@@ -13,14 +11,14 @@ function DrawPin (props) {
   const { addInteraction, type, tooltipTitle } = props
 
   return (
-    <Tooltip title={tooltipTitle}>
-      <IconButton
+    <div className='tooltip' title={tooltipTitle}>
+      <button className='iconButton'
         data-testid='Draw.pin'
         size='small'
         onClick={() => addInteraction({ type })}>
-        <PinDrop fontSize={'small'} size={0.5} htmlColor={type === 'Point' ? '#1976D2' : '#656565'} />
-      </IconButton>
-    </Tooltip>
+        PinDrop
+      </button>
+    </div>
   )
 }
 

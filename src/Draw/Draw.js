@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ButtonContainer } from './styled'
 import Line from './Line'
 import Box from './Box'
 import Circle from './Circle'
@@ -203,7 +202,7 @@ class Draw extends React.Component {
 
             return moddedChild
           })
-          : <ButtonContainer>
+          : <div className='buttonContainer'>
             <Point addInteraction={this.addInteraction} type={type}
               tooltipTitle={translations['_ol_kit.draw.pointTooltip']} />
             <Line addInteraction={this.addInteraction} type={type}
@@ -216,7 +215,7 @@ class Draw extends React.Component {
               geometryFunction={geometryFunction} tooltipTitle={translations['_ol_kit.draw.boxTooltip']} />
             <Freehand addInteraction={this.addInteraction} type={type} freehand={freehand}
               tooltipTitle={translations['_ol_kit.draw.freehandTooltip']} />
-          </ButtonContainer>}
+          </div>}
         {
           (Array.isArray(interactions) && interactions.length) ? (<DrawToolbar onFinish={this.handleDrawFinish} onCancel={this.handleDrawCancel} />) : null // eslint-disable-line
         }

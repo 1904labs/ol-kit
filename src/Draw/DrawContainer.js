@@ -4,13 +4,11 @@ import { nanoid } from 'nanoid'
 import { VectorLayer, Preferences } from '../classes'
 import olSourceVector from 'ol/source/Vector'
 import { createBox } from 'ol/interaction/Draw'
-import CircularProgress from '@mui/material/CircularProgress'
 import Draw from './Draw'
 import { Measure } from 'Measure'
 import { SnapPreference, CoordinateLabelPreference } from 'Preferences'
 import { connectToContext } from 'Provider'
 import { styleMeasure } from './utils'
-import { Container, ProgressWrapper } from './styled'
 
 /**
  * A prebuilt Draw Tools component
@@ -164,9 +162,9 @@ class DrawContainer extends React.Component {
     switch (status) {
       case 'loading':
         return (
-          <ProgressWrapper key={nanoid()}>
-            <CircularProgress color={'primary'} />
-          </ProgressWrapper>
+          <div className='progressWrapper' key={nanoid()}>
+            <p>loading...</p>
+          </div>
         )
       case 'success':
         return (
@@ -193,9 +191,9 @@ class DrawContainer extends React.Component {
     switch (status) {
       case 'loading':
         return (
-          <ProgressWrapper key={nanoid()}>
-            <CircularProgress color={'primary'} />
-          </ProgressWrapper>
+          <div className='progressWrapper' key={nanoid()}>
+            <p>loading...</p>
+          </div>
         )
       case 'success':
         return (
@@ -241,9 +239,9 @@ class DrawContainer extends React.Component {
     ]
 
     return (
-      <Container style={style}>
+      <div className='container' style={style}>
         {drawChildren}
-      </Container>
+      </div>
     )
   }
 }

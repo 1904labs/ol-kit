@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Tooltip, IconButton } from './styled'
-import ChangeHistoryOutlinedIcon from '@mui/icons-material/ChangeHistoryOutlined'
 
 /**
  * A button for drawing polygons.
@@ -14,14 +12,14 @@ class DrawPolygon extends Component {
     const { addInteraction, type, tooltipTitle } = this.props
 
     return (
-      <Tooltip title={tooltipTitle}>
-        <IconButton
+      <div className='tooltip' title={tooltipTitle}>
+        <button className='iconButton'
           data-testid='Draw.polygon'
           size='small'
           onClick={() => addInteraction({ type: 'Polygon' })}>
-          <ChangeHistoryOutlinedIcon size={1} htmlColor={type === 'Polygon' ? '#1976D2' : '#656565'} />
-        </IconButton>
-      </Tooltip>
+          ChangeHistoryOutlinedIcon
+        </button>
+      </div>
     )
   }
 }

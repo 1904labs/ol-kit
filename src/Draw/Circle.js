@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Tooltip, IconButton } from './styled'
-import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined'
 
 /**
  * A button for drawing circles.
@@ -14,14 +12,14 @@ class DrawCircle extends Component {
     const { addInteraction, type, geometryFunction, tooltipTitle } = this.props
 
     return (
-      <Tooltip title={tooltipTitle}>
-        <IconButton
+      <div className='tooltip' title={tooltipTitle}>
+        <button className='iconButton'
           data-testid='Draw.circle'
           size='small'
           onClick={() => addInteraction({ type: 'Circle' })}>
-          <RadioButtonUncheckedOutlinedIcon size={1} htmlColor={type === 'Circle' && !geometryFunction ? '#1976D2' : '#656565'} />
-        </IconButton>
-      </Tooltip>
+          radio button unchecked
+        </button>
+      </div>
     )
   }
 }

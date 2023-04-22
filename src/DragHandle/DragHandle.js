@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { DragHandleIcon } from '../Popup/styled'
 
 export default function DragHandle (props) {
   const { color, height, className } = props
 
   return (
-    <DragHandleIcon color={color} height={height} className={className}>
+    <div
+      className={className || 'dragHandleIcon'}
+      style={{ color: color || `#fff`, height }}>
       <svg width='65px' height='7px' viewBox='0 0 32 7' version='1.1' xmlns='http://www.w3.org/2000/svg' >
         <title>Drag icon</title>
         <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
@@ -22,7 +23,7 @@ export default function DragHandle (props) {
           </g>
         </g>
       </svg>
-    </DragHandleIcon>
+    </div>
   )
 }
 

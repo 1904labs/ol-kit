@@ -1,0 +1,12 @@
+.dragHandleIcon {
+  height: 25px;
+  width: 70px;
+  cursor: move;
+  padding: 3px;
+  z-index: 100;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+}

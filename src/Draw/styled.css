@@ -1,0 +1,32 @@
+.container {
+  padding: 15px;
+  width: min-content;
+  background-color: white;
+  left: 0px;
+  top: 0px;
+  position: absolute;
+  border-radius: 5px;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  margin: 10px;
+}
+
+.iconButton {
+  width: 37px;
+  height: 37px;
+}
+
+.tooltip {
+  font-size: 15px;
+}
+
+.progressWrapper {
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}

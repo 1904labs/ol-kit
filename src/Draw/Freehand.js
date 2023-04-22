@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Tooltip, IconButton } from './styled'
-import GestureOutlinedIcon from '@mui/icons-material/GestureOutlined'
 
 /**
  * A button for drawing freehand line strings.
@@ -14,14 +12,14 @@ class DrawFreehand extends Component {
     const { addInteraction, type, freehand, tooltipTitle } = this.props
 
     return (
-      <Tooltip title={tooltipTitle}>
-        <IconButton
+      <div className='tooltip' title={tooltipTitle}>
+        <button className='iconButton'
           data-testid='Draw.freehand'
           size='small'
           onClick={() => addInteraction({ type: 'LineString', freehand: true })}>
-          <GestureOutlinedIcon size={1} htmlColor={type === 'LineString' && freehand ? '#1976D2' : '#656565'} />
-        </IconButton>
-      </Tooltip>
+          gesture outline
+        </button>
+      </div>
     )
   }
 }

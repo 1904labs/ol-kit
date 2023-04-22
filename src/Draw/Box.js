@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Tooltip, IconButton } from './styled'
 import { createBox } from 'ol/interaction/Draw'
-import CropSquareSharpIcon from '@mui/icons-material/CropSquareSharp'
 
 const BOX_CONFIG = {
   type: 'Circle',
@@ -26,14 +24,14 @@ class DrawBox extends Component {
     const { addInteraction, tooltipTitle } = this.props
 
     return (
-      <Tooltip title={tooltipTitle}>
-        <IconButton
+      <div className='tooltip' title={tooltipTitle}>
+        <button className='iconButton'
           data-testid='Draw.box'
           size='small'
           onClick={() => addInteraction(BOX_CONFIG)}>
-          <CropSquareSharpIcon size={1} htmlColor={this.isBoxDraw() ? '#1976D2' : '#656565'} />
-        </IconButton>
-      </Tooltip>
+          Square sharp
+        </button>
+      </div>
     )
   }
 }

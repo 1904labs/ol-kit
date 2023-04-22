@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Tooltip, IconButton } from './styled'
-import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined'
 
 /**
  * A button for drawing line strings.
@@ -14,14 +12,14 @@ class DrawLine extends Component {
     const { addInteraction, type, freehand, tooltipTitle } = this.props
 
     return (
-      <Tooltip title={tooltipTitle}>
-        <IconButton
+      <div className='tooltip' title={tooltipTitle}>
+        <button className='iconButton'
           data-testid='Draw.line'
           size='small'
           onClick={() => addInteraction({ type: 'LineString' })}>
-          <TimelineOutlinedIcon size={1.35} rotate={30} htmlColor={type === 'LineString' && !freehand ? '#1976D2' : '#656565'} />
-        </IconButton>
-      </Tooltip>
+          TimelineOutlinedIcon
+        </button>
+      </div>
     )
   }
 }
