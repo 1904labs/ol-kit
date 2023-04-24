@@ -1,0 +1,35 @@
+.logoContainer { 
+  width: 100%;
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  bottom: 1px;
+  z-index: 1;
+}
+
+/* justify-content: ${props => props.position === 'right' ? 'flex-end' : 'flex-start'}; */
+
+.logo {
+  width: 15px;
+  height: 15px;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.logoText {
+  font-size: 11px;
+  font-family: Roboto,Arial,sans-serif;
+  padding-left: 2px;
+  margin: 0px;
+}
+
+.styledMap {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* position: ${p => p.fullScreen ? 'fixed' : 'relative'}; */

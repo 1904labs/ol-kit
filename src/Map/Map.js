@@ -11,11 +11,12 @@ import {
   replaceZoomBoxCSS,
   addSelectInteraction
 } from './utils'
-import { StyledMap } from './styled'
 import { connectToContext } from 'Provider'
 import en from 'locales/en'
 import ugh from 'ugh'
 import olInteractionSelect from 'ol/interaction/Select'
+
+import 'styled.css'
 
 /**
  * A Reactified ol.Map wrapper component
@@ -163,12 +164,12 @@ class Map extends React.Component {
     return (
       <>
         {!this.passedMap &&
-          <StyledMap
+          <div className='styledMap'
             id={this.target}
             fullScreen={fullScreen}
             style={style}>
-            {/* <MapLogo logoPosition={logoPosition} translations={translations} /> */}
-          </StyledMap>
+            <MapLogo logoPosition={logoPosition} translations={translations} />
+          </div>
         }
         {mapInitialized // wait for map to initialize before rendering children
           ? children

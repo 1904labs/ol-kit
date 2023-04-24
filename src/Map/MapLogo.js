@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { LogoContainer, Logo, LogoText } from './styled'
 import OL_KIT_MARK from 'images/ol_kit_mark.svg'
 import OL_KIT_MARK_BLACK from 'images/ol_kit_mark_black.svg'
+
+import 'styled.css'
 
 export default function MapLogo (props) {
   const { logoPosition, translations } = props
@@ -12,9 +13,14 @@ export default function MapLogo (props) {
     logoPosition === 'none'
       ? null
       : (
-        <LogoContainer position={logoPosition}>
-          <LogoText>{translations['_ol_kit.MapLogo.title']}</LogoText>
-          <Logo
+        <div 
+          className='logoContainer' 
+          style={{
+            justifyContent: props.position === 'right' ? 'flex-end' : 'flex-start'
+          }}>
+          <p className='logoText'>{translations['_ol_kit.MapLogo.title']}</p>
+          <div
+            className='logo'
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             title={translations['_ol_kit.MapLogo.hover']}
@@ -24,8 +30,8 @@ export default function MapLogo (props) {
               ? <OL_KIT_MARK />
               : <OL_KIT_MARK_BLACK />
             }
-          </Logo>
-        </LogoContainer>
+          </div>
+        </div>
       )
   )
 }
