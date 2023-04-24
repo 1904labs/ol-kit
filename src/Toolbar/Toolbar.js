@@ -1,19 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import { Grid } from '@mui/material'
-import { Container } from './styled'
 
 class Toolbar extends React.Component {
   render () {
     const { children } = this.props
 
     return ReactDOM.createPortal(
-      <Container>
-        <Grid container justifyContent='center' alignItems='center'>
+      <div className='container'>
+        <div container style={{
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
           {children}
-        </Grid>
-      </Container>,
+        </div>
+      </div>,
       document.body
     );
   }

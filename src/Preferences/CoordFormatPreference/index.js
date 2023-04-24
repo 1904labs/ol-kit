@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MenuItem, FormControl, Select } from '@mui/material'
 
 export class CoordFormatPreference extends React.Component {
   constructor (props) {
@@ -31,13 +30,13 @@ export class CoordFormatPreference extends React.Component {
       <div>
         <h5><b>{translations['settings.coordformat.title']}</b></h5>
         <p>{translations['settings.coordformat.description']}</p>
-        <FormControl>
-          <Select labelId='_geokit_coordFormat' value={coordFormat} onChange={this.updateCoordFormat}>
+        <form>
+          <select labelId='_geokit_coordFormat' value={coordFormat} onChange={this.updateCoordFormat}>
             {options.map(({ value, label }) => {
-              return <MenuItem key={value} value={value}>{label}</MenuItem>
+              return <option key={value} value={value}>{label}</option>
             })}
-          </Select>
-        </FormControl>
+          </select>
+        </form>
       </div>
     )
   }

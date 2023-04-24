@@ -8,7 +8,6 @@ import LayerPanelCheckbox from 'LayerPanel/LayerPanelCheckbox'
 import LayerPanelExpandableList from 'LayerPanel/_LayerPanelExpandableList'
 import LayerPanelActions from 'LayerPanel/LayerPanelActions'
 import { ListItem, ListItemText } from 'LayerPanel/LayerPanelListItem/styled'
-import { ListItemSecondaryAction } from './styled'
 import olStroke from 'ol/style/Stroke'
 import olFill from 'ol/style/Fill'
 import olCircle from 'ol/style/Circle'
@@ -34,6 +33,8 @@ import isEqual from 'lodash.isequal'
 import { connectToContext } from 'Provider'
 import { convertFileToFeatures } from 'LayerPanel/LayerPanelActionImport/utils'
 import VectorLayer from 'classes/VectorLayer'
+
+import 'styled.css'
 
 const INDETERMINATE = 'indeterminate'
 
@@ -423,7 +424,7 @@ class LayerPanelLayersPage extends PureComponent {
               checkboxState={masterCheckboxVisibility}
               handleClick={this.setVisibilityForAllLayers} />
             <p primary={'All Layers'} />
-            <ListItemSecondaryAction style={{ right: '0px !important' }}>
+            <div className='listItemSecondaryAction' style={{ right: '0px !important' }}>
               <LayerPanelActions
                 icon={<></>}
                 translations={translations}
@@ -437,7 +438,7 @@ class LayerPanelLayersPage extends PureComponent {
                 <LayerPanelActionExport onExportFeatures={onExportFeatures} />
                 <LayerPanelActionMerge onMergeLayers={onMergeLayers} />
               </LayerPanelActions>
-            </ListItemSecondaryAction>
+            </div>
           </LayerPanelListItem>
           <LayerPanelList
             disableDrag={disableDrag}
@@ -560,7 +561,7 @@ LayerPanelLayersPage.propTypes = {
   /** A callback fired when layers are merged */
   onMergeLayers: PropTypes.func,
 
-  /** A callback function to set custom Menu Items for a specific layer. Should recieve an array of `@mui/material/MenuItem` */
+  /** A callback function to set custom Menu Items for a specific layer */
   getMenuItemsForLayer: PropTypes.func,
 
   /** A boolean to disable the drag event on the LayerPanelList */

@@ -57,10 +57,10 @@ LayerPanelActions.propTypes = {
   /** An bject with key/value pairs for translated strings */
   translations: PropTypes.object,
 
-  /** An array of components to be displayed inside `LayerPanelMenu` (like `@mui/material/MenuItems`) */
+  /** An array of components to be displayed inside `LayerPanelMenu` */
   children: PropTypes.node,
 
-  /** An icon component for the button to open the `LayerPanelMenu` (like `@mui/icons-material`) */
+  /** An icon component for the button to open the `LayerPanelMenu` */
   icon: PropTypes.node.isRequired
 }
 

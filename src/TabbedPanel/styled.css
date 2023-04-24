@@ -1,0 +1,45 @@
+.card {
+  position: absolute;
+  max-height: 645px;
+  width: 400px;
+  top: 20px;
+  left: 15px;
+  transition: all .3s;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+.card:hover {
+  opacity: 1;
+}
+
+.tabs {
+  background: #ededed;
+  transition: all .3s;
+}
+
+.tab {
+  min-width: inherit;
+  color: #152357
+}
+
+.tab:hover {
+  color: #152357;
+}
+
+.initialTab {
+  min-width: inherit;
+  color: #152357;
+}
+
+.initialTab:hover {
+  color: '#152357'
+}
+
+.cardContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 0px 0px 16px;
+  background: #ededed;
+}

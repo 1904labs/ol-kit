@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Card, Tabs, Tab, InitialTab } from './styled'
-
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import { connectToContext } from 'Provider'
+
+import 'styled.css'
 
 /**
  * @component
@@ -39,22 +37,26 @@ class TabbedPanel extends Component {
 
     return (
       <>
-        <Card open={showPanel} numoftabs={children.length || 1} className='_popup_boundary' >
+        <div
+          className='card _popup_boundary'
+          style={{ height: props.open ? `auto` : '48px' }}
+          numoftabs={children.length || 1} >
           <div style={{ display: 'flex', background: 'rgb(237, 237, 237)' }}>
-            <InitialTab onClick={this.togglePanel} icon={showPanel ? <KeyboardArrowDownIcon data-testid='MapPanel.close' /> : <KeyboardArrowRightIcon data-testid='MapPanel.open' />} />
-            <Tabs
+            <div className='initialTab' onClick={this.togglePanel} icon={showPanel ? <span className='KeyboardArrowDownIcon' data-testid='MapPanel.close' /> : <span className='KeyboardArrowRightIcon' data-testid='MapPanel.open' />} />
+            <div
+              className='tabs'
               open={showPanel}
               value={activeIndex}
               onChange={this.handleChange}
               variant='scrollable'
               scrollButtons='auto'>
               {React.Children.map(children, (child, i) => {
-                if (child) return <Tab key={i + 1} label={child.props.tabIcon || child.props.label} />
+                if (child) return <div className='div' key={i + 1} label={child.props.tabIcon || child.props.label} />
               })}
-            </Tabs>
+            </div>
           </div>
           {translations && React.Children.toArray(children)[activeIndex]}
-        </Card>
+        </div>
       </>
     )
   }

@@ -1,37 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-// update to @material-ui/pickers v4 when they add range support:
-// https://github.com/mui-org/material-ui-pickers/issues/364#issuecomment-575697596
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
-
-import Button from '@mui/material/Button'
-import Card from '@mui/material/Card'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import CloseIcon from '@mui/icons-material/Close'
-import SyncIcon from '@mui/icons-material/Sync'
 
 import en from 'locales/en'
 import { connectToContext } from 'Provider'
-import {
-  Container,
-  LayerTitle,
-  DateContainer,
-  MarkContainer,
-  TimesliderBar,
-  HighlightedRange,
-  BarContainer,
-  DateMark,
-  BottomContainer,
-  Tickmark,
-  TooManyForPreview
-} from './styled'
 import { datesDiffDay, datesSameDay } from './utils'
 import { DragHandle } from 'DragHandle'
 import Draggable from 'react-draggable'
@@ -41,7 +14,7 @@ import Draggable from 'react-draggable'
 function TabPanel (props) {
   const { children, value, index } = props
 
-  return value === index && <Box p={3} style={{ padding: '10px 24px' }}>{children}</Box>
+  return value === index && <div p={3} style={{ padding: '10px 24px' }}>{children}</div>
 }
 
 TabPanel.propTypes = {
@@ -301,10 +274,13 @@ class TimeSliderBase extends React.Component {
       const initialLeftPosition = position * labelWidth + padding
       const leftPosition = initialLeftPosition <= containerWidth ? initialLeftPosition : initialLeftPosition - padding // calculate the position of the label with a similar algorithm to that described in calculateLeftPlacement
 
-      datesDiv.push(<DateMark
-        key={i}
-        left={leftPosition}
-        width={labelWidth}>{display(futureMonth)}</DateMark>)
+      datesDiv.push(<div
+        style={{
+          left: `${props.left}px`,
+          width: `${props.width}px`
+        }}
+        className='dateMark'
+        key={i}>{display(futureMonth)}</div>)
     }
 
     return datesDiv
@@ -322,12 +298,17 @@ class TimeSliderBase extends React.Component {
       const leftPosition = this.calculateLeftPlacement(date, 4, containerWidth, padding)
 
       return (
-        <Tickmark
+        <span className='tickMark'
+          style={{
+            left: `${leftPosition}px`,
+            background:props.selected ? 'white' : props.tickColor || '#1440ce',
+            zIndex: props.selected ? '99' : '98',
+            border: `solid ${props.selected ? '2px cyan' : '1px #ffffff'}` 
+          }}
           key={i}
           selected={moment(dates[i]).isSame(selectedDate)}
-          style={{ left: `${leftPosition}px` }}
           tickColor={tickColor}>
-        </Tickmark>
+        </span>
       )
     })
 
@@ -353,112 +334,119 @@ class TimeSliderBase extends React.Component {
     } = this.state
 
     return (
-      <MuiPickersUtilsProvider utils={MomentUtils}>
-        <Typography component='div'>
-          <Draggable
-            axis='both'
-            handle='.timesliderdrag'>
-            <Container id='timesliderbase'>
-              <Grid container justifyContent='center'>
-                <Card style={{ width: '100%', paddingTop: '4px' }}>
-                  {draggable ? <DragHandle className='timesliderdrag' /> : null}
-                  <Tabs
-                    style={{ marginRight: '60px' }}
-                    indicatorColor='primary'
-                    value={index}
-                    onChange={this.onTabClicked}
-                    aria-label='simple tabs example'
-                    variant='scrollable'
-                    scrollButtons='auto'>
-                    {tabs.map((tab, i) => (
-                      <Tab label={`Layer ${i + 1}`} key={i} />
-                    ))}
-                  </Tabs>
-                  {tooManyDates ? (
-                    <TooManyForPreview>{translations['_ol_kit_.TimeSliderBase.tooMany']}</TooManyForPreview>
-                  ) : (
-                    tabs.map((tab, i) => (
-                      <TabPanel value={index} index={index} key={i}>
-                        <LayerTitle>{tab.title}</LayerTitle>
-                        <DateContainer ref={node => { this.dateContainerDiv = node }}>
-                          {this.renderLabels(dates, firstDayOfFirstMonth)}
-                        </DateContainer>
-                        <BarContainer
-                          onMouseDown={this.handleMouseDown}
-                          onMouseUp={this.handleMouseUp}
-                          onMouseMove={this.handleMouseMove}
-                          ref={node => { this.containerNode = node }}>
-                          <TimesliderBar barPlacement={16} barHeight={2} />
-                          <MarkContainer
-                            ref={node => { this.markContainer = node }}>
-                            {this.renderMarks(tab)}
-                          </MarkContainer>
-                          <HighlightedRange
-                            style={{ display: rangeMin || rangeMax ? 'block' : 'none' }}
-                            left={rangeMin}
-                            right={rangeMax}
-                            width={rangeMax - rangeMin}
-                            ref={node => { this.highlightDiv = node }} />
-                        </BarContainer>
-                      </TabPanel>
-                    ))
-                  )}
-                  <BottomContainer>
-                    {translations['_ol_kit_.TimeSliderBase.dateRange'] || 'Date Range'}
-                    <DatePicker
-                      disableFuture
-                      variant='inline'
-                      format='DD/MM/YYYY'
-                      value={selectedDateRange.length ? selectedDateRange[0] : dates[0]}
-                      onChange={date => {
-                        this.calculateDateSliderPosition()
-                        const { width } = this.containerNode.getBoundingClientRect()
+      <div className='MuiPickersUtilsProvider' utils={MomentUtils}>
+        <Draggable
+          axis='both'
+          handle='.timesliderdrag'>
+          <div className='container' id='timesliderbase'>
+            <div container style={{ justifyContent: 'center' }}>
+              <div style={{ width: '100%', paddingTop: '4px' }}>
+                {draggable ? <DragHandle className='timesliderdrag' /> : null}
+                <div
+                  style={{ marginRight: '60px' }}
+                  indicatorColor='primary'
+                  value={index}
+                  onChange={this.onTabClicked}
+                  aria-label='simple tabs example'
+                  variant='scrollable'
+                  scrollButtons='auto'>
+                  {tabs.map((tab, i) => (
+                    <div label={`Layer ${i + 1}`} key={i} />
+                  ))}
+                </div>
+                {tooManyDates ? (
+                  <div className='tooManyForPreview'>{translations['_ol_kit_.TimeSliderBase.tooMany']}</div>
+                ) : (
+                  tabs.map((tab, i) => (
+                    <div value={index} index={index} key={i}>
+                      <div className='layerTitle'>{tab.title}</div>
+                      <div className='dateContainer' ref={node => { this.dateContainerDiv = node }}>
+                        {this.renderLabels(dates, firstDayOfFirstMonth)}
+                      </div>
+                      <div className='barContainer'
+                        onMouseDown={this.handleMouseDown}
+                        onMouseUp={this.handleMouseUp}
+                        onMouseMove={this.handleMouseMove}
+                        ref={node => { this.containerNode = node }}>
+                        <div className='timeSliderBar'
+                          style={{
+                            height: props.barHeight ? `${props.barHeight}px` : '2px',
+                            top: `${props.barPlacement}px`
+                          }} />
+                        <div className='markContainer'
+                          ref={node => { this.markContainer = node }}>
+                          {this.renderMarks(tab)}
+                        </div>
+                        <div className='highlightedRange'
+                          style={{
+                            display: rangeMin || rangeMax ? 'block' : 'none',
+                            left: `${props.left}px`,
+                            width: `${props.width}px`,
+                            right: `${props.right}px`
+                          }}
+                          left={rangeMin}
+                          right={rangeMax}
+                          width={rangeMax - rangeMin}
+                          ref={node => { this.highlightDiv = node }} />
+                      </div>
+                    </div>
+                  ))
+                )}
+                <div className='bottomContainer'>
+                  {translations['_ol_kit_.TimeSliderBase.dateRange'] || 'Date Range'}
+                  <div
+                    disableFuture
+                    variant='inline'
+                    format='DD/MM/YYYY'
+                    value={selectedDateRange.length ? selectedDateRange[0] : dates[0]}
+                    onChange={date => {
+                      this.calculateDateSliderPosition()
+                      const { width } = this.containerNode.getBoundingClientRect()
 
-                        this.setState({
-                          selectedDateRange: [date, selectedDateRange[1]],
-                          rangeMin: this.calculateLeftPlacement(date, 1, width, 24)
-                        })
-                      }} />
-                    {` ${translations['_ol_kit_.TimeSliderBase.to'] || 'To'} `}
-                    <DatePicker
-                      disableFuture
-                      variant='inline'
-                      format='DD/MM/YYYY'
-                      value={selectedDateRange.length ? selectedDateRange[1] : dates[dates.length - 1]}
-                      onChange={date => {
-                        this.calculateDateSliderPosition()
-                        const { width } = this.containerNode.getBoundingClientRect()
+                      this.setState({
+                        selectedDateRange: [date, selectedDateRange[1]],
+                        rangeMin: this.calculateLeftPlacement(date, 1, width, 24)
+                      })
+                    }} />
+                  {` ${translations['_ol_kit_.TimeSliderBase.to'] || 'To'} `}
+                  <div
+                    disableFuture
+                    variant='inline'
+                    format='DD/MM/YYYY'
+                    value={selectedDateRange.length ? selectedDateRange[1] : dates[dates.length - 1]}
+                    onChange={date => {
+                      this.calculateDateSliderPosition()
+                      const { width } = this.containerNode.getBoundingClientRect()
 
-                        this.setState({
-                          selectedDateRange: [selectedDateRange[0], date],
-                          rangeMax: this.calculateLeftPlacement(date, 1, width, 24)
-                        })
-                      }} />
+                      this.setState({
+                        selectedDateRange: [selectedDateRange[0], date],
+                        rangeMax: this.calculateLeftPlacement(date, 1, width, 24)
+                      })
+                    }} />
 
-                    <Button disabled={!selectedDate} onClick={() => this.cycleDates('ArrowLeft')} variant='contained' color='primary' style={{ marginRight: '5px' }}>
-                      {translations['_ol_kit_.TimeSliderBase.previous']}
-                    </Button>
-                    <Button disabled={datesSameDay(selectedDate, dates[dates.length - 1])} onClick={() => this.cycleDates('ArrowRight')} variant='contained' color='primary'>
-                      {translations['_ol_kit_.TimeSliderBase.next']}
-                    </Button>
+                  <button className='button' disabled={!selectedDate} onClick={() => this.cycleDates('ArrowLeft')} variant='contained' color='primary' style={{ marginRight: '5px' }}>
+                    {translations['_ol_kit_.TimeSliderBase.previous']}
+                  </button>
+                  <button className='button' disabled={datesSameDay(selectedDate, dates[dates.length - 1])} onClick={() => this.cycleDates('ArrowRight')} variant='contained' color='primary'>
+                    {translations['_ol_kit_.TimeSliderBase.next']}
+                  </button>
 
-                    <IconButton onClick={this.resetState} size="large">
-                      <SyncIcon color='primary' />
-                    </IconButton>
-                  </BottomContainer>
-                  <IconButton
-                    onClick={this.props.onClose}
-                    style={{ position: 'absolute', top: '5px', right: '5px' }}
-                    aria-label='delete'
-                    size="large">
-                    <CloseIcon />
-                  </IconButton>
-                </Card>
-              </Grid>
-            </Container>
-          </Draggable>
-        </Typography>
-      </MuiPickersUtilsProvider>
+                  <button onClick={this.resetState} size="large">
+                    <span className='SyncIcon' color='primary' />
+                  </button>
+                </div>
+                <button
+                  onClick={this.props.onClose}
+                  style={{ position: 'absolute', top: '5px', right: '5px' }}
+                  aria-label='delete'
+                  size="large">
+                  <span className='CloseIcon' />
+                </button>
+              </div>
+            </div>
+          </div>
+        </Draggable>
+      </div>
     );
   }
 }

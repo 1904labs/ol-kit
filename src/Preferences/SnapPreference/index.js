@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormControlWrapper, SwitchContainer, TextField, Switch, SwitchLabel } from '../styled'
 
 export class SnapPreference extends React.Component {
   constructor (props) {
@@ -39,20 +38,20 @@ export class SnapPreference extends React.Component {
       <div>
         { !compact ? (<h5><b>{translations['_ol_kit.settings.snapping.title']}</b></h5>) : null }
         { !compact ? (<p>{translations['_ol_kit.settings.snapping.description']}</p>) : null }
-        <FormControlWrapper>
-          <SwitchContainer compact={compact ? true : undefined} id='snapBuffer'>
-            <SwitchLabel compact={compact ? true : undefined} htmlFor='snapBuffer'>{compact ? translations['_ol_kit.settings.snapping.title'] : translations['_ol_kit.settings.turnOnOff']}</SwitchLabel>
-            <Switch color='primary'
+        <form>
+          <div className='switchContainer' compact={compact ? true : undefined} id='snapBuffer'>
+            <label compact={compact ? true : undefined} htmlFor='snapBuffer'>{compact ? translations['_ol_kit.settings.snapping.title'] : translations['_ol_kit.settings.turnOnOff']}</label>
+            <switch color='primary'
               checked={snappingEnabled}
               onChange={this.updateSnapEnable}
               value={snappingEnabled}/>
-          </SwitchContainer>
+          </div>
           {snappingEnabled &&
-            <TextField compact={compact ? true : undefined} styles={{ bottom: '5px' }}
+            <input type='text' compact={compact ? true : undefined} styles={{ bottom: '5px' }}
               label='Pixel Tolerance'
               value={snappingTolerance}
               onChange={this.updateSnapTolerance} />}
-        </FormControlWrapper>
+        </form>
       </div>
     )
   }
