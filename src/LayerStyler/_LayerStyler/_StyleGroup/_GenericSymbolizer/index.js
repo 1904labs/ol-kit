@@ -1,13 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import ColorPicker from 'LayerStyler/_ColorPicker'
-import { Trashcan } from '../styled'
-import { Container, Fourth, Title } from './styled'
 
 import { connectToContext } from 'Provider'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import Delete from '@mui/icons-material/Delete'
+
+import 'styled.css'
 
 // the incoming keys are based on the mark (point) symbolizer -- if the UI
 // was based on a different symbolizer then these would have to change
@@ -60,36 +57,36 @@ class GenericSymbolizer extends Component {
     const widthValue = radius || strokeWidth || outlineWidth || 0
 
     return (
-      <Container>
-        <Fourth>
+      <div className='container'>
+        <div className='fourth'>
           {opacity >= 0.5 &&
             <Fragment>
-              <Title>{translations['_ol_kit.GenericSymbolizer.fill']}</Title>
+              <div className='title'>{translations['_ol_kit.GenericSymbolizer.fill']}</div>
               <ColorPicker left={-8} handleSelect={val => this.aggregateChanges('color', val)} currentColor={color} />
             </Fragment>}
-        </Fourth>
-        <Fourth>
-          <Title>{translations['_ol_kit.GenericSymbolizer.width']}</Title>
-          <Select
+        </div>
+        <div className='fourth'>
+          <div className='title'>{translations['_ol_kit.GenericSymbolizer.width']}</div>
+          <select
             style={{ padding: 'unset', marginTop: '10px', width: '100%' }}
             value={widthValue}
             onChange={e => this.aggregateChanges('radius', Number(e.target.value))} >
             {[widthValue, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((option, i) => {
-              return <MenuItem key={i} value={option}>{option}</MenuItem>
+              return <option key={i} value={option}>{option}</option>
             })}
-          </Select>
-        </Fourth>
-        <Fourth>
-          <Title>{translations['_ol_kit.GenericSymbolizer.stroke']}</Title>
+          </select>
+        </div>
+        <div className='fourth'>
+          <div className='title'>{translations['_ol_kit.GenericSymbolizer.stroke']}</div>
           <ColorPicker left={172} handleSelect={val => this.aggregateChanges('strokeColor', val)} currentColor={strokeColor || outlineColor} />
-        </Fourth>
-        <Fourth>
-          <Title>{translations['_ol_kit.GenericSymbolizer.remove']}</Title>
-          <Trashcan onClick={this.props.onSymbolizerDelete}>
-            <Delete style={{ verticalAlign: 'top' }} />
-          </Trashcan>
-        </Fourth>
-      </Container>
+        </div>
+        <div className='fourth'>
+          <div className='title'>{translations['_ol_kit.GenericSymbolizer.remove']}</div>
+          <div className='trashcan' onClick={this.props.onSymbolizerDelete}>
+            <div style={{ verticalAlign: 'top' }}>delete</div>
+          </div>
+        </div>
+      </div>
     )
   }
 }

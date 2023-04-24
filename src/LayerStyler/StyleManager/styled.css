@@ -1,0 +1,22 @@
+.headerContainer {
+  padding-top: 15px;
+  background: #eeeeee;
+  display: flex;
+  align-items: center;
+}
+
+.inputContainer {
+  display: inline-block;
+  width: 75%;
+}
+
+.filterContainer {
+  text-align: center;
+  vertical-align: top;
+}
+
+.noLayerText {
+  color: #535353;
+  margin: 30px;
+  text-align: center;
+}

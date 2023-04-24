@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { nanoid } from 'nanoid'
-import { Container, Header, SubHeader, TextInput, Bar, Highlight, Group } from './styled'
+import 'styled.css'
 
 class Selector extends Component {
   constructor (props) {
@@ -102,14 +102,13 @@ class Selector extends Component {
     }
 
     return (
-      <Container style={styles} selected={selected} disabled={disabled}>
-        <Group>
-          <TextInput
+      <div className='container' style={{ background: styles.background ? styles.background : 'white', ...styles }} selected={selected} disabled={disabled}>
+        <div className='group'>
+          <select
             autoFocus={false /* autoFocus would open the menu on mount which blocks some of the ui */}
             placeholder={'' /* 'header' serves as the placeholder so we don't want one in the text input */}
             {...defaultValueProp}
             inputId={this.getInputId()}
-            options={options}
             isSearchable={true}
             isClearable={options.length}
             isLoading={isLoading}
@@ -117,17 +116,21 @@ class Selector extends Component {
             onClick={this.props.onClick}
             isDisabled={disabled}
             menuPlacement='top'
-            styles={customStyles} />
-          <Bar focus={hasFocus} />
-          <Highlight focus={hasFocus} />
-          {header && <Header
-            focus={hasFocus}
-            valid={isValid}
-            disabled={disabled}
-            htmlFor={this.getInputId()}>{header}</Header>}
-          {subHeader && <SubHeader focus={hasFocus}>{subHeader}</SubHeader>}
-        </Group>
-      </Container>
+            styles={customStyles}>
+              {options.map(option => <option value={option.value}>{option.label}</option>)}
+          </select>
+          <span className='bar' focus={hasFocus} />
+          <span className='highlight' focus={hasFocus} />
+          {header && <label className='header'
+            style={{
+              top: props.focus || props.valid || props.disabled ? '-20px' : '21px',
+              color: props.focus || props.valid || props.disabled ? '#5264AE' : '#8a8a8a',
+              fontSize: props.focus ? '14px' : '0.8em'
+            }}
+            htmlFor={this.getInputId()}>{header}</label>}
+          {subHeader && <div className='subheader'>{subHeader}</div>}
+        </div>
+      </div>
     )
   }
 }

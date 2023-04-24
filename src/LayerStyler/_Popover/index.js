@@ -1,15 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from '@mui/material/Button'
-import MaterialPopover from '@mui/material/Popover'
-import withStyles from '@mui/styles/withStyles';
-
-const Popover = withStyles(() => ({
-  paper: {
-    overflowX: 'visible',
-    overflowY: 'visible'
-  }
-}))(MaterialPopover)
 
 class PopoverBuilder extends React.Component {
   constructor () {
@@ -34,7 +24,7 @@ class PopoverBuilder extends React.Component {
 
     return (
       <React.Fragment>
-        <Button
+        <button
           disabled={disabled}
           buttonRef={node => {
             this.anchorEl = node
@@ -42,8 +32,12 @@ class PopoverBuilder extends React.Component {
           variant='contained'
           onClick={this.handleClickButton}>
           {title}
-        </Button>
-        <Popover
+        </button>
+        <div
+          style={{
+            overflowX: 'visible',
+            overflowY: 'visible'
+          }}
           open={open}
           onClose={this.handleClose}
           anchorEl={this.anchorEl}
@@ -56,7 +50,7 @@ class PopoverBuilder extends React.Component {
             horizontal: 'left'
           }}>
           {children}
-        </Popover>
+        </div>
       </React.Fragment>
     )
   }

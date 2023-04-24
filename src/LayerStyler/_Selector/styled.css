@@ -1,0 +1,106 @@
+.container {
+  padding: 26px 12px 11px 12px;
+}
+  /* background: ${props => props.background ? props.background : 'white'}; */
+
+.header {
+  line-height: 0.8em;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+
+/* top: ${props => props.focus || props.valid || props.disabled ? '-20px' : '21px'};
+color: ${props => props.focus || props.valid || props.disabled ? '#5264AE' : '#8a8a8a'};
+font-size: ${props => props.focus ? '14px' : '0.8em'}; */
+
+
+.subHeader {
+  font-size: .6em;
+  line-height: .6em;
+  margin-top: 6px;
+  color: #8a8a8a;
+}
+
+.group {
+  position: relative;
+  margin-bottom: 0px;
+  width: 100%;
+}
+  
+@keyframes mymove {
+  from { background: #5264AE; }
+  to   { width: 0; background: transparent; }
+}
+
+.highlight {
+  position: absolute;
+  height: 60%;
+  width: 100%;
+  top: 25%;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* animation: ${props => props.focus ? `${inputHighlighter} 0.3s ease` : null}; */
+
+
+.bar {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.bar::before {
+  left: 50%;
+}
+
+.bar::after {
+  right: 50%
+}
+  
+.bar::before .bar::after {
+  content: '';
+  height: 2px;
+  bottom: 1px;
+  position: absolute;
+  background: #5264AE;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+/* width: ${props => props.focus ? '50%' : '0px'}; */
+
+.textInput {
+  background: transparent;
+  font-size: 1em;
+  padding: 10px 0 10px 5px;
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #e4e4e4;
+}
+
+.textInput > div:first-of-type {
+  background-color: transparent !important;
+  font-size: inherit !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.textInput > div > * {
+  background-color: transparent !important;
+  font-size: inherit !important;
+  border: none !important;
+}
+
+.textInput > div > * > * {
+  font-size: inherit !important;
+  border: none !important;
+}

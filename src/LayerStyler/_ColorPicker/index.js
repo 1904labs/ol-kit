@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { BlockPicker } from 'react-color'
-import {
-  Container,
-  ColorPickerPositioner,
-  CurrentColor
-} from './styled'
 
 const colors = [
   '#f44336',
@@ -26,7 +21,7 @@ const colors = [
   '#607d8b',
   '#000000',
   '#ffffff'
-]
+] 
 
 class ColorPicker extends Component {
   constructor (props) {
@@ -93,16 +88,25 @@ class ColorPicker extends Component {
     const { colorPickerOpen, uid, yClick } = this.state
 
     return (
-      <Container>
-        <CurrentColor className={`current-color-${uid}`} color={currentColor} onClick={(e) => {
-          this.setState({ colorPickerOpen: !colorPickerOpen, yClick: e.clientY })
-        }} />
+      <div className='container'>
+        <div
+          className={`current-color-${uid}`}
+          color={currentColor} onClick={(e) => {
+            this.setState({ colorPickerOpen: !colorPickerOpen, yClick: e.clientY })
+          }}
+          style={{ 
+            background: props.color,
+            border:  (props.color === '#ffffff' || props.color === '#fff') ? 'border: 1px solid #ccc' : '' 
+          }}/>
         {colorPickerOpen &&
-          <ColorPickerPositioner left={left} top={yClick}>
+          <div style={{ 
+            left: props.left,
+            top: yClick + 20
+          }}>
             <BlockPicker color={currentColor} colors={colors} onChangeComplete={this.handleColorChange} />
-          </ColorPickerPositioner>
+          </div>
         }
-      </Container>
+      </div>
     )
   }
 }

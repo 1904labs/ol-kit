@@ -1,28 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
 
 import { connectToContext } from 'Provider'
 import ugh from 'ugh'
 import ColorPicker from 'LayerStyler/_ColorPicker'
-
-import {
-  TopControls,
-  AttributeContainer,
-  AttributeItem,
-  ToggleContainer,
-  SymbolizerContainer,
-  AttributeHeader,
-  Title,
-  Button,
-  ButtonText,
-  Color,
-  Outline,
-  Size,
-  Unit,
-  Switch
-} from './styled'
 
 const DIVIDER = ':'
 const UNITS = {
@@ -137,66 +118,75 @@ class LabelStyler extends Component {
 
     return (
       <div>
-        <TopControls>
-          <ToggleContainer>
+        <div className='topControls'>
+          <div className='toggleContainer'>
             <span>{translations['_ol_kit.LabelStyler.enableSmartLabels']}</span>
-            <Switch
+            <switch
               checked={uglyChecked}
               onChange={this.onToggle}
               inputProps={{ 'aria-label': 'secondary checkbox' }}
             />
-          </ToggleContainer>
-          <SymbolizerContainer>
-            <Color>
-              <Title>{translations['_ol_kit.LabelStyler.color']}</Title>
+          </div>
+          <div className='symbolizerContainer'>
+            <div className='color'>
+              <div className='title'>{translations['_ol_kit.LabelStyler.color']}</div>
               <ColorPicker handleSelect={(val) => this.aggregateChanges('color', val)} currentColor={symbolizer.color} />
-            </Color>
-            <Outline>
-              <Title>{translations['_ol_kit.LabelStyler.outline']}</Title>
+            </div>
+            <div className='outline'>
+              <div className='title'>{translations['_ol_kit.LabelStyler.outline']}</div>
               <ColorPicker handleSelect={(val) => this.aggregateChanges('haloColor', val)} currentColor={symbolizer.haloColor} />
-            </Outline>
-            <Size>
-              <Title>{translations['_ol_kit.LabelStyler.textHeight']}</Title>
-              <Select
+            </div>
+            <div className='size'>
+              <div className='title'>{translations['_ol_kit.LabelStyler.textHeight']}</div>
+              <select
                 style={{ marginTop: '10px' }}
                 value={symbolizer.size}
                 onChange={e => this.aggregateChanges('size', e.target.value)}>
                 {UNITS[sizeUnit].map(s => {
-                  return <MenuItem key={s} value={s}>{s}</MenuItem>
+                  return <option key={s} value={s}>{s}</option>
                 })}
-              </Select>
-            </Size>
-            <Unit>
-              <Title>{translations['_ol_kit.LabelStyler.textUnits']}</Title>
-              <Select
+              </select>
+            </div>
+            <div className='unit'>
+              <div className='title'>{translations['_ol_kit.LabelStyler.textUnits']}</div>
+              <select
                 style={{ marginTop: '10px' }}
                 value={sizeUnit}
                 onChange={e => this.updateTextSizeUnit(e.target.value)}>
-                <MenuItem key='px' value={'px'}>{translations['_ol_kit.LabelStyler.pixels']}</MenuItem>
-                <MenuItem key='ft' value={'ft'}>{translations['_ol_kit.LabelStyler.feet']}</MenuItem>
-              </Select>
-            </Unit>
-          </SymbolizerContainer>
-        </TopControls>
-        <AttributeHeader>
+                <option key='px' value={'px'}>{translations['_ol_kit.LabelStyler.pixels']}</option>
+                <option key='ft' value={'ft'}>{translations['_ol_kit.LabelStyler.feet']}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className='attributeHeader'>
           <div>{translations['_ol_kit.LabelStyler.chooseAttrs']}</div>
           {checkedAttributes.length && (
-            <Button onClick={this.clearCheckedItems}>
-              <ButtonText>{translations['_ol_kit.LabelStyler.clear']}</ButtonText>
-            </Button>
+            <button className='button' onClick={this.clearCheckedItems}>
+              <span className='buttonText'>{translations['_ol_kit.LabelStyler.clear']}</span>
+            </button>
           )}
-        </AttributeHeader>
-        <AttributeContainer data-testid='ManageLayer.attributeContainer'>
+        </div>
+        <div className='attributeContainer' data-testid='ManageLayer.attributeContainer'>
           {attributes.map(a => {
             const checked = checkedAttributes.includes(`{{${a}}}`)
 
             return (
-              <AttributeItem key={a} checked={checked} onClick={() => this.onAttributeChange(a, checked)}>
+              <div
+                className='attributeItem'
+                style={{ 
+                  color: props.checked ? '#fff' : '#000',
+                  background: props.checked ? '#979797' : '#f5f5f5',
+                  '&hover': {
+                    background: props.checked ? '#979797' : '#f5f5f5'
+                  }
+                }}
+                key={a} checked={checked} onClick={() => this.onAttributeChange(a, checked)}>
                 {a}
-              </AttributeItem>
+              </div>
             )
           })}
-        </AttributeContainer>
+        </div>
       </div>
     )
   }

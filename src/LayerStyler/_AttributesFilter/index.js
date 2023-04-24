@@ -2,14 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { nanoid } from 'nanoid'
 
-import CloseIcon from '@mui/icons-material/Close'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-
 import { connectToContext } from 'Provider'
 import Popover from 'LayerStyler/_Popover'
 import Selector from 'LayerStyler/_Selector'
-import { ContentContainer, InputContainer, Row, TextContainer, Title } from './styled'
 
 const defaultFilter = {
   logical: 'AND', // determines how to join the filter to other filters
@@ -65,53 +60,53 @@ class AttributesFilter extends React.Component {
       if (i > 1) return filters[0].logical
 
       return (
-        <Select
+        <select
           value={filters[0].logical}
           onChange={e => this.updateLogicalOperator(e.target.value)}>
-          <MenuItem key='AND' value='AND'>{translations['_ol_kit.AttributesFilter.AND']}</MenuItem>
-          <MenuItem key='OR'value='OR'>{translations['_ol_kit.AttributesFilter.OR']}</MenuItem>
-        </Select>
+          <option key='AND' value='AND'>{translations['_ol_kit.AttributesFilter.AND']}</option>
+          <option key='OR'value='OR'>{translations['_ol_kit.AttributesFilter.OR']}</option>
+        </select>
       )
     }
 
     return (
       <Popover title={translations['_ol_kit.AttributesFilter.filters'] + (filters.length ? ` (${filters.length})` : '')} disabled={disabled}>
-        <ContentContainer>
-          <Title>{translations['_ol_kit.AttributesFilter.filters']}</Title>
+        <div className='contentContainer'>
+          <h4 className='title'>{translations['_ol_kit.AttributesFilter.filters']}</h4>
           {filters.map((filter, i) => {
             return (
-              <Row key={nanoid(6)}>
-                <CloseIcon onClick={this.removeFilter.bind(this, i)} />
-                <TextContainer>
+              <div className='row' key={nanoid(6)}>
+                <div onClick={this.removeFilter.bind(this, i)}>x</div>
+                <div className='textContainer'>
                   {getLogicOperator(i, filters)}
-                </TextContainer>
-                <InputContainer>
+                </div>
+                <div className='inputContainer'>
                   <Selector
                     options={attributes}
                     header={`${translations['_ol_kit.AttributesFilter.attribute']} ${i + 1}`}
                     onValueChange={value => this.handleSelect(value, 'attribute', i)}
                     selected={filter.attribute} />
-                </InputContainer>
-                <InputContainer>
+                </div>
+                <div className='inputContainer'>
                   <Selector
                     options={filterConditions}
                     header={`${translations['_ol_kit.AttributesFilter.condition']} ${i + 1}`}
                     onValueChange={value => this.handleSelect(value, 'condition', i)}
                     selected={filter.condition} />
-                </InputContainer>
-                <InputContainer>
+                </div>
+                <div className='inputContainer'>
                   <Selector
                     options={attributeValues.map(v => `${v}`) /* string interpolation here ensures booleans display properly */}
                     header={`${translations['_ol_kit.AttributesFilter.value']} ${i + 1}`}
                     onValueChange={value => this.handleSelect(value, 'value', i)}
                     selected={filter.value}
                     disabled={!filter.attribute} />
-                </InputContainer>
-              </Row>
+                </div>
+              </div>
             )
           })}
-          <Row><span onClick={this.addFilter}>+ {translations['_ol_kit.AttributesFilter.addFilter']}</span></Row>
-        </ContentContainer>
+          <div className='row'><span onClick={this.addFilter}>+ {translations['_ol_kit.AttributesFilter.addFilter']}</span></div>
+        </div>
       </Popover>
     )
   }

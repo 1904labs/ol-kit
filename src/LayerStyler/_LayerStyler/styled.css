@@ -1,42 +1,39 @@
-import styled from 'styled-components'
-
-
-export const ButtonContainer = styled.div`
+.buttonContainer {
   padding: 2px 16px;
   margin-top: 10px;
   display: flex;
-`
+}
 
-export const Button = styled.div`
+.button {
   user-select: none;
   display: inline-block;
   color: #152357;
   cursor: pointer;
   font-size: 12px;
-`
+}
 
-export const StyleGroupHeading = styled.span`
+.styleGroupHeading {
   display: flex;
   flex-wrap: nowrap;
   font-weight: 500;
   color: #6f6f6f;
   line-height: 32px;
   align-items: center;
-`
+}
 
-export const AddNew = styled.div`
+.addNew {
   display: flex;
   margin: 0 10px;
   color: #152357;
   cursor: pointer;
   transition: all 0.15s ease-in-out;
+}
 
-  &:hover {
-    color: #054d94;
-  }
-`
+.addNew:hover {
+  color: #054d94;
+}
 
-export const ResetText = styled.div`
+.resetText {
   display: inline;
   font-weight: 400;
   font-size: 12px;
@@ -44,49 +41,49 @@ export const ResetText = styled.div`
   color: #152357;
   cursor: pointer;
   transition: all 0.15s ease-in-out;
+}
+  
+.resetText:hover {
+  color: #054d94;
+}
 
-  &:hover {
-    color: #054d94;
-  }
-`
-
-export const LeftSide = styled.div`
+.leftSide {
   flex: 2;
   display: flex;
-`
+}
 
-export const CollapseText = styled.div`
+.collapseText {
   display: flex;
   flex: 1;
   justify-content: flex-end;
   text-align: right;
   line-height: 32px;
-`
+}
 
-export const Fourth = styled.div`
+.fourth {
   display: inline-block;
   width: 25%;
   vertical-align: top;
-`
+}
 
-export const Text = styled.div`
+.text {
   color: #939393;
   margin: auto;
   margin-top: 40px;
   text-align: center;
   font-size: 16px;
-`
+}
 
-export const NewStyleGroupContainer = styled.div`
+.newStyleGroupContainer {
   display: flex;
   margin: 5px;
-`
+}
 
-export const NewStyleGroupIcon = styled.i`
+.newStyleGroupIcon {
   padding: 0 10px 0 0;
-`
+}
 
-export const NewStyleGroupButton = styled.div`
+.newStyleGroupButton {
   flex: 1;
   margin: 0 5px;
   background: #f0f0f0;
@@ -99,8 +96,9 @@ export const NewStyleGroupButton = styled.div`
   color: #505050;
   cursor: pointer;
   transition: all 0.15s ease-in-out;
+}
 
-  &:hover {
-    background: #d8d8d8;
-  }
-`
+.newStyleGroupButton {
+  background: #d8d8d8;
+}
+

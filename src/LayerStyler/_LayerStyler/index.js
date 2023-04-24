@@ -4,16 +4,6 @@ import PropTypes from 'prop-types'
 import { connectToContext } from 'Provider'
 import SelectTabs from 'LayerStyler/_SelectTabs'
 import StyleGroup from './_StyleGroup'
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import {
-  Button,
-  ButtonContainer,
-  LeftSide,
-  AddNew,
-  ResetText,
-  CollapseText,
-  StyleGroupHeading
-} from './styled'
 
 const DEFAULT_STYLE = {
   name: 'New Auto Style',
@@ -99,24 +89,25 @@ class LayerStyler extends Component {
 
     return (
       <div>
-        <ButtonContainer>
-          <LeftSide>
-            <StyleGroupHeading id={heading}>
+        <div className='buttonContainer'>
+          <div className='leftSide'>
+            <span className='styleGroupHeading' id={heading}>
               {heading}
               {showNewButtons &&
-                <AddNew
+                <div
+                  className='addNew'
                   data-testid={'LayerStyler.addStyle'}
                   onClick={this.createStyleGroup}>
-                  <AddCircleIcon />
-                </AddNew>
+                  AddCircleIcon
+                </div>
               }
-              {onDefaultStyleReset && <ResetText onClick={onDefaultStyleReset}>{translations['_ol_kit.LayerStyler.reset']}</ResetText>}
-            </StyleGroupHeading>
-          </LeftSide>
-          <CollapseText>
-            {styles.length > 0 && <Button onClick={this.collapse}>{collapsed ? translations['_ol_kit.LayerStyler.show'] : translations['_ol_kit.LayerStyler.hide']}</Button>}
-          </CollapseText>
-        </ButtonContainer>
+              {onDefaultStyleReset && <div className='resetText' onClick={onDefaultStyleReset}>{translations['_ol_kit.LayerStyler.reset']}</div>}
+            </span>
+          </div>
+          <div className='collapseText'>
+            {styles.length > 0 && <div className='button' onClick={this.collapse}>{collapsed ? translations['_ol_kit.LayerStyler.show'] : translations['_ol_kit.LayerStyler.hide']}</div>}
+          </div>
+        </div>
         {!showTabs && !collapsed
           ? (
             styles.map((styleGroup, i) => {

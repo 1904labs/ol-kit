@@ -1,0 +1,39 @@
+.closeIcon {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.contentContainer {
+  padding: 20px;
+  min-width: 420px;
+  min-height: 80px;
+}
+
+.inputContainer {
+  display: inline-block;
+  width: 180px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0px;
+  width: 100%;
+}
+
+.row span {
+  color: #1b75d3;
+  cursor: pointer;
+}
+
+.textContainer {
+  display: inline-block;
+  text-align: center;
+  padding: 4px;
+  width: 60px;
+}
+
+.title {
+  color: #939393;
+  font-size: 1em;
+}

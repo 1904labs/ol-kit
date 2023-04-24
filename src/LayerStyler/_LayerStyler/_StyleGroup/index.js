@@ -1,26 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
-import InputLabel from '@mui/material/InputLabel'
 
 import ugh from 'ugh'
 import { connectToContext } from 'Provider'
 import Selector from 'LayerStyler/_Selector'
 import GenericSymbolizer from './_GenericSymbolizer'
 import escapeRegExp from 'lodash.escaperegexp'
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-
-import {
-  AddNew,
-  Card,
-  AttributeContainer,
-  StyleContainer,
-  Half,
-  DeleteGroup,
-  DeleteGroupText
-} from './styled'
 
 class StyleGroup extends Component {
   componentDidMount () {
@@ -172,30 +157,30 @@ class StyleGroup extends Component {
     }
 
     return (
-      <Card>
+      <div className='card'>
         {styles.length &&
-          <AttributeContainer>
+          <div className='attributesContainer'>
             {hasFilter &&
-              <Half>
-                <FormControl style={{ width: '100%', margin: '15px' }}>
-                  <InputLabel htmlFor='attribute-selector'>{translations['_ol_kit.StyleGroup.chooseAttribute']}</InputLabel>
-                  <Select
+              <div className='half'>
+                <form style={{ width: '100%', margin: '15px' }}>
+                  <label htmlFor='attribute-selector'>{translations['_ol_kit.StyleGroup.chooseAttribute']}</label>
+                  <select
                     inputProps={{ 'data-testid': 'StyleGroup.attributeSelector' }}
                     value={getAttributeValue(styles[0].filter)}
                     onChange={this.debounceAttributeChange}>
                     {attributes.map((a, i) => {
-                      return <MenuItem key={i} value={a}>{a}</MenuItem>
+                      return <option key={i} value={a}>{a}</option>
                     })}
-                  </Select>
-                </FormControl>
-              </Half>
+                  </select>
+                </form>
+              </div>
             }
-            <Half>
-              <DeleteGroup>
-                <DeleteGroupText onClick={this.onDeleteStyleGroup}>{translations['_ol_kit.StyleGroup.delete']}</DeleteGroupText>
-              </DeleteGroup>
-            </Half>
-          </AttributeContainer>
+            <div className='half'>
+              <div className='deleteGroup'>
+                <span className='deleteGroupText' onClick={this.onDeleteStyleGroup}>{translations['_ol_kit.StyleGroup.delete']}</span>
+              </div>
+            </div>
+          </div>
         }
         <div>
           {styles.map((s, i) => {
@@ -204,9 +189,9 @@ class StyleGroup extends Component {
               ? null
               : (
                 <Fragment key={i}>
-                  <StyleContainer key={`${getAttributeValue(s.filter)}-${i}`}>
+                  <div className='stylesContainer' key={`${getAttributeValue(s.filter)}-${i}`}>
                     {hasFilter &&
-                      <Half>
+                      <div className='half'>
                         <Selector
                           data-testid={'StyleGroup.attributeValueSelector'}
                           style={{ flex: 1 }}
@@ -215,25 +200,25 @@ class StyleGroup extends Component {
                           selected={getSelectedValue(s.filter)}
                           options={attributeValues.map(v => `${v}`) /* string interpolation here ensures booleans display properly */}
                           onValueChange={(e) => this.debounceValueChange(i, e)} />
-                      </Half>
+                      </div>
                     }
-                  </StyleContainer>
-                  <StyleContainer key={i}>
+                  </div>
+                  <div className='styleContainer' key={i}>
                     <GenericSymbolizer
                       symbolizers={s.symbolizers}
                       translations={translations}
                       onSymbolizerChange={(s) => this.onSymbolizerChange(s, i)}
                       onSymbolizerDelete={(s) => this.onSymbolizerDelete(i)} />
-                  </StyleContainer>
+                  </div>
                 </Fragment>
               )
           })}
-          <AddNew onClick={this.onNewStyleValue}>
-            <AddCircleIcon style={{ paddingRight: '5px' }} />
+          <div className='addNew' onClick={this.onNewStyleValue}>
+            <div style={{ paddingRight: '5px' }} >addCircleIcon</div>
             {translations['_ol_kit.StyleGroup.addValue']}
-          </AddNew>
+          </div>
         </div>
-      </Card>
+      </div>
     )
   }
 }

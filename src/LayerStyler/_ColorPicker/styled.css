@@ -1,0 +1,18 @@
+.container {
+  position: relative;
+}
+
+.colorPickerPositioner {
+  position: fixed;
+  box-shadow: rgba(0,0,0,0.2) 0px 2px 4px, rgba(0,0,0,0.02) 0px -1px 0px;
+  z-index: 1;
+}
+
+.currentColor {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin: 5px auto;
+  margin-top: 20px;
+  border-radius: 3px;
+}

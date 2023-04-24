@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import HeatmapLayer from 'ol/layer/Heatmap'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
-import InputLabel from '@mui/material/InputLabel'
 import cloneDeep from 'lodash.clonedeep'
 
 import { connectToContext } from 'Provider'
@@ -12,7 +8,6 @@ import { HeatmapControls } from 'Heatmap'
 import LabelStyler from 'LayerStyler/_LabelStyler'
 import LayerStyler from 'LayerStyler/_LayerStyler'
 import SelectTabs from 'LayerStyler/_SelectTabs'
-import { HeaderContainer, NoLayerText, InputContainer } from './styled'
 
 const DEFAULT_LABEL_STYLE = {
   name: 'New Label Style',
@@ -172,11 +167,11 @@ class StyleManager extends Component {
     return (
       <div data-testid='StyleManager'>
         {layers.length !== 0 ? (
-          <HeaderContainer>
-            <InputContainer>
-              <FormControl style={{ width: '300px', margin: '20px' }}>
-                <InputLabel htmlFor='layer-selector'>{translations['_ol_kit.StyleManager.chooseLayer']}</InputLabel>
-                <Select
+          <div className='headerContainer'>
+            <div className='inputContainer'>
+              <form style={{ width: '300px', margin: '20px' }}>
+                <label htmlFor='layer-selector'>{translations['_ol_kit.StyleManager.chooseLayer']}</label>
+                <select
                   value={layerTitles[activeIdx] || ''}
                   onChange={this.handleLayerChange}
                   type='text'
@@ -185,14 +180,14 @@ class StyleManager extends Component {
                     'data-testid': 'StyleManager.chooseLayer'
                   }}>
                   {layerTitles.map(t => {
-                    return <MenuItem key={t} value={t}>{t}</MenuItem>
+                    return <option key={t} value={t}>{t}</option>
                   })}
-                </Select>
-              </FormControl>
-            </InputContainer>
-          </HeaderContainer>
+                </select>
+              </form>
+            </div>
+          </div>
         ) : (
-          <NoLayerText>{translations['_ol_kit.StyleManager.noLayerText']}</NoLayerText>
+          <div className='noLayerText'>{translations['_ol_kit.StyleManager.noLayerText']}</div>
         )}
         {layerSelected && (
           layers[activeIdx] instanceof HeatmapLayer ? (
