@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-
 import PropTypes from 'prop-types'
-
-import { Menu } from './styled'
 
 /**
  * @component
@@ -26,9 +23,9 @@ class LayerPanelMenu extends Component {
     )
 
     return (
-      <Menu data-testid='LayerPanel.menu' anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
+      <div data-testid='LayerPanel.menu' anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
         {menuItemsWithProps}
-      </Menu>
+      </div>
     )
   }
 }

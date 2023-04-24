@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ExpandLess from '@mui/icons-material/ExpandMore'
-import ExpandMore from '@mui/icons-material/ChevronRight'
 
 class LayerPanelExpandableList extends Component {
   render () {
@@ -9,9 +7,9 @@ class LayerPanelExpandableList extends Component {
 
     if (show) {
       if (open) {
-        return <ExpandLess data-testid='LayerPanel.collapseLayer' onClick={handleClick} />
+        return <button data-testid='LayerPanel.collapseLayer' onClick={handleClick}>expandless</button>
       } else {
-        return <ExpandMore data-testid='LayerPanel.expandLayer' onClick={handleClick} />
+        return <button data-testid='LayerPanel.expandLayer' onClick={handleClick}>expandmore</button>
       }
     } else {
       return null

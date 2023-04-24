@@ -1,0 +1,32 @@
+.root {
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  width: 400;
+}
+
+.input {
+  margin-left: 15;
+  flex: 1;
+}
+
+.iconButton {
+  padding: 10
+}
+
+.divider {
+  height: 30;
+  margin: 4;
+}
+
+.searchBarContainer {
+  width: 90%;
+  max-width: 500px;
+  position: absolute;
+  left: 100px;
+  top: 50px;
+}
+
+input:focus textarea:focus {
+  outline: none;
+}

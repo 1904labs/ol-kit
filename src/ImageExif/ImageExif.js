@@ -7,7 +7,6 @@ import GeoJSON from 'ol/format/GeoJSON'
 import { Icon, Stroke, Style } from 'ol/style'
 import PropTypes from 'prop-types'
 import en from 'locales/en'
-import { Container, InnerContainer, InputContainer, Title } from './styled'
 import { useDropzone } from 'react-dropzone'
 import ExifReader from 'exifreader'
 import VectorSource from 'ol/source/Vector'
@@ -177,10 +176,10 @@ function ImageExif (props) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ accept: 'image/*', onDrop })
 
   return (
-    <Container>
-      <Title>{translations['_ol_kit.ImageExif.title']}</Title>
-      <InnerContainer>
-        <InputContainer>
+    <div className='container'>
+      <span className='title'>{translations['_ol_kit.ImageExif.title']}</span>
+      <div className='innerContainer'>
+        <div className='inputContainer'>
           <div {...getRootProps()}>
             <input {...getInputProps()} />
             {
@@ -189,9 +188,9 @@ function ImageExif (props) {
                 : <p>{translations['_ol_kit.ImageExif.dragInactive']}</p>
             }
           </div>
-        </InputContainer>
-      </InnerContainer>
-    </Container>
+        </div>
+      </div>
+    </div>
   )
 }
 

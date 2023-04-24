@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { OpacityWrapper, OpacityTitle, Slider } from './styled'
 import { connectToContext } from 'Provider'
 
 /**
@@ -13,9 +12,10 @@ class LayerPanelActionOpacity extends Component {
     const { layer, translations } = this.props
 
     return (
-      <OpacityWrapper>
-        <OpacityTitle id='opacity-slider'>{translations['_ol_kit.actions.opacity']}</OpacityTitle>
-        <Slider
+      <div className='opacitySlider'>
+        <div className='opacityTitle' id='opacity-slider'>{translations['_ol_kit.actions.opacity']}</div>
+        <input
+          type='slider'
           data-testid='LayerPanelAction.opacity'
           disabled={false}
           min={0.1}
@@ -25,7 +25,7 @@ class LayerPanelActionOpacity extends Component {
           onChangeCommitted={() => this.forceUpdate()}
           aria-labelledby='opacity-slider'
           onChange={(e, v) => layer.setOpacity(v) } />
-      </OpacityWrapper>
+      </div>
     )
   }
 }

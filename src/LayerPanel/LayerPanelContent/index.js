@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { CardContent } from './styled'
 import PropTypes from 'prop-types'
 
 /**
@@ -12,9 +11,11 @@ class LayerPanelContent extends Component {
     const { children } = this.props
 
     return (
-      <CardContent {...this.props}>
+      <div className='cardContent' style={{
+        padding: props.padding ? props.padding : '10px 15px',
+      }}>
         {children}
-      </CardContent>
+      </div>
     )
   }
 }

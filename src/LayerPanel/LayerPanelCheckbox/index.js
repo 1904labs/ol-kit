@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Checkbox } from './styled'
-
-import Icon from '@mdi/react'
-import { mdiCheckboxBlank } from '@mdi/js'
 
 /**
  * @component
@@ -17,14 +13,14 @@ class LayerPanelCheckbox extends Component {
 
     if (checkboxState === 'indeterminate') {
       return (
-        <Checkbox inputProps={{
+        <input type='checkbox' inputProps={{
           'data-testid': 'LayerPanel.indeterminateCheckbox'
-        }} indeterminateIcon={<Icon path={mdiCheckboxBlank} size={1} color={color} />}
+        }} indeterminateIcon={'checkboxblank'}
         onClick={(e) => handleClick(e, true)} checked={!!checkboxState} indeterminate />
       )
     } else {
       return (
-        <Checkbox inputProps={{
+        <input type='checkbox' inputProps={{
           'data-testid': checkboxDataTestId
         }} onClick={(e) => handleClick(e, !checkboxState)} checked={checkboxState} />
       )

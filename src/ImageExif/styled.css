@@ -1,0 +1,28 @@
+.container {
+  padding: 15px;
+}
+
+.innerContainer {
+  margin-top: 10px;
+}
+
+.inputContainer {
+  display: flex;
+  flex: 1;
+  margin-bottom: 2px;
+}
+
+.label {
+  display: inline-flex;
+  flex: 1;
+}
+
+.slider {
+  margin-left: 10px;
+  display: inline-flex;
+  flex: 2;
+}
+
+.title {
+  color: #6f6f6f;  
+}

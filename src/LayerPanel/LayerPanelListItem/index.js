@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { ListItem } from './styled'
 import PropTypes from 'prop-types'
+import 'styled.css'
 
 /**
  * @component
@@ -12,9 +12,9 @@ class LayerPanelListItem extends Component {
     const { title, item, children, handleDoubleClick } = this.props
 
     return (
-      <ListItem key={title} onDoubleClick={() => { handleDoubleClick(item) }}>
+      <div className='listItem' key={title} onDoubleClick={() => { handleDoubleClick(item) }}>
         {children}
-      </ListItem>
+      </div>
     )
   }
 }

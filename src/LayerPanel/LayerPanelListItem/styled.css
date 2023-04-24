@@ -1,0 +1,12 @@
+.listItem {
+  padding: 0px !important; // without this, the root styles can override this and shift everything
+}
+
+.listItem:hover {
+  cursor: 'pointer'
+}
+
+.listItemText {
+  padding: 10px 30px 10px 5px;
+  overflow-wrap: break-word;
+}

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import olLayerVector from 'ol/layer/Vector'
 import { connectToContext } from 'Provider'
 import { exportFeatures } from './utils'
-import { MenuItem } from '../LayerPanelMenu/styled'
 
 /**
  * @component
@@ -47,30 +46,30 @@ class LayerPanelActionExport extends Component {
     const { translations } = this.props
 
     return (
-      [<MenuItem
+      [<div
         key='exportKml'
         data-testid='LayerPanel.exportKML'
         disableGutters={false}
         disabled={this.isExportable()}
         onClick={() => this.handleExport('kml')} >
         {translations['_ol_kit.LayerPanelActions.kml']}
-      </MenuItem>,
-      <MenuItem
+      </div>,
+      <div
         key='exportShp'
         data-testid='LayerPanel.exportShapefile'
         disableGutters={false}
         disabled={this.isExportable()}
         onClick={() => this.handleExport('shp')} >
         {translations['_ol_kit.LayerPanelActions.shapefile']}
-      </MenuItem>,
-      <MenuItem
+      </div>,
+      <div
         key='exportGeoJSON'
         data-testid='LayerPanel.exportGeoJSON'
         disableGutters={false}
         disabled={this.isExportable()}
         onClick={() => this.handleExport('geojson')} >
         {translations['_ol_kit.LayerPanelActions.geojson']}
-      </MenuItem>]
+      </div>]
     )
   }
 }

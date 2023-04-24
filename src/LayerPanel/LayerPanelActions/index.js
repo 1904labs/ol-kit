@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { ActionsContainer } from './styled'
 import LayerPanelMenu from 'LayerPanel/LayerPanelMenu'
 
 import PropTypes from 'prop-types'
+
+import 'styled.css'
 
 /**
  * @component
@@ -30,7 +31,7 @@ class LayerPanelActions extends Component {
     const { anchorEl } = this.state
 
     return (
-      <ActionsContainer>
+      <div className='actionsContainer'>
         <button
           data-testid='LayerPanel.actionsButton'
           aria-label='more'
@@ -47,7 +48,7 @@ class LayerPanelActions extends Component {
           handleMenuClose={this.handleMenuClose}>
           {React.Children.map(children, child => child)}
         </LayerPanelMenu>
-      </ActionsContainer>
+      </div>
     );
   }
 }

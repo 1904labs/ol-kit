@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { CardHeader } from './styled'
 import PropTypes from 'prop-types'
+import 'styled.css'
 
 /**
  * @component
@@ -16,7 +16,7 @@ class LayerPanelHeader extends Component {
     } = this.props
 
     return (
-      <CardHeader title={title} avatar={avatar} action={actions} />
+      <div className='cardHeader' title={title} avatar={avatar} action={actions} />
     )
   }
 }

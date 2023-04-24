@@ -8,7 +8,6 @@ import olFormatPolyline from 'ol/format/Polyline'
 import { toLonLat } from 'ol/proj'
 import olGeomLineString from 'ol/geom/LineString'
 import { startPin, endPin, waypointPin, routeStyle } from './utils'
-import { Container } from './styled'
 
 const getDirections = async (locations, apiKey) => {
   const waypoints = locations
@@ -108,7 +107,7 @@ function GoogleDirections (props) {
   }
 
   return (
-    <Container>
+    <div className='container'>
       <p>
         {!coords.length ? translations['_ol_kit.directions.placeOriginPoint'] : translations['_ol_kit.directions.placeWaypoint']}
       </p>
@@ -120,7 +119,7 @@ function GoogleDirections (props) {
       >
         <DrawPin type={'LineString'} tooltipTitle={translations['_ol_kit.directions.waypointLabel']} />
       </Draw>
-    </Container>
+    </div>
   )
 }
 

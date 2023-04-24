@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import en from 'locales/en'
-import { Container, InnerContainer, InputContainer, Label, Slider, Title } from './styled'
 
 /**
  * UI to choose parameters for HeatmapLayer types (rendered in LayerStyler)
@@ -23,19 +22,19 @@ function HeatmapControls (props) {
   }
 
   return (
-    <Container>
-      <Title>{translations['_ol_kit.HeatmapControls.title']}</Title>
-      <InnerContainer>
-        <InputContainer>
-          <Label htmlFor='radius'>{translations['_ol_kit.HeatmapControls.radius']}</Label>
-          <Slider id='radius' type='range' min='1' max='50' step='1' value={radius} onChange={(e) => handleRadius(e.target.value)}/>
-        </InputContainer>
-        <InputContainer>
-          <Label htmlFor='blur'>{translations['_ol_kit.HeatmapControls.blur']}</Label>
-          <Slider id='blur' type='range' min='1' max='50' step='1' value={blur} onChange={(e) => handleBlur(e.target.value)}/>
-        </InputContainer>
-      </InnerContainer>
-    </Container>
+    <div className='container'>
+      <span className='title'>{translations['_ol_kit.HeatmapControls.title']}</span>
+      <div className='innerContainer'>
+        <div className='inputContainer'>
+          <label className='label' htmlFor='radius'>{translations['_ol_kit.HeatmapControls.radius']}</label>
+          <input className='slider' id='radius' type='range' min='1' max='50' step='1' value={radius} onChange={(e) => handleRadius(e.target.value)}/>
+        </div>
+        <div className='inputContainer'>
+          <label className='label' htmlFor='blur'>{translations['_ol_kit.HeatmapControls.blur']}</label>
+          <input className='slider' id='blur' type='range' min='1' max='50' step='1' value={blur} onChange={(e) => handleBlur(e.target.value)}/>
+        </div>
+      </div>
+    </div>
   )
 }
 

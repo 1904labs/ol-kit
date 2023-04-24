@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connectToContext } from 'Provider'
-import { MenuItem } from '../LayerPanelMenu/styled'
 
 /**
  * @component
@@ -38,9 +37,9 @@ class LayerPanelActionExtent extends Component {
     const { layer, translations } = this.props
 
     return (
-      <MenuItem data-testid='LayerPanelAction.extent' key={'zoom'} onClick={() => this.gotoLayerExtent(layer)}>
+      <div data-testid='LayerPanelAction.extent' key={'zoom'} onClick={() => this.gotoLayerExtent(layer)}>
         {translations['_ol_kit.actions.zoomToExtent']}
-      </MenuItem>
+      </div>
     )
   }
 }

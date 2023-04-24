@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { MenuItem } from '../LayerPanelMenu/styled'
-import { UploadInput } from './styled'
 import { connectToContext } from 'Provider'
 
 /**
@@ -38,7 +36,7 @@ class LayerPanelActionImport extends Component {
     const { fileTypes, translations } = this.props
 
     return (
-      <MenuItem disableGutters={false}>
+      <div disableGutters={false}>
         <label htmlFor='file-upload'>
           {translations['_ol_kit.LayerPanelActions.import']}
         </label>
@@ -51,7 +49,7 @@ class LayerPanelActionImport extends Component {
           onChange={(e) => this.onFileChange('file-upload')}
           className='uploadInput'
         />
-      </MenuItem>
+      </div>
     )
   }
 }

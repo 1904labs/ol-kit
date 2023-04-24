@@ -4,7 +4,6 @@ import olLayerVector from 'ol/layer/Vector'
 import { connectToContext } from 'Provider'
 import en from 'locales/en'
 import { addHeatmapLayer } from './utils'
-import { MenuItem } from '../LayerPanelMenu/styled'
 
 /**
  * @component
@@ -37,14 +36,14 @@ class LayerPanelActionHeatmap extends Component {
     const { layer, translations } = this.props
 
     return (
-      <MenuItem
+      <div
         key='heatmap'
         data-testid='LayerPanel.heatmap'
         disableGutters={false}
         disabled={!this.isValidVectorLayer(layer)}
         onClick={this.handleCreateHeatmap} >
         {translations['_ol_kit.LayerPanelActions.heatmap']}
-      </MenuItem>
+      </div>
     )
   }
 }

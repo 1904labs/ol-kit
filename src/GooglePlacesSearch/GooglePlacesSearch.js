@@ -1,9 +1,5 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import makeStyles from '@mui/styles/makeStyles';
-import Paper from '@mui/material/Paper'
-import IconButton from '@mui/material/IconButton'
-import SearchIcon from '@mui/icons-material/Search'
 import { centerAndZoom } from 'Map'
 import { connectToContext } from 'Provider'
 import VectorLayer from '../classes/VectorLayer'
@@ -17,36 +13,6 @@ import olCircleStyle from 'ol/style/Circle'
 import olPoint from 'ol/geom/Point'
 import { useForm } from 'react-hook-form'
 import { fromLonLat } from 'ol/proj'
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: '2px 4px',
-    display: 'flex',
-    alignItems: 'center',
-    width: 400
-  },
-  input: {
-    marginLeft: theme.spacing(1),
-    flex: 1
-  },
-  iconButton: {
-    padding: 10
-  },
-  divider: {
-    height: 30,
-    margin: 4
-  },
-  'search-bar-container': {
-    width: '90%',
-    'max-width': '500px',
-    position: 'absolute',
-    left: '100px',
-    top: '50px'
-  },
-  'input:focus textarea:focus': {
-    outline: 'none'
-  }
-}))
 
 /** A search input to look up and label locations via Google Places API
  * @component
@@ -115,24 +81,24 @@ function GooglePlacesSearch (props) {
   // }
 
   return (
-    <div className='search-bar-container'>
+    <div className='searchBarContainer'>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Paper className={classes.root} >
+        <div className='root' >
           <input
-            className={classes.input}
+            className='input'
             type='text'
             name='searchPlace'
             placeholder='Search Google Maps'
             ref={register}
           />
-          <IconButton
+          <button
             type='submit'
-            className={classes.iconButton}
+            className='iconButton'
             aria-label='search'
             size="large">
-            <SearchIcon />
-          </IconButton>
-        </Paper>
+            SearchIcon
+          </button>
+        </div>
       </form>
     </div>
   );

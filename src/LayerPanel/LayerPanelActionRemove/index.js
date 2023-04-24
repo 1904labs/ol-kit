@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { MenuItem } from '../LayerPanelMenu/styled'
 import olLayerVector from 'ol/layer/Vector'
 
 /**
@@ -46,9 +45,9 @@ class LayerPanelActionRemove extends Component {
     const removeLayers = translations['_ol_kit.actions.removeLayers']
 
     return (
-      <MenuItem data-testid='LayerPanelAction.remove' disableGutters={false} disabled={layers && noVisibleLayers} onClick={this.handleRemove}>
+      <div data-testid='LayerPanelAction.remove' disableGutters={false} disabled={layers && noVisibleLayers} onClick={this.handleRemove}>
         {layer ? removeLayer : removeLayers}
-      </MenuItem>
+      </div>
     )
   }
 }

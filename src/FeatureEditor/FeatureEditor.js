@@ -6,50 +6,12 @@ import { getVectorContext } from 'ol/render'
 import { Toolbar } from 'Toolbar'
 import { Knob } from 'react-rotary-knob'
 import { connectToContext } from 'Provider'
-import { Card, Grid, CardActions, Button, FormControlLabel } from '@mui/material'
-import withStyles from '@mui/styles/withStyles';
 import centroid from '@turf/centroid'
 import { olKitTurf } from './utils'
 
 import olInteractionModify from 'ol/interaction/Modify'
 import olCollection from 'ol/Collection'
 import olStyleStyle from 'ol/style/Style'
-
-const ButtonCardActions = withStyles(() => ({
-  root: {
-    padding: '4px 4px 3px 4px'
-  }
-}))(CardActions)
-
-const LeftCard = withStyles(() => ({
-  root: {
-    borderTopLeftRadius: '4px',
-    borderBottomLeftRadius: '4px',
-    borderBottomRightRadius: '0px',
-    borderTopRightRadius: '0px',
-    height: '38px'
-  }
-}))(Card)
-
-const CenterCard = withStyles(() => ({
-  root: {
-    borderRadius: '0px',
-    paddingLeft: '20px',
-    marginLeft: '0px',
-    height: '38px'
-  }
-}))(Card)
-
-const RightCard = withStyles(() => ({
-  root: {
-    borderTopRightRadius: '4px',
-    borderBottomRightRadius: '4px',
-    borderTopLeftRadius: '0px',
-    borderBottomLeftRadius: '0px',
-    marginLeft: '0px !important',
-    height: '38px'
-  }
-}))(Card)
 
 /**
  * A component to edit geometries
@@ -249,29 +211,27 @@ class FeatureEditor extends Component {
 
     return (
       <Toolbar>
-        <Grid item>
-          <ButtonCardActions>
-            <LeftCard>
-              <Button color='secondary' onClick={this.cancelEdit}>
-                {translations['_ol_kit.edit.cancel']}
-              </Button>
-            </LeftCard>
-            <CenterCard style={{ paddingLeft: '20px', marginLeft: '0px' }}>
-              <FormControlLabel
-                style={{ marginBottom: '0px' }}
-                control={
-                  <Knob style={knobStyle} unlockDistance={0} defaultValue={0} max={360} onChange={this.rotate} />
-                }
-                label={translations['_ol_kit.edit.rotate']}
-              />
-            </CenterCard>
-            <RightCard>
-              <Button color='primary' onClick={this.finishEdit}>
-                {translations['_ol_kit.edit.finish']}
-              </Button>
-            </RightCard>
-          </ButtonCardActions>
-        </Grid>
+        <div className='buttonCardActions'>
+          <div className='leftCard'>
+            <button color='secondary' onClick={this.cancelEdit}>
+              {translations['_ol_kit.edit.cancel']}
+            </button>
+          </div>
+          <div className='centerCard' style={{ paddingLeft: '20px', marginLeft: '0px' }}>
+            <form
+              style={{ marginBottom: '0px' }}
+              control={
+                <Knob style={knobStyle} unlockDistance={0} defaultValue={0} max={360} onChange={this.rotate} />
+              }
+              label={translations['_ol_kit.edit.rotate']}
+            />
+          </div>
+          <div className='rightCard'>
+            <button color='primary' onClick={this.finishEdit}>
+              {translations['_ol_kit.edit.finish']}
+            </button>
+          </div>
+        </div>
       </Toolbar>
     )
   }

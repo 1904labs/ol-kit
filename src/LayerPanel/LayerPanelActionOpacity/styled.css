@@ -1,0 +1,16 @@
+.opacityTitle {
+  font-size: 12px;
+  padding-top: 0.3rem;
+  color: #868686;
+}
+
+.slider {
+  padding: 0px;
+}
+
+.opacityWrapper {
+  width: auto;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 5px 15px;
+}

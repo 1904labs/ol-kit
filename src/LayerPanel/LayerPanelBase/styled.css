@@ -1,0 +1,50 @@
+.card {
+  max-height: 645px;
+  width: 400px;
+  top: 80px;
+  transition: all .3s;
+  opacity: 0.9;
+}
+
+/* position: props => props.inline ? 'inline' : 'absolute',
+  right: props => props.open ? '15px' : '-400px',
+  minHeight: props => `${200 + (props.numoftabs * 40)}px`, */
+
+.tabs {
+  background: #ededed;
+  transition: all .3s;
+  border-bottom: 1px solid lightgrey;
+}
+
+/* const backgroundColor = props.open ? '#152357' : '#fff' */
+
+.tab {
+  color: '#152357'
+}
+
+.tab:hover {
+  color: '#152357'
+}
+
+.initialTab {
+  top: 80px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  position: absolute;
+  right: 15px;
+  opacity: 1;
+}
+
+.initialTab:hover {
+  color: '#152357'
+}
+
+.cardContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 0px 0px 16px;
+  background: #ededed;
+  overflow: scroll;
+}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { MenuItem } from '../LayerPanelMenu/styled'
 import olLayerVector from 'ol/layer/Vector'
 import { connectToContext } from 'Provider'
 import en from 'locales/en'
@@ -67,14 +66,14 @@ class LayerPanelActionMerge extends Component {
     const { translations } = this.props
 
     return (
-      <MenuItem
+      <div
         key='merge'
         data-testid='LayerPanel.merge'
         disableGutters={false}
         disabled={!this.hasVisibleVectorLayers()}
         onClick={this.handleMerge} >
         {translations['_ol_kit.LayerPanelActions.merge']}
-      </MenuItem>
+      </div>
     )
   }
 }

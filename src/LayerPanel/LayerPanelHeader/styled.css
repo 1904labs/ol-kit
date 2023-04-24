@@ -1,0 +1,15 @@
+.headerContainer {
+  height: 50px;
+}
+
+.cardHeader {
+  font-size: 20px;
+  font-weight: 500;
+  background: #ededed;
+    height: 75px;
+}
+
+.actionsContainer {
+  margin-top: 4px;
+  display: flex;
+}

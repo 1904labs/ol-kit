@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import MenuItem from '@mui/material/MenuItem'
 import { connectToContext } from 'Provider'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
@@ -55,9 +54,9 @@ class LayerPanelActionDuplicate extends Component {
     const { layer, translations } = this.props
 
     return (
-      <MenuItem data-testid='LayerPanelAction.duplicate' key={'zoom'} onClick={() => this.duplicateLayer(layer)}>
+      <div data-testid='LayerPanelAction.duplicate' key={'zoom'} onClick={() => this.duplicateLayer(layer)}>
         {translations['_ol_kit.actions.duplicate']}
-      </MenuItem>
+      </div>
     )
   }
 }
