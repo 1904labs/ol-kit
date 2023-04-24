@@ -1,0 +1,10 @@
+.uomContainer  {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0px;
+}
+
+.formControl {
+  width: '35%'
+}

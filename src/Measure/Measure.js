@@ -3,8 +3,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import en from 'locales/en'
-import { Container, UomContainer } from './styled'
-import MenuItem from '@mui/material/MenuItem'
 import { calculateAreaAndDistance } from './utils'
 import { MeasureLabelPreference } from 'Preferences'
 import { connectToContext } from 'Provider'
@@ -177,12 +175,12 @@ class Measure extends React.Component {
     const disableDistanceMeasurement = drawMode === 'Circle'
 
     return (
-      <Container>
-        <UomContainer>
+      <div>
+        <div className='uomContainer'>
           <MeasureLabelPreference
             uomOptions={UNIT_OPTIONS[uomType].map(({ name, translationsKey, strictAreaUnit }) => {
               return !strictAreaUnit
-                ? <MenuItem data-testid={`_ol_kit-Measure-uom-${name}`} key={name} value={name}>{translations[translationsKey]}</MenuItem> : null
+                ? <option data-testid={`_ol_kit-Measure-uom-${name}`} key={name} value={name}>{translations[translationsKey]}</option> : null
             })}
             compact={true}
             translations={translations}
@@ -194,13 +192,13 @@ class Measure extends React.Component {
             disabled={disableDistanceMeasurement}>
             <span>{translations['_ol_kit.Measurement.distance']} {distance}</span>
           </MeasureLabelPreference>
-        </UomContainer>
-        <UomContainer>
+        </div>
+        <div className='uomContainer'>
           <MeasureLabelPreference
             uomOptions={UNIT_OPTIONS[uomType].map(({ name, translationsKey }) => {
               const translation = translations[translationsKey]
 
-              return <MenuItem key={name} value={name}>{removeSquared(name) ? translation : `sq ${translation}`}</MenuItem>
+              return <option key={name} value={name}>{removeSquared(name) ? translation : `sq ${translation}`}</option>
             })}
             compact={true}
             translations={translations}
@@ -212,8 +210,8 @@ class Measure extends React.Component {
             disabled={false}>
             <span>{translations['_ol_kit.Measurement.area']} {area}</span>
           </MeasureLabelPreference>
-        </UomContainer>
-      </Container>
+        </div>
+      </div>
     )
   }
 }
