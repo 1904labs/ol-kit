@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { PrimaryButton, LockIcon } from './styled'
+
+import 'styled.css'
 
 /**
  * @component
@@ -11,16 +12,17 @@ class MapDisplayElement extends Component {
     const { translations, toggleSyncMap, synced, index, grow, disabled, mapNumber } = this.props
 
     return (
-      <PrimaryButton
+      <button
+        className='primaryButton'
         grow={grow}
         synced={synced}
         disabled={disabled}
         onClick={toggleSyncMap.bind(this, index)}>
         {disabled
-          ? <LockIcon className={'zmdi zmdi-lock'}/>
+          ? <i className='zmdi zmdi-lock SvgIconWrapper'/>
           : <div>{translations['_ol_kit.MapDisplayElement.map']} {mapNumber}</div>
         }
-      </PrimaryButton>
+      </button>
     )
   }
 }

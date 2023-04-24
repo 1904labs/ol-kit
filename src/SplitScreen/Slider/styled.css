@@ -1,0 +1,20 @@
+.dragBar {
+  position: absolute;
+  cursor: col-resize;
+  width: 10px;
+  background-color: black;
+  user-select: none;
+  z-index: 999;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.svgIconWrapper {
+  position: absolute;
+  display: flex;
+  cursor: col-resize;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0);
+}

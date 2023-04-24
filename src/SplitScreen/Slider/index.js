@@ -2,8 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import Draggable from 'react-draggable'
-import { DragBar } from './styled'
 import DragBarIcon from './svgIcons/DragBarIcon'
+
+import 'styled.css'
 
 const Slider = ({ initialPosition, onDrag, innerRef }) => {
   const limit = window.innerWidth * 0.2
@@ -13,9 +14,14 @@ const Slider = ({ initialPosition, onDrag, innerRef }) => {
   return (
     ReactDOM.createPortal(
       <Draggable axis={'x'} bounds={{ left: leftBound, right: rightBound }} onDrag={onDrag}>
-        <DragBar position={initialPosition} yOffset={55} ref={innerRef}>
+        <div className='dragBar'
+        style={{
+          height: props.height ? props.height : '100%',
+          top: props.yOffset || '55',
+          left: position - 5 // the left position is half of the width subtracted from the position to center the div
+        }} position={initialPosition} yOffset={55} ref={innerRef}>
           <DragBarIcon color={'lightgray'} />
-        </DragBar>
+        </div>
       </Draggable>,
       document.body
     )

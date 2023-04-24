@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connectToContext } from 'Provider'
-import { MiniContainer, MiniHeader, ProjectMenuContainer } from './styled'
 import { createProject, loadProject } from './utils'
+
+import 'styled.css'
 
 /** A project save/load component
  * @component
@@ -39,17 +40,17 @@ class ProjectMenu extends React.Component {
 
   render () {
     return (
-      <ProjectMenuContainer>
+      <div className='projectMenuContainer'>
         <a id='_ol_kit_project_download_anchor' style={{ display: 'none' }}></a>
-        <MiniContainer>
-          <MiniHeader>Save this map as an ol-kit project file:</MiniHeader>
+        <div className='miniContainer'>
+          <div className='miniHeader'>Save this map as an ol-kit project file:</div>
           <button id='_ol_kit_create_project' onClick={this.onCreateProject}>Save Project</button>
-        </MiniContainer>
-        <MiniContainer>
-          <MiniHeader>Load a map from a project file:</MiniHeader>
+        </div>
+        <div className='miniContainer'>
+          <div className='miniHeader'>Load a map from a project file:</div>
           <input type='file' id='myFile' accept='.olkproj' onChange={this.onLoadProject} />
-        </MiniContainer>
-      </ProjectMenuContainer>
+        </div>
+      </div>
     )
   }
 }

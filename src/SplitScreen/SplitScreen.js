@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Tooltip } from '@mui/material'
 
 import { connectToContext } from 'Provider'
 import MapDisplayElement from './MapDisplayElement'
 import Slider from './Slider'
-import { Container, MapDisplayContainer, ControlStylesContainer, MapControlButton } from './styled'
+
+import 'styled.css'
 
 class SplitScreen extends Component {
   constructor (props) {
@@ -69,12 +69,16 @@ class SplitScreen extends Component {
     const disabled = false
 
     return (
-      <Container>
+      <div className='container'>
         {disabled
           ? <div className='alert alert-warning' role='alert'>{translations['_ol_kit.SplitScreen.disabled']}</div>
           : null
         }
-        <MapDisplayContainer disabled={disabled}>
+        <div
+          className='mapDisplayContainer' 
+          style={{
+            cursor: props.disabled ? 'not-allowed' : 'pointer'
+          }}>
           {visibleState.map((visible, i) => {
             const grow = i === 0 && visibleMapCount === 3
 
@@ -91,34 +95,34 @@ class SplitScreen extends Component {
                 translations={translations} />
             }
           })}
-        </MapDisplayContainer>
+        </div>
         {startPosition && visibleMapCount === 2 &&
           <Slider
             initialPosition={startPosition}
             onDrag={() => this.props.forceUpdate()}
             ref={node => (this.sliderNode = node)}
           />}
-        <ControlStylesContainer>
-          <Tooltip title={translations['_ol_kit.SplitScreen.addMap']} placement='right' disabled={false}>
+        <div className='controlStylesContainer'>
+          <div title={translations['_ol_kit.SplitScreen.addMap']} placement='right' disabled={false}>
             <div>
-              <MapControlButton
+              <button className='mapControlButton'
                 onClick={this.addMap}
                 disabled={disabled || (visibleMapCount === maps.length)}>
                 <i className='zmdi zmdi-plus' />
-              </MapControlButton>
+              </button>
             </div>
-          </Tooltip>
-          <Tooltip title={translations['_ol_kit.SplitScreen.removeMap']} placement='right' disabled={!disabled}>
+          </div>
+          <div title={translations['_ol_kit.SplitScreen.removeMap']} placement='right' disabled={!disabled}>
             <div>
-              <MapControlButton
+              <button className='mapControlButton'
                 onClick={this.removeMap}
                 disabled={disabled || visibleMapCount === 1}>
                 <i className='zmdi zmdi-minus' />
-              </MapControlButton>
+              </button>
             </div>
-          </Tooltip>
-        </ControlStylesContainer>
-      </Container>
+          </div>
+        </div>
+      </div>
     )
   }
 }

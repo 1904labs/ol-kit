@@ -2,40 +2,36 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import MaterialSnackbar from '@mui/material/Snackbar'
-import SnackbarContent from '@mui/material/SnackbarContent'
 
-import { amber, green, grey } from '@mui/material/colors'
-import makeStyles from '@mui/styles/makeStyles';
-
-const useWrapperStyles = makeStyles((theme) => ({
+const useWrapperStyles = () => ({
   success: {
-    backgroundColor: green[600]
+    backgroundColor: 'green'
   },
   error: {
-    backgroundColor: theme.palette.error.dark
+    backgroundColor: 'black'
   },
   info: {
-    backgroundColor: grey[800]
+    backgroundColor: 'gray'
   },
   warning: {
-    backgroundColor: amber[700]
+    backgroundColor: 'amber'
   },
   icon: {
     fontSize: 20
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing(1)
+    marginRight: 15
   },
   message: {
     display: 'flex',
     alignItems: 'center'
   }
-}))
+})
 
 function SnackbarContentWrapper (props) {
   const classes = useWrapperStyles()
+
   const {
     className,
     message,
@@ -44,7 +40,7 @@ function SnackbarContentWrapper (props) {
   } = props
 
   return (
-    <SnackbarContent
+    <div
       className={clsx(classes[variant], className)}
       aria-describedby='client-snackbar'
       message={
@@ -63,12 +59,6 @@ SnackbarContentWrapper.propTypes = {
   variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired
 }
 
-const useSnackbarStyles = makeStyles((theme) => ({
-  margin: {
-    margin: theme.spacing(1)
-  }
-}))
-
 export default function Snackbar (props) {
   const { open, closeSnackbar, variant, message, duration } = props
 
@@ -83,7 +73,7 @@ export default function Snackbar (props) {
   }
 
   return ReactDOM.createPortal(
-    <MaterialSnackbar
+    <div
       anchorOrigin={{
         vertical: 'bottom',
         horizontal: 'left'
@@ -93,13 +83,13 @@ export default function Snackbar (props) {
       onClose={handleClose}
       style={{ left: '8px', bottom: '8px' }}
     >
-      <SnackbarContentWrapper
+      <div
         onClose={handleClose}
         variant={variant}
         message={message}
         className={classes.margin}
       />
-    </MaterialSnackbar>,
+    </div>,
     document.body
   )
 }

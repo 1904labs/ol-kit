@@ -1,0 +1,21 @@
+.primaryButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  font-weight: 600;
+  flex-grow: 1;
+  min-height: 45%;
+}
+/* flex-basis: ${props => props.grow ? '100%' : '45%'};
+background: ${props => props.synced ? '#152357' : '#ededed'};
+pointer-events: ${props => props.disabled ? 'none' : 'auto'};
+color: ${props => props.synced ? '#ffffff' : '#424242'}; */
+
+.primaryButton:hover {
+}
+/* background: ${props => props.synced ? '#2a3f8c' : '#d8d7d7'}; */
+
+.lockIcon {
+  font-size: 35px;
+}
