@@ -1,28 +1,27 @@
-import styled from 'styled-components'
-
-export const Container = styled.div`
+.container {
   position: relative;
   padding: 20px;
   overflow-y: auto;
   font-size: 13px;
+}
+  
+.container::-webkit-scrollbar {
+  display: none;
+}
+  
 
-  ::-webkit-scrollbar {
-    display: none;
-  }
-`
-
-export const Row = styled.div`
+.row {
   margin: 0 0 15px 0;
   max-height: 200px;
-`
+}
 
-export const Key = styled.div`
+.key {
   color: #787878;
   text-transform: capitalize;
   display: block;
-`
+}
 
-export const Value = styled.div`
+.value {
   display: -webkit-box;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
@@ -31,4 +30,4 @@ export const Value = styled.div`
   overflow: hidden;
   padding: 1px;
   font-weight: bold;
-`
+}

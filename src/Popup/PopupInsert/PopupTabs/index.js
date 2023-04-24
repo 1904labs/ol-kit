@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Flex, TabButton, TabList, TabsContainer, TabSlider } from './styled'
+import 'styled.css'
 
 /**
  * @component
@@ -33,24 +33,24 @@ class PopupTabs extends Component {
     const { selectedIdx } = this.state
 
     return (
-      <TabsContainer>
-        <TabList>
-          <Flex>
+      <div className='tabsContainer'>
+        <div className='tabList'>
+          <div className='flex'>
             {React.Children.map(children, (child, i) => {
-              return (<TabButton
+              return (<button className='tabButton'
                 key={child.props.title}
                 onClick={this.onChange.bind(this, i)}
                 selected={selectedIdx === i}>
                 {child.props.title}
-                {selectedIdx === i ? <TabSlider /> : null}
-              </TabButton>)
+                {selectedIdx === i ? <span className='slider' /> : null}
+              </button>)
             })}
-          </Flex>
-        </TabList>
+          </div>
+        </div>
         <div>
           {React.Children.toArray(children)[selectedIdx]}
         </div>
-      </TabsContainer>
+      </div>
     )
   }
 }

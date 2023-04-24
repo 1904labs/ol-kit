@@ -1,0 +1,95 @@
+.header {
+  background-color: #ededed;
+}
+
+.headerDetails {
+  color: #787878;
+}
+/* padding: 32px 20px ${p => JSON.parse(p.loading) ? '20px' : '0'} 20px;
+${p => JSON.parse(p.loading) ? 'min-height: 105px' : 'min-height: 0px'}; */
+
+.body {
+  height: 100%;
+}
+
+.frame {
+  overflow-y: scroll;
+}
+/* height: ${props => props.height}px; */
+
+.frame::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.frame::-webkit-scrollbar:vertical {
+  width: 11px;
+}
+
+.frame::-webkit-scrollbar:horizontal {
+  height: 11px;
+}
+
+.frame::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 2px solid white; /* should match background, can't be transparent */
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.title {
+  font-size: 17px;
+  font-style: normal;
+  color: #333333;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 2px 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+.subtitle { 
+  font-size: 12px;
+  font-style: normal;
+  color: #787878;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 2px 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.featureNavigator {
+  display: inline-block;
+  position: absolute;
+  top: 4px;
+  color: #787878;
+  vertical-align: middle;
+  height: 22px;
+  z-index: 1;
+  right: 0;
+  text-align: left;
+  left: 4px;
+}
+
+.featureCount {
+  display: inline-block;
+  vertical-align: inherit;
+  line-height: 1px;
+  user-select: none;
+}
+  
+.close {
+  display: block;
+  position: absolute;
+  outline: none;
+  height: 18px;
+  width: 40px;
+  cursor: pointer;
+  top: 10px;
+  right: -2px;
+  background: none;
+  border: none;
+  z-index: 2;
+}

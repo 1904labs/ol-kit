@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Container, Key, Row, Value } from './styled'
+import 'styled.css'
 
 /**
  * @component
@@ -15,14 +15,14 @@ class PopupDataList extends Component {
     const notGeom = key => !['geom', 'geometry'].includes(key.toLowerCase())
 
     return (
-      <Container>
+      <div className='container'>
         {Object.keys(attributes).filter(notGeom).map(key => (
-          <Row key={key}>
-            <Key>{key}:</Key>
-            <Value>{`${attributes[key]}` /* This trick converts values to strings */}</Value>
-          </Row>
+          <div className='row' key={key}>
+            <div className='key'>{key}:</div>
+            <div className='value'>{`${attributes[key]}` /* This trick converts values to strings */}</div>
+          </div>
         ))}
-      </Container>
+      </div>
     )
   }
 }

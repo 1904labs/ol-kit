@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Item, Action } from './styled'
-
 /**
  * @component
  * @category Popup
@@ -13,9 +11,16 @@ class PopupActionItem extends Component {
     const { children, feature, title, disabled, onClick, style } = this.props
 
     return (
-      <Action role='button' onClick={disabled ? () => {} : (e) => onClick(e, feature)}>
-        {title ? <Item disabled={disabled} style={style}>{title}</Item> : children}
-      </Action>
+      <div className='action' role='button' onClick={disabled ? () => {} : (e) => onClick(e, feature)}>
+        {title ? <div
+          className='item'
+          style={{
+            color: props.disabled ? 'gray' : 'black'
+          }}
+          disabled={disabled}>
+            {title}
+          </div> : children}
+      </div>
     )
   }
 }

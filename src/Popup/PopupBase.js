@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import Draggable from 'react-draggable'
 
 import { DragHandle } from 'DragHandle'
-import { ArrowBox, Container } from './styled'
+
+import 'styled.css'
 
 /**
  * @component
@@ -66,7 +67,16 @@ class PopupBase extends Component {
         onDrag={this.handleDrag}
         onStart={this.onStart}
         onStop={this.onStop}>
-        <Container
+        <div className='container'
+        style={{
+          position: p.inline ? 'relative' : 'absolute',
+          display: p.show ? 'block' : 'none',
+          opacity: p.transparent ? 0.8 : 1,
+          width: appendPx(p.width),
+          height: appendPx(p.height),
+          left: positionContainer(arrow, pixel, width, height).left,
+          top: positionContainer(arrow, pixel, width, height).top,
+        }}
           arrow={arrow}
           height={height}
           inline={inline}
@@ -75,9 +85,9 @@ class PopupBase extends Component {
           transparent={transparent}
           width={width}>
           {draggable ? <DragHandle className='popupHandleTag' /> : null}
-          {!dragged && <ArrowBox position={arrowTranslator[arrow]} />}
+          {!dragged && <div className='arrowBox' position={arrowTranslator[arrow]} />}
           {children}
-        </Container>
+        </div>
       </Draggable>
     )
   }

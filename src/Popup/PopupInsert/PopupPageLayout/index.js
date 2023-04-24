@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { HeightContainer } from '../styled'
+
+import '../styled'
 
 /**
  * @component
@@ -71,9 +72,9 @@ class PopupPageLayout extends Component {
     )
 
     return (
-      <HeightContainer data-testid={this.props['data-testid']}>
+      <div data-testid={this.props['data-testid']}>
         {React.Children.toArray(childrenWithProps)[selectedIdx]}
-      </HeightContainer>
+      </div>
     )
   }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
-import { Container, ActionIcon, Flyout, Title } from './styled'
+import 'styled.css'
 
 /**
  * @component
@@ -42,24 +42,24 @@ class PopupActionGroup extends Component {
 
     return (
       <div style={{ position: 'relative' }} ref={(element) => { this.el = element }}>
-        <Container onMouseEnter={() => this.onHover(true)}
+        <div className='container' onMouseEnter={() => this.onHover(true)}
           onMouseLeave={() => this.onHover(false, true)}
           hover={this.state.showFlyout}>
-          <Title>{title}</Title>
-          <ActionIcon>
+          {title}
+          <div className='actionIcon'>
             <i className='zmdi zmdi-caret-right'></i>
-          </ActionIcon>
-        </Container>
+          </div>
+        </div>
         {this.state.showFlyout &&
           ReactDOM.createPortal(
-            <Flyout
+            <div className='flyout'
               left={right}
               top={top}
               showFlyout={this.state.showFlyout}
               onMouseEnter={() => this.onHover(true)}
               onMouseLeave={() => this.onHover(false)}>
               {transformedChildren}
-            </Flyout>,
+            </div>,
             document.body)
         }
       </div>

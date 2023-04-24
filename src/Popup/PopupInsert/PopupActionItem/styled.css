@@ -1,0 +1,12 @@
+.action {
+  cursor: pointer;
+}
+
+.item {
+  padding: 12px 15px;
+  font-size: 15px;
+}
+
+.item:hover {
+  background: #f2f2f2;
+}

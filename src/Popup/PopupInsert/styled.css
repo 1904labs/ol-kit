@@ -1,0 +1,15 @@
+.attributeSettings {
+  display: flex;
+  padding: 15px 0px 0px 15px;
+  align-items: center;
+  color: #152357;
+}
+  
+.attributeSettings:hover {
+  cursor: pointer;
+  color: #0e659e;
+}
+
+.heightContainer {
+  height: auto;
+}

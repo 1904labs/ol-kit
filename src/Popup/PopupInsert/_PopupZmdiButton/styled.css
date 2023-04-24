@@ -1,7 +1,4 @@
-import styled from 'styled-components'
-
-
-export const Icon = styled.button`
+.icon {
   display: inline-block;
   position: relative;
   cursor: pointer;
@@ -11,8 +8,7 @@ export const Icon = styled.button`
   background: none;
   font-size: 1.2em;
   vertical-align: inherit;
-  color: ${props => props.hover
-    ? '#7a736b'
-    : '#787878'
 }
-`
+/* color: ${props => props.hover
+? '#7a736b'
+: '#787878' */

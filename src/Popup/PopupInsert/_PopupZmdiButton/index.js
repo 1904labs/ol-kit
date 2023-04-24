@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Icon } from './styled'
+import 'styled.css'
 
 class PopupZmdiButton extends Component {
   constructor (props) {
@@ -16,12 +16,12 @@ class PopupZmdiButton extends Component {
     const { hover } = this.state
 
     return (
-      <Icon onClick={onClick}
+      <button className='icon' onClick={onClick}
         onMouseEnter={() => this.setState({ hover: true })}
         onMouseLeave={() => this.setState({ hover: false })}
         hover={hover}>
         {children}
-      </Icon>
+      </button>
     )
   }
 }

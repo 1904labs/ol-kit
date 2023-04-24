@@ -376,3 +376,43 @@ export const sanitizeProperties = properties => {
 
   return sanitized
 }
+
+const positionContainer = (arrowDirection, [x, y], width, height) => {
+  const safeHeight = safeDimension(height)
+  const safeWidth = safeDimension(width)
+
+  if (arrowDirection === 'top') {
+    return { top: y + 16, left: x - safeWidth / 2 }
+  } else if (arrowDirection === 'right') {
+    return { top: y - safeHeight / 2, left: x - safeWidth - 16 }
+  } else if (arrowDirection === 'bottom') {
+    return { top: y - safeHeight - 16, left: x - safeWidth / 2 }
+  } else if (arrowDirection === 'left') {
+    return { top: y - safeHeight / 2, left: x + 16 }
+  } else {
+    return { top: y, left: x }
+  }
+}
+
+// PopupBase accepts strings or numbers as valid props for width/heigh, CSS only accepts strings (some of which can't be parsed into numbers), and the positioning logic only accepts numbers so we have a few functions here to make sure that everyone is happy with the provided input.
+const safeDimension = (input) => {
+  const parsedInput = parseFloat(input)
+  const safeInput = isNaN(parsedInput) ? 280 : parsedInput // there are several css dimensions that can not be parsed into strings so to handle these we fallback the positioning logic to 280
+
+  return safeInput
+}
+
+const hasNumber = (input) => {
+  return !isNaN(parseFloat(input))
+}
+
+// Safely wrap an input pixel value with 'px' if it needs it
+const appendPx = (input) => {
+  if (typeof input === 'number') {
+    return `${input}px`
+  } else if (typeof input === 'string' && hasNumber(input)) {
+    return input.endsWith('px') ? input : `${input}px`
+  } else {
+    return input
+  }
+}
