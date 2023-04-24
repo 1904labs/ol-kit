@@ -20,10 +20,6 @@
   top: 0px;
 }
 
-/* left: ${props => `${props.left}px`};
-width: ${(props) => `${props.width}px`};
-right: ${props => `${props.right}px`}; */
-
 .scrollContainer {
   overflow-x: visible;
   overflow-y: hidden;
@@ -66,8 +62,6 @@ right: ${props => `${props.right}px`}; */
   position: absolute;
   display: flex;
 }
-/* left: ${props => `${props.left}px`};
-width: ${props => `${props.width}px`}; */
 
 .bottomContainer {
   padding: 10px 20px;
@@ -90,9 +84,6 @@ width: ${props => `${props.width}px`}; */
   width: 3px;
   border-radius: 5px;
 }
-/* background: ${props => props.selected ? 'white' : props.tickColor || '#1440ce'};
-z-index: ${props => props.selected ? '99' : '98'};
-border: solid ${props => props.selected ? '2px cyan' : '1px #ffffff'}; */
 
 .timeSliderControls {
   display: flex;
@@ -112,7 +103,6 @@ border: solid ${props => props.selected ? '2px cyan' : '1px #ffffff'}; */
   font-weight: 700;
   color: rgb(97, 97, 97);
 }
-/* margin-right: ${props => props.marginRight ? `${props.marginRight}px` : ''}; */
 
 .tooManyForPreview {
   margin-top: 15px;
