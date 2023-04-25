@@ -12,11 +12,11 @@ import { connectToContext } from 'Provider'
 function ControlGroupButton (props) {
   return (
     <div className='iconWrapper'>
-      <button {...props} style={{ padding: '3px' }} size="large">
+      <button {...props} style={{ padding: '3px' }} size='large'>
         {props.icon || props.children}
       </button>
     </div>
-  );
+  )
 }
 
 ControlGroupButton.propTypes = {

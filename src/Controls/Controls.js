@@ -31,7 +31,7 @@ function Controls (props) {
           flexDirection: position.orientation === 'vertical' ? 'column' : 'row',
           ...style
         }}
-        >
+      >
         {children || (
           <>
             <ScaleLine map={map} orientation={orientation}/>

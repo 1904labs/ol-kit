@@ -186,6 +186,8 @@ export const getLayersAndFeaturesForEvent = (event, opts = {}) => {
       // handle non vector tile wfs layers
       return wfsSelector(layer, event, opts)
     }
+
+    return new Promise()
   }).filter(Boolean)
 
   const wmsSelector = (_, layer) => {
@@ -377,7 +379,7 @@ export const sanitizeProperties = properties => {
   return sanitized
 }
 
-const positionContainer = (arrowDirection, [x, y], width, height) => {
+export const positionContainer = (arrowDirection, [x, y], width, height) => {
   const safeHeight = safeDimension(height)
   const safeWidth = safeDimension(width)
 
@@ -407,7 +409,7 @@ const hasNumber = (input) => {
 }
 
 // Safely wrap an input pixel value with 'px' if it needs it
-const appendPx = (input) => {
+export const appendPx = (input) => {
   if (typeof input === 'number') {
     return `${input}px`
   } else if (typeof input === 'string' && hasNumber(input)) {

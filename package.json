@@ -141,6 +141,7 @@
   "devDependencies": {
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.21.4",
+    "@babel/eslint-parser": "^7.21.3",
     "@babel/plugin-transform-react-jsx": "^7.21.0",
     "@babel/preset-env": "^7.21.4",
     "@babel/preset-react": "^7.18.6",
@@ -157,6 +158,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "~10.0.1",
     "@turf/difference": "6.0.1",
+    "babel-eslint": "^10.1.0",
     "child_process": "~1.0.2",
     "cross-env": "^7.0.3",
     "css-loader": "~6.2.0",

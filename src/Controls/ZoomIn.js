@@ -53,7 +53,7 @@ function ZoomIn (props) {
       onMouseUp={() => stopZoom()}
       onMouseDown={() => handleMouseDown()}>
         +
-        </ControlGroupButton>
+    </ControlGroupButton>
   )
 }
 

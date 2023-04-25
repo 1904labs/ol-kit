@@ -39,7 +39,7 @@ class TabbedPanel extends Component {
       <>
         <div
           className='card _popup_boundary'
-          style={{ height: props.open ? `auto` : '48px' }}
+          style={{ height: showPanel ? `auto` : '48px' }}
           numoftabs={children.length || 1} >
           <div style={{ display: 'flex', background: 'rgb(237, 237, 237)' }}>
             <div className='initialTab' onClick={this.togglePanel} icon={showPanel ? <span className='KeyboardArrowDownIcon' data-testid='MapPanel.close' /> : <span className='KeyboardArrowRightIcon' data-testid='MapPanel.open' />} />

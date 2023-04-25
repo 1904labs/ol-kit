@@ -16,7 +16,7 @@ class Toolbar extends React.Component {
         </div>
       </div>,
       document.body
-    );
+    )
   }
 }
 

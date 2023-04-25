@@ -52,7 +52,7 @@ function ZoomOut (props) {
       onMouseUp={() => stopZoom()}
       onMouseDown={() => handleMouseDown()}>
         -
-        </ControlGroupButton>
+    </ControlGroupButton>
   )
 }
 

@@ -17,7 +17,7 @@ class DrawPoint extends Component {
           data-testid='Draw.point'
           size='small'
           onClick={() => addInteraction({ type: 'Point' })}>
-          LensIcon
+          <span htmlColor={type === 'Point' ? '#1976D2' : '#656565'}> LensIcon</span>
         </button>
       </div>
     )

@@ -17,7 +17,7 @@ class DrawPolygon extends Component {
           data-testid='Draw.polygon'
           size='small'
           onClick={() => addInteraction({ type: 'Polygon' })}>
-          ChangeHistoryOutlinedIcon
+          <span htmlColor={type === 'Polygon' ? '#1976D2' : '#656565'}>ChangeHistoryOutlinedIcon</span>
         </button>
       </div>
     )

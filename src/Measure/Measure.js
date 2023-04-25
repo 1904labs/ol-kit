@@ -180,7 +180,8 @@ class Measure extends React.Component {
           <MeasureLabelPreference
             uomOptions={UNIT_OPTIONS[uomType].map(({ name, translationsKey, strictAreaUnit }) => {
               return !strictAreaUnit
-                ? <option data-testid={`_ol_kit-Measure-uom-${name}`} key={name} value={name}>{translations[translationsKey]}</option> : null
+                ? <option data-testid={`_ol_kit-Measure-uom-${name}`} key={name} value={name}>{translations[translationsKey]}</option>
+                : null
             })}
             compact={true}
             translations={translations}

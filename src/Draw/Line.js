@@ -17,7 +17,7 @@ class DrawLine extends Component {
           data-testid='Draw.line'
           size='small'
           onClick={() => addInteraction({ type: 'LineString' })}>
-          TimelineOutlinedIcon
+          <span htmlColor={type === 'Circle' && !freehand ? '#1976D2' : '#656565'}>TimelineOutlinedIcon</span>
         </button>
       </div>
     )

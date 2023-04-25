@@ -36,7 +36,7 @@ class ErrorBoundary extends React.Component {
     }
   }
 
-  static getDerivedStateFromError (error) { // eslint-disable-line handle-callback-err
+  static getDerivedStateFromError () { // eslint-disable-line handle-callback-err
     return { hasError: true }
   }
 
@@ -58,14 +58,15 @@ class ErrorBoundary extends React.Component {
             </em>
             {!abandonAllHope
               ? <button
-                  className='button'
-                  onClick={() => this.setState({ attemptedReset: true, hasError: false })}>
+                className='button'
+                onClick={() => this.setState({ attemptedReset: true, hasError: false })}>
                     Try Again
-                </button>
+              </button>
               : null}
           </div>
         </div>
-      ) : this.props.children
+      )
+      : this.props.children
   }
 }
 

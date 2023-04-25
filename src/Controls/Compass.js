@@ -58,16 +58,14 @@ function Compass (props) {
   const degrees = radians * 57.296 // the number of degrees per radian
 
   return (
-    <div 
+    <div
       className='compassContainer'
       style={{
-        width: size,
-        height: size,
+        width: size.width,
+        height: size.height,
         borderRadius: size,
-        background: background
+        background: colors[variation].background
       }}
-      size={size}
-      background={colors[variation].background}
     >
       <svg width={size} height={size} viewBox='0 0 48 48' version='1.1' xmlns='http://www.w3.org/2000/svg'>
         <g onClick={() => rotate('left')} transform='translate(8, 11)' id='_ol_kit_rotate_left'>

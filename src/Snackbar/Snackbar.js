@@ -62,7 +62,7 @@ SnackbarContentWrapper.propTypes = {
 export default function Snackbar (props) {
   const { open, closeSnackbar, variant, message, duration } = props
 
-  const classes = useSnackbarStyles()
+  const classes = useWrapperStyles()
 
   function handleClose (event, reason) {
     if (reason === 'clickaway') {

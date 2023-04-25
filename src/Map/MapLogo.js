@@ -13,10 +13,10 @@ export default function MapLogo (props) {
     logoPosition === 'none'
       ? null
       : (
-        <div 
-          className='logoContainer' 
+        <div
+          className='logoContainer'
           style={{
-            justifyContent: props.position === 'right' ? 'flex-end' : 'flex-start'
+            justifyContent: logoPosition === 'right' ? 'flex-end' : 'flex-start'
           }}>
           <p className='logoText'>{translations['_ol_kit.MapLogo.title']}</p>
           <div

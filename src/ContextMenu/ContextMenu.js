@@ -46,11 +46,12 @@ class ContextMenu extends React.Component {
   }
 
   debounce = (func, timeout = 300) => {
-    let timer;
+    let timer
+
     return (...args) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => { func.apply(this, args); }, timeout);
-    };
+      clearTimeout(timer)
+      timer = setTimeout(() => { func.apply(this, args) }, timeout)
+    }
   }
 
   pointerMoveHandler = e => {
@@ -123,7 +124,7 @@ class ContextMenu extends React.Component {
       <React.Fragment>
         <div
           className='container'
-          style={{ top: pixel.y, left: pixel.x, display: props.show ? 'block' : 'none' }}
+          style={{ top: pixel.y, left: pixel.x, display: show ? 'block' : 'none' }}
           innerRef={node => { this.contextMenuRef = node }}>
           {show && getChildren()}
         </div>

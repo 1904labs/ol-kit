@@ -1,4 +1,5 @@
-import Map from './Map';
+import React from 'react'
+import Map from './Map'
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 export default {
@@ -9,40 +10,40 @@ export default {
     isMiltiMap: {
       control: {
         type: 'boolean',
-        default: false,
-      },
+        default: false
+      }
     },
     logoPosition: {
       control: {
         type: 'select',
         options: ['left', 'right', 'none'],
-        default: 'none',
-      },
+        default: 'none'
+      }
     },
     fullscreen: {
       control: {
         type: 'boolean',
-        default: false,
-      },
-    },
+        default: false
+      }
+    }
   },
   decorators: [
     (Story) => (
       <div style={{ width: '100%', height: '500px' }}>
         <Story />
       </div>
-    ),
-  ],
-};
+    )
+  ]
+}
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary = {
   args: {
     isMiltiMap: false,
     logoPosition: 'none',
-    fullscreen: false,
-  },
-};
+    fullscreen: false
+  }
+}
 
 // export const Secondary = {
 //   args: {

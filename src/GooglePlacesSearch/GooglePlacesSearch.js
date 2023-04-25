@@ -23,7 +23,6 @@ function GooglePlacesSearch (props) {
   const { map, apiKey } = props
   const { handleSubmit, register } = useForm()
   const [_, setError] = useState(null) // eslint-disable-line
-  const classes = useStyles()
 
   const dataLoader = (searchString) => {
     return fetch(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${searchString}&inputtype=textquery&fields=geometry,formatted_address&key=${apiKey}`)
@@ -95,13 +94,13 @@ function GooglePlacesSearch (props) {
             type='submit'
             className='iconButton'
             aria-label='search'
-            size="large">
+            size='large'>
             SearchIcon
           </button>
         </div>
       </form>
     </div>
-  );
+  )
 }
 
 GooglePlacesSearch.propTypes = {

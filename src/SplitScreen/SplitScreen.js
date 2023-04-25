@@ -19,7 +19,7 @@ class SplitScreen extends Component {
     const { startPosition } = this.state
     const { maps, forceUpdate } = this.props
 
-    const { right } = maps[0]?.getTargetElement()?.getBoundingClientRect()
+    const { right } = maps[0]?.getTargetElement()?.getBoundingClientRect() || 0
 
     if (right === window.innerWidth && !startPosition) {
       this.setState({ startPosition: window.innerWidth / 2 })
@@ -75,9 +75,9 @@ class SplitScreen extends Component {
           : null
         }
         <div
-          className='mapDisplayContainer' 
+          className='mapDisplayContainer'
           style={{
-            cursor: props.disabled ? 'not-allowed' : 'pointer'
+            cursor: disabled ? 'not-allowed' : 'pointer'
           }}>
           {visibleState.map((visible, i) => {
             const grow = i === 0 && visibleMapCount === 3
@@ -94,6 +94,8 @@ class SplitScreen extends Component {
                 disabled={disabled}
                 translations={translations} />
             }
+
+            return null
           })}
         </div>
         {startPosition && visibleMapCount === 2 &&

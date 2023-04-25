@@ -55,7 +55,7 @@ export const routeStyle = new olStyle({
 export const waypointPin = new olStyle({
   image: new olStyleCircle({
     fill,
-    stroke: stroke,
+    stroke,
     radius: 5
   }),
   geometry: getVertices

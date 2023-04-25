@@ -42,7 +42,7 @@ function styleText (...args) {
     maxAngle: opts.maxAngle || Infinity,
     // These weird calculations provide the most accurate placement relative to the textarea where people edit their text
     offsetX: isMeasurement ? 0 : (label.fontSize || 16) / 2,
-    offsetY: offsetY,
+    offsetY,
     rotation: -feature.get('_vmf_rotation') || 0,
     font: `bold ${label.fontSize || 16}px sans-serif`,
     stroke: new olStyleStroke({
@@ -274,7 +274,8 @@ export function immediateEditStyle (...args) {
     case 'MultiLineString': {
       const lineStrings = geometry.getLineStrings()
       const lengthLabels = needsDistanceLabels
-        ? lineStrings.map(lineString => lengthLabel(lineString, resolution, opts)) : []
+        ? lineStrings.map(lineString => lengthLabel(lineString, resolution, opts))
+        : []
 
       return [new olStyleStyle({
         stroke,
@@ -285,9 +286,11 @@ export function immediateEditStyle (...args) {
       const polygons = geometry.getPolygons()
       // create a label for each polygon
       const perimeterLabels = needsDistanceLabels
-        ? polygons.map(polygon => perimeterSegmentLabels(polygon, resolution, opts)) : []
+        ? polygons.map(polygon => perimeterSegmentLabels(polygon, resolution, opts))
+        : []
       const areaLabels = needsAreaLabels
-        ? polygons.map(polygon => areaLabel(polygon, resolution, opts)) : []
+        ? polygons.map(polygon => areaLabel(polygon, resolution, opts))
+        : []
 
       return [new olStyleStyle({
         stroke,

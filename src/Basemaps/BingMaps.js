@@ -63,7 +63,7 @@ class BasemapBingMaps extends React.Component {
 
     return (
       <div className='_ol_kit_basemapOption basemapOption' isActive={isActive} onClick={this.onClick}>
-        <div className='basemapThumbnail' thumbnail={thumbnail} />
+        <div className='basemapThumbnail' style={{ backgroundImage: thumbnail }}/>
         <label className='label'>{translations['_ol_kit.BingMaps.title']}</label>
       </div>
     )

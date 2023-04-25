@@ -11,7 +11,7 @@ class ContextMenuListItem extends React.PureComponent {
     const { title, disabled, onClick } = this.props
 
     return (
-      <div 
+      <div
         className={disabled ? 'listItem-disabled' : 'listItem'}
         style={{
           cursor: disabled ? 'default' : 'pointer',

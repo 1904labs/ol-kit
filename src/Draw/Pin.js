@@ -16,7 +16,7 @@ function DrawPin (props) {
         data-testid='Draw.pin'
         size='small'
         onClick={() => addInteraction({ type })}>
-        PinDrop
+        <span htmlColor={type === 'Pin' ? '#1976D2' : '#656565'}> PinDrop</span>
       </button>
     </div>
   )

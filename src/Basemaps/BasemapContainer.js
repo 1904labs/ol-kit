@@ -64,11 +64,13 @@ class BasemapContainer extends Component {
         return (
           <div
             className='basemapSliderContainer'
-            variation={variation}
-            style={style}
-            zIndex={zIndex}
-            left={0}
-            bottom={14 + (i * 90)}
+            style={{
+              left: 0,
+              botom: 14 + (i * 90),
+              variation,
+              zIndex,
+              ...style
+            }}
             key={i}>
             {React.cloneElement(basemap, { onBasemapChanged: (layer) => this.onBasemapChanged(layer) })}
           </div>

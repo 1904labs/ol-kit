@@ -17,7 +17,7 @@ class DrawCircle extends Component {
           data-testid='Draw.circle'
           size='small'
           onClick={() => addInteraction({ type: 'Circle' })}>
-          radio button unchecked
+          <span htmlColor={type === 'Circle' && !geometryFunction ? '#1976D2' : '#656565'}>radio button unchecked</span>
         </button>
       </div>
     )

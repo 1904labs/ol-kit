@@ -17,7 +17,7 @@ class DrawFreehand extends Component {
           data-testid='Draw.freehand'
           size='small'
           onClick={() => addInteraction({ type: 'LineString', freehand: true })}>
-          gesture outline
+          <span htmlColor={type === 'Circle' && !freehand ? '#1976D2' : '#656565'}>gesture outline</span>
         </button>
       </div>
     )

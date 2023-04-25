@@ -15,13 +15,12 @@ export class DrawToolbar extends React.Component {
             </button>
           </div>
           <div className='centerCard' style={{ paddingLeft: '20px', marginLeft: '0px' }}>
-          <label class="switch">
-            <input type="checkbox" checked={showMeasurements}
-                  onChange={onShowMeasurements} />
-            <span class="slider round"></span>
-          </label>
+            <label className='switch'>
+              <input type='checkbox' checked={showMeasurements}
+                onChange={onShowMeasurements} />
+              <span className='slider round'></span>
+            </label>
 
-            
           </div>
           <div className='rightCard'>
             <button color='primary' onClick={onFinish}>

@@ -14,7 +14,7 @@ class ScaleLine extends React.Component {
     const { map, units } = this.props
     const scale = new olScaleLine({
       target: this.scaleLineContainer.current,
-      units: units,
+      units,
       text: false
     })
 

@@ -53,11 +53,13 @@ export default class SafeParent extends React.Component {
     }
 
     return (
-      parentLookupAttempted ? (
-        <Component {...defaultProps} {...filteredProviderProps} {...explicitProps} />
-      ) : (
-        <div ref={this.ref}>{`Could not find parent <Map> for component: "${Component.name}" during context lookup`}</div>
-      )
+      parentLookupAttempted
+        ? (
+          <Component {...defaultProps} {...filteredProviderProps} {...explicitProps} />
+        )
+        : (
+          <div ref={this.ref}>{`Could not find parent <Map> for component: "${Component.name}" during context lookup`}</div>
+        )
     )
   }
 }

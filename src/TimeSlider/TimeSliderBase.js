@@ -276,11 +276,13 @@ class TimeSliderBase extends React.Component {
 
       datesDiv.push(<div
         style={{
-          left: `${props.left}px`,
-          width: `${props.width}px`
+          left: leftPosition,
+          width: labelWidth
         }}
         className='dateMark'
-        key={i}>{display(futureMonth)}</div>)
+        key={i}
+        left={leftPosition}
+        width={labelWidth}>{display(futureMonth)}</div>)
     }
 
     return datesDiv
@@ -296,18 +298,17 @@ class TimeSliderBase extends React.Component {
 
     const ticks = dates.map((date, i) => {
       const leftPosition = this.calculateLeftPlacement(date, 4, containerWidth, padding)
+      const selected = moment(dates[i]).isSame(selectedDate)
 
       return (
         <span className='tickMark'
           style={{
             left: `${leftPosition}px`,
-            background:props.selected ? 'white' : props.tickColor || '#1440ce',
-            zIndex: props.selected ? '99' : '98',
-            border: `solid ${props.selected ? '2px cyan' : '1px #ffffff'}` 
+            background: selected ? 'white' : tickColor || '#1440ce',
+            zIndex: selected ? '99' : '98',
+            border: `solid ${selected ? '2px cyan' : '1px #ffffff'}`
           }}
-          key={i}
-          selected={moment(dates[i]).isSame(selectedDate)}
-          tickColor={tickColor}>
+          key={i}>
         </span>
       )
     })
@@ -354,44 +355,43 @@ class TimeSliderBase extends React.Component {
                     <div label={`Layer ${i + 1}`} key={i} />
                   ))}
                 </div>
-                {tooManyDates ? (
-                  <div className='tooManyForPreview'>{translations['_ol_kit_.TimeSliderBase.tooMany']}</div>
-                ) : (
-                  tabs.map((tab, i) => (
-                    <div value={index} index={index} key={i}>
-                      <div className='layerTitle'>{tab.title}</div>
-                      <div className='dateContainer' ref={node => { this.dateContainerDiv = node }}>
-                        {this.renderLabels(dates, firstDayOfFirstMonth)}
-                      </div>
-                      <div className='barContainer'
-                        onMouseDown={this.handleMouseDown}
-                        onMouseUp={this.handleMouseUp}
-                        onMouseMove={this.handleMouseMove}
-                        ref={node => { this.containerNode = node }}>
-                        <div className='timeSliderBar'
-                          style={{
-                            height: props.barHeight ? `${props.barHeight}px` : '2px',
-                            top: `${props.barPlacement}px`
-                          }} />
-                        <div className='markContainer'
-                          ref={node => { this.markContainer = node }}>
-                          {this.renderMarks(tab)}
+                {tooManyDates
+                  ? (
+                    <div className='tooManyForPreview'>{translations['_ol_kit_.TimeSliderBase.tooMany']}</div>
+                  )
+                  : (
+                    tabs.map((tab, i) => (
+                      <div value={index} index={index} key={i}>
+                        <div className='layerTitle'>{tab.title}</div>
+                        <div className='dateContainer' ref={node => { this.dateContainerDiv = node }}>
+                          {this.renderLabels(dates, firstDayOfFirstMonth)}
                         </div>
-                        <div className='highlightedRange'
-                          style={{
-                            display: rangeMin || rangeMax ? 'block' : 'none',
-                            left: `${props.left}px`,
-                            width: `${props.width}px`,
-                            right: `${props.right}px`
-                          }}
-                          left={rangeMin}
-                          right={rangeMax}
-                          width={rangeMax - rangeMin}
-                          ref={node => { this.highlightDiv = node }} />
+                        <div className='barContainer'
+                          onMouseDown={this.handleMouseDown}
+                          onMouseUp={this.handleMouseUp}
+                          onMouseMove={this.handleMouseMove}
+                          ref={node => { this.containerNode = node }}>
+                          <div className='timeSliderBar'
+                            style={{
+                              height: 2,
+                              top: 16
+                            }} />
+                          <div className='markContainer'
+                            ref={node => { this.markContainer = node }}>
+                            {this.renderMarks(tab)}
+                          </div>
+                          <div className='highlightedRange'
+                            style={{
+                              display: rangeMin || rangeMax ? 'block' : 'none',
+                              left: rangeMin,
+                              width: rangeMax - rangeMin,
+                              right: rangeMax
+                            }}
+                            ref={node => { this.highlightDiv = node }} />
+                        </div>
                       </div>
-                    </div>
-                  ))
-                )}
+                    ))
+                  )}
                 <div className='bottomContainer'>
                   {translations['_ol_kit_.TimeSliderBase.dateRange'] || 'Date Range'}
                   <div
@@ -431,7 +431,7 @@ class TimeSliderBase extends React.Component {
                     {translations['_ol_kit_.TimeSliderBase.next']}
                   </button>
 
-                  <button onClick={this.resetState} size="large">
+                  <button onClick={this.resetState} size='large'>
                     <span className='SyncIcon' color='primary' />
                   </button>
                 </div>
@@ -439,7 +439,7 @@ class TimeSliderBase extends React.Component {
                   onClick={this.props.onClose}
                   style={{ position: 'absolute', top: '5px', right: '5px' }}
                   aria-label='delete'
-                  size="large">
+                  size='large'>
                   <span className='CloseIcon' />
                 </button>
               </div>
@@ -447,7 +447,7 @@ class TimeSliderBase extends React.Component {
           </div>
         </Draggable>
       </div>
-    );
+    )
   }
 }
 

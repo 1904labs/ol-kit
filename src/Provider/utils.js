@@ -31,7 +31,7 @@ export function connectToContext (Component) {
       <ErrorBoundary>
         {
           MultiMapContext
-            ? (
+            ? ( // eslint-disable-line multiline-ternary
               <MultiMapContext.Consumer>
                 {
                   (providerProps = {}) => {
@@ -49,12 +49,12 @@ export function connectToContext (Component) {
               <ProviderContext.Consumer>
                 {
                   (providerProps = {}) => {
-                    // if propTypes is not defined on the component just pass all providerProps
+                  // if propTypes is not defined on the component just pass all providerProps
                     const filteredProviderProps = { ...providerProps }
                     const { propTypes } = Component
 
                     if (propTypes) {
-                      // filter out any props that do not need to get passed to this wrapped component
+                    // filter out any props that do not need to get passed to this wrapped component
                       Object.keys(providerProps).forEach(key => {
                         if (!propTypes[key]) delete filteredProviderProps[key]
                       })
@@ -67,8 +67,8 @@ export function connectToContext (Component) {
 
                     return (
                       <Component
-                        // persistedState={persistedState[persistedStateKey]} // note: persistedState is undefined if persistedStateKey key doesn't exist yet (components should check for this)
-                        // persistState={persistState}
+                      // persistedState={persistedState[persistedStateKey]} // note: persistedState is undefined if persistedStateKey key doesn't exist yet (components should check for this)
+                      // persistState={persistState}
                         {...defaultProps}
                         {...filteredProviderProps}
                         {...explicitProps} />

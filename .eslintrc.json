@@ -5,7 +5,7 @@
     "standard",
     "plugin:storybook/recommended"
   ],
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "plugins": [
     "react",
     "react-hooks"
@@ -188,6 +188,7 @@
     "no-throw-literal": "error",
     "no-trailing-spaces": "error",
     "no-undef-init": "error",
+    "react/no-unknown-property": [0, { "ignore": ["css", "js", "jsx"] }],
     "no-unneeded-ternary": "error",
     "no-unused-expressions": "error",
     "no-use-before-define": "error",

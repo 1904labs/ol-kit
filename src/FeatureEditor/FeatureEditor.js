@@ -50,6 +50,8 @@ class FeatureEditor extends Component {
 
             vectorContext.setStyle(style)
             vectorContext.drawGeometry(geom)
+
+            return geom
           }) // Arrays of style objects require a feature to be drawn for each style object in the array.  This could also be recursively called but that would add extra complexity.
           break
         case 'function':
