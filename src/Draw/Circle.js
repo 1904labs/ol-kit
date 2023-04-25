@@ -20,7 +20,7 @@ class DrawCircle extends Component {
           size='small'
           onClick={() => addInteraction({ type: 'Circle' })}>
           <span htmlColor={type === 'Circle' && !geometryFunction ? '#1976D2' : '#656565'}>
-            <i class="zmdi zmdi-circle-o"></i>
+            <i class='zmdi zmdi-circle-o'></i>
           </span>
         </button>
       </div>

@@ -20,7 +20,7 @@ class DrawFreehand extends Component {
           size='small'
           onClick={() => addInteraction({ type: 'LineString', freehand: true })}>
           <span htmlColor={type === 'Circle' && !freehand ? '#1976D2' : '#656565'}>
-            <i class="zmdi zmdi-gesture"></i>
+            <i class='zmdi zmdi-gesture'></i>
           </span>
         </button>
       </div>

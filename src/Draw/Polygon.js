@@ -20,7 +20,7 @@ class DrawPolygon extends Component {
           size='small'
           onClick={() => addInteraction({ type: 'Polygon' })}>
           <span htmlColor={type === 'Polygon' ? '#1976D2' : '#656565'}>
-            <i class="zmdi zmdi-triangle-up"></i>
+            <i class='zmdi zmdi-triangle-up'></i>
           </span>
         </button>
       </div>

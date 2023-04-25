@@ -97,7 +97,7 @@ function GooglePlacesSearch (props) {
             className='iconButton'
             aria-label='search'
             size='large'>
-            <i class="zmdi zmdi-search"></i>
+            <i class='zmdi zmdi-search'></i>
           </button>
         </div>
       </form>

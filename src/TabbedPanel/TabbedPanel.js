@@ -42,7 +42,7 @@ class TabbedPanel extends Component {
           style={{ height: showPanel ? `auto` : '48px' }}
           numoftabs={children.length || 1} >
           <div style={{ display: 'flex', background: 'rgb(237, 237, 237)' }}>
-            <div className='initialTab' onClick={this.togglePanel} icon={showPanel ? <i class="zmdi zmdi-chevron-down" data-testid='MapPanel.close'></i> : <i class="zmdi zmdi-chevron-right" data-testid='MapPanel.open'></i>} />
+            <div className='initialTab' onClick={this.togglePanel} icon={showPanel ? <i class='zmdi zmdi-chevron-down' data-testid='MapPanel.close'></i> : <i class='zmdi zmdi-chevron-right' data-testid='MapPanel.open'></i>} />
             <div
               className='tabs'
               open={showPanel}

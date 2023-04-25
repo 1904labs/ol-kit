@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormControlWrapper, SwitchContainer, Switch, SwitchLabel } from '../styled'
+
+import '../styled.css'
 
 export class CoordinateLabelPreference extends React.Component {
   constructor (props) {
@@ -27,15 +28,27 @@ export class CoordinateLabelPreference extends React.Component {
       <div>
         {!compact && <h5><b>{translations['_ol_kit.settings.coordinateLabels.toggleLabel']}</b></h5>}
         {!compact && <p>{translations['_ol_kit.settings.coordinateLabels.description']}</p>}
-        <FormControlWrapper>
-          <SwitchContainer compact={compact ? true : undefined} id='_POINT_LABELS_ENABLED'>
-            <SwitchLabel compact={compact ? true : undefined} htmlFor='_POINT_LABELS_ENABLED'>{compact ? translations['_ol_kit.settings.coordinateLabels.toggleLabel'] : translations['settings.turnOnOff']}</SwitchLabel>
-            <Switch color='primary'
+        <form className='formControlWrapper'>
+          <div 
+            className='switchContainer'
+            style={{
+              flexDirection: compact ? 'row' : 'column'
+            }}
+            id='_POINT_LABELS_ENABLED'>
+            <label
+              className='switchLabel'
+              style={{
+                order: compact ? 99 : 0
+              }}
+               htmlFor='_POINT_LABELS_ENABLED'>
+                {compact ? translations['_ol_kit.settings.coordinateLabels.toggleLabel'] : translations['settings.turnOnOff']}
+              </label>
+            <switch color='primary'
               checked={pointLabelsEnabled}
               onChange={this.updatePointLabelEnable}
               value={pointLabelsEnabled}/>
-          </SwitchContainer>
-        </FormControlWrapper>
+          </div>
+        </form>
       </div>
     )
   }

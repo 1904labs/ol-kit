@@ -19,7 +19,7 @@ function DrawPin (props) {
         size='small'
         onClick={() => addInteraction({ type })}>
         <span htmlColor={type === 'Pin' ? '#1976D2' : '#656565'}>
-          <i class="zmdi zmdi-pin"></i>
+          <i class='zmdi zmdi-pin'></i>
         </span>
       </button>
     </div>

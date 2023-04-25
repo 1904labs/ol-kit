@@ -434,7 +434,7 @@ class TimeSliderBase extends React.Component {
                   </button>
 
                   <button onClick={this.resetState} size='large'>
-                    <i class="zmdi zmdi-refresh-sync"></i>
+                    <i class='zmdi zmdi-refresh-sync'></i>
                   </button>
                 </div>
                 <button
@@ -442,7 +442,7 @@ class TimeSliderBase extends React.Component {
                   style={{ position: 'absolute', top: '5px', right: '5px' }}
                   aria-label='delete'
                   size='large'>
-                  <i class="zmdi zmdi-close"></i>
+                  <i class='zmdi zmdi-close'></i>
                 </button>
               </div>
             </div>

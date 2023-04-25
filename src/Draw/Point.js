@@ -19,8 +19,8 @@ class DrawPoint extends Component {
           data-testid='Draw.point'
           size='small'
           onClick={() => addInteraction({ type: 'Point' })}>
-          <span htmlColor={type === 'Point' ? '#1976D2' : '#656565'}> 
-            <i class="zmdi zmdi-circle"></i>
+          <span htmlColor={type === 'Point' ? '#1976D2' : '#656565'}>
+            <i class='zmdi zmdi-circle'></i>
           </span>
         </button>
       </div>

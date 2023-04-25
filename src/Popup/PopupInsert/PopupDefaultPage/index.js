@@ -6,22 +6,13 @@ import { connectToContext } from 'Provider'
 import CLOSE from 'images/close_icon.svg'
 import LEFT_ARROW from 'images/left_arrow.svg'
 import RIGHT_ARROW from 'images/right_arrow.svg'
-import { HeightContainer, AttributeSettings } from '../styled'
 import ZmdiButton from '../_PopupZmdiButton'
 import LoadingSpinner from '../_LoadingSpinner'
 import DataList from '../PopupDataList'
 import PopupTabs from '../PopupTabs'
-import {
-  Header,
-  Body,
-  Close,
-  Title,
-  FeatureNavigator,
-  FeatureCount,
-  HeaderDetails,
-  Frame,
-  Subtitle
-} from '../PopupHeader/styled'
+
+import '../PopupHeader/styled.css'
+import '../styled.css'
 
 /**
  * @component
@@ -59,49 +50,49 @@ class PopupDefaultPage extends Component {
     const childrenCount = isReactFragment(children) ? children.props.children.length : children.length
 
     return (
-      <HeightContainer>
-        <Header>
-          <Close onClick={onClose}><CLOSE data-testid='popup-page-close' /></Close>
+      <div className='heightContainer'>
+        <div className='header'>
+          <button className='close' onClick={onClose}><CLOSE data-testid='popup-page-close' /></button>
           {pageCount > 1 &&
-            <FeatureNavigator>
+            <div className='featureNavigator'>
               <ZmdiButton onClick={onPrevPage}>
                 <LEFT_ARROW data-testid='popup-page-left-arrow' />
               </ZmdiButton>
-              <FeatureCount>{`${currentPage} / ${pageCount}`}</FeatureCount>
+              <div className='featureCount'>{`${currentPage} / ${pageCount}`}</div>
               <ZmdiButton onClick={onNextPage}>
                 <RIGHT_ARROW data-testid='popup-page-right-arrow' />
               </ZmdiButton>
-            </FeatureNavigator>
+            </div>
           }
-          <HeaderDetails loading={loading.toString()}>
-            <Title>{title}</Title>
-            <Subtitle>{subtitle}</Subtitle>
-          </HeaderDetails>
-        </Header>
+          <div className='headerDetails' loading={loading.toString()}>
+            <div className='title'>{title}</div>
+            <div className='subtitle'>{subtitle}</div>
+          </div>
+        </div>
 
         {loading
           ? (
             <LoadingSpinner style={{ marginTop: '70px', textAlign: 'center' }} />
           ) : (
-            <Body>
+            <div className='body'>
               <PopupTabs selectedIdx={currentTab}>
                 <div title={translations['_ol_kit.PopupDefaultPage.details']} style={{ height: '170px', overflowY: 'scroll' }}>
                   {onSettingsClick &&
-                    <AttributeSettings onClick={onSettingsClick}>
+                    <div className='attributeSettings' onClick={onSettingsClick}>
                       <i className='zmdi zmdi-settings'></i>
                       <p style={{ fontSize: 'smaller', padding: '0px 5px', margin: 0 }}>{translations['_ol_kit.PopupDefaultPage.customize']}</p>
-                    </AttributeSettings>
+                    </div>
                   }
                   <DataList attributes={attributes} />
                 </div>
                 {childrenCount > 3
-                  ? <Frame title={translations['_ol_kit.PopupDefaultPage.actions']} height={169}>
+                  ? <div className='frame' title={translations['_ol_kit.PopupDefaultPage.actions']} height={169}>
                     {React.Children.map(children, item =>
                       item && React.cloneElement(item, {
                         ...item.props, onClose: onClose
                       })
                     )}
-                  </Frame>
+                  </div>
                   : <div title={translations['_ol_kit.PopupDefaultPage.actions']} style={{ height: '169px', overflowY: 'scroll' }}>
                     {React.Children.map(children, item =>
                       item && React.cloneElement(item, {
@@ -111,10 +102,10 @@ class PopupDefaultPage extends Component {
                   </div>
                 }
               </PopupTabs>
-            </Body>
+            </div>
           )
         }
-      </HeightContainer>
+      </div>
     )
   }
 }

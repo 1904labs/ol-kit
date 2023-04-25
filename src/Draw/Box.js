@@ -31,7 +31,7 @@ class DrawBox extends Component {
           data-testid='Draw.box'
           size='small'
           onClick={() => addInteraction(BOX_CONFIG)}>
-          <i class="zmdi zmdi-square-o"></i>
+          <i class='zmdi zmdi-square-o'></i>
         </button>
       </div>
     )
