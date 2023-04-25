@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { createBox } from 'ol/interaction/Draw'
 
+import 'styled.css'
+
 const BOX_CONFIG = {
   type: 'Circle',
   geometryFunction: createBox()

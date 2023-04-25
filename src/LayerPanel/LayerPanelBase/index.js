@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Card, Tabs, Tab, InitialTab, CardContent } from './styled'
 import { connectToContext } from 'Provider'
+
+import 'styled.css'
 
 /**
  * @component
@@ -36,21 +37,33 @@ class LayerPanelBase extends Component {
     const tabDataTestId = showLayerPanel ? 'LayerPanel.close' : 'LayerPanel.open'
 
     return <>
-      {!showLayerPanel && <InitialTab id='initialtab' onClick={this.showLayerPanel} icon={<></>} />}
-      <Card open={showLayerPanel} styles={style} numoftabs={children.length || 1} inline={inline} className='_popup_boundary' >
-        <CardContent>
+      {!showLayerPanel && <div id='initialtab' onClick={this.showLayerPanel} icon={<span className='layersicon'></span>} />}
+      <div
+        className='_popup_boundary card'
+        style={{
+          position: inline ? 'inline' : 'absolute',
+          right: showLayerPanel ? '15px' : '-400px',
+          minHeight: `${200 + (children.length || 1 * 40)}px`
+        }} >
+        <div className='cardContent'>
           <h5>{layerPanelTitle}</h5>
           <button onClick={this.hideLayerPanel} size="large">x</button>
-        </CardContent>
-        <Tabs open={showLayerPanel} value={activeIndex} onChange={this.handleChange} >
+        </div>
+        <div
+          className='tabs'
+          style={{
+            backgroundColor: showLayerPanel ? '#152357' : '#fff'
+          }}
+          value={activeIndex}
+          onChange={this.handleChange} >
           {showLayerPanel &&
             React.Children.map(children, (child, i) => {
-              if (child) return <Tab key={i} label={child.props.tabIcon || child.props.label} />
+              if (child) return <div className='tab' key={i} label={child.props.tabIcon || child.props.label} />
             })
           }
-        </Tabs>
+        </div>
         {translations && React.Children.toArray(children)[activeIndex]}
-      </Card>
+      </div>
     </>;
   }
 }

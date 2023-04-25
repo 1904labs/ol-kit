@@ -9,6 +9,8 @@ import { toLonLat } from 'ol/proj'
 import olGeomLineString from 'ol/geom/LineString'
 import { startPin, endPin, waypointPin, routeStyle } from './utils'
 
+import 'styled.css'
+
 const getDirections = async (locations, apiKey) => {
   const waypoints = locations
   const origin = waypoints.shift().reverse()

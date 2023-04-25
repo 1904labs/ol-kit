@@ -7,6 +7,8 @@ import Selector from 'LayerStyler/_Selector'
 import GenericSymbolizer from './_GenericSymbolizer'
 import escapeRegExp from 'lodash.escaperegexp'
 
+import 'styled.css'
+
 class StyleGroup extends Component {
   componentDidMount () {
     const { styles } = this.props

@@ -7,6 +7,8 @@ import { calculateAreaAndDistance } from './utils'
 import { MeasureLabelPreference } from 'Preferences'
 import { connectToContext } from 'Provider'
 
+import 'styled.css'
+
 const UNIT_OPTIONS = {
   imperial: [
     {

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormControlWrapper, SwitchContainer, Switch, SwitchLabel, Select, ChildContainer } from '../styled'
+
+import '../styled.css'
 
 export class MeasureLabelPreference extends React.Component {
   constructor (props) {
@@ -60,10 +61,13 @@ export class MeasureLabelPreference extends React.Component {
       <div style={{ 'width': '100%' }}>
         {!compact && <h5><b>{header}</b></h5>}
         {!compact && <p>{description}</p>}
-        <FormControlWrapper>
-          <SwitchContainer compact={compact ? true : undefined} id={enabledPreferenceKey}>
-            {!compact && <SwitchLabel htmlFor={enabledPreferenceKey}>{label}</SwitchLabel>}
-            <Switch color='primary'
+        <form className='formControlWrapper'>
+          <div
+            className='switchContainer'
+            style={{ flexDirection: compact ? 'row' : 'column' }}
+            compact={compact ? true : undefined} id={enabledPreferenceKey}>
+            {!compact && <label style={{ border: props.compact ? 99 : 0 }} htmlFor={enabledPreferenceKey}>{label}</label>}
+            <switch color='primary'
               inputProps={{
                 'data-testid': 'geokit-MeasureLabelPreference-uomToggle'
               }}
@@ -71,13 +75,13 @@ export class MeasureLabelPreference extends React.Component {
               onChange={this.updateLabelEnabled}
               value={enabled}
               disabled={!!disabled}/>
-          </SwitchContainer>
-          {children && compact && !disabled && <ChildContainer>{children}</ChildContainer>}
-          <Select value={value} data-testid='geokit-MeasureLabelPreference-uomOptions' onChange={this.updateLabelUOM} disabled={disabled}>
+          </div>
+          {children && compact && !disabled && <div>{children}</div>}
+          <select value={value} data-testid='geokit-MeasureLabelPreference-uomOptions' onChange={this.updateLabelUOM} disabled={disabled}>
             {uomOptions}
-          </Select>
-        </FormControlWrapper>
-        {children && !compact && !disabled && <ChildContainer>{children}</ChildContainer>}
+          </select>
+        </form>
+        {children && !compact && !disabled && <div>{children}</div>}
       </div>
     )
   }

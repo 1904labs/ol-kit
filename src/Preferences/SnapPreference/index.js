@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import '../styled.css'
+
 export class SnapPreference extends React.Component {
   constructor (props) {
     super(props)

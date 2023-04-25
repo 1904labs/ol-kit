@@ -6,6 +6,8 @@ import StamenTerrain from './StamenTerrain'
 import StamenTonerDark from './StamenTonerDark'
 import StamenTonerLite from './StamenTonerLite'
 
+import 'styled.css'
+
 const LAYER_TYPE_ID = '_ol_kit_basemap'
 
 /**

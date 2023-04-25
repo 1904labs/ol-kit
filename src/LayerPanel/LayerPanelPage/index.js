@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { LayerPanelPageContainer } from './styled'
 import PropTypes from 'prop-types'
+
+import 'styled.css'
 
 /**
  * @component

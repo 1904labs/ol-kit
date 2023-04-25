@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
+import 'styled.css'
+
 class Toolbar extends React.Component {
   render () {
     const { children } = this.props

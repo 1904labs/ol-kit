@@ -15,6 +15,8 @@ import PopupDefaultPage from './PopupDefaultPage'
 import PopupPageLayout from './PopupPageLayout'
 import olGeomPoint from 'ol/geom/Point'
 
+import 'styled.css'
+
 class SelectEvent extends Event {
   constructor (type, selected, deselected, mapBrowserEvent) {
     super(type)

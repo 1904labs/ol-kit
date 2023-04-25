@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import olLayerTile from 'ol/layer/Tile'
 import olSourceStamen from 'ol/source/Stamen'
 import { stamenTerrain } from './thumbnails'
-import { connectToContext } from 'Provider'; // eslint-disable-line
+import { connectToContext } from 'Provider' // eslint-disable-line
+
+import 'styled.css'
 
 /**
  * Stamen terrain basemap option

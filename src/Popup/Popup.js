@@ -8,6 +8,8 @@ import PopupBase from './PopupBase'
 import PopupDefaultInsert from './PopupInsert/PopupDefaultInsert'
 import { addMovementListener, getLayersAndFeaturesForEvent, getPopupPositionFromFeatures, removeMovementListener } from './utils'
 
+import 'styled.css'
+
 /**
  * @component
  * @category Popup

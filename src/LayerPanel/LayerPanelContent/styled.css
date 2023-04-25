@@ -1,5 +1,5 @@
 .cardContent {
-  maxHeight: 565px;
+  max-height: 565px;
   overflow: scroll;
   margin-bottom: 5px;
 }

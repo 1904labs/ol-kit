@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import ZoomIn from './ZoomIn'
 import ZoomOut from './ZoomOut'
 import ControlGroup from './ControlGroup'
-import { connectToContext } from 'Provider'; // eslint-disable-line
+import { connectToContext } from 'Provider' // eslint-disable-line
+
+import 'styled.css'
 
 /**
  * A map control group with zoom in and zoom out buttons

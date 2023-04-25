@@ -9,6 +9,8 @@ import { datesDiffDay, datesSameDay } from './utils'
 import { DragHandle } from 'DragHandle'
 import Draggable from 'react-draggable'
 
+import 'styled.css'
+
 // const MAX_DATES = 300
 
 function TabPanel (props) {

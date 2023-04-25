@@ -5,6 +5,8 @@ import { convertXYtoLatLong } from 'Map'
 import { connectToContext } from 'Provider'
 import ContextMenuCoordinateGroup from './ContextMenuCoords'
 
+import 'styled.css'
+
 /** A context menu component useful for contextual geospatial actions
  * @component
  * @category ContextMenu

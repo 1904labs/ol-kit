@@ -14,6 +14,8 @@ import olPoint from 'ol/geom/Point'
 import { useForm } from 'react-hook-form'
 import { fromLonLat } from 'ol/proj'
 
+import 'styled.css'
+
 /** A search input to look up and label locations via Google Places API
  * @component
  * @category GooglePlacesSearch

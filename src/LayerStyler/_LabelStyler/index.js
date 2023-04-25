@@ -5,6 +5,8 @@ import { connectToContext } from 'Provider'
 import ugh from 'ugh'
 import ColorPicker from 'LayerStyler/_ColorPicker'
 
+import 'styled.css'
+
 const DIVIDER = ':'
 const UNITS = {
   ft: ['100ft', '125ft', '150ft', '250ft', '500ft', '750ft', '1000ft', '1250ft', '1500ft', '1750ft', '2000ft'],

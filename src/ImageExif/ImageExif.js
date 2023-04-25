@@ -15,6 +15,8 @@ import arrow from './arrow.png'
 import { v4 as uuidv4 } from 'uuid'
 import ugh from '../ugh'
 
+import 'styled.css'
+
 const format = new GeoJSON()
 const projectionOpts = {
   decimals: 8,

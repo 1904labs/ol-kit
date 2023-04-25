@@ -5,6 +5,8 @@ import { connectToContext } from 'Provider'
 import SelectTabs from 'LayerStyler/_SelectTabs'
 import StyleGroup from './_StyleGroup'
 
+import 'styled.css'
+
 const DEFAULT_STYLE = {
   name: 'New Auto Style',
   filter: [

@@ -8,6 +8,8 @@ import StamenTonerDark from './StamenTonerDark'
 import StamenTonerLite from './StamenTonerLite'
 import { connectToContext } from 'Provider'
 
+import 'styled.css'
+
 /**
  * A floating basemap selector that slides options up to toggle basemap
  * @component

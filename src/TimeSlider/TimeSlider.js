@@ -8,6 +8,8 @@ import TimeSliderBase from './TimeSliderBase'
 import { datesDiffDay, datesSameDay } from './utils'
 import { connectToContext } from 'Provider'
 
+import 'styled.css'
+
 class SelectEvent extends Event {
   constructor (type, selected, deselected, mapBrowserEvent) {
     super(type)

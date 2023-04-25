@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Toolbar } from 'Toolbar'
 
+import 'styled.css'
+
 export class DrawToolbar extends React.Component {
   render () {
     const { translations, showMeasurements, onShowMeasurements, onCancel, onFinish } = this.props

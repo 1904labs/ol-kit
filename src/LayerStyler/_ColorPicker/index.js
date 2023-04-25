@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { BlockPicker } from 'react-color'
 
+import 'styled.css'
+
 const colors = [
   '#f44336',
   '#9c27b0',

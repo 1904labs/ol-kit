@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import 'styled.css'
+
 /** A context menu list item with a title and click handler
  * @component
  * @category ContextMenu

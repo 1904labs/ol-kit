@@ -6,17 +6,11 @@
   opacity: 0.9;
 }
 
-/* position: props => props.inline ? 'inline' : 'absolute',
-  right: props => props.open ? '15px' : '-400px',
-  minHeight: props => `${200 + (props.numoftabs * 40)}px`, */
-
 .tabs {
   background: #ededed;
   transition: all .3s;
   border-bottom: 1px solid lightgrey;
 }
-
-/* const backgroundColor = props.open ? '#152357' : '#fff' */
 
 .tab {
   color: '#152357'

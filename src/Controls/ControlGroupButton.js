@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import { connectToContext } from 'Provider'
 
+import 'styled.css'
+
 /**
  * A control group button wrapper using a Material IconButton
  * @component

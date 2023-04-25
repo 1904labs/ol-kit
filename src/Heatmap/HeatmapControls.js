@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import en from 'locales/en'
 
+import 'styled.css'
+
 /**
  * UI to choose parameters for HeatmapLayer types (rendered in LayerStyler)
  * @component
