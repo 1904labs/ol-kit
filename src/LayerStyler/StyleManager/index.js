@@ -9,7 +9,7 @@ import LabelStyler from 'LayerStyler/_LabelStyler'
 import LayerStyler from 'LayerStyler/_LayerStyler'
 import SelectTabs from 'LayerStyler/_SelectTabs'
 
-import 'styled.css'
+import './styled.css'
 
 const DEFAULT_LABEL_STYLE = {
   name: 'New Label Style',

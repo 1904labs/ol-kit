@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Toolbar } from 'Toolbar'
 
-import 'styled.css'
+import './styled.css'
 
 export class DrawToolbar extends React.Component {
   render () {

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connectToContext } from '../Provider/utils' // direct import required here!
 
-import 'styled.css'
+import './styled.css'
 
 class FlexMap extends React.Component {
   render () {

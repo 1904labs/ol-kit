@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * A button for drawing polygons.
@@ -19,7 +19,9 @@ class DrawPolygon extends Component {
           data-testid='Draw.polygon'
           size='small'
           onClick={() => addInteraction({ type: 'Polygon' })}>
-          <span htmlColor={type === 'Polygon' ? '#1976D2' : '#656565'}>ChangeHistoryOutlinedIcon</span>
+          <span htmlColor={type === 'Polygon' ? '#1976D2' : '#656565'}>
+            <i class="zmdi zmdi-triangle-up"></i>
+          </span>
         </button>
       </div>
     )

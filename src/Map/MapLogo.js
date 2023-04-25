@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import OL_KIT_MARK from 'images/ol_kit_mark.svg'
 import OL_KIT_MARK_BLACK from 'images/ol_kit_mark_black.svg'
 
-import 'styled.css'
+import './styled.css'
 
 export default function MapLogo (props) {
   const { logoPosition, translations } = props

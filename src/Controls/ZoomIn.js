@@ -5,7 +5,7 @@ import ControlGroupButton from './ControlGroupButton'
 import { zoomDelta } from './utils'
 import { connectToContext } from 'Provider'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * A simple map zoom in control

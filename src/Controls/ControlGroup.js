@@ -7,7 +7,7 @@ import ZoomIn from './ZoomIn'
 import ZoomOut from './ZoomOut'
 import CurrentLocation from './CurrentLocation'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * A map control container with built-in orientations

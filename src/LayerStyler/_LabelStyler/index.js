@@ -5,7 +5,7 @@ import { connectToContext } from 'Provider'
 import ugh from 'ugh'
 import ColorPicker from 'LayerStyler/_ColorPicker'
 
-import 'styled.css'
+import './styled.css'
 
 const DIVIDER = ':'
 const UNITS = {

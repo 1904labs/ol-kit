@@ -4,7 +4,7 @@ import olLayerVector from 'ol/layer/Vector'
 import olSourceVector from 'ol/source/Vector'
 import { connectToContext } from 'Provider' // eslint-disable-line
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * Blank white basemap option

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connectToContext } from 'Provider'
 import { createProject, loadProject } from './utils'
 
-import 'styled.css'
+import './styled.css'
 
 /** A project save/load component
  * @component

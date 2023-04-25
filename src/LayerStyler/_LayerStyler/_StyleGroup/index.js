@@ -7,7 +7,7 @@ import Selector from 'LayerStyler/_Selector'
 import GenericSymbolizer from './_GenericSymbolizer'
 import escapeRegExp from 'lodash.escaperegexp'
 
-import 'styled.css'
+import './styled.css'
 
 class StyleGroup extends Component {
   componentDidMount () {
@@ -216,7 +216,7 @@ class StyleGroup extends Component {
               )
           })}
           <div className='addNew' onClick={this.onNewStyleValue}>
-            <div style={{ paddingRight: '5px' }} >addCircleIcon</div>
+            <div style={{ paddingRight: '5px' }} ><i class="zmdi zmdi-plus-circle"></i></div>
             {translations['_ol_kit.StyleGroup.addValue']}
           </div>
         </div>

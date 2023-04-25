@@ -5,7 +5,7 @@ import { connectToContext } from 'Provider'
 import MapDisplayElement from './MapDisplayElement'
 import Slider from './Slider'
 
-import 'styled.css'
+import './styled.css'
 
 class SplitScreen extends Component {
   constructor (props) {

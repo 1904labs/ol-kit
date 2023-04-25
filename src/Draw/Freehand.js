@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * A button for drawing freehand line strings.
@@ -19,7 +19,9 @@ class DrawFreehand extends Component {
           data-testid='Draw.freehand'
           size='small'
           onClick={() => addInteraction({ type: 'LineString', freehand: true })}>
-          <span htmlColor={type === 'Circle' && !freehand ? '#1976D2' : '#656565'}>gesture outline</span>
+          <span htmlColor={type === 'Circle' && !freehand ? '#1976D2' : '#656565'}>
+            <i class="zmdi zmdi-gesture"></i>
+          </span>
         </button>
       </div>
     )

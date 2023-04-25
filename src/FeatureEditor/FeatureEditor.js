@@ -13,7 +13,7 @@ import olInteractionModify from 'ol/interaction/Modify'
 import olCollection from 'ol/Collection'
 import olStyleStyle from 'ol/style/Style'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * A component to edit geometries

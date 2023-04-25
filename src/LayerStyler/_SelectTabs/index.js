@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import 'styled.css'
+import './styled.css'
 
 class SelectTabs extends Component {
   constructor (props) {

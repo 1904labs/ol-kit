@@ -4,7 +4,7 @@ import olLayerTile from 'ol/layer/Tile'
 import olSourceBingMaps from 'ol/source/BingMaps'
 import { connectToContext } from 'Provider'
 
-import 'styled.css'
+import './styled.css'
 
 const DEFAULT_OPTS = {
   thumbnail: '',

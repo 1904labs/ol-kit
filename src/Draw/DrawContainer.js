@@ -10,7 +10,7 @@ import { SnapPreference, CoordinateLabelPreference } from 'Preferences'
 import { connectToContext } from 'Provider'
 import { styleMeasure } from './utils'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * A prebuilt Draw Tools component

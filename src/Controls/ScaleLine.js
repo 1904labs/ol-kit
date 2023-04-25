@@ -4,7 +4,7 @@ import { ScaleLine as olScaleLine } from 'ol/control'
 
 import { connectToContext } from 'Provider'
 
-import 'styled.css'
+import './styled.css'
 
 class ScaleLine extends React.Component {
   constructor (props) {

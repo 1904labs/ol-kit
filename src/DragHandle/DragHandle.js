@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import 'styled.css'
+import './styled.css'
 
 export default function DragHandle (props) {
   const { color, height, className } = props

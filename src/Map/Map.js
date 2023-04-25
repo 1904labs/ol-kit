@@ -16,7 +16,7 @@ import en from 'locales/en'
 import ugh from 'ugh'
 import olInteractionSelect from 'ol/interaction/Select'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * A Reactified ol.Map wrapper component

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import MappyConcerned from './mappy_concerned.svg'
 import MappyDead from './mappy_dead.svg'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * React ErrorBoundary component

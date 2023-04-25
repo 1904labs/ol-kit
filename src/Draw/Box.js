@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { createBox } from 'ol/interaction/Draw'
 
-import 'styled.css'
+import './styled.css'
 
 const BOX_CONFIG = {
   type: 'Circle',
@@ -31,7 +31,7 @@ class DrawBox extends Component {
           data-testid='Draw.box'
           size='small'
           onClick={() => addInteraction(BOX_CONFIG)}>
-          Square sharp
+          <i class="zmdi zmdi-square-o"></i>
         </button>
       </div>
     )

@@ -6,7 +6,7 @@ import { connectToContext } from 'Provider'
 import Popover from 'LayerStyler/_Popover'
 import Selector from 'LayerStyler/_Selector'
 
-import 'styled.css'
+import './styled.css'
 
 const defaultFilter = {
   logical: 'AND', // determines how to join the filter to other filters

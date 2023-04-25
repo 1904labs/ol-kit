@@ -34,7 +34,7 @@ import { connectToContext } from 'Provider'
 import { convertFileToFeatures } from 'LayerPanel/LayerPanelActionImport/utils'
 import VectorLayer from 'classes/VectorLayer'
 
-import 'styled.css'
+import './styled.css'
 
 const INDETERMINATE = 'indeterminate'
 
@@ -511,7 +511,7 @@ LayerPanelLayersPage.defaultProps = {
   shouldAllowLayerRemoval: (layer) => true,
   getMenuItemsForLayer: () => false,
   onCreateHeatmap: () => { },
-  tabIcon: <LayersIcon />,
+  tabIcon: <span className='zmdi zmdi-layers' />,
   setHoverStyle: () => ({ color: 'red', fill: '#ffffff', stroke: 'red' }),
   disableHover: false,
   initialItemCount: 6,

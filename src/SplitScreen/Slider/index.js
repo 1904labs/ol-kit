@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Draggable from 'react-draggable'
 import DragBarIcon from './svgIcons/DragBarIcon'
 
-import 'styled.css'
+import './styled.css'
 
 const Slider = ({ initialPosition, onDrag, innerRef }) => {
   const limit = window.innerWidth * 0.2

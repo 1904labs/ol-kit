@@ -4,7 +4,7 @@ import ColorPicker from 'LayerStyler/_ColorPicker'
 
 import { connectToContext } from 'Provider'
 
-import 'styled.css'
+import './styled.css'
 
 // the incoming keys are based on the mark (point) symbolizer -- if the UI
 // was based on a different symbolizer then these would have to change

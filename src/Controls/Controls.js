@@ -11,7 +11,7 @@ import Compass from './Compass'
 import ScaleLine from './ScaleLine'
 import { connectToContext } from 'Provider'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * A map control container with built-in positioning

@@ -9,7 +9,7 @@ import { datesDiffDay, datesSameDay } from './utils'
 import { DragHandle } from 'DragHandle'
 import Draggable from 'react-draggable'
 
-import 'styled.css'
+import './styled.css'
 
 // const MAX_DATES = 300
 
@@ -434,7 +434,7 @@ class TimeSliderBase extends React.Component {
                   </button>
 
                   <button onClick={this.resetState} size='large'>
-                    <span className='SyncIcon' color='primary' />
+                    <i class="zmdi zmdi-refresh-sync"></i>
                   </button>
                 </div>
                 <button
@@ -442,7 +442,7 @@ class TimeSliderBase extends React.Component {
                   style={{ position: 'absolute', top: '5px', right: '5px' }}
                   aria-label='delete'
                   size='large'>
-                  <span className='CloseIcon' />
+                  <i class="zmdi zmdi-close"></i>
                 </button>
               </div>
             </div>

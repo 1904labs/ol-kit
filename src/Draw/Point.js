@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * A button for drawing points.
@@ -19,7 +19,9 @@ class DrawPoint extends Component {
           data-testid='Draw.point'
           size='small'
           onClick={() => addInteraction({ type: 'Point' })}>
-          <span htmlColor={type === 'Point' ? '#1976D2' : '#656565'}> LensIcon</span>
+          <span htmlColor={type === 'Point' ? '#1976D2' : '#656565'}> 
+            <i class="zmdi zmdi-circle"></i>
+          </span>
         </button>
       </div>
     )

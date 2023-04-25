@@ -16,13 +16,17 @@ class LayerPanelCheckbox extends Component {
         <input type='checkbox' inputProps={{
           'data-testid': 'LayerPanel.indeterminateCheckbox'
         }} indeterminateIcon={'checkboxblank'}
-        onClick={(e) => handleClick(e, true)} checked={!!checkboxState} indeterminate />
+        onClick={(e) => handleClick(e, true)} checked={!!checkboxState} indeterminate >
+          <i class="zmdi zmdi-minus-square"></i>
+        </input>
       )
     } else {
       return (
         <input type='checkbox' inputProps={{
           'data-testid': checkboxDataTestId
-        }} onClick={(e) => handleClick(e, !checkboxState)} checked={checkboxState} />
+        }} onClick={(e) => handleClick(e, !checkboxState)} checked={checkboxState} >
+          <i class="zmdi zmdi-check-square"></i>
+        </input>
       )
     }
   }

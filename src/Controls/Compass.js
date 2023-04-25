@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { connectToContext } from 'Provider'
 import { rotateMap } from './utils'
 
-import 'styled.css'
+import './styled.css'
 
 const colors = {
   light: {

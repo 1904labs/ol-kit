@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { nanoid } from 'nanoid'
-import 'styled.css'
+import './styled.css'
 
 class Selector extends Component {
   constructor (props) {

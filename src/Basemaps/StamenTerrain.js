@@ -5,7 +5,7 @@ import olSourceStamen from 'ol/source/Stamen'
 import { stamenTerrain } from './thumbnails'
 import { connectToContext } from 'Provider' // eslint-disable-line
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * Stamen terrain basemap option

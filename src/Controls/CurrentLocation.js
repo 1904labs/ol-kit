@@ -6,7 +6,7 @@ import { centerAndZoom } from 'Map'
 import { connectToContext } from 'Provider'
 import ugh from 'ugh'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * A simple map zoom control

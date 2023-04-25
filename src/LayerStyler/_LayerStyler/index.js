@@ -5,7 +5,7 @@ import { connectToContext } from 'Provider'
 import SelectTabs from 'LayerStyler/_SelectTabs'
 import StyleGroup from './_StyleGroup'
 
-import 'styled.css'
+import './styled.css'
 
 const DEFAULT_STYLE = {
   name: 'New Auto Style',
@@ -100,7 +100,7 @@ class LayerStyler extends Component {
                   className='addNew'
                   data-testid={'LayerStyler.addStyle'}
                   onClick={this.createStyleGroup}>
-                  AddCircleIcon
+                  <i class="zmdi zmdi-plus-circle"></i>
                 </div>
               }
               {onDefaultStyleReset && <div className='resetText' onClick={onDefaultStyleReset}>{translations['_ol_kit.LayerStyler.reset']}</div>}

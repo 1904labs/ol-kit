@@ -14,7 +14,7 @@ import olPoint from 'ol/geom/Point'
 import { useForm } from 'react-hook-form'
 import { fromLonLat } from 'ol/proj'
 
-import 'styled.css'
+import './styled.css'
 
 /** A search input to look up and label locations via Google Places API
  * @component
@@ -97,7 +97,7 @@ function GooglePlacesSearch (props) {
             className='iconButton'
             aria-label='search'
             size='large'>
-            SearchIcon
+            <i class="zmdi zmdi-search"></i>
           </button>
         </div>
       </form>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * A button for drawing circles.
@@ -19,7 +19,9 @@ class DrawCircle extends Component {
           data-testid='Draw.circle'
           size='small'
           onClick={() => addInteraction({ type: 'Circle' })}>
-          <span htmlColor={type === 'Circle' && !geometryFunction ? '#1976D2' : '#656565'}>radio button unchecked</span>
+          <span htmlColor={type === 'Circle' && !geometryFunction ? '#1976D2' : '#656565'}>
+            <i class="zmdi zmdi-circle-o"></i>
+          </span>
         </button>
       </div>
     )

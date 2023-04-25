@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * A button for drawing line strings.
@@ -19,7 +19,9 @@ class DrawLine extends Component {
           data-testid='Draw.line'
           size='small'
           onClick={() => addInteraction({ type: 'LineString' })}>
-          <span htmlColor={type === 'Circle' && !freehand ? '#1976D2' : '#656565'}>TimelineOutlinedIcon</span>
+          <span htmlColor={type === 'Circle' && !freehand ? '#1976D2' : '#656565'}>
+            timeline
+          </span>
         </button>
       </div>
     )

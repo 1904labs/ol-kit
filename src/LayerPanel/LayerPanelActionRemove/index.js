@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import olLayerVector from 'ol/layer/Vector'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * @component

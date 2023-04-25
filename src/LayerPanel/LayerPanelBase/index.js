@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connectToContext } from 'Provider'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * @component
@@ -37,7 +37,7 @@ class LayerPanelBase extends Component {
     const tabDataTestId = showLayerPanel ? 'LayerPanel.close' : 'LayerPanel.open'
 
     return <>
-      {!showLayerPanel && <div id='initialtab' onClick={this.showLayerPanel} icon={<span className='layersicon'></span>} />}
+      {!showLayerPanel && <div id='initialtab' onClick={this.showLayerPanel} icon={<span className='zmdi zmdi-layers'></span>} />}
       <div
         className='_popup_boundary card'
         style={{

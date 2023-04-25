@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * A button for drawing points.
@@ -18,7 +18,9 @@ function DrawPin (props) {
         data-testid='Draw.pin'
         size='small'
         onClick={() => addInteraction({ type })}>
-        <span htmlColor={type === 'Pin' ? '#1976D2' : '#656565'}> PinDrop</span>
+        <span htmlColor={type === 'Pin' ? '#1976D2' : '#656565'}>
+          <i class="zmdi zmdi-pin"></i>
+        </span>
       </button>
     </div>
   )

@@ -5,7 +5,7 @@ import { DragHandle } from 'DragHandle'
 
 import { positionContainer, appendPx } from './utils'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * @component

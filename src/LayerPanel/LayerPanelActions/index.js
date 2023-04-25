@@ -3,7 +3,7 @@ import LayerPanelMenu from 'LayerPanel/LayerPanelMenu'
 
 import PropTypes from 'prop-types'
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * @component
@@ -65,7 +65,7 @@ LayerPanelActions.propTypes = {
 }
 
 LayerPanelActions.defaultProps = {
-  icon: <MoreVertIcon />
+  icon: <i class="zmdi zmdi-more-vert"></i>
 }
 
 export default LayerPanelActions

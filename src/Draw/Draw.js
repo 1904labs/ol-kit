@@ -19,7 +19,7 @@ import olCollection from 'ol/Collection'
 import { connectToContext } from 'Provider'
 import { getStyledFeatures } from './utils'
 
-import 'styled.css'
+import './styled.css'
 
 const OL_DRAW_TYPES = ['Point', 'LineString', 'LinearRing', 'Polygon', 'MultiPoint', 'MultiLineString', 'MultiPolygon', 'GeometryCollection', 'Circle']
 

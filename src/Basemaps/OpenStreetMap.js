@@ -5,7 +5,7 @@ import olSourceOSM from 'ol/source/OSM'
 import { osm } from './thumbnails'
 import { connectToContext } from 'Provider' // eslint-disable-line
 
-import 'styled.css'
+import './styled.css'
 
 /**
  * OSM basemap option
