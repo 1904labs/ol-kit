@@ -10,17 +10,17 @@ import './styled.css'
  * @component
  */
 class ErrorBoundary extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       abandonAllHope: false,
       attemptedReset: false,
-      hasError: false
+      hasError: false,
     }
   }
 
-  componentDidCatch () {
+  componentDidCatch() {
     const { attemptedReset } = this.state
 
     if (attemptedReset) {
@@ -29,7 +29,7 @@ class ErrorBoundary extends React.Component {
     }
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const { abandonAllHope, attemptedReset, hasError } = this.state
 
     // reset the attemptedReset bool whenever successful reset occurs so next error can also be reset instead of abandoned
@@ -38,11 +38,11 @@ class ErrorBoundary extends React.Component {
     }
   }
 
-  static getDerivedStateFromError () { // eslint-disable-line handle-callback-err
+  static getDerivedStateFromError() { // eslint-disable-line handle-callback-err
     return { hasError: true }
   }
 
-  render () {
+  render() {
     const { abandonAllHope, hasError } = this.state
     const { floating } = this.props
 
@@ -50,20 +50,34 @@ class ErrorBoundary extends React.Component {
       ? (
         <div className={floating ? 'floatingBackground' : ''}>
           <div className={floating ? 'contianer floating' : 'container '}>
-            <h1 className='header'>Something went wrong!</h1>
+            <h1 className="header">Something went wrong!</h1>
             {!abandonAllHope
-              ? <MappyConcerned />
-              : <MappyDead />}
-            <em className='message'>{!abandonAllHope
-              ? 'Have another go?'
-              : 'This component is beyond recovery...'}
+              ? (
+                <img
+                  src={MappyConcerned}
+                  alt=""
+                />
+              )
+              : (
+                <img
+                  src={MappyDead}
+                  alt=""
+                />
+              )}
+            <em className="message">
+              {!abandonAllHope
+                ? 'Have another go?'
+                : 'This component is beyond recovery...'}
             </em>
             {!abandonAllHope
-              ? <button
-                className='button'
-                onClick={() => this.setState({ attemptedReset: true, hasError: false })}>
-                    Try Again
-              </button>
+              ? (
+                <button
+                  className="button"
+                  onClick={() => this.setState({ attemptedReset: true, hasError: false })}
+                >
+                  Try Again
+                </button>
+              )
               : null}
           </div>
         </div>
@@ -76,10 +90,10 @@ ErrorBoundary.propTypes = {
   /** pass components as children of ErrorBoundary which are rendered if there is no error */
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]).isRequired,
   /** display error boundary with a modal-like background */
-  floating: PropTypes.bool
+  floating: PropTypes.bool,
 }
 
 export default ErrorBoundary

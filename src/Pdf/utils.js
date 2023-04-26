@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf'
-import ugh from 'ugh'
+import ugh from '~/src/ugh'
 
 /**
  * Take an svg template and list of inputs and convert it into a fully loaded template to print a PDF
@@ -11,7 +11,7 @@ import ugh from 'ugh'
  * @param {Object} opts - Non template options: { fileName: string }
  * @returns {Object} Template ready to be used by `printPDF`
  */
-export function convertSvgToPDFTemplate (svgString, inputs, opts = {}) {
+export function convertSvgToPDFTemplate(svgString, inputs, opts = {}) {
   const { fileName } = opts
   const parser = new DOMParser()
   const svgDoc = parser.parseFromString(svgString, 'application/xml')
@@ -28,7 +28,7 @@ export function convertSvgToPDFTemplate (svgString, inputs, opts = {}) {
   else if (svgHeight.split('px').length > 1) unit = 'px'
   else if (svgHeight.split('pt').length > 1) unit = 'pt'
   else if (svgHeight.split('in').length > 1) unit = 'in'
-  const numberify = string => {
+  const numberify = (string) => {
     const [numberAsString] = string.split(unit) // closure, order matters
 
     return Number(numberAsString)
@@ -39,7 +39,7 @@ export function convertSvgToPDFTemplate (svgString, inputs, opts = {}) {
   const orientation = width > height ? 'landscape' : 'portrait'
   const dimensions = [height, width]
 
-  const elements = inputs.map(input => {
+  const elements = inputs.map((input) => {
     const { content, id, type } = input
     const element = svgDoc.getElementById(id)
 
@@ -59,18 +59,18 @@ export function convertSvgToPDFTemplate (svgString, inputs, opts = {}) {
       x,
       y,
       height,
-      width
+      width,
     }
 
     return config
-  }).filter(element => element)
+  }).filter((element) => element)
 
   const template = {
     elements,
     dimensions,
     orientation,
     unit,
-    fileName
+    fileName,
   }
 
   return template
@@ -85,25 +85,25 @@ export function convertSvgToPDFTemplate (svgString, inputs, opts = {}) {
  * @param {Object} opts - PDF options: { hideLogo: false }
  * @returns {Object}
  */
-export async function printPDFTemplate (template, passedOpts) {
+export async function printPDFTemplate(template, passedOpts) {
   const opts = {
     hideLogo: false,
-    ...passedOpts
+    ...passedOpts,
   }
   const {
     dimensions,
     elements = [],
     fileName = 'ol-kit-map',
     orientation = 'landscape',
-    unit = 'px'
+    unit = 'px',
   } = template
   const doc = new jsPDF({
     orientation,
     unit,
-    format: dimensions
+    format: dimensions,
   })
 
-  elements.forEach(element => {
+  elements.forEach((element) => {
     const {
       id,
       type,
@@ -112,7 +112,7 @@ export async function printPDFTemplate (template, passedOpts) {
       y,
       height,
       width,
-      uri
+      uri,
     } = element
 
     if (type === 'image') {

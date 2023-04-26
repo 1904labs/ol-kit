@@ -5,31 +5,31 @@ import clsx from 'clsx'
 
 const useWrapperStyles = () => ({
   success: {
-    backgroundColor: 'green'
+    backgroundColor: 'green',
   },
   error: {
-    backgroundColor: 'black'
+    backgroundColor: 'black',
   },
   info: {
-    backgroundColor: 'gray'
+    backgroundColor: 'gray',
   },
   warning: {
-    backgroundColor: 'amber'
+    backgroundColor: 'amber',
   },
   icon: {
-    fontSize: 20
+    fontSize: 20,
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: 15
+    marginRight: 15,
   },
   message: {
     display: 'flex',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 })
 
-function SnackbarContentWrapper (props) {
+function SnackbarContentWrapper(props) {
   const classes = useWrapperStyles()
 
   const {
@@ -42,12 +42,12 @@ function SnackbarContentWrapper (props) {
   return (
     <div
       className={clsx(classes[variant], className)}
-      aria-describedby='client-snackbar'
-      message={
-        <span id='client-snackbar' className={classes.message}>
+      aria-describedby="client-snackbar"
+      message={(
+        <span id="client-snackbar" className={classes.message}>
           {message}
         </span>
-      }
+      )}
       {...other}
     />
   )
@@ -56,15 +56,17 @@ function SnackbarContentWrapper (props) {
 SnackbarContentWrapper.propTypes = {
   className: PropTypes.string,
   message: PropTypes.string,
-  variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired
+  variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
 }
 
-export default function Snackbar (props) {
-  const { open, closeSnackbar, variant, message, duration } = props
+export default function Snackbar(props) {
+  const {
+    open, closeSnackbar, variant, message, duration,
+  } = props
 
   const classes = useWrapperStyles()
 
-  function handleClose (event, reason) {
+  function handleClose(event, reason) {
     if (reason === 'clickaway') {
       return
     }
@@ -76,7 +78,7 @@ export default function Snackbar (props) {
     <div
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'left'
+        horizontal: 'left',
       }}
       open={open}
       autoHideDuration={duration}
@@ -90,7 +92,7 @@ export default function Snackbar (props) {
         className={classes.margin}
       />
     </div>,
-    document.body
+    document.body,
   )
 }
 
@@ -98,7 +100,7 @@ Snackbar.defaultProps = {
   open: false,
   duration: 6000,
   variant: 'info',
-  message: ''
+  message: '',
 }
 
 Snackbar.propTypes = {
@@ -106,5 +108,5 @@ Snackbar.propTypes = {
   open: PropTypes.bool,
   duration: PropTypes.number,
   variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']),
-  message: PropTypes.string
+  message: PropTypes.string,
 }

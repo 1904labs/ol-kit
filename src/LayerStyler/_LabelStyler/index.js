@@ -1,24 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { connectToContext } from 'Provider'
-import ugh from 'ugh'
-import ColorPicker from 'LayerStyler/_ColorPicker'
+import { connectToContext } from '~/src/Provider'
+import ugh from '~/src/ugh'
+import ColorPicker from '~/src/LayerStyler/_ColorPicker'
 
 import './styled.css'
 
 const DIVIDER = ':'
 const UNITS = {
   ft: ['100ft', '125ft', '150ft', '250ft', '500ft', '750ft', '1000ft', '1250ft', '1500ft', '1750ft', '2000ft'],
-  px: ['8px', '10px', '12px', '14px', '16px', '20px', '24px', '30px', '36px', '42px', '48px', '60px', '72px', '96px']
+  px: ['8px', '10px', '12px', '14px', '16px', '20px', '24px', '30px', '36px', '42px', '48px', '60px', '72px', '96px'],
 }
 
 class LabelStyler extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
-      uglyChecked: false
+      uglyChecked: false,
     }
   }
 
@@ -28,7 +28,7 @@ class LabelStyler extends Component {
     try {
       const newSymbolizer = {
         ...style.symbolizers[0],
-        [key]: value
+        [key]: value,
       }
 
       style.symbolizers = [newSymbolizer]
@@ -41,7 +41,7 @@ class LabelStyler extends Component {
     onStylesChange([style])
   }
 
-  updateTextSizeUnit = unit => {
+  updateTextSizeUnit = (unit) => {
     this.aggregateChanges('size', unit === 'ft' ? '250ft' : '16px')
   }
 
@@ -56,11 +56,11 @@ class LabelStyler extends Component {
 
       // if the item was previously checked,
       if (checked) {
-        newLabel = labelParts.filter(p => p !== `{{${attr}}}`).join(DIVIDER)
+        newLabel = labelParts.filter((p) => p !== `{{${attr}}}`).join(DIVIDER)
       } else {
         // the inner filter here removes empty strings which will add an extra divider
         // which we don't want when the .join() happens
-        newLabel = [...labelParts.filter(p => p), `{{${attr}}}`].join(DIVIDER)
+        newLabel = [...labelParts.filter((p) => p), `{{${attr}}}`].join(DIVIDER)
       }
 
       newStyle.symbolizers[0].label = newLabel
@@ -101,14 +101,14 @@ class LabelStyler extends Component {
       conflictResolution: !uglyChecked,
       goodnessOfFit: 0.1,
       labelAllGroup: false,
-      polygonAlign: 'mbr'
+      polygonAlign: 'mbr',
     }
 
     onStylesChange([{ ...style, symbolizers: [newStyleSymbolizer] }])
     this.setState({ uglyChecked: !this.state.uglyChecked })
   }
 
-  render () {
+  render() {
     const { uglyChecked } = this.state
     const { translations, attributes, style } = this.props
 
@@ -120,8 +120,8 @@ class LabelStyler extends Component {
 
     return (
       <div>
-        <div className='topControls'>
-          <div className='toggleContainer'>
+        <div className="topControls">
+          <div className="toggleContainer">
             <span>{translations['_ol_kit.LabelStyler.enableSmartLabels']}</span>
             <switch
               checked={uglyChecked}
@@ -129,61 +129,64 @@ class LabelStyler extends Component {
               inputProps={{ 'aria-label': 'secondary checkbox' }}
             />
           </div>
-          <div className='symbolizerContainer'>
-            <div className='color'>
-              <div className='title'>{translations['_ol_kit.LabelStyler.color']}</div>
+          <div className="symbolizerContainer">
+            <div className="color">
+              <div className="title">{translations['_ol_kit.LabelStyler.color']}</div>
               <ColorPicker handleSelect={(val) => this.aggregateChanges('color', val)} currentColor={symbolizer.color} />
             </div>
-            <div className='outline'>
-              <div className='title'>{translations['_ol_kit.LabelStyler.outline']}</div>
+            <div className="outline">
+              <div className="title">{translations['_ol_kit.LabelStyler.outline']}</div>
               <ColorPicker handleSelect={(val) => this.aggregateChanges('haloColor', val)} currentColor={symbolizer.haloColor} />
             </div>
-            <div className='size'>
-              <div className='title'>{translations['_ol_kit.LabelStyler.textHeight']}</div>
+            <div className="size">
+              <div className="title">{translations['_ol_kit.LabelStyler.textHeight']}</div>
               <select
                 style={{ marginTop: '10px' }}
                 value={symbolizer.size}
-                onChange={e => this.aggregateChanges('size', e.target.value)}>
-                {UNITS[sizeUnit].map(s => {
-                  return <option key={s} value={s}>{s}</option>
-                })}
+                onChange={(e) => this.aggregateChanges('size', e.target.value)}
+              >
+                {UNITS[sizeUnit].map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
-            <div className='unit'>
-              <div className='title'>{translations['_ol_kit.LabelStyler.textUnits']}</div>
+            <div className="unit">
+              <div className="title">{translations['_ol_kit.LabelStyler.textUnits']}</div>
               <select
                 style={{ marginTop: '10px' }}
                 value={sizeUnit}
-                onChange={e => this.updateTextSizeUnit(e.target.value)}>
-                <option key='px' value={'px'}>{translations['_ol_kit.LabelStyler.pixels']}</option>
-                <option key='ft' value={'ft'}>{translations['_ol_kit.LabelStyler.feet']}</option>
+                onChange={(e) => this.updateTextSizeUnit(e.target.value)}
+              >
+                <option key="px" value="px">{translations['_ol_kit.LabelStyler.pixels']}</option>
+                <option key="ft" value="ft">{translations['_ol_kit.LabelStyler.feet']}</option>
               </select>
             </div>
           </div>
         </div>
-        <div className='attributeHeader'>
+        <div className="attributeHeader">
           <div>{translations['_ol_kit.LabelStyler.chooseAttrs']}</div>
           {checkedAttributes.length && (
-            <button className='button' onClick={this.clearCheckedItems}>
-              <span className='buttonText'>{translations['_ol_kit.LabelStyler.clear']}</span>
+            <button className="button" onClick={this.clearCheckedItems}>
+              <span className="buttonText">{translations['_ol_kit.LabelStyler.clear']}</span>
             </button>
           )}
         </div>
-        <div className='attributeContainer' data-testid='ManageLayer.attributeContainer'>
-          {attributes.map(a => {
+        <div className="attributeContainer" data-testid="ManageLayer.attributeContainer">
+          {attributes.map((a) => {
             const checked = checkedAttributes.includes(`{{${a}}}`)
 
             return (
               <div
-                className='attributeItem'
-                style={{ 
+                className="attributeItem"
+                style={{
                   color: props.checked ? '#fff' : '#000',
                   background: props.checked ? '#979797' : '#f5f5f5',
                   '&hover': {
-                    background: props.checked ? '#979797' : '#f5f5f5'
-                  }
+                    background: props.checked ? '#979797' : '#f5f5f5',
+                  },
                 }}
-                key={a} checked={checked} onClick={() => this.onAttributeChange(a, checked)}>
+                key={a}
+                checked={checked}
+                onClick={() => this.onAttributeChange(a, checked)}
+              >
                 {a}
               </div>
             )
@@ -205,13 +208,13 @@ LabelStyler.propTypes = {
   attributes: PropTypes.array.isRequired,
 
   /** callback when label styles change */
-  onStylesChange: PropTypes.func.isRequired
+  onStylesChange: PropTypes.func.isRequired,
 }
 
 LabelStyler.defaultProps = {
   style: {},
   attributes: [],
-  onStylesChange: () => {}
+  onStylesChange: () => {},
 }
 
 export default connectToContext(LabelStyler)

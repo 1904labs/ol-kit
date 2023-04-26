@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import olLayerVector from 'ol/layer/Vector'
 
-import './styled.css'
-
 /**
  * @component
  * @category LayerPanel
@@ -14,11 +12,11 @@ class LayerPanelActionRemove extends Component {
   handleRemove = () => {
     const {
       layers, layer, map, shouldAllowLayerRemoval,
-      removeFeaturesForLayer, handleMenuClose, onLayerRemoved
+      removeFeaturesForLayer, handleMenuClose, onLayerRemoved,
     } = this.props
 
     if (Array.isArray(layers)) {
-      layers.forEach(layer => {
+      layers.forEach((layer) => {
         if (shouldAllowLayerRemoval(layer)) {
           (layer.getVisible() && layer.getVisible() !== 'indeterminate') && map.removeLayer(layer)
           this.isValidVectorLayer(layer) && removeFeaturesForLayer(layer)
@@ -32,22 +30,18 @@ class LayerPanelActionRemove extends Component {
     handleMenuClose()
   }
 
-  isValidVectorLayer = (layer) => {
-    return (layer instanceof olLayerVector || layer.isVectorLayer)
-  }
+  isValidVectorLayer = (layer) => (layer instanceof olLayerVector || layer.isVectorLayer)
 
-  getVisibleLayers = () => {
-    return this.props.layers.filter(layer => layer.getVisible())
-  }
+  getVisibleLayers = () => this.props.layers.filter((layer) => layer.getVisible())
 
-  render () {
+  render() {
     const { layers, layer, translations } = this.props
     const noVisibleLayers = layers && this.getVisibleLayers().length === 0
     const removeLayer = translations['_ol_kit.actions.removeLayer']
     const removeLayers = translations['_ol_kit.actions.removeLayers']
 
     return (
-      <div data-testid='LayerPanelAction.remove' disableGutters={false} disabled={layers && noVisibleLayers} onClick={this.handleRemove}>
+      <div data-testid="LayerPanelAction.remove" disableGutters={false} disabled={layers && noVisibleLayers} onClick={this.handleRemove}>
         {layer ? removeLayer : removeLayers}
       </div>
     )
@@ -77,13 +71,13 @@ LayerPanelActionRemove.propTypes = {
   handleMenuClose: PropTypes.func,
 
   /** A callback function that informs when a layer has been removed and passes that layer back to the IA */
-  onLayerRemoved: PropTypes.func
+  onLayerRemoved: PropTypes.func,
 }
 
 LayerPanelActionRemove.defaultProps = {
   shouldAllowLayerRemoval: (layer) => true,
   handleMenuClose: () => {},
-  onLayerRemoved: () => {}
+  onLayerRemoved: () => {},
 }
 
 export default LayerPanelActionRemove

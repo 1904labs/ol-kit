@@ -1,4 +1,5 @@
 import packageJson from '../../package.json'
+
 const { version } = packageJson
 
 export default {
@@ -135,5 +136,5 @@ export default {
   // SplitScreen
   '_ol_kit.SplitScreen.disabled': 'Disabled',
   '_ol_kit.SplitScreen.addMap': 'Add Map',
-  '_ol_kit.SplitScreen.removeMap': 'Remove Map'
+  '_ol_kit.SplitScreen.removeMap': 'Remove Map',
 }

@@ -10,15 +10,19 @@ import './styled.css'
  * @since 0.18.0
  */
 class DrawLine extends Component {
-  render () {
-    const { addInteraction, type, freehand, tooltipTitle } = this.props
+  render() {
+    const {
+      addInteraction, type, freehand, tooltipTitle,
+    } = this.props
 
     return (
-      <div className='tooltip' title={tooltipTitle}>
-        <button className='iconButton'
-          data-testid='Draw.line'
-          size='small'
-          onClick={() => addInteraction({ type: 'LineString' })}>
+      <div className="tooltip" title={tooltipTitle}>
+        <button
+          className="iconButton"
+          data-testid="Draw.line"
+          size="small"
+          onClick={() => addInteraction({ type: 'LineString' })}
+        >
           <span htmlColor={type === 'Circle' && !freehand ? '#1976D2' : '#656565'}>
             timeline
           </span>
@@ -39,7 +43,7 @@ DrawLine.propTypes = {
   freehand: PropTypes.bool,
 
   /** a title for the tooltip */
-  tooltipTitle: PropTypes.string
+  tooltipTitle: PropTypes.string,
 }
 
 export default DrawLine

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 
 /**
  * @component
@@ -9,7 +9,7 @@ import { connectToContext } from 'Provider'
  */
 class LayerPanelActionExtent extends Component {
   getLayerExtentProps = (layer) => {
-    const extent = (layer => {
+    const extent = ((layer) => {
       if (layer.isCatalogLayer) return layer.getSource().getProperties().extent
       if (layer.isGeoserverLayer) return layer.getWMSLayer().getSource().getExtent()
 
@@ -20,7 +20,7 @@ class LayerPanelActionExtent extends Component {
       // Find the extent of the clicked layer -- if a source has no getExtent function, see if it's in its properties
       extent,
       // Calculate left padding based on the sidebar being open/closed
-      opts: { padding: [0, 0, 0, 320] }
+      opts: { padding: [0, 0, 0, 320] },
     }
   }
 
@@ -33,11 +33,11 @@ class LayerPanelActionExtent extends Component {
     }
   }
 
-  render () {
+  render() {
     const { layer, translations } = this.props
 
     return (
-      <div data-testid='LayerPanelAction.extent' key={'zoom'} onClick={() => this.gotoLayerExtent(layer)}>
+      <div data-testid="LayerPanelAction.extent" key="zoom" onClick={() => this.gotoLayerExtent(layer)}>
         {translations['_ol_kit.actions.zoomToExtent']}
       </div>
     )
@@ -55,11 +55,11 @@ LayerPanelActionExtent.propTypes = {
   handleMenuClose: PropTypes.func,
 
   /** An object of translation key/value pairs */
-  translations: PropTypes.object
+  translations: PropTypes.object,
 }
 
 LayerPanelActionExtent.defaultProps = {
-  handleMenuClose: () => {}
+  handleMenuClose: () => {},
 }
 
 export default connectToContext(LayerPanelActionExtent)

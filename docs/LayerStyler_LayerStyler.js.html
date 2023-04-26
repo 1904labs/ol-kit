@@ -82,19 +82,19 @@
         <article>
             <pre class="prettyprint source linenums"><code>import React from 'react'
 import PropTypes from 'prop-types'
-import StyleManager from 'LayerStyler/StyleManager'
+import StyleManager from '~/src/LayerStyler/StyleManager'
 import HeatmapLayer from 'ol/layer/Heatmap'
 import olFormatFilterAnd from 'ol/format/filter/And'
 import olFormatFilterOr from 'ol/format/filter/Or'
 import olFormatFilterEqualTo from 'ol/format/filter/EqualTo'
 import olFormatFilterIsLike from 'ol/format/filter/IsLike'
 import olFilterFunction from '../classes/FilterFunction'
-import ugh from 'ugh'
+import ugh from '~/src/ugh'
 
 import escapeRegExp from 'lodash.escaperegexp'
 
-import { addMovementListener, removeMovementListener } from 'Popup'
-import { connectToContext } from 'Provider'
+import { addMovementListener, removeMovementListener } from '~/src/Popup'
+import { connectToContext } from '~/src/Provider'
 
 /**
  * UI to choose color, stroke, fill etc. for styles and labels on layers

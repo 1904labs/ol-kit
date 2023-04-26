@@ -7,4 +7,6 @@ export { default as DrawPin } from './Pin'
 export { default as DrawPolygon } from './Polygon'
 export { default as Draw } from './Draw'
 export { default as DrawContainer } from './DrawContainer'
-export { getStyledFeatures, styleText, getVertices, pointsFromVertices } from './utils'
+export {
+  getStyledFeatures, styleText, getVertices, pointsFromVertices,
+} from './utils'

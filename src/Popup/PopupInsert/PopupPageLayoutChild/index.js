@@ -9,7 +9,7 @@ import '../styled.css'
  * @example ./example.md
  */
 class PopupPageLayoutChild extends Component {
-  render () {
+  render() {
     return (
       <HeightContainer>
         {this.props.children}
@@ -32,7 +32,7 @@ PopupPageLayoutChild.propTypes = {
   currentPage: PropTypes.number,
 
   /** An array of components to render */
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
 
 export default PopupPageLayoutChild

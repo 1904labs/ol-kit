@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Translate from 'classes/Translate'
-import { immediateEditStyle } from './styles'
 import { getVectorContext } from 'ol/render'
-import { Toolbar } from 'Toolbar'
 import { Knob } from 'react-rotary-knob'
-import { connectToContext } from 'Provider'
 import centroid from '@turf/centroid'
-import { olKitTurf } from './utils'
 
 import olInteractionModify from 'ol/interaction/Modify'
 import olCollection from 'ol/Collection'
 import olStyleStyle from 'ol/style/Style'
+import { olKitTurf } from './utils'
+import { connectToContext } from '~/src/Provider'
+import { Toolbar } from '~/src/Toolbar'
+import { immediateEditStyle } from './styles'
+import Translate from '~/src/classes/Translate'
 
 import './styled.css'
 
@@ -22,14 +22,14 @@ import './styled.css'
  * @since 1.16.0
  */
 class FeatureEditor extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       interactions: [],
       editingFeature: null,
       showMeasurements: false,
       rotation: 0,
-      style: null
+      style: null,
     }
   }
 
@@ -37,9 +37,11 @@ class FeatureEditor extends Component {
   However, this leads to a lot of cleanup since those layers need to be added/removed from both the map and state.
   That is fine as long as everything goes smoothly but if there is additional logic listening to the map for changes to it's features
    or layers than we can get left in a broken state that requires a reload.  Using vectorContext.drawFeature instead of
-   a layer added to the map alleviates at least some of this risk.*/
+   a layer added to the map alleviates at least some of this risk. */
   _renderFeature = (vectorContext, feature, editStyle = this.props.editStyle) => { // vectorContext.drawFeature only respects a style object and since it is common to have style functions and arrays in Openlayers we need to break the other formats down into objects
-    const { map, areaUOM, distanceUOM, translations } = this.props
+    const {
+      map, areaUOM, distanceUOM, translations,
+    } = this.props
     const { showMeasurements } = this.state
     const measurementStyles = showMeasurements ? editStyle(feature, map, showMeasurements, { areaUOM, distanceUOM }, translations) : editStyle // eslint-disable-line
     const styleType = Array.isArray(measurementStyles) ? 'array' : typeof editStyle
@@ -47,7 +49,7 @@ class FeatureEditor extends Component {
     try {
       switch (styleType) {
         case 'array':
-          measurementStyles.map(style => {
+          measurementStyles.map((style) => {
             const geom = style.getGeometry() ? style.getGeometry() : feature.getGeometry()
 
             vectorContext.setStyle(style)
@@ -60,7 +62,7 @@ class FeatureEditor extends Component {
           this._renderFeature(
             vectorContext,
             feature,
-            editStyle(feature, map, showMeasurements, { areaUOM, distanceUOM }, translations)
+            editStyle(feature, map, showMeasurements, { areaUOM, distanceUOM }, translations),
           ) // Openlayers style functions return style objects or arrays of style objects so we can call functions recursively.
           break
         default: // style object
@@ -103,7 +105,7 @@ class FeatureEditor extends Component {
 
       this._removePostComposeListener()
 
-      interactions.forEach(i => map.removeInteraction(i))
+      interactions.forEach((i) => map.removeInteraction(i))
       this.setState({ editingFeature: null, style: null, interactions: [] })
     } catch (err) {
       console.warn(`Geokit encountered a problem while editing a feature: ${err.message}. \n`, err) // eslint-disable-line no-console
@@ -120,7 +122,7 @@ class FeatureEditor extends Component {
 
     this.setState(
       { canceled: true, editingFeature: null },
-      () => onEditCancel(editFeature, addEditFeatureToContext, style)
+      () => onEditCancel(editFeature, addEditFeatureToContext, style),
     )
   }
 
@@ -130,27 +132,32 @@ class FeatureEditor extends Component {
 
     this.setState(
       { editingFeature: null },
-      () => onEditFinish(editFeature, editingFeature, addEditFeatureToContext, style)
+      () => onEditFinish(editFeature, editingFeature, addEditFeatureToContext, style),
     )
   }
 
-  init () {
-    const { editOpts, map, onEditBegin, editFeature } = this.props
+  init() {
+    const {
+      editOpts, map, onEditBegin, editFeature,
+    } = this.props
 
     const clonedFeature = editFeature.clone() // create a collection of clones of the features in props, this avoids modifying the existing features
 
-    const opts = Object.assign({}, editOpts, {
+    const opts = {
+      ...editOpts,
       pixelTolerance: 10,
       features: new olCollection([clonedFeature]),
       deleteCondition: ({ originalEvent, type }) => {
-        const { altKey, ctrlKey, shiftKey, metaKey } = originalEvent
+        const {
+          altKey, ctrlKey, shiftKey, metaKey,
+        } = originalEvent
         const modifierKeyActive = altKey || ctrlKey || shiftKey || metaKey
         const altClick = type === 'click' && modifierKeyActive
         const rightClick = (type === 'pointerdown' || type === 'click') && originalEvent.button === 2
 
         return rightClick || altClick
-      }
-    })
+      },
+    }
 
     const translateInteraction = new Translate({ features: new olCollection([clonedFeature]) }) // ol/interaction/translate only checks for features on the map and since we are not adding these to the map (see additional comments) we use our own that knows to look for the features we pass to it whether or not they're on the map.
     const modifyInteraction = new olInteractionModify(opts) // ol/interaction/modify doesn't care about the features being on the map or not so it's good to go
@@ -160,7 +167,7 @@ class FeatureEditor extends Component {
       anchor: olKitTurf(centroid, [clonedFeature.getGeometry()]).getGeometry().getCoordinates(),
       interactions: [modifyInteraction, translateInteraction],
       editingFeature: clonedFeature,
-      style
+      style,
     }, () => {
       this._addPostComposeListener()
     })
@@ -169,13 +176,13 @@ class FeatureEditor extends Component {
     onEditBegin(clonedFeature) // callback function for IAs.  FeatureEditor doesn't do anything to the original features so we tell the IA which features they passed in as props and what features we are editing.  This should help if they want to add custom logic around these features.
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (!this.props.editFeature) return
 
     this.init()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const { editFeature } = this.props
     const { interactions } = this.state
 
@@ -186,10 +193,10 @@ class FeatureEditor extends Component {
     this.init()
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     const { editingFeature } = this.state
 
-    if (editingFeature) console.warn(`Geokit FeatureEditor has been unmounted unexpectedly.  This may lead undesirable behaviour in your application.`) // eslint-disable-line no-console
+    if (editingFeature) console.warn('Geokit FeatureEditor has been unmounted unexpectedly.  This may lead undesirable behaviour in your application.') // eslint-disable-line no-console
 
     return this._end()
   }
@@ -202,26 +209,26 @@ class FeatureEditor extends Component {
     this.setState({ rotation: val }, () => geometry.rotate(-rotationDiff * (Math.PI / 180), anchor))
   }
 
-  render () {
+  render() {
     const { translations } = this.props
     const { editingFeature } = this.state
     const knobStyle = {
       width: '35px',
       height: '35px',
-      padding: '2px'
+      padding: '2px',
     }
 
     if (!editingFeature) return null
 
     return (
       <Toolbar>
-        <div className='buttonCardActions'>
-          <div className='leftCard'>
-            <button color='secondary' onClick={this.cancelEdit}>
+        <div className="buttonCardActions">
+          <div className="leftCard">
+            <button color="secondary" onClick={this.cancelEdit}>
               {translations['_ol_kit.edit.cancel']}
             </button>
           </div>
-          <div className='centerCard' style={{ paddingLeft: '20px', marginLeft: '0px' }}>
+          <div className="centerCard" style={{ paddingLeft: '20px', marginLeft: '0px' }}>
             <form
               style={{ marginBottom: '0px' }}
               control={
@@ -230,8 +237,8 @@ class FeatureEditor extends Component {
               label={translations['_ol_kit.edit.rotate']}
             />
           </div>
-          <div className='rightCard'>
-            <button color='primary' onClick={this.finishEdit}>
+          <div className="rightCard">
+            <button color="primary" onClick={this.finishEdit}>
               {translations['_ol_kit.edit.finish']}
             </button>
           </div>
@@ -249,7 +256,7 @@ FeatureEditor.propTypes = {
     pixelTolerance: PropTypes.number,
     style: PropTypes.object,
     source: PropTypes.object,
-    wrapX: PropTypes.bool
+    wrapX: PropTypes.bool,
   }).isRequired,
   editFeature: PropTypes.object,
   addEditFeatureToContext: PropTypes.func,
@@ -260,11 +267,11 @@ FeatureEditor.propTypes = {
   editStyle: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.object,
-    PropTypes.array
+    PropTypes.array,
   ]),
   areaUOM: PropTypes.string,
   distanceUOM: PropTypes.string,
-  translations: PropTypes.object
+  translations: PropTypes.object,
 }
 
 FeatureEditor.defaultProps = {
@@ -288,11 +295,13 @@ FeatureEditor.defaultProps = {
   },
   editStyle: (feature, map, showMeasurements = false, { areaUOM, distanceUOM }, translations) => { // eslint-disable-line
     return immediateEditStyle(
-      { areaUOM, distanceUOM, showMeasurements, map, translations, language: navigator.language },
+      {
+        areaUOM, distanceUOM, showMeasurements, map, translations, language: navigator.language,
+      },
       feature,
-      map.getView().getResolution()
+      map.getView().getResolution(),
     )
-  }
+  },
 }
 
 export default connectToContext(FeatureEditor)

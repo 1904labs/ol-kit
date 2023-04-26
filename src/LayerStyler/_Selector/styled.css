@@ -65,7 +65,7 @@ font-size: ${props => props.focus ? '14px' : '0.8em'}; */
   right: 50%
 }
   
-.bar::before .bar::after {
+.bar::before, .bar::after {
   content: '';
   height: 2px;
   bottom: 1px;

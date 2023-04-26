@@ -2,10 +2,10 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { prettyDOM } from '@testing-library/dom'
-import { Map } from 'Map'
-import BlankWhite from './BlankWhite'
 import olMap from 'ol/Map'
 import olLayerVector from 'ol/layer/Vector'
+import { Map } from '~/src/Map'
+import BlankWhite from './BlankWhite'
 
 const TEXT_IDENTIFIER = 'Blank White'
 
@@ -38,8 +38,8 @@ describe('<BlankWhite />', () => {
 
     const map = new olMap({
       layers: [
-        mockLayer
-      ]
+        mockLayer,
+      ],
     })
     const { container, getByText } = render(<Map map={map}><BlankWhite layerTypeID={mockLayerTypeID} /></Map>)
 

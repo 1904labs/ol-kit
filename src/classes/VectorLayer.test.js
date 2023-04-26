@@ -1,4 +1,3 @@
-import VectorLayer from './VectorLayer'
 import olSourceVector from 'ol/source/Vector'
 import olFeature from 'ol/Feature'
 import olGeomPolygon from 'ol/geom/Polygon'
@@ -9,6 +8,7 @@ import olStyleStroke from 'ol/style/Stroke'
 import olGeomPoint from 'ol/geom/Point'
 import olStyleCircle from 'ol/style/Circle'
 import olGeomLineString from 'ol/geom/LineString'
+import VectorLayer from './VectorLayer'
 
 const userStyles = {
   name: 'OL Style',
@@ -18,9 +18,9 @@ const userStyles = {
       kind: 'Mark',
       wellKnownName: 'circle',
       color: '#FF0000',
-      radius: 6
-    }]
-  }]
+      radius: 6,
+    }],
+  }],
 }
 
 const defaultStyles = [{
@@ -33,8 +33,8 @@ const defaultStyles = [{
     cap: undefined,
     join: undefined,
     dasharray: undefined,
-    dashOffset: undefined
-  }]
+    dashOffset: undefined,
+  }],
 }]
 
 const updatedDefaultStyles = [{
@@ -47,8 +47,8 @@ const updatedDefaultStyles = [{
     cap: undefined,
     join: undefined,
     dasharray: undefined,
-    dashOffset: undefined
-  }]
+    dashOffset: undefined,
+  }],
 }]
 
 describe('Vector Layer class', () => {
@@ -62,9 +62,9 @@ describe('Vector Layer class', () => {
             [-97.22, 48.98],
             [-96.58, 45.94],
             [-104.03, 45.94],
-            [-104.05, 48.99]]])
-        })]
-      })
+            [-104.05, 48.99]]]),
+        })],
+      }),
     })
 
     const receivedStyle = vectorLayer.getStyle()()
@@ -72,10 +72,10 @@ describe('Vector Layer class', () => {
       image: new olStyleCircle({
         fill: new olStyleFill({ color: 'rgba(255,255,255,0.4)' }),
         stroke: new olStyleStroke({ color: '#3399CC', width: 2 }),
-        radius: 5
+        radius: 5,
       }),
       fill: new olStyleFill({ color: 'rgba(255,255,255,0.4)' }),
-      stroke: new olStyleStroke({ color: '#3399CC', width: 2 })
+      stroke: new olStyleStroke({ color: '#3399CC', width: 2 }),
     })]
 
     expect([...receivedStyle]).toMatchObject(expectedStyle)
@@ -86,9 +86,9 @@ describe('Vector Layer class', () => {
       format: new olFormatGeoJSON(),
       source: new olSourceVector({
         features: [new olFeature({
-          geometry: new olGeomPoint([[-104.05, 48.99]])
-        })]
-      })
+          geometry: new olGeomPoint([[-104.05, 48.99]]),
+        })],
+      }),
     })
 
     const receivedStyle = vectorLayer.getStyle()()
@@ -97,12 +97,12 @@ describe('Vector Layer class', () => {
         image: new olStyleCircle({
           fill: new olStyleFill({ color: 'rgba(255,255,255,0.4)' }),
           stroke: new olStyleStroke({ color: '#3399CC', width: 2 }),
-          radius: 5
+          radius: 5,
         }),
         fill: new olStyleFill({ color: 'rgba(255,255,255,0.4)' }),
         stroke: new olStyleStroke({ color: '#3399CC', width: 2 }),
-        radius: 5
-      })
+        radius: 5,
+      }),
     })]
 
     expect([...receivedStyle]).toMatchObject(expectedStyle)
@@ -113,14 +113,14 @@ describe('Vector Layer class', () => {
       format: new olFormatGeoJSON(),
       source: new olSourceVector({
         features: [new olFeature({
-          geometry: new olGeomLineString([[-104.05, 48.99], [-97.22, 48.98]])
-        })]
-      })
+          geometry: new olGeomLineString([[-104.05, 48.99], [-97.22, 48.98]]),
+        })],
+      }),
     })
 
     const receivedStyle = vectorLayer.getStyle()()
     const expectedStyle = [new olStyleStyle({
-      stroke: new olStyleStroke({ color: '#3399CC', width: 2 })
+      stroke: new olStyleStroke({ color: '#3399CC', width: 2 }),
     })]
 
     expect([...receivedStyle]).toMatchObject(expectedStyle)
@@ -133,14 +133,14 @@ describe('Vector Layer class', () => {
         features: [
           new olFeature({
             geometry: new olGeomLineString([[-104.05, 48.99], [-97.22, 48.98]]),
-            city: 'kc'
+            city: 'kc',
           }),
           new olFeature({
             geometry: new olGeomLineString([[-104.05, 48.99], [-97.22, 48.98]]),
-            city: 'stl'
-          })
-        ]
-      })
+            city: 'stl',
+          }),
+        ],
+      }),
     })
 
     expect(vectorLayer.getAttributes()).toMatchObject(['geometry', 'city'])
@@ -152,9 +152,9 @@ describe('Vector Layer class', () => {
       format: new olFormatGeoJSON(),
       source: new olSourceVector({
         features: [new olFeature({
-          geometry: new olGeomLineString([[-104.05, 48.99], [-97.22, 48.98]])
-        })]
-      })
+          geometry: new olGeomLineString([[-104.05, 48.99], [-97.22, 48.98]]),
+        })],
+      }),
     })
 
     vectorLayer.setUserVectorStyles(userStyles.rules)
@@ -166,9 +166,9 @@ describe('Vector Layer class', () => {
       format: new olFormatGeoJSON(),
       source: new olSourceVector({
         features: [new olFeature({
-          geometry: new olGeomLineString([[-104.05, 48.99], [-97.22, 48.98]])
-        })]
-      })
+          geometry: new olGeomLineString([[-104.05, 48.99], [-97.22, 48.98]]),
+        })],
+      }),
     })
 
     await vectorLayer.setDefaultVectorStyles()
@@ -186,9 +186,9 @@ describe('Vector Layer class', () => {
       format: new olFormatGeoJSON(),
       source: new olSourceVector({
         features: [new olFeature({
-          geometry: new olGeomLineString([[-104.05, 48.99], [-97.22, 48.98]])
-        })]
-      })
+          geometry: new olGeomLineString([[-104.05, 48.99], [-97.22, 48.98]]),
+        })],
+      }),
     })
 
     await vectorLayer.setDefaultVectorStyles()

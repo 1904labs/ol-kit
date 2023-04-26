@@ -1,4 +1,3 @@
-import ugh from 'ugh'
 import { radiansToDegrees } from '@turf/helpers'
 import turfDestination from '@turf/destination'
 import turfDistance from '@turf/distance'
@@ -11,23 +10,22 @@ import * as olProj from 'ol/proj'
 import olFormatGeoJson from 'ol/format/GeoJSON'
 import olFeature from 'ol/Feature'
 import olCollection from 'ol/Collection'
+import ugh from '~/src/ugh'
 
 const defaultDataProjection = 'EPSG:4326'
 
-export function olKitTurf (turfFunc, argArray, projection = 'EPSG:3857') {
-  const transformedArgs = argArray.map((arg) => {
-    return transform(arg, projection, true)
-  })
+export function olKitTurf(turfFunc, argArray, projection = 'EPSG:3857') {
+  const transformedArgs = argArray.map((arg) => transform(arg, projection, true))
   const turfResults = turfFunc.apply(this, transformedArgs)
 
   return transform(turfResults, projection, false)
 }
 
-export function transform (value, projection, toWgs84) {
+export function transform(value, projection, toWgs84) {
   const { type } = describeType(value)
   const format = new olFormatGeoJson({
     defaultDataProjection,
-    featureProjection: projection
+    featureProjection: projection,
   })
 
   return toWgs84
@@ -35,7 +33,7 @@ export function transform (value, projection, toWgs84) {
     : output(value, projection, type, format)
 }
 
-export function input (value, projection, type, format) {
+export function input(value, projection, type, format) {
   switch (type) {
     case 'coordinate':
       return olProj.toLonLat(value, projection)
@@ -54,7 +52,7 @@ export function input (value, projection, type, format) {
   }
 }
 
-export function output (value, projection, type, format) {
+export function output(value, projection, type, format) {
   switch (type) {
     case 'coordinate':
       return olProj.transform(value, 'EPSG:4326', projection)
@@ -65,7 +63,7 @@ export function output (value, projection, type, format) {
     case 'geojsonFeature':
       return format.readFeature(value)
     case 'Array':
-      return value.map(item => {
+      return value.map((item) => {
         const itemType = describeType(item).type
 
         return output(item, projection, itemType, format)
@@ -76,7 +74,7 @@ export function output (value, projection, type, format) {
       return value
   }
 }
-export function describeType (query) {
+export function describeType(query) {
   if (Array.isArray(query)) {
     const containsNumber = assertTurf('containsNumber', false, [query])
 
@@ -86,72 +84,72 @@ export function describeType (query) {
           assertTurf('containsNumber', false, [query])
 
           return {
-            type: 'coordinate'
+            type: 'coordinate',
           }
         case 4:
           assertTurf('containsNumber', false, [query])
 
           return {
-            type: 'extent'
+            type: 'extent',
           }
         default:
           return {
             type: 'Array',
-            contains: query.map(val => describeType(val))
+            contains: query.map((val) => describeType(val)),
           }
       }
     } else {
       return {
         type: 'Array',
-        contains: query.map(val => describeType(val))
+        contains: query.map((val) => describeType(val)),
       }
     }
   } else if (query instanceof olFeature) {
     return {
       type: 'olFeature',
-      geomType: query.getGeometry().getType()
+      geomType: query.getGeometry().getType(),
     }
   } else if (query.getType) {
     return {
       type: 'olGeometry',
-      geomType: query.getType()
+      geomType: query.getType(),
     }
   } else if (query instanceof olCollection) {
     return {
       type: 'olCollection',
-      contains: query.getArray().map(val => describeType(val))
+      contains: query.getArray().map((val) => describeType(val)),
     }
   } else if (assertTurf('geojsonType', false, query, 'FeatureCollection', 'describeType')) {
     return {
-      type: 'geojsonFeatureCollection'
+      type: 'geojsonFeatureCollection',
     }
   } else if (assertTurf('geojsonType', false, query, 'Feature', 'describeType')) {
     return {
-      type: 'geojsonFeature'
+      type: 'geojsonFeature',
     }
   } else if (assertTurf('geojsonType', false, query, 'Polygon', 'describeType')) {
     return {
       type: 'geojsonGeometry',
-      geomType: 'Polygon'
+      geomType: 'Polygon',
     }
   } else if (assertTurf('geojsonType', false, query, 'LineString', 'describeType')) {
     return {
       type: 'geojsonGeometry',
-      geomType: 'LineString'
+      geomType: 'LineString',
     }
   } else if (assertTurf('geojsonType', false, query, 'Point', 'describeType')) {
     return {
       type: 'geojsonGeometry',
-      geomType: 'Point'
+      geomType: 'Point',
     }
   } else {
     return {
-      type: typeof query
+      type: typeof query,
     }
   }
 }
 
-export function assertTurf (assertion, hard, ...args) {
+export function assertTurf(assertion, hard, ...args) {
   try {
     turfAssert[assertion].apply(null, args)
   } catch (error) {
@@ -165,16 +163,14 @@ export function assertTurf (assertion, hard, ...args) {
   return true
 }
 
-export function coordValidator (coord) {
-  return coord.map((val) => {
-    return isNaN(val) ? 0 : val || 0
-  })
+export function coordValidator(coord) {
+  return coord.map((val) => (isNaN(val) ? 0 : val || 0))
 }
 
-export function getCoordinates (geometry, optCircle = false) {
+export function getCoordinates(geometry, optCircle = false) {
   switch (geometry.getType()) {
     case 'GeometryCollection':
-      return geometry.getGeometries().map(geom => getCoordinates(geom, optCircle))
+      return geometry.getGeometries().map((geom) => getCoordinates(geom, optCircle))
     case 'Circle':
       return optCircle ? geometry.getCenter() : fromCircle(geometry).getCoordinates()
     default:
@@ -193,17 +189,15 @@ export const getHeading = (coordinate, index, allowNegative = true) => {
   if (index === 0 && absCoord <= 180) {
     if (coordinate > 0) {
       return `${coord}˚ E`
-    } else {
-      return `${coord}˚ W`
     }
-  } else if (coordinate > 0 && absCoord) {
+    return `${coord}˚ W`
+  } if (coordinate > 0 && absCoord) {
     return `${coord}˚ N`
-  } else {
-    return `${coord}˚ S`
   }
+  return `${coord}˚ S`
 }
 
-export function coordDiff (coord1, coord2, view) {
+export function coordDiff(coord1, coord2, view) {
   const projection = view.getProjection()
 
   const args = [coordValidator(coord1), coordValidator(coord2)]
@@ -214,7 +208,7 @@ export function coordDiff (coord1, coord2, view) {
   return { distance, bearing }
 }
 
-export function targetDestination (startCoord, distance, bearing, view) {
+export function targetDestination(startCoord, distance, bearing, view) {
   const projection = view.getProjection()
 
   const coord = olProj.toLonLat(coordValidator(startCoord), projection)
@@ -223,7 +217,7 @@ export function targetDestination (startCoord, distance, bearing, view) {
   return olProj.fromLonLat(destination.geometry.coordinates, projection)
 }
 
-export function normalizeExtent (extent) {
+export function normalizeExtent(extent) {
   const newExtent = []
 
   newExtent[0] = extent[1]
@@ -234,15 +228,14 @@ export function normalizeExtent (extent) {
   return newExtent.map((coords) => {
     if (coords === 90) {
       return 89.99
-    } else if (coords === -90) {
+    } if (coords === -90) {
       return -89.99
-    } else {
-      return coords
     }
+    return coords
   })
 }
 
-export function pairCoordinates (flatCoords, groupSize = 2) {
+export function pairCoordinates(flatCoords, groupSize = 2) {
   const pairedCoords = []
 
   for (let i = 0; i < flatCoords.length - 1;) {
@@ -253,7 +246,7 @@ export function pairCoordinates (flatCoords, groupSize = 2) {
   return pairedCoords
 }
 
-export function createNewBoxGeom (map, geometry, height, width) {
+export function createNewBoxGeom(map, geometry, height, width) {
   const coords = geometry.getCoordinates()
   const topLeft = map.getPixelFromCoordinate(coords)
 
@@ -267,17 +260,16 @@ export function createNewBoxGeom (map, geometry, height, width) {
       [moveRight, topLeft[1]],
       [moveRight, moveDown],
       [topLeft[0], moveDown],
-      topLeft
+      topLeft,
     ]
 
-    return new olGeomPolygon([pixelShape.map(pixel => map.getCoordinateFromPixel(pixel))])
+    return new olGeomPolygon([pixelShape.map((pixel) => map.getCoordinateFromPixel(pixel))])
     // TODO: no need to do this if we never get a null value for topLeft (see above comments)
-  } else {
-    return geometry
   }
+  return geometry
 }
 
-export function createTextBox (fontSize = 16, text, resolution) {
+export function createTextBox(fontSize = 16, text, resolution) {
   const textbox = document.createElement('div')
 
   textbox.class = 'text-box-size'
@@ -287,11 +279,11 @@ export function createTextBox (fontSize = 16, text, resolution) {
 
   return {
     height: textbox.clientHeight - 1,
-    width: textbox.clientWidth - resolution
+    width: textbox.clientWidth - resolution,
   }
 }
 
-export function translatePoint (pointGeom, angle = 0, distance, map) {
+export function translatePoint(pointGeom, angle = 0, distance, map) {
   const view = map.getView()
   const res = view.getResolution()
   const projection = view.getProjection()
@@ -302,24 +294,23 @@ export function translatePoint (pointGeom, angle = 0, distance, map) {
   return olKitTurf(turfDestination, [pointGeom, dist, oneEighty], projection).getGeometry()
 }
 
-export function pointsFromVertices (geometry) {
+export function pointsFromVertices(geometry) {
   const featureType = geometry.getType()
   const coordinates = getCoordinates(geometry, true)
 
   if (featureType === 'Polygon' || featureType === 'MultiLineString') {
     return [].concat(...coordinates)
-  } else if (featureType === 'LineString' || featureType === 'MultiPoint') {
+  } if (featureType === 'LineString' || featureType === 'MultiPoint') {
     return coordinates
-  } else if (featureType === 'Point' || featureType === 'Circle') {
+  } if (featureType === 'Point' || featureType === 'Circle') {
     return [coordinates]
-  } else {
-    ugh.warn('Geometries of type %s are not supported', featureType)
-
-    return coordinates
   }
+  ugh.warn('Geometries of type %s are not supported', featureType)
+
+  return coordinates
 }
 
-export function getText (labelProps = { text: '' }, resolution, opts = {}) {
+export function getText(labelProps = { text: '' }, resolution, opts = {}) {
   if (resolution > opts.maxreso) return ''
 
   switch (opts.type) {
@@ -334,20 +325,20 @@ export function getText (labelProps = { text: '' }, resolution, opts = {}) {
   }
 }
 
-export function getTextWidth (text = '') {
+export function getTextWidth(text = '') {
   // We want the width of the longest line of text so split with \n and reverse sort by length
-  const lines = text.split(`\n`).sort((a, b) => b.length - a.length)
+  const lines = text.split('\n').sort((a, b) => b.length - a.length)
   const ctx = document.createElement('canvas').getContext('2d')
   const textMetrics = ctx.measureText(lines[0])
   const fontSize = ctx.font.split('px')[0] || 16
 
   return {
     width: textMetrics.width,
-    fontSize
+    fontSize,
   }
 }
 
-export function stringDivider (str, width, spaceReplacer) {
+export function stringDivider(str, width, spaceReplacer) {
   if (str.length > width) {
     let p = width
 
@@ -371,7 +362,7 @@ export function stringDivider (str, width, spaceReplacer) {
   return str
 }
 
-export function calculateScale (map, feature) {
+export function calculateScale(map, feature) {
   const currentResolution = map.getView().getResolution()
   const vmfLabel = feature.get('_vmf_label') || {}
   const labelResolution = vmfLabel.resolution || currentResolution
@@ -380,7 +371,7 @@ export function calculateScale (map, feature) {
   return vmfLabel.scaling ? scaleFactor : 1
 }
 
-export function formatStyleString (textStyle) {
+export function formatStyleString(textStyle) {
   const font = textStyle.getFont() || 14
   const scale = textStyle.getScale() || 1
   const px = font.indexOf('px')

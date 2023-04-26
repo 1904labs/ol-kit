@@ -6,12 +6,12 @@ import Event from 'ol/events/Event'
 
 import TimeSliderBase from './TimeSliderBase'
 import { datesDiffDay, datesSameDay } from './utils'
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 
 import './styled.css'
 
 class SelectEvent extends Event {
-  constructor (type, selected, deselected, mapBrowserEvent) {
+  constructor(type, selected, deselected, mapBrowserEvent) {
     super(type)
     this.selected = selected
     this.deselected = deselected
@@ -25,19 +25,18 @@ class SelectEvent extends Event {
  * @since 0.12.0
  */
 class TimeSlider extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       tabs: [],
-      index: 0,
-      show: true
+      show: true,
     }
 
-    this.moveHandler = debounce(e => this.state.show && this.setTabsFromExtent(), 100)
+    this.moveHandler = debounce(() => this.state.show && this.setTabsFromExtent(), 100) // eslint-disable-line react/destructuring-assignment
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const { map } = this.props
     const layers = map.getLayers()
 
@@ -49,7 +48,7 @@ class TimeSlider extends React.Component {
     map.on('moveend', this.moveHandler)
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     const { map } = this.props
     const layers = map.getLayers()
 
@@ -58,25 +57,26 @@ class TimeSlider extends React.Component {
     map.un('moveend', this.moveHandler)
   }
 
-  fetchFeaturesForCurrentExtent = async layer => {
+  fetchFeaturesForCurrentExtent = async (layer) => {
     const { map } = this.props
     const extent = map.getView().calculateExtent()
 
     let dates = []
 
     if (layer.isGeoserverLayer && !!layer.getTimeAttribute()) {
-      // use the geoserver methods to request intersection features -- then pull their dates off them
+      // use the geoserver methods to request intersection
+      // features -- then pull their dates off them
       const res = await layer.fetchFeaturesIntersectingExtent(extent, { featureTypes: [] })
 
       // we convert all dates to JS dates for easier use
-      dates = res.map(f => new Date(f.get(layer.getTimeAttribute())))
+      dates = res.map((f) => new Date(f.get(layer.getTimeAttribute())))
     } else if (layer.get('_ol_kit_time_key')) {
       // this key must be set on a layer to enable time slider
       const source = layer.getSource()
       const featuresInExtent = source?.getFeaturesInExtent(extent) || []
 
       // we convert all dates to JS dates for easier use
-      dates = featuresInExtent.map(f => new Date(f.get(layer.get('_ol_kit_time_key'))))
+      dates = featuresInExtent.map((f) => new Date(f.get(layer.get('_ol_kit_time_key'))))
     }
 
     const sortedDates = dates
@@ -88,10 +88,10 @@ class TimeSlider extends React.Component {
 
   setTabsFromExtent = async () => {
     const { map } = this.props
-    const timeEnabledLayers = map.getLayers().getArray().filter(l => !!l.get('_ol_kit_time_key') || (l.isGeoserverLayer && !!l.getTimeAttribute()))
+    const timeEnabledLayers = map.getLayers().getArray().filter((l) => !!l.get('_ol_kit_time_key') || (l.isGeoserverLayer && !!l.getTimeAttribute()))
     const tabs = []
 
-    await timeEnabledLayers.forEach(async layer => {
+    await timeEnabledLayers.forEach(async (layer) => {
       const dates = await this.fetchFeaturesForCurrentExtent(layer)
       const tickColor = null // fetch style off layer: layer.getStyle()
 
@@ -99,7 +99,7 @@ class TimeSlider extends React.Component {
         dates,
         id: layer.ol_uid,
         tickColor,
-        title: layer.get('title')
+        title: layer.get('title'),
       })
     })
 
@@ -109,43 +109,44 @@ class TimeSlider extends React.Component {
   onDatesChange = ({ id, selectedDate, selectedDateRange }) => {
     const { map, selectInteraction } = this.props
     const extent = map.getView().calculateExtent()
-    const layer = map.getLayers().getArray().find(l => l.ol_uid === id)
+    const layer = map.getLayers().getArray().find((l) => l.ol_uid === id)
     const source = layer?.getSource()
 
     if (selectedDate) {
       // select the date selected
       const deselected = selectInteraction.getFeatures().getArray()
-      const features = source.getFeatures().filter(f => datesSameDay(new Date(f.get(layer.get('_ol_kit_time_key'))), selectedDate))
+      const features = source.getFeatures().filter((f) => datesSameDay(new Date(f.get(layer.get('_ol_kit_time_key'))), selectedDate))
       const selected = [...features]
       const event = new SelectEvent('select', selected, deselected)
 
       // clear the previously selected feature before adding newly selected feature so only one feature is "selected" at a time
       selectInteraction.getFeatures().clear()
-      features.forEach(feature => selectInteraction.getFeatures().push(feature))
+      features.forEach((feature) => selectInteraction.getFeatures().push(feature))
       selectInteraction.dispatchEvent(event)
 
       if (layer.isGeoserverLayer) {
         // update the layer to reflect the time extent selected
         layer.getWMSLayer().getSource().updateParams({
-          TIME: `${(new Date(selectedDate)).toISOString().split('T')[0]}/${(new Date(selectedDate)).toISOString().split('T')[0]}`
+          TIME: `${(new Date(selectedDate)).toISOString().split('T')[0]}/${(new Date(selectedDate)).toISOString().split('T')[0]}`,
         })
       }
     } else if (selectedDateRange && selectedDateRange.length) {
       // logic for drag select
       if (layer.isGeoserverLayer) {
         layer.getWMSLayer().getSource().updateParams({
-          TIME: `${(new Date(selectedDateRange[0])).toISOString().split('T')[0]}/${(new Date(selectedDateRange[1])).toISOString().split('T')[0]}`
+          TIME: `${(new Date(selectedDateRange[0])).toISOString().split('T')[0]}/${(new Date(selectedDateRange[1])).toISOString().split('T')[0]}`,
         })
       } else {
         const allFeatures = source.getFeaturesInExtent(extent)
-        const features = allFeatures.filter(f => moment(new Date(f.get(layer.get('_ol_kit_time_key')))).isBetween(selectedDateRange[0], selectedDateRange[1]))
+        const features = allFeatures.filter((f) => moment(new Date(f.get(layer.get('_ol_kit_time_key'))))
+          .isBetween(selectedDateRange[0], selectedDateRange[1]))
         const deselected = selectInteraction.getFeatures().getArray()
         const selected = [...features]
         const event = new SelectEvent('select', selected, deselected)
 
         // clear the previously selected feature before adding newly selected feature so only one feature is "selected" at a time
         selectInteraction.getFeatures().clear()
-        features.forEach(feature => selectInteraction.getFeatures().push(feature))
+        features.forEach((feature) => selectInteraction.getFeatures().push(feature))
         selectInteraction.dispatchEvent(event)
       }
     } else if (!selectedDate) {
@@ -164,11 +165,13 @@ class TimeSlider extends React.Component {
   }
 
   onClose = () => {
+    const { onClose } = this.props
+
     this.setState({ show: false })
-    this.props.onClose()
+    onClose()
   }
 
-  render () {
+  render() {
     const { show: propShow } = this.props
     const { show: stateShow, tabs } = this.state
     const show = typeof propShow === 'boolean' ? propShow : stateShow // keep show prop as source of truth over state
@@ -180,26 +183,28 @@ class TimeSlider extends React.Component {
           <TimeSliderBase
             onClose={this.onClose}
             onDatesChange={this.onDatesChange}
-            tabs={tabs} />
+            tabs={tabs}
+          />
         )
     )
   }
 }
 
 TimeSlider.defaultProps = {
-  onClose: () => {},
-  show: undefined
+  onClose: () => { },
+  show: undefined,
+  selectInteraction: {},
 }
 
 TimeSlider.propTypes = {
   /** callback fired when TimeSlider 'x' is clicked */
   onClose: PropTypes.func,
   /** a reference to openlayers map object */
-  map: PropTypes.object.isRequired,
+  map: PropTypes.node.isRequired,
   /** reference to openlayers select interaction */
-  selectInteraction: PropTypes.object,
+  selectInteraction: PropTypes.node,
   /** boolean that is respected over internal state */
-  show: PropTypes.bool
+  show: PropTypes.bool,
 }
 
 export default connectToContext(TimeSlider)

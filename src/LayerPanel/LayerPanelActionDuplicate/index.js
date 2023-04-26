@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connectToContext } from 'Provider'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
+import { connectToContext } from '~/src/Provider'
 
 /**
  * @component
@@ -13,48 +13,48 @@ class LayerPanelActionDuplicate extends Component {
   incrementTitle(dupeLayer) {
     const { map } = this.props
     const originalTitle = dupeLayer.get('title').trim()
-    const layers = map.getLayers().getArray().filter(layer => layer instanceof VectorLayer || layer.isVectorLayer)
+    const layers = map.getLayers().getArray().filter((layer) => layer instanceof VectorLayer || layer.isVectorLayer)
     const strippedTitle = originalTitle.replace(/\d+$/, '').trim()
     const count = layers.filter((layer) => {
       const includes = originalTitle.includes(layer.get('title').replace(/\d+$/, '').trim())
       return includes
     }).length
-    const exactCount = layers.filter(layer => layer.get('title').trim() === strippedTitle ).length
+    const exactCount = layers.filter((layer) => layer.get('title').trim() === strippedTitle).length
 
     if ((strippedTitle !== originalTitle)) {
-      return (count == 1 || exactCount == 0 || (exactCount == 1 && isNaN(strippedTitle.substr(-1)) && isNaN(originalTitle.substr(-1))) 
-      ? originalTitle 
-      : strippedTitle) + ' ' + count.toString()
+      return `${count == 1 || exactCount == 0 || (exactCount == 1 && isNaN(strippedTitle.substr(-1)) && isNaN(originalTitle.substr(-1)))
+        ? originalTitle
+        : strippedTitle} ${count.toString()}`
     }
-    return strippedTitle + ' ' + count.toString()
+    return `${strippedTitle} ${count.toString()}`
   }
-  
+
   duplicateLayer = (layer) => {
     const { map, onLayerDuplicated, handleMenuClose } = this.props
-    
+
     if (layer.isGeoserverLayer) {
       onLayerDuplicated(layer)
       handleMenuClose()
     } else {
       const newTitle = this.incrementTitle(layer)
-      const dupeFeatures = layer.getSource().getFeatures().map(feature => feature.clone())
+      const dupeFeatures = layer.getSource().getFeatures().map((feature) => feature.clone())
       const source = new VectorSource({
-        features: dupeFeatures
+        features: dupeFeatures,
       })
-      const properties = Object.assign(layer.getProperties(), { source, title: newTitle})
-      const dupeLayer = new VectorLayer({...properties})
-      
+      const properties = Object.assign(layer.getProperties(), { source, title: newTitle })
+      const dupeLayer = new VectorLayer({ ...properties })
+
       map.addLayer(dupeLayer)
       onLayerDuplicated(dupeLayer)
       handleMenuClose()
-    } 
+    }
   }
 
-  render () {
+  render() {
     const { layer, translations } = this.props
 
     return (
-      <div data-testid='LayerPanelAction.duplicate' key={'zoom'} onClick={() => this.duplicateLayer(layer)}>
+      <div data-testid="LayerPanelAction.duplicate" key="zoom" onClick={() => this.duplicateLayer(layer)}>
         {translations['_ol_kit.actions.duplicate']}
       </div>
     )
@@ -63,7 +63,7 @@ class LayerPanelActionDuplicate extends Component {
 
 LayerPanelActionDuplicate.defaultProps = {
   handleMenuClose: () => {},
-  onLayerDuplicated: () => {}
+  onLayerDuplicated: () => {},
 }
 
 LayerPanelActionDuplicate.propTypes = {
@@ -80,7 +80,7 @@ LayerPanelActionDuplicate.propTypes = {
   onLayerDuplicated: PropTypes.func,
 
   /** An object of translation key/value pairs */
-  translations: PropTypes.object.isRequired
+  translations: PropTypes.object.isRequired,
 }
 
 export default connectToContext(LayerPanelActionDuplicate)

@@ -2,9 +2,9 @@ import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import olFeature from 'ol/Feature'
 import olPoint from 'ol/geom/Point'
-import translations from 'locales/en'
-import { createSelectInteraction } from 'Map'
-import { PopupDefaultInsert } from 'Popup'
+import translations from '~/src/locales/en'
+import { createSelectInteraction } from '~/src/Map'
+import { PopupDefaultInsert } from '~/src/Popup'
 
 describe('<PopupDefaultInsert />', () => {
   it('should handle select change when paging', async () => {
@@ -17,12 +17,15 @@ describe('<PopupDefaultInsert />', () => {
     const features = [feature0, feature1, feature2]
     const onClose = jest.fn()
 
-    const { getByTestId, getAllByText, getByText, unmount } = render(
+    const {
+      getByTestId, getAllByText, getByText, unmount,
+    } = render(
       <PopupDefaultInsert
         features={features}
         selectInteraction={selectInteraction}
         translations={translations}
-        onClose={onClose} />
+        onClose={onClose}
+      />,
     )
 
     let title = await getByText('Feature 1')

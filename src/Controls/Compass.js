@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 import { rotateMap } from './utils'
 
 import './styled.css'
@@ -11,14 +11,14 @@ const colors = {
     background: '#ffffff',
     arrows: '#4d4d4d',
     needleTop: '#e04343',
-    needleBottom: '#000000'
+    needleBottom: '#000000',
   },
   dark: {
     background: '#000000',
     arrows: '#cccccc',
     needleTop: '#e04343',
-    needleBottom: '#ffffff'
-  }
+    needleBottom: '#ffffff',
+  },
 }
 
 /**
@@ -27,7 +27,7 @@ const colors = {
  * @category Controls
  * @since 0.1.0
  */
-function Compass (props) {
+function Compass(props) {
   const { map, size, variation } = props
   const [radians, setRadians] = useState(map.getView().getRotation())
 
@@ -36,17 +36,15 @@ function Compass (props) {
 
     map.getView().on('change:rotation', listener)
 
-    return function cleanup () {
+    return function cleanup() {
       map.getView().un('change:rotation', listener)
     }
   }, [map]) // optimization: listeners will only attach/cleanup if the map prop changes
 
-  const getRadianOffset = (radians, clockwiseTurn) => {
-    return clockwiseTurn
-      ? radians + (Math.PI / 8)
-      : radians - (Math.PI / 8)
-  }
-  const rotate = direction => {
+  const getRadianOffset = (radians, clockwiseTurn) => (clockwiseTurn
+    ? radians + (Math.PI / 8)
+    : radians - (Math.PI / 8))
+  const rotate = (direction) => {
     const currentRotation = map.getView().getRotation()
     const clockwiseTurn = direction === 'right'
     // set the rotation to 0 for a north arrow click
@@ -61,26 +59,26 @@ function Compass (props) {
 
   return (
     <div
-      className='compassContainer'
+      className="compassContainer"
       style={{
         width: size.width,
         height: size.height,
         borderRadius: size,
-        background: colors[variation].background
+        background: colors[variation].background,
       }}
     >
-      <svg width={size} height={size} viewBox='0 0 48 48' version='1.1' xmlns='http://www.w3.org/2000/svg'>
-        <g onClick={() => rotate('left')} transform='translate(8, 11)' id='_ol_kit_rotate_left'>
-          <path stroke={colors[variation].arrows} strokeWidth='2' strokeLinecap='square' fill='transparent' d='M6.08917588,0.274482759 C2.08917588,3.50525199 0.0891758754,7.27448276 0.0891758754,11.5821751 C0.0891758754,18.0437135 3.5177473,21.2744828 3.5177473,21.2744828'></path>
-          <polygon fill={colors[variation].arrows} transform='translate(5.838799, 24.192853) rotate(143.000000) translate(-5.838799, -24.192853) ' points='5.93396953 20.6928529 8.83879936 27.636638 2.83879936 27.6928529'></polygon>
+      <svg width={size} height={size} viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <g onClick={() => rotate('left')} transform="translate(8, 11)" id="_ol_kit_rotate_left">
+          <path stroke={colors[variation].arrows} strokeWidth="2" strokeLinecap="square" fill="transparent" d="M6.08917588,0.274482759 C2.08917588,3.50525199 0.0891758754,7.27448276 0.0891758754,11.5821751 C0.0891758754,18.0437135 3.5177473,21.2744828 3.5177473,21.2744828" />
+          <polygon fill={colors[variation].arrows} transform="translate(5.838799, 24.192853) rotate(143.000000) translate(-5.838799, -24.192853) " points="5.93396953 20.6928529 8.83879936 27.636638 2.83879936 27.6928529" />
         </g>
-        <g onClick={() => rotate('north')} transform={`translate(18.0, 10.0) rotate(${degrees} 6.0 15.0)`} id='_ol_kit_true_north'>
-          <polygon fill={colors[variation].needleTop} points='5.74325656 0 11.4865131 15.4007427 0 15.4007427'></polygon>
-          <polygon fill={colors[variation].needleBottom} points='5.74325656 30.8014854 0 15.4007427 11.4865131 15.4007427'></polygon>
+        <g onClick={() => rotate('north')} transform={`translate(18.0, 10.0) rotate(${degrees} 6.0 15.0)`} id="_ol_kit_true_north">
+          <polygon fill={colors[variation].needleTop} points="5.74325656 0 11.4865131 15.4007427 0 15.4007427" />
+          <polygon fill={colors[variation].needleBottom} points="5.74325656 30.8014854 0 15.4007427 11.4865131 15.4007427" />
         </g>
-        <g onClick={() => rotate('right')} transform='translate(34.500000, 25.500000) scale(-1, 1) translate(-34.500000, -25.500000) translate(29.000000, 11.000000)' id='_ol_kit_rotate_right'>
-          <path stroke={colors[variation].arrows} strokeWidth='2' strokeLinecap='square' fill='transparent' d='M6.08917588,0.274482759 C2.08917588,3.50525199 0.0891758754,7.27448276 0.0891758754,11.5821751 C0.0891758754,18.0437135 3.5177473,21.2744828 3.5177473,21.2744828'></path>
-          <polygon fill={colors[variation].arrows} transform='translate(5.838799, 24.192853) rotate(143.000000) translate(-5.838799, -24.192853) ' points='5.93396953 20.6928529 8.83879936 27.636638 2.83879936 27.6928529'></polygon>
+        <g onClick={() => rotate('right')} transform="translate(34.500000, 25.500000) scale(-1, 1) translate(-34.500000, -25.500000) translate(29.000000, 11.000000)" id="_ol_kit_rotate_right">
+          <path stroke={colors[variation].arrows} strokeWidth="2" strokeLinecap="square" fill="transparent" d="M6.08917588,0.274482759 C2.08917588,3.50525199 0.0891758754,7.27448276 0.0891758754,11.5821751 C0.0891758754,18.0437135 3.5177473,21.2744828 3.5177473,21.2744828" />
+          <polygon fill={colors[variation].arrows} transform="translate(5.838799, 24.192853) rotate(143.000000) translate(-5.838799, -24.192853) " points="5.93396953 20.6928529 8.83879936 27.636638 2.83879936 27.6928529" />
         </g>
       </svg>
     </div>
@@ -89,7 +87,7 @@ function Compass (props) {
 
 Compass.defaultProps = {
   variation: 'light',
-  size: '45px'
+  size: '45px',
 }
 
 Compass.propTypes = {
@@ -98,7 +96,7 @@ Compass.propTypes = {
   /** sets the width/height of the compass in a valid CSS unit like px or ems */
   size: PropTypes.string,
   /** light or dark variation for styling */
-  variation: PropTypes.oneOf(['light', 'dark'])
+  variation: PropTypes.oneOf(['light', 'dark']),
 }
 
 export default connectToContext(Compass)

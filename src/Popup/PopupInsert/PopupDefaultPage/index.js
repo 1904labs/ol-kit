@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import en from 'locales/en'
-import { connectToContext } from 'Provider'
-import CLOSE from 'images/close_icon.svg'
-import LEFT_ARROW from 'images/left_arrow.svg'
-import RIGHT_ARROW from 'images/right_arrow.svg'
+import en from '~/src/locales/en.js'
+import { connectToContext } from '~/src/Provider'
+import CLOSE from '~/src/images/close_icon.svg'
+import LEFT_ARROW from '~/src/images/left_arrow.svg'
+import RIGHT_ARROW from '~/src/images/right_arrow.svg'
 import ZmdiButton from '../_PopupZmdiButton'
 import LoadingSpinner from '../_LoadingSpinner'
 import DataList from '../PopupDataList'
@@ -20,7 +20,7 @@ import '../styled.css'
  * @example ./example.md
  */
 class PopupDefaultPage extends Component {
-  render () {
+  render() {
     const {
       translations,
       title,
@@ -34,10 +34,10 @@ class PopupDefaultPage extends Component {
       currentPage,
       onClose,
       onSettingsClick,
-      subtitle
+      subtitle,
     } = this.props
 
-    const isReactFragment = child => {
+    const isReactFragment = (child) => {
       try {
         return child.type.toString() === React.Fragment.toString()
       } catch (e) {
@@ -50,23 +50,37 @@ class PopupDefaultPage extends Component {
     const childrenCount = isReactFragment(children) ? children.props.children.length : children.length
 
     return (
-      <div className='heightContainer'>
-        <div className='header'>
-          <button className='close' onClick={onClose}><CLOSE data-testid='popup-page-close' /></button>
-          {pageCount > 1 &&
-            <div className='featureNavigator'>
+      <div className="heightContainer">
+        <div className="header">
+          <button className="close" onClick={onClose}>
+            <img
+              src={CLOSE}
+              alt=""
+            />
+            {' '}
+
+          </button>
+          {pageCount > 1
+            && (
+            <div className="featureNavigator">
               <ZmdiButton onClick={onPrevPage}>
-                <LEFT_ARROW data-testid='popup-page-left-arrow' />
+                <img
+                  src={LEFT_ARROW}
+                  alt=""
+                />
               </ZmdiButton>
-              <div className='featureCount'>{`${currentPage} / ${pageCount}`}</div>
+              <div className="featureCount">{`${currentPage} / ${pageCount}`}</div>
               <ZmdiButton onClick={onNextPage}>
-                <RIGHT_ARROW data-testid='popup-page-right-arrow' />
+                <img
+                  src={RIGHT_ARROW}
+                  alt=""
+                />
               </ZmdiButton>
             </div>
-          }
-          <div className='headerDetails' loading={loading.toString()}>
-            <div className='title'>{title}</div>
-            <div className='subtitle'>{subtitle}</div>
+            )}
+          <div className="headerDetails" loading={loading.toString()}>
+            <div className="title">{title}</div>
+            <div className="subtitle">{subtitle}</div>
           </div>
         </div>
 
@@ -74,37 +88,36 @@ class PopupDefaultPage extends Component {
           ? (
             <LoadingSpinner style={{ marginTop: '70px', textAlign: 'center' }} />
           ) : (
-            <div className='body'>
+            <div className="body">
               <PopupTabs selectedIdx={currentTab}>
                 <div title={translations['_ol_kit.PopupDefaultPage.details']} style={{ height: '170px', overflowY: 'scroll' }}>
-                  {onSettingsClick &&
-                    <div className='attributeSettings' onClick={onSettingsClick}>
-                      <i className='zmdi zmdi-settings'></i>
+                  {onSettingsClick
+                    && (
+                    <div className="attributeSettings" onClick={onSettingsClick}>
+                      <i className="zmdi zmdi-settings" />
                       <p style={{ fontSize: 'smaller', padding: '0px 5px', margin: 0 }}>{translations['_ol_kit.PopupDefaultPage.customize']}</p>
                     </div>
-                  }
+                    )}
                   <DataList attributes={attributes} />
                 </div>
                 {childrenCount > 3
-                  ? <div className='frame' title={translations['_ol_kit.PopupDefaultPage.actions']} height={169}>
-                    {React.Children.map(children, item =>
-                      item && React.cloneElement(item, {
-                        ...item.props, onClose: onClose
-                      })
-                    )}
-                  </div>
-                  : <div title={translations['_ol_kit.PopupDefaultPage.actions']} style={{ height: '169px', overflowY: 'scroll' }}>
-                    {React.Children.map(children, item =>
-                      item && React.cloneElement(item, {
-                        ...item.props, onClose: onClose
-                      })
-                    )}
-                  </div>
-                }
+                  ? (
+                    <div className="frame" title={translations['_ol_kit.PopupDefaultPage.actions']} height={169}>
+                      {React.Children.map(children, (item) => item && React.cloneElement(item, {
+                        ...item.props, onClose,
+                      }))}
+                    </div>
+                  )
+                  : (
+                    <div title={translations['_ol_kit.PopupDefaultPage.actions']} style={{ height: '169px', overflowY: 'scroll' }}>
+                      {React.Children.map(children, (item) => item && React.cloneElement(item, {
+                        ...item.props, onClose,
+                      }))}
+                    </div>
+                  )}
               </PopupTabs>
             </div>
-          )
-        }
+          )}
       </div>
     )
   }
@@ -137,9 +150,9 @@ PopupDefaultPage.propTypes = {
   translations: PropTypes.shape({
     '_ol_kit.PopupDefaultPage.details': PropTypes.string,
     '_ol_kit.PopupDefaultPage.actions': PropTypes.string,
-    '_ol_kit.PopupDefaultPage.customize': PropTypes.string
+    '_ol_kit.PopupDefaultPage.customize': PropTypes.string,
   }).isRequired,
-  subtitle: PropTypes.string
+  subtitle: PropTypes.string,
 }
 
 PopupDefaultPage.defaultProps = {
@@ -148,7 +161,7 @@ PopupDefaultPage.defaultProps = {
   loading: false,
   currentTab: 0,
   attributes: {},
-  translations: en
+  translations: en,
 }
 
 export default connectToContext(PopupDefaultPage)

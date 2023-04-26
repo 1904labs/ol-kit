@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 import MapDisplayElement from './MapDisplayElement'
 import Slider from './Slider'
 
 import './styled.css'
 
 class SplitScreen extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {}
     this.sliderNode = undefined
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { startPosition } = this.state
     const { maps, forceUpdate } = this.props
 
@@ -63,63 +63,74 @@ class SplitScreen extends Component {
     toggleSyncMap()
   }
 
-  render () {
+  render() {
     const { startPosition } = this.state
-    const { translations, maps, syncedState, visibleState, visibleMapCount } = this.props
+    const {
+      translations, maps, syncedState, visibleState, visibleMapCount,
+    } = this.props
     const disabled = false
 
     return (
-      <div className='container'>
+      <div className="container">
         {disabled
-          ? <div className='alert alert-warning' role='alert'>{translations['_ol_kit.SplitScreen.disabled']}</div>
-          : null
-        }
+          ? <div className="alert alert-warning" role="alert">{translations['_ol_kit.SplitScreen.disabled']}</div>
+          : null}
         <div
-          className='mapDisplayContainer'
+          className="mapDisplayContainer"
           style={{
-            cursor: disabled ? 'not-allowed' : 'pointer'
-          }}>
+            cursor: disabled ? 'not-allowed' : 'pointer',
+          }}
+        >
           {visibleState.map((visible, i) => {
             const grow = i === 0 && visibleMapCount === 3
 
             if (visible) {
-              return <MapDisplayElement
-                key={i}
-                index={i}
-                map={maps[i]}
-                grow={grow}
-                mapNumber={i + 1}
-                synced={syncedState[i]}
-                toggleSyncMap={this.toggleSyncMap}
-                disabled={disabled}
-                translations={translations} />
+              return (
+                <MapDisplayElement
+                  key={i}
+                  index={i}
+                  map={maps[i]}
+                  grow={grow}
+                  mapNumber={i + 1}
+                  synced={syncedState[i]}
+                  toggleSyncMap={this.toggleSyncMap}
+                  disabled={disabled}
+                  translations={translations}
+                />
+              )
             }
 
             return null
           })}
         </div>
-        {startPosition && visibleMapCount === 2 &&
+        {startPosition && visibleMapCount === 2
+          && (
           <Slider
             initialPosition={startPosition}
             onDrag={() => this.props.forceUpdate()}
-            ref={node => (this.sliderNode = node)}
-          />}
-        <div className='controlStylesContainer'>
-          <div title={translations['_ol_kit.SplitScreen.addMap']} placement='right' disabled={false}>
+            ref={(node) => (this.sliderNode = node)}
+          />
+          )}
+        <div className="controlStylesContainer">
+          <div title={translations['_ol_kit.SplitScreen.addMap']} placement="right" disabled={false}>
             <div>
-              <button className='mapControlButton'
+              <button
+                className="mapControlButton"
                 onClick={this.addMap}
-                disabled={disabled || (visibleMapCount === maps.length)}>
-                <i className='zmdi zmdi-plus' />
+                disabled={disabled || (visibleMapCount === maps.length)}
+              >
+                <i className="zmdi zmdi-plus" />
               </button>
             </div>
           </div>
-          <div title={translations['_ol_kit.SplitScreen.removeMap']} placement='right' disabled={!disabled}>
+          <div title={translations['_ol_kit.SplitScreen.removeMap']} placement="right" disabled={!disabled}>
             <div>
-              <button className='mapControlButton'
+              <button
+                className="mapControlButton"
                 onClick={this.removeMap}
-                disabled={disabled || visibleMapCount === 1}>
-                <i className='zmdi zmdi-minus' />
+                disabled={disabled || visibleMapCount === 1}
+              >
+                <i className="zmdi zmdi-minus" />
               </button>
             </div>
           </div>
@@ -133,7 +144,7 @@ SplitScreen.defaultProps = {
   forceUpdate: () => {},
   onMapAdded: () => {},
   onMapRemoved: () => {},
-  toggleSyncMap: () => {}
+  toggleSyncMap: () => {},
 }
 
 SplitScreen.propTypes = {
@@ -145,7 +156,7 @@ SplitScreen.propTypes = {
   forceUpdate: PropTypes.func,
   toggleSyncMap: PropTypes.func,
   syncedState: PropTypes.array,
-  visibleState: PropTypes.array
+  visibleState: PropTypes.array,
 }
 
 export default connectToContext(SplitScreen)

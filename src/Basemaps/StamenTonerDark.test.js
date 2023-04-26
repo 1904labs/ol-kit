@@ -2,10 +2,10 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { prettyDOM } from '@testing-library/dom'
-import { Map } from 'Map'
-import StamenTonerDark from './StamenTonerDark'
 import olMap from 'ol/Map'
 import olLayerVector from 'ol/layer/Vector'
+import { Map } from '~/src/Map'
+import StamenTonerDark from './StamenTonerDark'
 
 const TEXT_IDENTIFIER = 'Stamen Toner Dark'
 
@@ -39,8 +39,8 @@ describe('<StamenTonerDark />', () => {
 
     const map = new olMap({
       layers: [
-        mockLayer
-      ]
+        mockLayer,
+      ],
     })
     const { container, getByText } = render(<Map map={map}><StamenTonerDark layerTypeID={mockLayerTypeID} /></Map>)
 

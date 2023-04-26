@@ -9,13 +9,16 @@ import './styled.css'
  * @since 0.5.0
  */
 class LayerPanelContent extends Component {
-  render () {
+  render() {
     const { children } = this.props
 
     return (
-      <div className='cardContent' style={{
-        padding: props.padding ? props.padding : '10px 15px',
-      }}>
+      <div
+        className="cardContent"
+        style={{
+          padding: '10px 15px',
+        }}
+      >
         {children}
       </div>
     )
@@ -24,7 +27,7 @@ class LayerPanelContent extends Component {
 
 LayerPanelContent.propTypes = {
   /** The content of the LayerPanelContent (likely a collection of `LayerPanelList` components) */
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export default LayerPanelContent

@@ -9,17 +9,19 @@ import './styled.css'
  * @category Draw
  * @since 0.18.0
  */
-function DrawPin (props) {
+function DrawPin(props) {
   const { addInteraction, type, tooltipTitle } = props
 
   return (
-    <div className='tooltip' title={tooltipTitle}>
-      <button className='iconButton'
-        data-testid='Draw.pin'
-        size='small'
-        onClick={() => addInteraction({ type })}>
+    <div className="tooltip" title={tooltipTitle}>
+      <button
+        className="iconButton"
+        data-testid="Draw.pin"
+        size="small"
+        onClick={() => addInteraction({ type })}
+      >
         <span htmlColor={type === 'Pin' ? '#1976D2' : '#656565'}>
-          <i class='zmdi zmdi-pin'></i>
+          <i className="zmdi zmdi-pin" />
         </span>
       </button>
     </div>
@@ -34,11 +36,11 @@ DrawPin.propTypes = {
   addInteraction: PropTypes.func.isRequired,
 
   /** a title for the tooltip */
-  tooltipTitle: PropTypes.string
+  tooltipTitle: PropTypes.string,
 }
 
 DrawPin.defaultProps = {
-  tooltipTitle: 'Waypoint'
+  tooltipTitle: 'Waypoint',
 }
 
 export default DrawPin

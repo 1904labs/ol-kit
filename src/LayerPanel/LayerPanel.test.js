@@ -5,8 +5,9 @@ import olLayerVector from 'ol/layer/Vector'
 import olPoint from 'ol/geom/Point'
 import olSourceVector from 'ol/source/Vector'
 import olFormatGeoJSON from 'ol/format/GeoJSON'
-import { Map } from 'Map'
 import { LayerPanel } from 'LayerPanel'
+import { Map } from '~/src/Map'
+
 const fs = require('fs')
 
 const testGeoJSONData = {
@@ -14,41 +15,41 @@ const testGeoJSONData = {
   crs: {
     type: 'name',
     properties: {
-      name: 'EPSG:3857'
-    }
+      name: 'EPSG:3857',
+    },
   },
   features: [{
     type: 'Feature',
     geometry: {
       type: 'Point',
-      coordinates: [0, 0]
-    }
+      coordinates: [0, 0],
+    },
   }, {
     type: 'Feature',
     geometry: {
       type: 'MultiPoint',
-      coordinates: [[-2e6, 0], [0, -2e6]]
-    }
+      coordinates: [[-2e6, 0], [0, -2e6]],
+    },
   }, {
     type: 'Feature',
     geometry: {
       type: 'LineString',
-      coordinates: [[4e6, -2e6], [8e6, 2e6], [9e6, 2e6]]
-    }
+      coordinates: [[4e6, -2e6], [8e6, 2e6], [9e6, 2e6]],
+    },
   }, {
     type: 'Feature',
     geometry: {
       type: 'LineString',
-      coordinates: [[4e6, -2e6], [8e6, 2e6], [8e6, 3e6]]
-    }
+      coordinates: [[4e6, -2e6], [8e6, 2e6], [8e6, 3e6]],
+    },
   }, {
     type: 'Feature',
     geometry: {
       type: 'Polygon',
       coordinates: [[[-5e6, -1e6], [-4e6, 1e6],
         [-3e6, -1e6], [-5e6, -1e6]], [[-4.5e6, -0.5e6],
-        [-3.5e6, -0.5e6], [-4e6, 0.5e6], [-4.5e6, -0.5e6]]]
-    }
+        [-3.5e6, -0.5e6], [-4e6, 0.5e6], [-4.5e6, -0.5e6]]],
+    },
   }, {
     type: 'Feature',
     geometry: {
@@ -58,9 +59,9 @@ const testGeoJSONData = {
         [[-1e6, -7.5e5], [-1e6, 7.5e5], [-5e5, 0], [-1e6, -7.5e5]],
         [[1e6, -7.5e5], [15e5, 0], [15e5, 0], [1e6, 7.5e5]],
         [[-7.5e5, -1e6], [7.5e5, -1e6]],
-        [[-7.5e5, 1e6], [7.5e5, 1e6]]
-      ]
-    }
+        [[-7.5e5, 1e6], [7.5e5, 1e6]],
+      ],
+    },
   }, {
     type: 'Feature',
     geometry: {
@@ -71,33 +72,33 @@ const testGeoJSONData = {
         [[[-3e6, 6e6], [-2e6, 8e6], [0, 8e6],
           [0, 6e6], [-3e6, 6e6]]],
         [[[1e6, 6e6], [1e6, 8e6], [3e6, 8e6],
-          [3e6, 6e6], [1e6, 6e6]]]
-      ]
-    }
+          [3e6, 6e6], [1e6, 6e6]]],
+      ],
+    },
   }, {
     type: 'Feature',
     geometry: {
       type: 'GeometryCollection',
       geometries: [{
         type: 'LineString',
-        coordinates: [[-5e6, -5e6], [0, -5e6]]
+        coordinates: [[-5e6, -5e6], [0, -5e6]],
       }, {
         type: 'Point',
-        coordinates: [4e6, -5e6]
+        coordinates: [4e6, -5e6],
       }, {
         type: 'Polygon',
         coordinates: [
-          [[1e6, -6e6], [2e6, -4e6], [3e6, -6e6], [1e6, -6e6]]
-        ]
-      }]
-    }
-  }]
+          [[1e6, -6e6], [2e6, -4e6], [3e6, -6e6], [1e6, -6e6]],
+        ],
+      }],
+    },
+  }],
 }
 
 describe('<LayerPanel />', () => {
   it('should filter out basemap', async () => {
     let testMap
-    const onMapInit = jest.fn(map => {
+    const onMapInit = jest.fn((map) => {
       testMap = map
     })
 
@@ -115,7 +116,7 @@ describe('<LayerPanel />', () => {
 
     vectorLayer.set('title', 'My Custom Layer')
     testMap.addLayer(vectorLayer)
-    const basemap = testMap.getLayers().getArray().find(layer => layer.get('_ol_kit_basemap'))
+    const basemap = testMap.getLayers().getArray().find((layer) => layer.get('_ol_kit_basemap'))
 
     basemap.set('title', 'My Basemap')
 
@@ -125,7 +126,7 @@ describe('<LayerPanel />', () => {
   })
   it('should toggle visibility on checkbox click', async () => {
     let testMap
-    const onMapInit = jest.fn(map => {
+    const onMapInit = jest.fn((map) => {
       testMap = map
     })
 
@@ -179,7 +180,7 @@ describe('<LayerPanel />', () => {
   })
   it('should remove all Layers from action bar', async () => {
     let testMap
-    const onMapInit = jest.fn(map => {
+    const onMapInit = jest.fn((map) => {
       testMap = map
     })
 
@@ -235,7 +236,7 @@ describe('<LayerPanel />', () => {
 
   it('should render features', async () => {
     let testMap
-    const onMapInit = jest.fn(map => {
+    const onMapInit = jest.fn((map) => {
       testMap = map
     })
 
@@ -274,7 +275,7 @@ describe('<LayerPanel />', () => {
     const mockRevokeFn = global.URL.revokeObjectURL = jest.fn()
 
     let testMap
-    const onMapInit = jest.fn(map => {
+    const onMapInit = jest.fn((map) => {
       testMap = map
     })
 
@@ -286,12 +287,12 @@ describe('<LayerPanel />', () => {
     fireEvent.click(getByTestId('LayerPanel.open'))
 
     const vectorSource = new olSourceVector({
-      features: (new olFormatGeoJSON()).readFeatures(testGeoJSONData)
+      features: (new olFormatGeoJSON()).readFeatures(testGeoJSONData),
     })
     const vectorLayer = new olLayerVector({
       title: 'TestLayer',
       mode: 'image',
-      source: vectorSource
+      source: vectorSource,
     })
 
     testMap.addLayer(vectorLayer)
@@ -315,7 +316,7 @@ describe('<LayerPanel />', () => {
     const mockRevokeFn = global.URL.revokeObjectURL = jest.fn()
 
     let testMap
-    const onMapInit = jest.fn(map => {
+    const onMapInit = jest.fn((map) => {
       testMap = map
     })
 
@@ -327,12 +328,12 @@ describe('<LayerPanel />', () => {
     fireEvent.click(getByTestId('LayerPanel.open'))
 
     const vectorSource = new olSourceVector({
-      features: (new olFormatGeoJSON()).readFeatures(testGeoJSONData)
+      features: (new olFormatGeoJSON()).readFeatures(testGeoJSONData),
     })
     const vectorLayer = new olLayerVector({
       title: 'TestLayer',
       mode: 'image',
-      source: vectorSource
+      source: vectorSource,
     })
 
     testMap.addLayer(vectorLayer)

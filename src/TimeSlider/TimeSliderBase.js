@@ -1,28 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import MomentUtils from '@date-io/moment'
 
-import en from 'locales/en'
-import { connectToContext } from 'Provider'
-import { datesDiffDay, datesSameDay } from './utils'
-import { DragHandle } from 'DragHandle'
 import Draggable from 'react-draggable'
+import en from '~/src/locales/en'
+import { connectToContext } from '~/src/Provider'
+import { datesDiffDay, datesSameDay } from './utils'
+import { DragHandle } from '~/src/DragHandle'
 
 import './styled.css'
 
 // const MAX_DATES = 300
 
-function TabPanel (props) {
+function TabPanel(props) {
   const { children, value, index } = props
 
-  return value === index && <div p={3} style={{ padding: '10px 24px' }}>{children}</div>
+  return value === index && <div style={{ padding: '10px 24px' }}>{children}</div>
+}
+
+TabPanel.defaultProps = {
+  value: 0,
+  index: 0,
 }
 
 TabPanel.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   value: PropTypes.number,
-  index: PropTypes.number
+  index: PropTypes.number,
 }
 
 /**
@@ -32,7 +36,7 @@ TabPanel.propTypes = {
  * @since 0.12.0
  */
 class TimeSliderBase extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -40,24 +44,22 @@ class TimeSliderBase extends React.Component {
       numOfDays: 0,
       selectedDate: null,
       selectedDateRange: [],
-      leftPosition: 0,
       rangeMin: 0,
       rangeMax: 0,
       isMouseDown: false,
       firstDayOfFirstMonth: undefined,
-      index: 0
+      index: 0,
     }
 
     // these refs are used to increase performance & calculcate offsets
-    this.highlightDiv = null
     this.containerNode = null
     this.dateContainerDiv = null
     this.markContainer = null
 
-    this.keydownHandler = e => this.cycleDates(e.key)
+    this.keydownHandler = (e) => this.cycleDates(e.key)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { tabs } = this.props
 
     tabs.length && this.createDateTicks(tabs[this.state.index])
@@ -67,18 +69,13 @@ class TimeSliderBase extends React.Component {
     document.addEventListener('keydown', this.keydownHandler)
   }
 
-  componentWillUnmount () {
-    // this.props.layer.un('filter:change', this.moveHandler)
-    document.removeEventListener('keydown', this.keydownHandler)
-  }
-
-  UNSAFE_componentWillReceiveProps (nextProps) { // eslint-disable-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
     if (nextProps.tabs.length) this.createDateTicks(nextProps.tabs[this.state.index])
   }
 
-  createDateTicks = tab => {
+  createDateTicks = (tab) => {
     const dates = tab.dates
-      .map(date => new Date(date)) /* we convert all dates to JS dates for easier use */
+      .map((date) => new Date(date)) /* we convert all dates to JS dates for easier use */
       .sort((a, b) => a - b) /* the sort must happen before the filter in order to remove dup dates */
       .filter((d, i, a) => datesDiffDay(a[i], a[i - 1])) /* this removes dup dates (precision is down to the day) */
     const firstDayOfFirstMonth = moment(dates[0]).startOf('month')
@@ -89,7 +86,7 @@ class TimeSliderBase extends React.Component {
       selectedDate: null,
       selectedDateRange: [],
       firstDayOfFirstMonth,
-      numOfDays: moment(dates[dates.length - 1]).diff(moment(dates[0]), 'days', true)
+      numOfDays: moment(dates[dates.length - 1]).diff(moment(dates[0]), 'days', true),
     })
   }
 
@@ -123,11 +120,11 @@ class TimeSliderBase extends React.Component {
       this.setState({
         isMouseDown: false,
         selectedDateRange,
-        selectedDate: null
+        selectedDate: null,
       })
       this.props.onDatesChange({
         id: this.props.tabs[this.state.index].id,
-        selectedDateRange
+        selectedDateRange,
       })
     } else {
       const selectedDateRange = [dates[0], dates[dates.length - 1]]
@@ -135,7 +132,7 @@ class TimeSliderBase extends React.Component {
       this.setState({ selectedDateRange })
       this.props.onDatesChange({
         id: this.props.tabs[this.state.index].id,
-        selectedDateRange
+        selectedDateRange,
       })
     }
   }
@@ -148,13 +145,14 @@ class TimeSliderBase extends React.Component {
 
     return {
       leftDate: new Date(moment(dates[0]).add(leftDate, 'days')),
-      rightDate: new Date(moment(dates[0]).add(rightDate, 'days'))
+      rightDate: new Date(moment(dates[0]).add(rightDate, 'days')),
     }
   }
 
-  cycleDates = direction => {
+  cycleDates = (direction) => {
     const { selectedDate, dates } = this.state
-    const index = dates.findIndex(d => d === selectedDate)
+    const index = dates.findIndex((d) => d === selectedDate)
+    let newDates = null
 
     // if no single date is selected and you hit the right arrow key
     // set the first possible date as the selected date
@@ -162,50 +160,51 @@ class TimeSliderBase extends React.Component {
 
     // depending on right/left arrow we select the next/previous date
     if (direction === 'ArrowRight') {
-      index + 1 === dates.length
-        ? this.setSelectedDate(dates[dates.length - 1])
-        : this.setSelectedDate(dates[index + 1])
+      newDates = index + 1 === dates.length
+        ? dates[dates.length - 1]
+        : dates[index + 1]
+
+      this.setSelectedDate(newDates)
     } else if (direction === 'ArrowLeft') {
-      index - 1 < 0
-        ? this.setSelectedDate(dates[0])
-        : this.setSelectedDate(dates[index - 1])
+      newDates = index - 1 < 0
+        ? dates[0]
+        : dates[index - 1]
+
+      this.setSelectedDate(newDates)
     }
+
+    return newDates
   }
 
-  setSelectedDate = selectedDate => {
+  setSelectedDate = (selectedDate) => {
+    const { tabs, onDatesChange } = this.props
+    const { index } = this.state
     const selectedDateRange = []
 
     // if a single date is selected, you cannot also have a date range selected
     this.setState({
       selectedDate,
-      selectedDateRange
+      selectedDateRange,
     })
-    this.props.onDatesChange({
-      id: this.props.tabs[this.state.index].id,
-      selectedDate,
-      selectedDateRange
-    })
-  }
 
-  updateSelectedRange (first, second) {
-    if (first < second) {
-      this.setState({ rangeMin: first, rangeMax: second })
-    } else {
-      this.setState({ rangeMin: second, rangeMax: first })
-    }
+    onDatesChange({
+      id: tabs[index].id,
+      selectedDate,
+      selectedDateRange,
+    })
   }
 
   // this tracks if the mouse is being dragged on the slider
-  handleMouseDown = e => {
+  handleMouseDown = (e) => {
     this.setState({
       isMouseDown: true,
       mouseDownEpoch: Date.now(),
-      firstPosition: e.pageX - this.containerNode.getBoundingClientRect().left
+      firstPosition: e.pageX - this.containerNode.getBoundingClientRect().left,
     })
   }
 
   // we do a direct DOM access to avoid tons of setState re-renders
-  handleMouseMove = e => {
+  handleMouseMove = (e) => {
     const { isMouseDown, firstPosition } = this.state
 
     if (isMouseDown) {
@@ -215,7 +214,7 @@ class TimeSliderBase extends React.Component {
     }
   }
 
-  handleMouseUp = e => {
+  handleMouseUp = (e) => {
     const { rangeMin, rangeMax, mouseDownEpoch } = this.state
     // const rightPosition = e.pageX - this.containerNode.getBoundingClientRect().left
     const { leftDate, rightDate } = this.setDatesForCalendar(rangeMin, rangeMax)
@@ -227,7 +226,7 @@ class TimeSliderBase extends React.Component {
       this.setState({
         isMouseDown: false,
         selectedDate: null,
-        selectedDateRange: [leftDate, rightDate]
+        selectedDateRange: [leftDate, rightDate],
       })
     } else {
       this.setState({ isMouseDown: false })
@@ -243,18 +242,18 @@ class TimeSliderBase extends React.Component {
       selectedDateRange,
       leftPosition: 0,
       rangeMin: 0,
-      rangeMax: 0
+      rangeMax: 0,
     })
     this.props.onDatesChange({
       id: this.props.tabs[this.state.index].id,
       selectedDate,
-      selectedDateRange
+      selectedDateRange,
     })
   }
 
   // loops through the date range and renders the dates on the top of the timeslider
   renderLabels = (dates, firstDayOfFirstMonth) => {
-    const display = date => moment(date).format(`MMM 'YY`)
+    const display = (date) => moment(date).format('MMM \'YY')
     const padding = 24
 
     // if no dates or ref is undefined, do not proceed
@@ -279,12 +278,15 @@ class TimeSliderBase extends React.Component {
       datesDiv.push(<div
         style={{
           left: leftPosition,
-          width: labelWidth
+          width: labelWidth,
         }}
-        className='dateMark'
+        className="dateMark"
         key={i}
         left={leftPosition}
-        width={labelWidth}>{display(futureMonth)}</div>)
+        width={labelWidth}
+      >
+        {display(futureMonth)}
+      </div>)
     }
 
     return datesDiv
@@ -298,32 +300,46 @@ class TimeSliderBase extends React.Component {
     if (!this.markContainer) return
     const { width: containerWidth } = this.markContainer.getBoundingClientRect()
 
-    const ticks = dates.map((date, i) => {
+    dates.map((date, i) => {
       const leftPosition = this.calculateLeftPlacement(date, 4, containerWidth, padding)
       const selected = moment(dates[i]).isSame(selectedDate)
 
       return (
-        <span className='tickMark'
+        <span
+          className="tickMark"
           style={{
             left: `${leftPosition}px`,
             background: selected ? 'white' : tickColor || '#1440ce',
             zIndex: selected ? '99' : '98',
-            border: `solid ${selected ? '2px cyan' : '1px #ffffff'}`
+            border: `solid ${selected ? '2px cyan' : '1px #ffffff'}`,
           }}
-          key={i}>
-        </span>
+          key={selected}
+        />
       )
     })
-
-    return ticks
   }
 
   onTabClicked = (_, index) => {
+    const { onTabChange } = this.props
+
     this.setState({ index })
-    this.props.onTabChange(index)
+    onTabChange(index)
   }
 
-  render () {
+  updateSelectedRange(first, second) {
+    if (first < second) {
+      this.setState({ rangeMin: first, rangeMax: second })
+    } else {
+      this.setState({ rangeMin: second, rangeMax: first })
+    }
+  }
+
+  UNSAFE_componentWillUnmount() {
+    // this.props.layer.un('filter:change', this.moveHandler)
+    document.removeEventListener('keydown', this.keydownHandler)
+  }
+
+  render() {
     const { tabs, translations, draggable } = this.props
     const {
       tooManyDates,
@@ -333,116 +349,123 @@ class TimeSliderBase extends React.Component {
       firstDayOfFirstMonth,
       rangeMin,
       rangeMax,
-      index
+      index,
     } = this.state
 
     return (
-      <div className='MuiPickersUtilsProvider' utils={MomentUtils}>
+      <div className="MuiPickersUtilsProvider">
         <Draggable
-          axis='both'
-          handle='.timesliderdrag'>
-          <div className='container' id='timesliderbase'>
-            <div container style={{ justifyContent: 'center' }}>
+          axis="both"
+          handle=".timesliderdrag"
+        >
+          <div className="container" id="timesliderbase">
+            <div style={{ justifyContent: 'center' }}>
               <div style={{ width: '100%', paddingTop: '4px' }}>
-                {draggable ? <DragHandle className='timesliderdrag' /> : null}
+                {draggable ? <DragHandle className="timesliderdrag" /> : null}
                 <div
                   style={{ marginRight: '60px' }}
-                  indicatorColor='primary'
                   value={index}
                   onChange={this.onTabClicked}
-                  aria-label='simple tabs example'
-                  variant='scrollable'
-                  scrollButtons='auto'>
+                  aria-label="simple tabs example"
+                >
                   {tabs.map((tab, i) => (
                     <div label={`Layer ${i + 1}`} key={i} />
                   ))}
                 </div>
                 {tooManyDates
                   ? (
-                    <div className='tooManyForPreview'>{translations['_ol_kit_.TimeSliderBase.tooMany']}</div>
+                    <div className="tooManyForPreview">{translations['_ol_kit_.TimeSliderBase.tooMany']}</div>
                   )
                   : (
-                    tabs.map((tab, i) => (
-                      <div value={index} index={index} key={i}>
-                        <div className='layerTitle'>{tab.title}</div>
-                        <div className='dateContainer' ref={node => { this.dateContainerDiv = node }}>
+                    tabs.map((tab) => (
+                      <div value={index} key={tab}>
+                        <div className="layerTitle">{tab.title}</div>
+                        <div className="dateContainer" ref={(node) => { this.dateContainerDiv = node }}>
                           {this.renderLabels(dates, firstDayOfFirstMonth)}
                         </div>
-                        <div className='barContainer'
+                        <div
+                          className="barContainer"
                           onMouseDown={this.handleMouseDown}
                           onMouseUp={this.handleMouseUp}
                           onMouseMove={this.handleMouseMove}
-                          ref={node => { this.containerNode = node }}>
-                          <div className='timeSliderBar'
+                          ref={(node) => { this.containerNode = node }}
+                        >
+                          <div
+                            className="timeSliderBar"
                             style={{
                               height: 2,
-                              top: 16
-                            }} />
-                          <div className='markContainer'
-                            ref={node => { this.markContainer = node }}>
+                              top: 16,
+                            }}
+                          />
+                          <div
+                            className="markContainer"
+                            ref={(node) => { this.markContainer = node }}
+                          >
                             {this.renderMarks(tab)}
                           </div>
-                          <div className='highlightedRange'
+                          <div
+                            className="highlightedRange"
                             style={{
                               display: rangeMin || rangeMax ? 'block' : 'none',
                               left: rangeMin,
                               width: rangeMax - rangeMin,
-                              right: rangeMax
+                              right: rangeMax,
                             }}
-                            ref={node => { this.highlightDiv = node }} />
+                            ref={(node) => { this.highlightDiv = node }}
+                          />
                         </div>
                       </div>
                     ))
                   )}
-                <div className='bottomContainer'>
+                <div className="bottomContainer">
                   {translations['_ol_kit_.TimeSliderBase.dateRange'] || 'Date Range'}
                   <div
-                    disableFuture
-                    variant='inline'
-                    format='DD/MM/YYYY'
+                    format="DD/MM/YYYY"
                     value={selectedDateRange.length ? selectedDateRange[0] : dates[0]}
-                    onChange={date => {
+                    onChange={(date) => {
                       this.calculateDateSliderPosition()
                       const { width } = this.containerNode.getBoundingClientRect()
 
                       this.setState({
                         selectedDateRange: [date, selectedDateRange[1]],
-                        rangeMin: this.calculateLeftPlacement(date, 1, width, 24)
+                        rangeMin: this.calculateLeftPlacement(date, 1, width, 24),
                       })
-                    }} />
+                    }}
+                  />
                   {` ${translations['_ol_kit_.TimeSliderBase.to'] || 'To'} `}
                   <div
-                    disableFuture
-                    variant='inline'
-                    format='DD/MM/YYYY'
+                    variant="inline"
+                    format="DD/MM/YYYY"
                     value={selectedDateRange.length ? selectedDateRange[1] : dates[dates.length - 1]}
-                    onChange={date => {
+                    onChange={(date) => {
                       this.calculateDateSliderPosition()
                       const { width } = this.containerNode.getBoundingClientRect()
 
                       this.setState({
                         selectedDateRange: [selectedDateRange[0], date],
-                        rangeMax: this.calculateLeftPlacement(date, 1, width, 24)
+                        rangeMax: this.calculateLeftPlacement(date, 1, width, 24),
                       })
-                    }} />
+                    }}
+                  />
 
-                  <button className='button' disabled={!selectedDate} onClick={() => this.cycleDates('ArrowLeft')} variant='contained' color='primary' style={{ marginRight: '5px' }}>
+                  <button type="button" className="button" disabled={!selectedDate} onClick={() => this.cycleDates('ArrowLeft')} variant="contained" color="primary" style={{ marginRight: '5px' }}>
                     {translations['_ol_kit_.TimeSliderBase.previous']}
                   </button>
-                  <button className='button' disabled={datesSameDay(selectedDate, dates[dates.length - 1])} onClick={() => this.cycleDates('ArrowRight')} variant='contained' color='primary'>
+                  <button className="button" disabled={datesSameDay(selectedDate, dates[dates.length - 1])} onClick={() => this.cycleDates('ArrowRight')} variant="contained" color="primary">
                     {translations['_ol_kit_.TimeSliderBase.next']}
                   </button>
 
-                  <button onClick={this.resetState} size='large'>
-                    <i class='zmdi zmdi-refresh-sync'></i>
+                  <button type="button" onClick={this.resetState} size="large">
+                    <i className="zmdi zmdi-refresh-sync" />
                   </button>
                 </div>
                 <button
                   onClick={this.props.onClose}
                   style={{ position: 'absolute', top: '5px', right: '5px' }}
-                  aria-label='delete'
-                  size='large'>
-                  <i class='zmdi zmdi-close'></i>
+                  aria-label="delete"
+                  size="large"
+                >
+                  <i className="zmdi zmdi-close" />
                 </button>
               </div>
             </div>
@@ -454,11 +477,11 @@ class TimeSliderBase extends React.Component {
 }
 
 TimeSliderBase.defaultProps = {
-  onClose: () => {},
-  onDatesChange: () => {},
-  onTabChange: () => {},
+  onClose: () => { },
+  onDatesChange: () => { },
+  onTabChange: () => { },
   translations: en,
-  draggable: true
+  draggable: true,
 }
 
 TimeSliderBase.propTypes = {
@@ -473,7 +496,7 @@ TimeSliderBase.propTypes = {
     dates: PropTypes.array,
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     tickColor: PropTypes.string,
-    title: PropTypes.string
+    title: PropTypes.string,
   })),
   /** object with key/value pairs for translated strings */
   translations: PropTypes.shape({
@@ -483,10 +506,10 @@ TimeSliderBase.propTypes = {
     '_ol_kit_.TimeSliderBase.selectedEndDate': PropTypes.string,
     '_ol_kit_.TimeSliderBase.selectedStartDate': PropTypes.string,
     '_ol_kit_.TimeSliderBase.to': PropTypes.string,
-    '_ol_kit_.TimeSliderBase.tooMany': PropTypes.string
+    '_ol_kit_.TimeSliderBase.tooMany': PropTypes.string,
   }),
   /** Boolean to allow timeslider to be dragged around the screen */
-  draggable: PropTypes.bool
+  draggable: PropTypes.bool,
 }
 
 export default connectToContext(TimeSliderBase)

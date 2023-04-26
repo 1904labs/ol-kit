@@ -2,10 +2,10 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { prettyDOM } from '@testing-library/dom'
-import { Map } from 'Map'
-import StamenTerrain from './StamenTerrain'
 import olMap from 'ol/Map'
 import olLayerVector from 'ol/layer/Vector'
+import { Map } from '~/src/Map'
+import StamenTerrain from './StamenTerrain'
 
 const TEXT_IDENTIFIER = 'Stamen Terrain'
 
@@ -38,8 +38,8 @@ describe('<StamenTerrain />', () => {
 
     const map = new olMap({
       layers: [
-        mockLayer
-      ]
+        mockLayer,
+      ],
     })
     const { container, getByText } = render(<Map map={map}><StamenTerrain layerTypeID={mockLayerTypeID} /></Map>)
 

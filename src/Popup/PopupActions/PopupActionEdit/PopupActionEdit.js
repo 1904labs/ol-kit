@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { PopupActionItem } from 'Popup'
-import { connectToContext } from 'Provider'
+import { PopupActionItem } from '~/src/Popup'
+import { connectToContext } from '~/src/Provider'
 
 class PopupActionEdit extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       showFeatureEditor: false,
-      style: undefined
+      style: undefined,
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { feature } = this.props
     const style = feature.getStyle() // grab the original feature's style
 
@@ -22,12 +22,12 @@ class PopupActionEdit extends Component {
 
   onClick = () => {
     const { addEditFeatureToContext, feature, onEdit } = this.props
- 
+
     addEditFeatureToContext(feature)
     onEdit(feature)
   }
 
-  render () {
+  render() {
     const { translations } = this.props
 
     return (
@@ -50,7 +50,7 @@ PopupActionEdit.propTypes = {
   persistedStateKey: PropTypes.string,
   persistState: PropTypes.func,
   onEdit: PropTypes.func,
-  addEditFeatureToContext: PropTypes.func
+  addEditFeatureToContext: PropTypes.func,
 }
 
 PopupActionEdit.defaultProps = {
@@ -58,8 +58,8 @@ PopupActionEdit.defaultProps = {
   onEdit: () => false,
   persistedStateKey: 'GeokitPopup',
   translations: {
-    'popup.editGeom': 'Edit Geometry'
-  }
+    'popup.editGeom': 'Edit Geometry',
+  },
 }
 
 export default connectToContext(PopupActionEdit)

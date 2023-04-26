@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import en from 'locales/en'
-import { ErrorBoundary } from 'ErrorBoundary'
+import en from '~/src/locales/en'
+import { ErrorBoundary } from '~/src/ErrorBoundary'
 
 // context is only created when <MultiMapManager> is implemented (see constructor)
 export let MultiMapContext = null
@@ -13,7 +13,7 @@ export let MultiMapContext = null
  * @since 1.7.0
  */
 class MultiMapManager extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     // state becomes an object of persistedStateKeys (or component names) with their persisted states'
@@ -22,7 +22,7 @@ class MultiMapManager extends React.Component {
       maps: [],
       syncedState: [],
       visibleState: [],
-      visibleMapCount: 0
+      visibleMapCount: 0,
     }
 
     this.syncedView = null
@@ -32,14 +32,14 @@ class MultiMapManager extends React.Component {
     MultiMapContext = React.createContext()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('resize', this.refreshMaps)
   }
 
   refreshMaps = () => {
     this.forceUpdate()
     // this refresh needs to fire after the component updates the map views
-    setTimeout(() => this.state.maps.map(map => map.updateSize()), 0)
+    setTimeout(() => this.state.maps.map((map) => map.updateSize()), 0)
   }
 
   syncableMapListener = (map, e) => {
@@ -47,7 +47,7 @@ class MultiMapManager extends React.Component {
 
     if (type === 'synced' && !synced) {
       // reset view of newly desynced map
-      const view = this.state[map.getTargetElement().id].view
+      const { view } = this.state[map.getTargetElement().id]
 
       map.setView(view)
     } else {
@@ -57,7 +57,7 @@ class MultiMapManager extends React.Component {
     this.refreshMaps()
   }
 
-  setSyncedView = map => {
+  setSyncedView = (map) => {
     if (!this.syncedView) {
       // this is the first map, set the view in state
       this.syncedView = map.getView()
@@ -75,7 +75,7 @@ class MultiMapManager extends React.Component {
       ...config,
       synced,
       visible,
-      view: map.getView()
+      view: map.getView(),
     }
     const newState = { ...this.state, [mapId]: mapConfig }
 
@@ -84,7 +84,7 @@ class MultiMapManager extends React.Component {
     this.setState({ ...newState })
 
     // attach listener
-    const listener = e => this.syncableMapListener(map, e)
+    const listener = (e) => this.syncableMapListener(map, e)
 
     map.on(['synced', 'visible'], listener)
     if (synced) this.setSyncedView(map)
@@ -113,7 +113,7 @@ class MultiMapManager extends React.Component {
     const { contextProps } = await this.props.onMapsInit(maps)
     // resolve all onMapInit promises now
 
-    this.promisesResolvers.map(resolve => resolve())
+    this.promisesResolvers.map((resolve) => resolve())
     this.refreshMaps()
     this.setState({ initialized: true, ...contextProps })
   }
@@ -127,18 +127,18 @@ class MultiMapManager extends React.Component {
       map,
       onMapAdded: this.onMapAdded,
       onMapRemoved: this.onMapRemoved,
-      syncedState: maps.map(m => m.getSyncedState()),
+      syncedState: maps.map((m) => m.getSyncedState()),
       translations,
-      visibleState: maps.map(m => m.getVisibleState()),
-      visibleMapCount: maps.map(m => m.getVisibleState()).filter(e => e).length,
+      visibleState: maps.map((m) => m.getVisibleState()),
+      visibleMapCount: maps.map((m) => m.getVisibleState()).filter((e) => e).length,
       ...contextProps,
       // We need to spread state last so that translations and other contextProps provided
       // from onMapsInit are not shadowed by any defaultProps
-      ...this.state
+      ...this.state,
     }
   }
 
-  childModifier = rawChildren => {
+  childModifier = (rawChildren) => {
     const { initialized } = this.state
     const children = !Array.isArray(rawChildren) ? [rawChildren] : rawChildren
     const adoptedChildren = children.map((child, i) => {
@@ -147,8 +147,8 @@ class MultiMapManager extends React.Component {
 
       if (child?.props?.isMultiMap) {
         // we caught a map
-        const addToContextOverride = config => this.addToContext(config, child.props.addMapToContext)
-        const onMapInitOverride = map => this.onMapInitOverride(map, child.props.onMapInit)
+        const addToContextOverride = (config) => this.addToContext(config, child.props.addMapToContext)
+        const onMapInitOverride = (map) => this.onMapInitOverride(map, child.props.onMapInit)
         const propsOverride = {
           ...child.props,
           addMapToContext: addToContextOverride,
@@ -156,31 +156,30 @@ class MultiMapManager extends React.Component {
           _ol_kit_context_id: child.props.id,
           isMultiMap: true,
           key: i,
-          map: null // important so <Map> creates a SyncableMap
+          map: null, // important so <Map> creates a SyncableMap
         }
         const adoptedChild = React.cloneElement(child, propsOverride)
 
         return adoptedChild
-      } else if (Array.isArray(child)) {
+      } if (Array.isArray(child)) {
         // child is an array of children
         return this.childModifier(child)
-      } else if (child?.props?.children) {
+      } if (child?.props?.children) {
         // loop through children of children
         return allow && React.cloneElement(child, { ...child.props }, [this.childModifier(child.props.children)])
-      } else {
-        // this allows the Maps to render and initialize first before all other comps
-        return allow ? child : null
       }
+      // this allows the Maps to render and initialize first before all other comps
+      return allow ? child : null
     })
 
     return adoptedChildren
   }
 
-  render () {
+  render() {
     const adoptedChildren = this.childModifier(this.props.children)
 
     return (
-      <ErrorBoundary floating={true}>
+      <ErrorBoundary floating>
         <MultiMapContext.Provider value={this.getContextValue()}>
           {adoptedChildren}
         </MultiMapContext.Provider>
@@ -193,14 +192,14 @@ MultiMapManager.defaultProps = {
   contextProps: {},
   groups: [],
   onMapsInit: () => {},
-  translations: en
+  translations: en,
 }
 
 MultiMapManager.propTypes = {
   /** Pass components as children of Provider component */
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]).isRequired,
   /** Add any custom props to context and they will be passed to all components wrapped by connectToContext */
   contextProps: PropTypes.object,
@@ -211,7 +210,7 @@ MultiMapManager.propTypes = {
   /** callback called with array of map objects after all multimaps have been created */
   onMapsInit: PropTypes.func,
   /** Object with key/value pairs for component translation strings */
-  translations: PropTypes.object
+  translations: PropTypes.object,
 }
 
 export default MultiMapManager

@@ -9,7 +9,7 @@ import ZoomIn from './ZoomIn'
 import ZoomOut from './ZoomOut'
 import Compass from './Compass'
 import ScaleLine from './ScaleLine'
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 
 import './styled.css'
 
@@ -19,24 +19,27 @@ import './styled.css'
  * @category Controls
  * @since 0.1.0
  */
-function Controls (props) {
-  const { children, map, position, orientation, style } = props
+function Controls(props) {
+  const {
+    children, map, position, orientation, style,
+  } = props
 
   return (
     ReactDOM.createPortal(
-      <div className='controlsContainer'
+      <div
+        className="controlsContainer"
         style={{
           left: position.includes('left') ? '14px' : 'unset',
           right: position.includes('right') ? '14px' : 'unset',
           bottom: position.includes('bottom') ? '0px' : 'unset',
           top: position.includes('top') ? '14px' : 'unset',
           flexDirection: position.orientation === 'vertical' ? 'column' : 'row',
-          ...style
+          ...style,
         }}
       >
         {children || (
           <>
-            <ScaleLine map={map} orientation={orientation}/>
+            <ScaleLine map={map} orientation={orientation} />
             <ControlGroup map={map} orientation={orientation}>
               <CurrentLocation map={map} />
               <ZoomIn map={map} />
@@ -46,7 +49,7 @@ function Controls (props) {
           </>
         )}
       </div>,
-      map.getTargetElement()
+      map.getTargetElement(),
     )
   )
 }
@@ -54,14 +57,14 @@ function Controls (props) {
 Controls.defaultProps = {
   position: 'bottom-right',
   orientation: 'horizontal',
-  style: {}
+  style: {},
 }
 
 Controls.propTypes = {
   /** pass child comps to opt out of the default controls */
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]),
   /** reference to Openlayers map object */
   map: PropTypes.object.isRequired,
@@ -70,7 +73,7 @@ Controls.propTypes = {
   /** render controls in a position relative to the map  */
   orientation: PropTypes.oneOf(['vertical', 'horizontal']),
   /** apply inline styles to the Map Controls container */
-  style: PropTypes.object
+  style: PropTypes.object,
 }
 
 export default connectToContext(Controls)

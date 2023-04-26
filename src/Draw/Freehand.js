@@ -10,17 +10,21 @@ import './styled.css'
  * @since 0.18.0
  */
 class DrawFreehand extends Component {
-  render () {
-    const { addInteraction, type, freehand, tooltipTitle } = this.props
+  render() {
+    const {
+      addInteraction, type, freehand, tooltipTitle,
+    } = this.props
 
     return (
-      <div className='tooltip' title={tooltipTitle}>
-        <button className='iconButton'
-          data-testid='Draw.freehand'
-          size='small'
-          onClick={() => addInteraction({ type: 'LineString', freehand: true })}>
+      <div className="tooltip" title={tooltipTitle}>
+        <button
+          className="iconButton"
+          data-testid="Draw.freehand"
+          size="small"
+          onClick={() => addInteraction({ type: 'LineString', freehand: true })}
+        >
           <span htmlColor={type === 'Circle' && !freehand ? '#1976D2' : '#656565'}>
-            <i class='zmdi zmdi-gesture'></i>
+            <i className="zmdi zmdi-gesture" />
           </span>
         </button>
       </div>
@@ -39,7 +43,7 @@ DrawFreehand.propTypes = {
   freehand: PropTypes.bool,
 
   /** a title for the tooltip */
-  tooltipTitle: PropTypes.string
+  tooltipTitle: PropTypes.string,
 }
 
 export default DrawFreehand

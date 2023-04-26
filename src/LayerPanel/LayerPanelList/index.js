@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import LayerPanelListItem from 'LayerPanel/LayerPanelListItem'
 import { nanoid } from 'nanoid'
 import PropTypes from 'prop-types'
+import LayerPanelListItem from '~/src/LayerPanel/LayerPanelListItem'
 
 const applyDrag = (arr, dragResult) => {
   const { removedIndex, addedIndex, payload } = dragResult
@@ -30,8 +30,10 @@ const applyDrag = (arr, dragResult) => {
  * @since 0.5.0
  */
 class LayerPanelList extends Component {
-  handleDrop = e => {
-    const { onSort, onReorderedItems, items, onLayerReorder } = this.props
+  handleDrop = (e) => {
+    const {
+      onSort, onReorderedItems, items, onLayerReorder,
+    } = this.props
     const reorderedItems = applyDrag(items.sort(onSort), e)
 
     if (onReorderedItems) {
@@ -40,7 +42,7 @@ class LayerPanelList extends Component {
     }
   }
 
-  onDragOver = e => {
+  onDragOver = (e) => {
     e.preventDefault()
     e.dataTransfer.dropEffect = 'move'
     let dropNode = e.target
@@ -57,13 +59,13 @@ class LayerPanelList extends Component {
     while (dropNode = dropNode.parentNode, (dropNode.id !== '_ol_kit_layer_panel_drag_container' && dropNode.id !== this.dragTarget.id)) // eslint-disable-line
   }
 
-  onDragStart = e => {
+  onDragStart = (e) => {
     e.dataTransfer.dropEffect = 'move'
     this.dragTarget = e.target
     e.target.style.opacity = '0.25'
   }
 
-  onDragEnd = e => {
+  onDragEnd = (e) => {
     e.preventDefault()
     let dropNode = e.target
 
@@ -73,7 +75,9 @@ class LayerPanelList extends Component {
         const addedIndex = parseInt(this.displaced.id.split('_')[0])
         const payload = this.dragTarget
 
-        this.handleDrop({ ...e, removedIndex, addedIndex, payload })
+        this.handleDrop({
+          ...e, removedIndex, addedIndex, payload,
+        })
 
         break
       }
@@ -83,43 +87,41 @@ class LayerPanelList extends Component {
     this.dragTarget.style.opacity = '1'
   }
 
-  render () {
+  render() {
     const { children, disableDrag, items } = this.props
 
     if (children) {
       return (
-          <div id='_ol_kit_layer_panel_drag_container' onDragEnd={this.onDragEnd} >
-            {React.Children.map(this.props.children, (child, i) => {
-              const id = `${i}_${nanoid(6)}`
+        <div id="_ol_kit_layer_panel_drag_container" onDragEnd={this.onDragEnd}>
+          {React.Children.map(this.props.children, (child, i) => {
+            const id = `${i}_${nanoid(6)}`
 
-              return (
-                <div className={'dropzone'} onDragOver={this.onDragOver} key={id || child.id} >
-                  <div id={id} className={'draggable'} draggable={!disableDrag} onDragStart={this.onDragStart} onMouseEnter={() => this.addInteraction} >{child}</div>
-                </div>
-              )
-            })}
-          </div>
+            return (
+              <div className="dropzone" onDragOver={this.onDragOver} key={id || child.id}>
+                <div id={id} className="draggable" draggable={!disableDrag} onDragStart={this.onDragStart} onMouseEnter={() => this.addInteraction}>{child}</div>
+              </div>
+            )
+          })}
+        </div>
       )
-    } else if (items) {
+    } if (items) {
       return (
-          <div id='_ol_kit_layer_panel_drag_container' onDragEnd={this.onDragEnd}>
-            {items.map((item, i) => {
-              const id = `${i}_${nanoid(6)}`
+        <div id="_ol_kit_layer_panel_drag_container" onDragEnd={this.onDragEnd}>
+          {items.map((item, i) => {
+            const id = `${i}_${nanoid(6)}`
 
-              return (
-                <div className={'dropzone'} onDragOver={this.onDragOver} key={item}>
-                  <div id={id} className={'draggable'} draggable={!disableDrag} onDragStart={this.onDragStart} >
-                    <LayerPanelListItem onMouseOver={() => this.addInteraction}>{item}</LayerPanelListItem>
-                  </div>
+            return (
+              <div className="dropzone" onDragOver={this.onDragOver} key={item}>
+                <div id={id} className="draggable" draggable={!disableDrag} onDragStart={this.onDragStart}>
+                  <LayerPanelListItem onMouseOver={() => this.addInteraction}>{item}</LayerPanelListItem>
                 </div>
-              )
-            }
-            )}
-          </div>
+              </div>
+            )
+          })}
+        </div>
       )
-    } else {
-      return <div>Must either pass `children` or a prop of `items` for LayerPanelList to render its list</div>
     }
+    return <div>Must either pass `children` or a prop of `items` for LayerPanelList to render its list</div>
   }
 }
 
@@ -140,13 +142,13 @@ LayerPanelList.propTypes = {
   disableDrag: PropTypes.bool,
 
   /** A callback function to inform when the list is reordered */
-  onLayerReorder: PropTypes.func
+  onLayerReorder: PropTypes.func,
 }
 
 LayerPanelList.defaultProps = {
-  onSort: (a, b) => { return a - b },
+  onSort: (a, b) => a - b,
   disableDrag: false,
-  onLayerReorder: () => {}
+  onLayerReorder: () => {},
 }
 
 export default LayerPanelList

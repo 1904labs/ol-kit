@@ -7,18 +7,18 @@ import Event from 'ol/events/Event'
  * @since 1.7.0
  * @param {Object} [views] - Array of openlayers views
  */
-export function syncViewEvents (views) {
+export function syncViewEvents(views) {
   views.forEach((view, _, viewArray) => {
     const syncedViews = viewArray
 
-    view.on('change:center', e => mapChangeHandler(e, syncedViews))
-    view.on('change:resolution', e => mapChangeHandler(e, syncedViews))
-    view.on('change:rotation', e => mapChangeHandler(e, syncedViews))
+    view.on('change:center', (e) => mapChangeHandler(e, syncedViews))
+    view.on('change:resolution', (e) => mapChangeHandler(e, syncedViews))
+    view.on('change:rotation', (e) => mapChangeHandler(e, syncedViews))
   })
 }
 
 class ViewEvent extends Event {
-  constructor (key, type, oldValue, target) {
+  constructor(key, type, oldValue, target) {
     super(type)
     this.key = key
     this.type = type
@@ -27,10 +27,10 @@ class ViewEvent extends Event {
   }
 }
 
-export function mapChangeHandler (event, syncedViews) {
+export function mapChangeHandler(event, syncedViews) {
   const eventView = event.target
 
-  syncedViews.forEach(view => {
+  syncedViews.forEach((view) => {
     // do not sync while view is animating
     if (view.ol_uid !== eventView.ol_uid && !view.getAnimating()) {
       switch (event.type) {

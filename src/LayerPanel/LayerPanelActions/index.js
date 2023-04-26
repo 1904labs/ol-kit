@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import LayerPanelMenu from 'LayerPanel/LayerPanelMenu'
-
 import PropTypes from 'prop-types'
+import LayerPanelMenu from '~/src/LayerPanel/LayerPanelMenu'
 
 import './styled.css'
 
@@ -11,10 +10,10 @@ import './styled.css'
  * @since 0.5.0
  */
 class LayerPanelActions extends Component {
-  constructor () {
+  constructor() {
     super()
     this.state = {
-      anchorEl: null
+      anchorEl: null,
     }
   }
 
@@ -26,18 +25,19 @@ class LayerPanelActions extends Component {
     this.setState({ anchorEl: null })
   }
 
-  render () {
+  render() {
     const { icon, children, translations } = this.props
     const { anchorEl } = this.state
 
     return (
-      <div className='actionsContainer'>
+      <div className="actionsContainer">
         <button
-          data-testid='LayerPanel.actionsButton'
-          aria-label='more'
-          aria-haspopup='true'
+          data-testid="LayerPanel.actionsButton"
+          aria-label="more"
+          aria-haspopup="true"
           onClick={this.handleMenuClick}
-          size="large">
+          size="large"
+        >
           {icon}
         </button>
         <LayerPanelMenu
@@ -45,11 +45,12 @@ class LayerPanelActions extends Component {
           translations={translations}
           anchorEl={anchorEl}
           open={!!anchorEl}
-          handleMenuClose={this.handleMenuClose}>
-          {React.Children.map(children, child => child)}
+          handleMenuClose={this.handleMenuClose}
+        >
+          {React.Children.map(children, (child) => child)}
         </LayerPanelMenu>
       </div>
-    );
+    )
   }
 }
 
@@ -61,11 +62,11 @@ LayerPanelActions.propTypes = {
   children: PropTypes.node,
 
   /** An icon component for the button to open the `LayerPanelMenu` */
-  icon: PropTypes.node.isRequired
+  icon: PropTypes.node.isRequired,
 }
 
 LayerPanelActions.defaultProps = {
-  icon: <i class="zmdi zmdi-more-vert"></i>
+  icon: <i className="zmdi zmdi-more-vert" />,
 }
 
 export default LayerPanelActions

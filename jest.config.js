@@ -1,31 +1,31 @@
 module.exports = {
-  'testEnvironment': 'jest-environment-jsdom-global',
-  'verbose': true,
-  'automock': false,
-  'unmockedModulePathPatterns': [
+  testEnvironment: 'jest-environment-jsdom-global',
+  verbose: true,
+  automock: false,
+  unmockedModulePathPatterns: [
     '<rootDir>/node_modules/react/',
     '<rootDir>/node_modules/react-dom/',
     '<rootDir>/node_modules/ol/'
   ],
-  'transform': {
+  transform: {
     '^.+\\.jsx?$': 'babel-jest'
   },
-  'transformIgnorePatterns': [
+  transformIgnorePatterns: [
     '/node_modules/(?!ol)'
   ],
-  'testPathIgnorePatterns': [
+  testPathIgnorePatterns: [
     'node_modules',
     'core'
   ],
-  'setupFilesAfterEnv': [
+  setupFilesAfterEnv: [
     '<rootDir>/jest.setup.js',
     'jest-canvas-mock'
   ],
-  'snapshotSerializers': [
+  snapshotSerializers: [
     '<rootDir>/node_modules/enzyme-to-json/serializer'
   ],
-  'cacheDirectory': '.jest',
-  'coverageReporters': [
+  cacheDirectory: '.jest',
+  coverageReporters: [
     'lcov'
   ]
 }

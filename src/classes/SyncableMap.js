@@ -2,7 +2,7 @@ import olMap from 'ol/Map'
 import Event from 'ol/events/Event'
 
 class SyncEvent extends Event {
-  constructor (type, synced, mapBrowserEvent) {
+  constructor(type, synced, mapBrowserEvent) {
     super(type)
     this.synced = synced
     this.mapBrowserEvent = mapBrowserEvent
@@ -10,7 +10,7 @@ class SyncEvent extends Event {
 }
 
 class VisibleEvent extends Event {
-  constructor (type, visible, mapBrowserEvent) {
+  constructor(type, visible, mapBrowserEvent) {
     super(type)
     this.visible = visible
     this.mapBrowserEvent = mapBrowserEvent
@@ -18,7 +18,7 @@ class VisibleEvent extends Event {
 }
 
 export default class SyncableMap extends olMap {
-  constructor (opts = {}) {
+  constructor(opts = {}) {
     super(opts)
 
     this.synced = opts.synced || false
@@ -26,11 +26,11 @@ export default class SyncableMap extends olMap {
   }
 
   // methods handling map syncing
-  getSyncedState () {
+  getSyncedState() {
     return this.synced
   }
 
-  setSyncedState (isSynced) {
+  setSyncedState(isSynced) {
     this.synced = isSynced
     const event = new SyncEvent('synced', isSynced)
 
@@ -38,11 +38,11 @@ export default class SyncableMap extends olMap {
   }
 
   // methods handling visibility
-  getVisibleState () {
+  getVisibleState() {
     return this.visible
   }
 
-  setVisibleState (isVisible) {
+  setVisibleState(isVisible) {
     this.visible = isVisible
     const event = new VisibleEvent('visible', isVisible)
 

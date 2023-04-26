@@ -9,7 +9,7 @@ import './styled.css'
  * @since 0.16.0
  */
 class ContextMenuListItem extends React.PureComponent {
-  render () {
+  render() {
     const { title, disabled, onClick } = this.props
 
     return (
@@ -17,10 +17,11 @@ class ContextMenuListItem extends React.PureComponent {
         className={disabled ? 'listItem-disabled' : 'listItem'}
         style={{
           cursor: disabled ? 'default' : 'pointer',
-          color: disabled ? '#ccc' : '#000'
+          color: disabled ? '#ccc' : '#000',
         }}
         disabled={disabled}
-        onClick={e => !disabled ? onClick(e) : null}>
+        onClick={(e) => (!disabled ? onClick(e) : null)}
+      >
         {title}
       </div>
     )
@@ -35,11 +36,11 @@ ContextMenuListItem.propTypes = {
   onClick: PropTypes.func.isRequired,
 
   /** Indicates if the context menu item is clickable */
-  disabled: PropTypes.bool.isRequired
+  disabled: PropTypes.bool.isRequired,
 }
 
 ContextMenuListItem.defaultProps = {
-  disabled: false
+  disabled: false,
 }
 
 export default ContextMenuListItem

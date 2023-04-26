@@ -1,14 +1,14 @@
 import { easeOut, linear } from 'ol/easing'
 
-export function rotateMap (map, rotation, duration = 350) {
+export function rotateMap(map, rotation, duration = 350) {
   map.getView().animate({
     rotation,
     duration,
-    easing: easeOut
+    easing: easeOut,
   })
 }
 
-export function zoomDelta (map, delta, duration, easing = linear) {
+export function zoomDelta(map, delta, duration, easing = linear) {
   const newDuration = typeof duration === 'number' ? duration : 350
   const newEasing = typeof duration === 'function' ? duration : easing
   const view = map.getView()
@@ -18,7 +18,7 @@ export function zoomDelta (map, delta, duration, easing = linear) {
     view.animate({
       zoom: view.getZoom() + delta,
       duration: newDuration,
-      easing: newEasing
+      easing: newEasing,
     })
   }
 }

@@ -5,13 +5,13 @@ import olFeature from 'ol/Feature'
 import olVectorLayer from 'ol/layer/Vector'
 import olPoint from 'ol/geom/Point'
 import olVectorSource from 'ol/source/Vector'
-import { Map } from 'Map'
-import { Popup } from 'Popup'
+import { Map } from '~/src/Map'
+import { Popup } from '~/src/Popup'
 
 describe('<Popup />', () => {
   it('should fire onMapClick for empty map click', async () => {
     let testMap
-    const onMapInit = jest.fn(map => {
+    const onMapInit = jest.fn((map) => {
       testMap = map
     })
     const onMapClick = jest.fn()
@@ -29,7 +29,7 @@ describe('<Popup />', () => {
       features: [],
       loading: false,
       popupPosition: { arrow: 'none', pixel: [0, 0], fits: false },
-      show: false
+      show: false,
     }
 
     setTimeout(() => expect(onMapClick).toHaveBeenCalledWith(hidePopupEvent), 300)
@@ -45,7 +45,7 @@ describe('<Popup />', () => {
     document.body.style.setProperty('height', '400px')
 
     let testMap
-    const onMapInit = jest.fn(map => {
+    const onMapInit = jest.fn((map) => {
       testMap = map
     })
     const onMapClick = jest.fn()
@@ -77,7 +77,7 @@ describe('<Popup />', () => {
       features, // should have an array with single feature above
       loading: false,
       popupPosition: { arrow: 'none', pixel: [0, 0], fits: false },
-      show: true
+      show: true,
     }
 
     expect(onMapClick).toHaveBeenCalledWith(hidePopupEvent)
@@ -88,7 +88,7 @@ describe('<Popup />', () => {
   })
 
   it('should render custom child', async () => {
-    const customChild = <div data-testid='popup-insert-custom'>this is a custom popup insert</div>
+    const customChild = <div data-testid="popup-insert-custom">this is a custom popup insert</div>
     const { container, getByTestId } = render(<Map><Popup show>{customChild}</Popup></Map>)
 
     // wait for async child render

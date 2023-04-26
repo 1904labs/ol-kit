@@ -4,12 +4,12 @@ import PropTypes from 'prop-types'
 import '../styled.css'
 
 export class MeasureLabelPreference extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       enabled: props.preferences.get(props.enabledPreferenceKey) || false,
-      value: props.preferences.get(props.valuePreferenceKey) || props.defaultUOM
+      value: props.preferences.get(props.valuePreferenceKey) || props.defaultUOM,
     }
 
     this.updateLabelEnabled = this.updateLabelEnabled.bind(this)
@@ -21,7 +21,7 @@ export class MeasureLabelPreference extends React.Component {
 
     this.setState({ enabled: e.target.checked })
     this.props.preferences.put(enabledPreferenceKey, !this.props.preferences.get(enabledPreferenceKey))
-      .then(response => {
+      .then((response) => {
         this.props.onChange({ type: enabledPreferenceKey, response })
       })
   }
@@ -30,12 +30,12 @@ export class MeasureLabelPreference extends React.Component {
     const { valuePreferenceKey } = this.props
 
     this.setState({ value: e.target.value })
-    this.props.preferences.put(valuePreferenceKey, e.target.value).then(response => {
+    this.props.preferences.put(valuePreferenceKey, e.target.value).then((response) => {
       this.props.onChange(e)
     })
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { preferences, valuePreferenceKey, defaultUOM } = this.props
     const uomPreference = preferences.get(valuePreferenceKey)
 
@@ -44,7 +44,7 @@ export class MeasureLabelPreference extends React.Component {
     this.setState({ uom: uomPreference || defaultUOM })
   }
 
-  render () {
+  render() {
     const {
       compact,
       uomOptions,
@@ -53,31 +53,35 @@ export class MeasureLabelPreference extends React.Component {
       header,
       description,
       label,
-      disabled
+      disabled,
     } = this.props
     const { enabled, value } = this.state
 
     return (
-      <div style={{ 'width': '100%' }}>
+      <div style={{ width: '100%' }}>
         {!compact && <h5><b>{header}</b></h5>}
         {!compact && <p>{description}</p>}
-        <form className='formControlWrapper'>
+        <form className="formControlWrapper">
           <div
-            className='switchContainer'
+            className="switchContainer"
             style={{ flexDirection: compact ? 'row' : 'column' }}
-            compact={compact ? true : undefined} id={enabledPreferenceKey}>
+            compact={compact ? true : undefined}
+            id={enabledPreferenceKey}
+          >
             {!compact && <label style={{ border: props.compact ? 99 : 0 }} htmlFor={enabledPreferenceKey}>{label}</label>}
-            <switch color='primary'
+            <switch
+              color="primary"
               inputProps={{
-                'data-testid': 'geokit-MeasureLabelPreference-uomToggle'
+                'data-testid': 'geokit-MeasureLabelPreference-uomToggle',
               }}
               checked={enabled}
               onChange={this.updateLabelEnabled}
               value={enabled}
-              disabled={!!disabled}/>
+              disabled={!!disabled}
+            />
           </div>
           {children && compact && !disabled && <div>{children}</div>}
-          <select value={value} data-testid='geokit-MeasureLabelPreference-uomOptions' onChange={this.updateLabelUOM} disabled={disabled}>
+          <select value={value} data-testid="geokit-MeasureLabelPreference-uomOptions" onChange={this.updateLabelUOM} disabled={disabled}>
             {uomOptions}
           </select>
         </form>
@@ -88,7 +92,7 @@ export class MeasureLabelPreference extends React.Component {
 }
 
 MeasureLabelPreference.defaultProps = {
-  disabled: false
+  disabled: false,
 }
 
 MeasureLabelPreference.propTypes = {
@@ -103,7 +107,7 @@ MeasureLabelPreference.propTypes = {
   description: PropTypes.string,
   label: PropTypes.string,
   defaultUOM: PropTypes.string.isRequired,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 }
 
 export default MeasureLabelPreference

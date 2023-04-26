@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { PopupActionItem } from 'Popup'
-import { connectToContext } from 'Provider'
-import { setMapExtent, getExtentForFeatures } from 'Map'
+import { PopupActionItem } from '~/src/Popup'
+import { connectToContext } from '~/src/Provider'
+import { setMapExtent, getExtentForFeatures } from '~/src/Map'
 
 class ActionZoomToExtent extends Component {
   zoom = () => {
@@ -11,13 +11,14 @@ class ActionZoomToExtent extends Component {
     setMapExtent(map, getExtentForFeatures([feature]))
   }
 
-  render () {
+  render() {
     const { translations } = this.props
 
     return (
       <PopupActionItem
         title={translations['_ol_kit.PopupActionZoomToExtent.title']}
-        onClick={() => this.zoom()} />
+        onClick={() => this.zoom()}
+      />
     )
   }
 }
@@ -27,14 +28,14 @@ ActionZoomToExtent.propTypes = {
   /** olMap */
   map: PropTypes.object,
   translations: PropTypes.shape({
-    '_ol_kit.PopupActionZoomToExtent.title': PropTypes.string
-  }).isRequired
+    '_ol_kit.PopupActionZoomToExtent.title': PropTypes.string,
+  }).isRequired,
 }
 
 ActionZoomToExtent.defaultProps = {
   translations: {
-    '_ol_kit.PopupActionZoomToExtent.title': 'Zoom to Extent'
-  }
+    '_ol_kit.PopupActionZoomToExtent.title': 'Zoom to Extent',
+  },
 }
 
 export default connectToContext(ActionZoomToExtent)

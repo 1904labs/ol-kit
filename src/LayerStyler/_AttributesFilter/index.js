@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { nanoid } from 'nanoid'
 
-import { connectToContext } from 'Provider'
 import Popover from 'LayerStyler/_Popover'
 import Selector from 'LayerStyler/_Selector'
+import { connectToContext } from '~/src/Provider'
 
 import './styled.css'
 
@@ -12,7 +12,7 @@ const defaultFilter = {
   logical: 'AND', // determines how to join the filter to other filters
   condition: 'is', // default to 'is' for now
   attribute: '',
-  value: ''
+  value: '',
 }
 
 class AttributesFilter extends React.Component {
@@ -20,17 +20,15 @@ class AttributesFilter extends React.Component {
     this.props.onUpdateFilters([...this.props.filters, defaultFilter])
   }
 
-  removeFilter = idx => {
-    const newFilters = this.props.filters.filter((f, i) => {
-      return i !== idx
-    })
+  removeFilter = (idx) => {
+    const newFilters = this.props.filters.filter((f, i) => i !== idx)
 
     this.props.onUpdateFilters(newFilters)
   }
 
   // current implementation always updates the logical op for every filter
-  updateLogicalOperator (op) {
-    const updatedFilters = [...this.props.filters].map(f => ({ ...f, logical: op }))
+  updateLogicalOperator(op) {
+    const updatedFilters = [...this.props.filters].map((f) => ({ ...f, logical: op }))
 
     this.props.onUpdateFilters(updatedFilters)
   }
@@ -47,15 +45,15 @@ class AttributesFilter extends React.Component {
     } else if (input === 'value') {
       updateFilter.value = item
     }
-    const newFilters = this.props.filters.map((f, i) => {
-      return i === idx ? updateFilter : f
-    })
+    const newFilters = this.props.filters.map((f, i) => (i === idx ? updateFilter : f))
 
     this.props.onUpdateFilters(newFilters)
   }
 
-  render () {
-    const { translations, attributes, attributeValues, disabled, filters, filterConditions } = this.props
+  render() {
+    const {
+      translations, attributes, attributeValues, disabled, filters, filterConditions,
+    } = this.props
 
     const getLogicOperator = (i, filters) => {
       if (i === 0) return translations['_ol_kit.AttributesFilter.where']
@@ -64,50 +62,57 @@ class AttributesFilter extends React.Component {
       return (
         <select
           value={filters[0].logical}
-          onChange={e => this.updateLogicalOperator(e.target.value)}>
-          <option key='AND' value='AND'>{translations['_ol_kit.AttributesFilter.AND']}</option>
-          <option key='OR'value='OR'>{translations['_ol_kit.AttributesFilter.OR']}</option>
+          onChange={(e) => this.updateLogicalOperator(e.target.value)}
+        >
+          <option key="AND" value="AND">{translations['_ol_kit.AttributesFilter.AND']}</option>
+          <option key="OR" value="OR">{translations['_ol_kit.AttributesFilter.OR']}</option>
         </select>
       )
     }
 
     return (
       <Popover title={translations['_ol_kit.AttributesFilter.filters'] + (filters.length ? ` (${filters.length})` : '')} disabled={disabled}>
-        <div className='contentContainer'>
-          <h4 className='title'>{translations['_ol_kit.AttributesFilter.filters']}</h4>
-          {filters.map((filter, i) => {
-            return (
-              <div className='row' key={nanoid(6)}>
-                <div onClick={this.removeFilter.bind(this, i)}>x</div>
-                <div className='textContainer'>
-                  {getLogicOperator(i, filters)}
-                </div>
-                <div className='inputContainer'>
-                  <Selector
-                    options={attributes}
-                    header={`${translations['_ol_kit.AttributesFilter.attribute']} ${i + 1}`}
-                    onValueChange={value => this.handleSelect(value, 'attribute', i)}
-                    selected={filter.attribute} />
-                </div>
-                <div className='inputContainer'>
-                  <Selector
-                    options={filterConditions}
-                    header={`${translations['_ol_kit.AttributesFilter.condition']} ${i + 1}`}
-                    onValueChange={value => this.handleSelect(value, 'condition', i)}
-                    selected={filter.condition} />
-                </div>
-                <div className='inputContainer'>
-                  <Selector
-                    options={attributeValues.map(v => `${v}`) /* string interpolation here ensures booleans display properly */}
-                    header={`${translations['_ol_kit.AttributesFilter.value']} ${i + 1}`}
-                    onValueChange={value => this.handleSelect(value, 'value', i)}
-                    selected={filter.value}
-                    disabled={!filter.attribute} />
-                </div>
+        <div className="contentContainer">
+          <h4 className="title">{translations['_ol_kit.AttributesFilter.filters']}</h4>
+          {filters.map((filter, i) => (
+            <div className="row" key={nanoid(6)}>
+              <div onClick={this.removeFilter.bind(this, i)}>x</div>
+              <div className="textContainer">
+                {getLogicOperator(i, filters)}
               </div>
-            )
-          })}
-          <div className='row'><span onClick={this.addFilter}>+ {translations['_ol_kit.AttributesFilter.addFilter']}</span></div>
+              <div className="inputContainer">
+                <Selector
+                  options={attributes}
+                  header={`${translations['_ol_kit.AttributesFilter.attribute']} ${i + 1}`}
+                  onValueChange={(value) => this.handleSelect(value, 'attribute', i)}
+                  selected={filter.attribute}
+                />
+              </div>
+              <div className="inputContainer">
+                <Selector
+                  options={filterConditions}
+                  header={`${translations['_ol_kit.AttributesFilter.condition']} ${i + 1}`}
+                  onValueChange={(value) => this.handleSelect(value, 'condition', i)}
+                  selected={filter.condition}
+                />
+              </div>
+              <div className="inputContainer">
+                <Selector
+                  options={attributeValues.map((v) => `${v}`) /* string interpolation here ensures booleans display properly */}
+                  header={`${translations['_ol_kit.AttributesFilter.value']} ${i + 1}`}
+                  onValueChange={(value) => this.handleSelect(value, 'value', i)}
+                  selected={filter.value}
+                  disabled={!filter.attribute}
+                />
+              </div>
+            </div>
+          ))}
+          <div className="row">
+            <span onClick={this.addFilter}>
+              +
+              {translations['_ol_kit.AttributesFilter.addFilter']}
+            </span>
+          </div>
         </div>
       </Popover>
     )
@@ -137,7 +142,7 @@ AttributesFilter.propTypes = {
   attributeValues: PropTypes.array,
 
   /** Callback func triggered on filter update with the new filters array */
-  onUpdateFilters: PropTypes.func.isRequired
+  onUpdateFilters: PropTypes.func.isRequired,
 }
 
 AttributesFilter.defaultProps = {
@@ -147,7 +152,7 @@ AttributesFilter.defaultProps = {
   filters: [],
   filterConditions: ['is', 'is not', 'contains'],
   getValuesForAttribute: () => {},
-  onUpdateFilters: () => {}
+  onUpdateFilters: () => {},
 }
 
 export default connectToContext(AttributesFilter)

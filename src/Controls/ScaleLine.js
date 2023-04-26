@@ -2,47 +2,47 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { ScaleLine as olScaleLine } from 'ol/control'
 
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 
 import './styled.css'
 
 class ScaleLine extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.scaleLineContainer = React.createRef()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { map, units } = this.props
     const scale = new olScaleLine({
       target: this.scaleLineContainer.current,
       units,
-      text: false
+      text: false,
     })
 
     this.setState({ scale }, () => scale.setMap(map))
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.setState({ scale: null }, () => this.state.scale.setMap(null))
   }
 
-  render () {
+  render() {
     return (
-      <div className='scaleLineContainer' ref={this.scaleLineContainer} />
+      <div className="scaleLineContainer" ref={this.scaleLineContainer} />
     )
   }
 }
 
 ScaleLine.defaultProps = {
-  units: 'us'
+  units: 'us',
 }
 
 ScaleLine.propTypes = {
   /** reference to Openlayers map object */
   map: PropTypes.object.isRequired,
   /** unit preference for the scale bar */
-  units: PropTypes.string
+  units: PropTypes.string,
 }
 
 export default connectToContext(ScaleLine)

@@ -10,17 +10,19 @@ import './styled.css'
  * @since 0.18.0
  */
 class DrawPoint extends Component {
-  render () {
+  render() {
     const { addInteraction, type, tooltipTitle } = this.props
 
     return (
-      <div className='tooltip' title={tooltipTitle}>
-        <button className='iconButton'
-          data-testid='Draw.point'
-          size='small'
-          onClick={() => addInteraction({ type: 'Point' })}>
+      <div className="tooltip" title={tooltipTitle}>
+        <button
+          className="iconButton"
+          data-testid="Draw.point"
+          size="small"
+          onClick={() => addInteraction({ type: 'Point' })}
+        >
           <span htmlColor={type === 'Point' ? '#1976D2' : '#656565'}>
-            <i class='zmdi zmdi-circle'></i>
+            <i className="zmdi zmdi-circle" />
           </span>
         </button>
       </div>
@@ -36,7 +38,7 @@ DrawPoint.propTypes = {
   addInteraction: PropTypes.func,
 
   /** a title for the tooltip */
-  tooltipTitle: PropTypes.string
+  tooltipTitle: PropTypes.string,
 }
 
 export default DrawPoint

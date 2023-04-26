@@ -1,38 +1,36 @@
 import React, { createRef, PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import LayerPanelPage from 'LayerPanel/LayerPanelPage'
-import LayerPanelContent from 'LayerPanel/LayerPanelContent'
-import LayerPanelList from 'LayerPanel/LayerPanelList'
-import LayerPanelListItem from 'LayerPanel/LayerPanelListItem'
-import LayerPanelCheckbox from 'LayerPanel/LayerPanelCheckbox'
-import LayerPanelExpandableList from 'LayerPanel/_LayerPanelExpandableList'
-import LayerPanelActions from 'LayerPanel/LayerPanelActions'
-import { ListItem, ListItemText } from 'LayerPanel/LayerPanelListItem/styled'
 import olStroke from 'ol/style/Stroke'
 import olFill from 'ol/style/Fill'
 import olCircle from 'ol/style/Circle'
-import ugh from 'ugh'
-
-import { addSelectInteraction } from 'Map'
-
-import LayerPanelActionOpacity from 'LayerPanel/LayerPanelActionOpacity'
-import LayerPanelActionRemove from 'LayerPanel/LayerPanelActionRemove'
-import LayerPanelActionExtent from 'LayerPanel/LayerPanelActionExtent'
-import LayerPanelActionHeatmap from 'LayerPanel/LayerPanelActionHeatmap'
-
 import olLayerVector from 'ol/layer/Vector'
 import olSourceVector from 'ol/source/Vector'
 import olStyleStyle from 'ol/style/Style'
-
-import LayerPanelActionImport from 'LayerPanel/LayerPanelActionImport'
-import LayerPanelActionExport from 'LayerPanel/LayerPanelActionExport'
-import LayerPanelActionMerge from 'LayerPanel/LayerPanelActionMerge'
-import LayerPanelActionMergeFeatures from 'LayerPanel/LayerPanelActionMergeFeatures'
-
 import isEqual from 'lodash.isequal'
-import { connectToContext } from 'Provider'
-import { convertFileToFeatures } from 'LayerPanel/LayerPanelActionImport/utils'
-import VectorLayer from 'classes/VectorLayer'
+import LayerPanelPage from '~/src/LayerPanel/LayerPanelPage'
+import LayerPanelContent from '~/src/LayerPanel/LayerPanelContent'
+import LayerPanelList from '~/src/LayerPanel/LayerPanelList'
+import LayerPanelListItem from '~/src/LayerPanel/LayerPanelListItem'
+import LayerPanelCheckbox from '~/src/LayerPanel/LayerPanelCheckbox'
+import LayerPanelExpandableList from '~/src/LayerPanel/_LayerPanelExpandableList'
+import LayerPanelActions from '~/src/LayerPanel/LayerPanelActions'
+import ugh from '~/src/ugh'
+
+import { addSelectInteraction } from '~/src/Map'
+
+import LayerPanelActionOpacity from '~/src/LayerPanel/LayerPanelActionOpacity'
+import LayerPanelActionRemove from '~/src/LayerPanel/LayerPanelActionRemove'
+import LayerPanelActionExtent from '~/src/LayerPanel/LayerPanelActionExtent'
+import LayerPanelActionHeatmap from '~/src/LayerPanel/LayerPanelActionHeatmap'
+
+import LayerPanelActionImport from '~/src/LayerPanel/LayerPanelActionImport'
+import LayerPanelActionExport from '~/src/LayerPanel/LayerPanelActionExport'
+import LayerPanelActionMerge from '~/src/LayerPanel/LayerPanelActionMerge'
+import LayerPanelActionMergeFeatures from '~/src/LayerPanel/LayerPanelActionMergeFeatures'
+
+import { connectToContext } from '~/src/Provider'
+import { convertFileToFeatures } from '~/src/LayerPanel/LayerPanelActionImport/utils'
+import VectorLayer from '~/src/classes/VectorLayer'
 
 import './styled.css'
 
@@ -44,7 +42,7 @@ const INDETERMINATE = 'indeterminate'
  * @since 0.5.0
  */
 class LayerPanelLayersPage extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -52,14 +50,14 @@ class LayerPanelLayersPage extends PureComponent {
       masterCheckboxVisibility: true,
       featureListeners: [],
       filterText: '',
-      expandedLayers: []
+      expandedLayers: [],
     }
 
     this.virtuoso = createRef(null)
     this.scrollIndex = createRef(0)
   }
 
-  initializeSelect = map => {
+  initializeSelect = (map) => {
     const { setHoverStyle, disableHover } = this.props
 
     if (disableHover) return // opt-out
@@ -69,18 +67,18 @@ class LayerPanelLayersPage extends PureComponent {
     const style = new olStyleStyle({
       stroke: new olStroke({
         color: stroke,
-        width: 3
+        width: 3,
       }),
       image: new olCircle({
         radius: 5,
         fill: new olFill({
-          color: fill
+          color: fill,
         }),
         stroke: new olStroke({
-          color: color,
-          width: 2
-        })
-      })
+          color,
+          width: 2,
+        }),
+      }),
     })
 
     const { select } = addSelectInteraction(map, '_ol_kit_layer_panel_hover', { style: [style] })
@@ -88,7 +86,7 @@ class LayerPanelLayersPage extends PureComponent {
     this.selectInteraction = select
   }
 
-  selectFeatures = features => {
+  selectFeatures = (features) => {
     const { disableHover } = this.props
 
     if (disableHover) return
@@ -96,7 +94,7 @@ class LayerPanelLayersPage extends PureComponent {
     this.selectInteraction.getFeatures().clear()
 
     if (features?.length) {
-      features.forEach(feature => {
+      features.forEach((feature) => {
         if (feature.get('_ol_kit_feature_visibility')) {
           this.selectInteraction.getFeatures().push(feature)
         }
@@ -104,7 +102,7 @@ class LayerPanelLayersPage extends PureComponent {
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const { map, layerFilter } = this.props
     const layers = map.getLayers()
     const handleMapChange = (e, add) => {
@@ -131,7 +129,7 @@ class LayerPanelLayersPage extends PureComponent {
     this.onRemoveKey = layers.on('remove', handleMapChange)
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     const { map } = this.props
     const layers = map.getLayers()
 
@@ -141,7 +139,7 @@ class LayerPanelLayersPage extends PureComponent {
     this.removeFeatureListeners()
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     // if there were previous layers but then removed to none set layers to empty and hanlde the mastercheckbox
     if (prevState.layers.length > 0 && this.state.layers.length === 0) {
       this.setState({ layers: [] })
@@ -160,7 +158,7 @@ class LayerPanelLayersPage extends PureComponent {
       this.virtuoso.current?.scrollToIndex({
         index,
         align: 'start',
-        behavior: 'auto'
+        behavior: 'auto',
       })
     }, 0)
   }
@@ -199,31 +197,25 @@ class LayerPanelLayersPage extends PureComponent {
     this.forceUpdate()
   }
 
-  getVisibleLayers = () => {
-    return this.state.layers.filter(layer => layer.getVisible())
-  }
+  getVisibleLayers = () => this.state.layers.filter((layer) => layer.getVisible())
 
-  showLayers = (layers) => {
-    return layers.map(layer => {
-      layer.setVisible(true)
+  showLayers = (layers) => layers.map((layer) => {
+    layer.setVisible(true)
 
-      return layer
-    })
-  }
+    return layer
+  })
 
-  hideLayers = (layers) => {
-    return layers.map(layer => {
-      layer.setVisible(false)
+  hideLayers = (layers) => layers.map((layer) => {
+    layer.setVisible(false)
 
-      return layer
-    })
-  }
+    return layer
+  })
 
   setVisibilityForAllLayers = (_, visibility) => {
     const { layers } = this.state
     const updatedLayers = visibility ? this.showLayers(layers) : this.hideLayers(layers)
 
-    layers.forEach(layer => this.setVisibilityForAllFeaturesOfLayer(layer, visibility))
+    layers.forEach((layer) => this.setVisibilityForAllFeaturesOfLayer(layer, visibility))
     this.setState({ layers: updatedLayers }, () => this.handleMasterCheckbox())
   }
 
@@ -231,7 +223,7 @@ class LayerPanelLayersPage extends PureComponent {
     if (!this.isValidVectorLayer(layer)) return []
     if (this.props.shouldHideFeatures(layer)) return []
 
-    return layer.getSource().getFeatures().map(feature => {
+    return layer.getSource().getFeatures().map((feature) => {
       const isVisible = feature.get('_ol_kit_feature_visibility') === undefined ? true : feature.get('_ol_kit_feature_visibility')
       const olkitStyle = feature.get('_ol_kit_feature_style') || feature.getStyle()
       const featureOriginalStyle = isEqual(olkitStyle, new olStyleStyle(null)) ? undefined : olkitStyle
@@ -250,14 +242,12 @@ class LayerPanelLayersPage extends PureComponent {
     })
   }
 
-  getVisibleFeaturesForLayer = (layer) => {
-    return (this.isValidVectorLayer(layer))
-      ? layer.getSource().getFeatures().filter(feature => feature.get('_ol_kit_feature_visibility')) : []
-  }
+  getVisibleFeaturesForLayer = (layer) => ((this.isValidVectorLayer(layer))
+    ? layer.getSource().getFeatures().filter((feature) => feature.get('_ol_kit_feature_visibility')) : [])
 
   setVisibilityForAllFeaturesOfLayer = (layer, visibility) => {
     if (this.isValidVectorLayer(layer)) {
-      layer.getSource().getFeatures().map(feature => {
+      layer.getSource().getFeatures().map((feature) => {
         feature.set('_ol_kit_feature_visibility', visibility)
         feature.setStyle(feature.get('_ol_kit_feature_style'))
       })
@@ -265,10 +255,10 @@ class LayerPanelLayersPage extends PureComponent {
   }
 
   // remove visible features on the layer
-  removeFeaturesForLayer = layer => {
+  removeFeaturesForLayer = (layer) => {
     const removeFeatures = this.getVisibleFeaturesForLayer(layer)
 
-    removeFeatures.map(feature => layer.getSource().removeFeature(feature))
+    removeFeatures.map((feature) => layer.getSource().removeFeature(feature))
     this.handleLayerCheckbox(layer)
   }
 
@@ -276,7 +266,7 @@ class LayerPanelLayersPage extends PureComponent {
   handleMasterCheckbox = () => {
     const visibleLayers = this.getVisibleLayers().length
     const allLayers = this.state.layers.length
-    const indeterminateLayers = this.getVisibleLayers().filter(layer => layer.get('_ol_kit_layerpanel_visibility') === INDETERMINATE).length
+    const indeterminateLayers = this.getVisibleLayers().filter((layer) => layer.get('_ol_kit_layerpanel_visibility') === INDETERMINATE).length
 
     const masterCheckboxState = indeterminateLayers ? INDETERMINATE : visibleLayers === allLayers && allLayers > 0 ? true : visibleLayers > 0 ? INDETERMINATE : false // eslint-disable-line
 
@@ -323,9 +313,7 @@ class LayerPanelLayersPage extends PureComponent {
     this.setState({ filterText })
   }
 
-  isValidVectorLayer = (layer) => {
-    return (layer instanceof olLayerVector || (layer && layer.isVectorLayer))
-  }
+  isValidVectorLayer = (layer) => (layer instanceof olLayerVector || (layer && layer.isVectorLayer))
 
   handleExpandedLayer = (layer) => {
     const clonedExpandedLayers = [...this.state.expandedLayers]
@@ -346,7 +334,7 @@ class LayerPanelLayersPage extends PureComponent {
     this.setState({ layers: reorderedLayers })
   }
 
-  onFileImport = file => {
+  onFileImport = (file) => {
     const { map, onFileImport } = this.props
 
     // otherwise, add them to the map ourselves
@@ -369,7 +357,7 @@ class LayerPanelLayersPage extends PureComponent {
     }).catch(ugh.error)
   }
 
-  handleRangeChange = visibleRange => {
+  handleRangeChange = (visibleRange) => {
     this.scrollIndex.current = visibleRange.startIndex
   }
 
@@ -378,62 +366,70 @@ class LayerPanelLayersPage extends PureComponent {
     const { handleFeatureDoubleClick, translations } = this.props
 
     return (
-      <ListItem data-testid={`LayerPanel.feature${index}`} key={index} onDoubleClick={() => handleFeatureDoubleClick(feature)}>
+      <div className="listItem" data-testid={`LayerPanel.feature${index}`} key={index} onDoubleClick={() => handleFeatureDoubleClick(feature)}>
         <LayerPanelCheckbox
           handleClick={(event) => this.handleFeatureCheckbox(layer, feature, event)}
-          checkboxState={feature.get('_ol_kit_feature_visibility')} />
-        <ListItemText inset={false} primary={feature.get('name') || `${translations['_ol_kit.LayerPanelListItem.feature']} ${index + 1}`} />
-      </ListItem>
+          checkboxState={feature.get('_ol_kit_feature_visibility')}
+        />
+        <div className="layerPanelListItemText" inset={false} primary={feature.get('name') || `${translations['_ol_kit.LayerPanelListItem.feature']} ${index + 1}`} />
+      </div>
     )
   }
 
   formatFeatureRows = (features, layer) => (
-    Array.from({ length: features.length },
+    Array.from(
+      { length: features.length },
       (_, index) => ({
         feature: features[index],
-        layer
-      })
+        layer,
+      }),
     )
   )
 
-  render () {
+  render() {
     const {
       translations, layerFilter, handleLayerDoubleClick, disableDrag, tabIcon, onLayerRemoved,
       onLayerReorder, enableFilter, getMenuItemsForLayer, shouldAllowLayerRemoval, map, onExportFeatures,
-      onMergeLayers, onCreateHeatmap, expandedHeight
+      onMergeLayers, onCreateHeatmap, expandedHeight,
     } = this.props
-    const { layers, masterCheckboxVisibility, filterText, expandedLayers } = this.state
-    const isExpandedLayer = (layer) => !!expandedLayers.find(expandedLayerId => expandedLayerId === layer.ol_uid)
+    const {
+      layers, masterCheckboxVisibility, filterText, expandedLayers,
+    } = this.state
+    const isExpandedLayer = (layer) => !!expandedLayers.find((expandedLayerId) => expandedLayerId === layer.ol_uid)
 
     return (
       <LayerPanelPage tabIcon={tabIcon}>
         <input
-          id='feature-filter-input'
+          id="feature-filter-input"
           label={translations['_ol_kit.LayerPanelLayersPage.filterText']}
-          type='text'
+          type="text"
           style={{ margin: '8px', display: enableFilter ? 'block' : 'none' }}
-          fullWidth
           value={filterText}
-          onChange={(e) => this.handleFilter(e.target.value)} />
+          onChange={(e) => this.handleFilter(e.target.value)}
+        />
         <LayerPanelContent padding={enableFilter ? '0px 15px 58px 15px !important' : '0px 15px'}>
           <LayerPanelListItem
-            id='all_layers'
+            id="all_layers"
             title={translations['_ol_kit.LayerPanelLayersPage.title']}
-            translations={translations} >
+            translations={translations}
+          >
             <LayerPanelCheckbox
               checkboxState={masterCheckboxVisibility}
-              handleClick={this.setVisibilityForAllLayers} />
-            <p primary={'All Layers'} />
-            <div className='listItemSecondaryAction' style={{ right: '0px !important' }}>
+              handleClick={this.setVisibilityForAllLayers}
+            />
+            <p primary="All Layers" />
+            <div className="listItemSecondaryAction" style={{ right: '0px !important' }}>
               <LayerPanelActions
                 icon={<></>}
                 translations={translations}
                 layers={layers}
-                map={map}>
+                map={map}
+              >
                 <LayerPanelActionRemove
                   removeFeaturesForLayer={this.removeFeaturesForLayer}
                   shouldAllowLayerRemoval={shouldAllowLayerRemoval}
-                  onLayerRemoved={onLayerRemoved} />
+                  onLayerRemoved={onLayerRemoved}
+                />
                 <LayerPanelActionImport handleImport={this.onFileImport} />
                 <LayerPanelActionExport onExportFeatures={onExportFeatures} />
                 <LayerPanelActionMerge onMergeLayers={onMergeLayers} />
@@ -445,57 +441,63 @@ class LayerPanelLayersPage extends PureComponent {
             onSort={this.zIndexSort}
             onReorderedItems={this.reorderLayers}
             items={layers}
-            onLayerReorder={onLayerReorder} >
+            onLayerReorder={onLayerReorder}
+          >
             {
               layerFilter(layers).filter((layer) => {
                 const filteredFeatures = this.getFeaturesForLayer(layer)
 
-                return !enableFilter ||
-                  !(layer instanceof olLayerVector) ||
-                  this.props.shouldHideFeatures(layer) ? true : filteredFeatures?.length
+                return !enableFilter
+                  || !(layer instanceof olLayerVector)
+                  || this.props.shouldHideFeatures(layer) ? true : filteredFeatures?.length
               }).map((layer, i) => {
                 const features = this.getFeaturesForLayer(layer)
                 const isExpanded = isExpandedLayer(layer)
 
                 return (
-                  <div key={i}
+                  <div
+                    key={i}
                     onMouseEnter={() => this.selectFeatures(features)}
-                    onMouseLeave={() => this.selectFeatures([])}>
+                    onMouseLeave={() => this.selectFeatures([])}
+                  >
                     <LayerPanelListItem handleDoubleClick={() => { handleLayerDoubleClick(layer) }}>
-                      {<LayerPanelCheckbox
+                      <LayerPanelCheckbox
                         checkboxState={!layer ? null : layer.get('_ol_kit_layerpanel_visibility') || layer.getVisible()}
-                        handleClick={(e) => this.handleVisibility(e, layer)} />}
-                      {<LayerPanelExpandableList
+                        handleClick={(e) => this.handleVisibility(e, layer)}
+                      />
+                      <LayerPanelExpandableList
                         show={!!features}
                         open={isExpanded}
-                        handleClick={() => this.handleExpandedLayer(layer)} />}
-                      <ListItemText primary={layer.get('title') || 'Untitled Layer'} />
+                        handleClick={() => this.handleExpandedLayer(layer)}
+                      />
+                      <div className="layerPanelListItemText" primary={layer.get('title') || 'Untitled Layer'} />
                       <ListItemSecondaryAction style={{ right: '0px !important' }}>
                         <LayerPanelActions
-                          icon={<MoreVertIcon data-testid='LayerPanel.actionsIcon' />}
+                          icon={<MoreVertIcon data-testid="LayerPanel.actionsIcon" />}
                           translations={translations}
                           layer={layer}
-                          map={map} >
-                          {getMenuItemsForLayer(layer) ||
-                            [<LayerPanelActionRemove key='removeLayer' shouldAllowLayerRemoval={shouldAllowLayerRemoval} />,
-                              <LayerPanelActionExtent key='gotoExtent' />,
-                              <LayerPanelActionMergeFeatures key='mergeFeatures' />,
-                              <LayerPanelActionHeatmap key='heatmap' layer={layer} onCreateHeatmap={onCreateHeatmap} />,
-                              <LayerPanelActionOpacity key='layerOpacity' />]}
+                          map={map}
+                        >
+                          {getMenuItemsForLayer(layer)
+                            || [<LayerPanelActionRemove key="removeLayer" shouldAllowLayerRemoval={shouldAllowLayerRemoval} />,
+                              <LayerPanelActionExtent key="gotoExtent" />,
+                              <LayerPanelActionMergeFeatures key="mergeFeatures" />,
+                              <LayerPanelActionHeatmap key="heatmap" layer={layer} onCreateHeatmap={onCreateHeatmap} />,
+                              <LayerPanelActionOpacity key="layerOpacity" />]}
                         </LayerPanelActions>
                       </ListItemSecondaryAction>
                     </LayerPanelListItem>
                     {isExpanded
                       ? (
-                        <Collapse in={isExpanded} timeout='auto' style={{ paddingLeft: '36px', height: features.length * 52 > expandedHeight ? expandedHeight : features.length * 52 }}>
+                        <Collapse in={isExpanded} timeout="auto" style={{ paddingLeft: '36px', height: features.length * 52 > expandedHeight ? expandedHeight : features.length * 52 }}>
                           {features.map((f, i) => this.renderFeatureRow(i, { feature: f, layer }))}
                         </Collapse>
                       )
-                      : null
-                    }
+                      : null}
                   </div>
                 )
-              })}
+              })
+}
           </LayerPanelList>
         </LayerPanelContent>
       </LayerPanelPage>
@@ -506,16 +508,16 @@ class LayerPanelLayersPage extends PureComponent {
 LayerPanelLayersPage.defaultProps = {
   handleFeatureDoubleClick: () => { },
   handleLayerDoubleClick: () => { },
-  layerFilter: (layers) => layers.filter(layer => !layer.get('_ol_kit_basemap') && layer.get('name') !== 'unselectable'),
+  layerFilter: (layers) => layers.filter((layer) => !layer.get('_ol_kit_basemap') && layer.get('name') !== 'unselectable'),
   shouldHideFeatures: (layer) => false,
   shouldAllowLayerRemoval: (layer) => true,
   getMenuItemsForLayer: () => false,
   onCreateHeatmap: () => { },
-  tabIcon: <span className='zmdi zmdi-layers' />,
+  tabIcon: <span className="zmdi zmdi-layers" />,
   setHoverStyle: () => ({ color: 'red', fill: '#ffffff', stroke: 'red' }),
   disableHover: false,
   initialItemCount: 6,
-  expandedHeight: 300
+  expandedHeight: 300,
 }
 
 LayerPanelLayersPage.propTypes = {
@@ -582,7 +584,7 @@ LayerPanelLayersPage.propTypes = {
   initialItemCount: PropTypes.number,
 
   /** Set max height for feature scroll area (number equates to pixels) */
-  expandedHeight: PropTypes.number
+  expandedHeight: PropTypes.number,
 }
 
 export default connectToContext(LayerPanelLayersPage)

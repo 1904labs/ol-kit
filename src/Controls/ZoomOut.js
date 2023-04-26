@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import ControlGroupButton from './ControlGroupButton'
 import { zoomDelta } from './utils'
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 
 import './styled.css'
 
@@ -13,7 +13,7 @@ import './styled.css'
  * @category Controls
  * @since 0.14.0
  */
-function ZoomOut (props) {
+function ZoomOut(props) {
   const { map } = props
 
   let mouseDownTime
@@ -48,19 +48,20 @@ function ZoomOut (props) {
 
   return (
     <ControlGroupButton
-      id='_ol_kit_zoom_out'
-      data-testid='_ol_kit_zoom_out'
+      id="_ol_kit_zoom_out"
+      data-testid="_ol_kit_zoom_out"
       onMouseOut={() => stopZoom()}
       onMouseUp={() => stopZoom()}
-      onMouseDown={() => handleMouseDown()}>
-        -
+      onMouseDown={() => handleMouseDown()}
+    >
+      -
     </ControlGroupButton>
   )
 }
 
 ZoomOut.defaultProps = {
   decrement: -0.5,
-  holdDecrement: -0.2
+  holdDecrement: -0.2,
 }
 
 ZoomOut.propTypes = {
@@ -69,7 +70,7 @@ ZoomOut.propTypes = {
   /** delta for the amount of zoom */
   decrement: PropTypes.number,
   /** delta for the amount of zoom when holding down */
-  holdDecrement: PropTypes.number
+  holdDecrement: PropTypes.number,
 }
 
 export default connectToContext(ZoomOut)

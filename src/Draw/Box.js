@@ -6,7 +6,7 @@ import './styled.css'
 
 const BOX_CONFIG = {
   type: 'Circle',
-  geometryFunction: createBox()
+  geometryFunction: createBox(),
 }
 
 /**
@@ -22,16 +22,18 @@ class DrawBox extends Component {
     return type === 'Circle' && typeof geometryFunction === 'function' && geometryFunction.toString() === BOX_CONFIG.geometryFunction.toString()
   }
 
-  render () {
+  render() {
     const { addInteraction, tooltipTitle } = this.props
 
     return (
-      <div className='tooltip' title={tooltipTitle}>
-        <button className='iconButton'
-          data-testid='Draw.box'
-          size='small'
-          onClick={() => addInteraction(BOX_CONFIG)}>
-          <i class='zmdi zmdi-square-o'></i>
+      <div className="tooltip" title={tooltipTitle}>
+        <button
+          className="iconButton"
+          data-testid="Draw.box"
+          size="small"
+          onClick={() => addInteraction(BOX_CONFIG)}
+        >
+          <i className="zmdi zmdi-square-o" />
         </button>
       </div>
     )
@@ -49,7 +51,7 @@ DrawBox.propTypes = {
   addInteraction: PropTypes.func,
 
   /** a title for the tooltip */
-  tooltipTitle: PropTypes.string
+  tooltipTitle: PropTypes.string,
 }
 
 export default DrawBox

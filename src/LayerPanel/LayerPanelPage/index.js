@@ -9,11 +9,11 @@ import './styled.css'
  * @since 0.5.0
  */
 class LayerPanelPage extends Component {
-  render () {
+  render() {
     const { children, label, tabIcon } = this.props
 
     return (
-      <div className='layerPanelPageContainer' label={label} tabIcon={tabIcon} data-testid='LayerPanel.page'>
+      <div className="layerPanelPageContainer" label={label} tabIcon={tabIcon} data-testid="LayerPanel.page">
         {children}
       </div>
     )
@@ -28,7 +28,7 @@ LayerPanelPage.propTypes = {
   label: PropTypes.string,
 
   /** Check LayerPanelPage example.md for more clarification */
-  tabIcon: PropTypes.node
+  tabIcon: PropTypes.node,
 }
 
 export default LayerPanelPage

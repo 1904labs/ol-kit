@@ -1,5 +1,5 @@
 /* eslint-disable */
-import ugh from 'ugh'
+import ugh from '~/src/ugh'
 import olFeature from 'ol/Feature'
 import olGeomLineString from 'ol/geom/LineString'
 import olStyleFill from 'ol/style/Fill'

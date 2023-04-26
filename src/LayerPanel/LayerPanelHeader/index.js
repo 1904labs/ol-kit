@@ -9,15 +9,15 @@ import './styled.css'
  * @since 0.5.0
  */
 class LayerPanelHeader extends Component {
-  render () {
+  render() {
     const {
       actions,
       title,
-      avatar
+      avatar,
     } = this.props
 
     return (
-      <div className='cardHeader' title={title} avatar={avatar} action={actions} />
+      <div className="cardHeader" title={title} avatar={avatar} action={actions} />
     )
   }
 }
@@ -28,10 +28,10 @@ LayerPanelHeader.propTypes = {
   /** array or component to render in the LayerPanelMenu */
   actions: PropTypes.oneOfType([
     PropTypes.array,
-    PropTypes.node
+    PropTypes.node,
   ]),
   /** component to render on the left side of the title */
-  avatar: PropTypes.node
+  avatar: PropTypes.node,
 }
 
 export default LayerPanelHeader

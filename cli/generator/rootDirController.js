@@ -3,7 +3,7 @@ const path = require('path')
 const chalk = require('chalk')
 
 class RootDirController {
-  constructor (projectDirectory) {
+  constructor(projectDirectory) {
     this.projectPath = path.resolve(`${process.cwd()}/${projectDirectory}`)
 
     this.resolve = this.resolve.bind(this)
@@ -13,27 +13,27 @@ class RootDirController {
     this.appConfigPath = '/config/appVars.js'
   }
 
-  has () {
+  has() {
     return fs.existsSync(this.projectPath)
   }
 
-  make () {
+  make() {
     fs.mkdirSync(this.projectPath)
   }
 
-  join (file) {
+  join(file) {
     return path.join(this.resolve(), `/${file}`)
   }
 
-  resolve () {
+  resolve() {
     return path.resolve(this.projectPath)
   }
 
-  resolveAppConfigPath () {
+  resolveAppConfigPath() {
     return path.resolve(this.join(this.appConfigPath))
   }
 
-  writeFile (fileName, fileData) {
+  writeFile(fileName, fileData) {
     return new Promise((resolve, reject) => {
       fs.writeFile(fileName, fileData, (err) => {
         if (err) {

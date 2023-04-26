@@ -1,16 +1,16 @@
 const fs = require('fs')
 const path = require('path').posix
-const execSync = require('child_process').execSync
+const { execSync } = require('child_process')
 
 const VUE_WRAPPER = process.env.IS_DEV ? 'src/vue-wrapper.js' : 'lib/vue-wrapper.js'
 const REACT_WRAPPER = process.env.IS_DEV ? 'src/react-wrapper.jsx' : 'lib/react-wrapper.js'
 
-module.exports = function bundle (Components, out, config) {
+module.exports = function bundle(Components, out, config) {
   if (!Components.length) {
     return
   }
-  const vueComponents = Components.filter(c => c.component.type === 'vue')
-  const reactComponents = Components.filter(c => c.component.type === 'react')
+  const vueComponents = Components.filter((c) => c.component.type === 'vue')
+  const reactComponents = Components.filter((c) => c.component.type === 'react')
   const entry = path.join(out, 'entry.js')
   const absoluteOut = path.resolve(out)
   let init = `
@@ -18,7 +18,7 @@ module.exports = function bundle (Components, out, config) {
     window.vueComponents = {};\n
   `
   if (vueComponents.length) {
-    init = init + `
+    init += `
       import Vue from 'vue/dist/vue.js';\n
       window.Vue = Vue;\n
 
@@ -27,7 +27,7 @@ module.exports = function bundle (Components, out, config) {
     `
   }
   if (reactComponents.length) {
-    init = init + `
+    init += `
       import React from "react";\n
       import ReactDOM from "react-dom";\n
 
@@ -39,25 +39,25 @@ module.exports = function bundle (Components, out, config) {
   }
 
   // Import css
-  init = init + `
+  init += `
     import './styles/reset.css';\n
     import './styles/iframe.css';\n
   `
 
   if (config.betterDocs.component) {
-    if(config.betterDocs.component.wrapper) {
+    if (config.betterDocs.component.wrapper) {
       const absolute = path.resolve(config.betterDocs.component.wrapper)
-      init +=`
+      init += `
       import _CustomWrapper from '${path.relative(absoluteOut, absolute)}';\n
       window._CustomWrapper = _CustomWrapper;\n
       `
     }
-    if(config.betterDocs.component.entry
+    if (config.betterDocs.component.entry
       && config.betterDocs.component.entry.length) {
       init = `${config.betterDocs.component.entry.join('\n')}\n${init}`
     }
   }
-  
+
   const entryFile = init + Components.map((c, i) => {
     const { displayName, filePath, type } = c.component
     const relativePath = path.relative(absoluteOut, filePath)
@@ -78,7 +78,7 @@ module.exports = function bundle (Components, out, config) {
   try {
     execSync(cmd)
   } catch (error) {
-    if(error.output && error.output.length){
+    if (error.output && error.output.length) {
       console.log('"TypeError: Path must be a string." will not effect the docs output 👍', error.output[1].toString())
     }
   }

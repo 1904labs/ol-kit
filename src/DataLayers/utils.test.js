@@ -1,7 +1,7 @@
-import { loadDataLayer } from './utils'
-import { VectorLayer } from 'classes'
-import { createMap } from 'Map'
 import { fromLonLat } from 'ol/proj'
+import { loadDataLayer } from './utils'
+import { VectorLayer } from '~/src/classes'
+import { createMap } from '~/src/Map'
 import { NASA_RESPONSE, POLYGON_KML } from './__test_data__'
 import US_STATES from './__test_data__/us_states.json'
 

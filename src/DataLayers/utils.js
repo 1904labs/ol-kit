@@ -6,8 +6,8 @@ import olStroke from 'ol/style/Stroke'
 import Map from 'ol/Map'
 import GeoJSON from 'ol/format/GeoJSON'
 import KML from 'ol/format/KML'
-import { VectorLayer } from 'classes'
-import ugh from 'ugh'
+import { VectorLayer } from '~/src/classes'
+import ugh from '~/src/ugh'
 
 const getFeaturesFromDataSet = (map, dataSet) => {
   const mapProjection = map.getView().getProjection().getCode()
@@ -30,7 +30,7 @@ const getFeaturesFromDataSet = (map, dataSet) => {
   return []
 }
 
-const urlValidator = string => {
+const urlValidator = (string) => {
   try {
     new URL(string) // eslint-disable-line no-new
   } catch (_) {
@@ -71,7 +71,7 @@ export const loadDataLayer = async (map, query, optsArg = {}) => {
 
       response = await request.text() // either xml or json
     } catch (e) {
-      return ugh.throw(`'loadDataLayer' error when making network request:`, e)
+      return ugh.throw('\'loadDataLayer\' error when making network request:', e)
     }
 
     let dataSet
@@ -100,7 +100,7 @@ export const loadDataLayer = async (map, query, optsArg = {}) => {
   layer.set('title', opts.title)
   if (isValidUrl) layer.set('_ol_kit_data_source', query)
 
-  features.forEach(feature => feature.set('_ol_kit_parent', layer))
+  features.forEach((feature) => feature.set('_ol_kit_parent', layer))
   source.addFeatures(features)
 
   // style based on opts
@@ -111,9 +111,9 @@ export const loadDataLayer = async (map, query, optsArg = {}) => {
       image: new olCircleStyle({
         radius: 4,
         fill: new olFill(style.fill),
-        stroke: new olStroke(style.stroke)
-      })
-    })
+        stroke: new olStroke(style.stroke),
+      }),
+    }),
   )
 
   // conditionally add this new layer to the map

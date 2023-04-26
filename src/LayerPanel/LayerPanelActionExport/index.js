@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import olLayerVector from 'ol/layer/Vector'
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 import { exportFeatures } from './utils'
 
 /**
@@ -19,9 +19,7 @@ class LayerPanelActionExport extends Component {
   }
 
   collectExportableFeatures = () => {
-    const features = this.getVisibleLayers().filter(layer => this.isValidVectorLayer(layer)).map(layer => {
-      return layer.getSource().getFeatures()
-    })
+    const features = this.getVisibleLayers().filter((layer) => this.isValidVectorLayer(layer)).map((layer) => layer.getSource().getFeatures())
 
     return features.flat()
   }
@@ -29,47 +27,44 @@ class LayerPanelActionExport extends Component {
   isExportable = () => {
     const visibleLayers = this.getVisibleLayers()
 
-    return visibleLayers.filter(layer => {
-      return this.isValidVectorLayer(layer)
-    }).length !== visibleLayers.length || visibleLayers.length === 0
+    return visibleLayers.filter((layer) => this.isValidVectorLayer(layer)).length !== visibleLayers.length || visibleLayers.length === 0
   }
 
-  isValidVectorLayer = (layer) => {
-    return (layer instanceof olLayerVector || (layer && layer.isVectorLayer))
-  }
+  isValidVectorLayer = (layer) => (layer instanceof olLayerVector || (layer && layer.isVectorLayer))
 
-  getVisibleLayers = () => {
-    return this.props.layers.filter(layer => layer.getVisible())
-  }
+  getVisibleLayers = () => this.props.layers.filter((layer) => layer.getVisible())
 
-  render () {
+  render() {
     const { translations } = this.props
 
     return (
       [<div
-        key='exportKml'
-        data-testid='LayerPanel.exportKML'
+        key="exportKml"
+        data-testid="LayerPanel.exportKML"
         disableGutters={false}
         disabled={this.isExportable()}
-        onClick={() => this.handleExport('kml')} >
+        onClick={() => this.handleExport('kml')}
+      >
         {translations['_ol_kit.LayerPanelActions.kml']}
       </div>,
-      <div
-        key='exportShp'
-        data-testid='LayerPanel.exportShapefile'
-        disableGutters={false}
-        disabled={this.isExportable()}
-        onClick={() => this.handleExport('shp')} >
-        {translations['_ol_kit.LayerPanelActions.shapefile']}
-      </div>,
-      <div
-        key='exportGeoJSON'
-        data-testid='LayerPanel.exportGeoJSON'
-        disableGutters={false}
-        disabled={this.isExportable()}
-        onClick={() => this.handleExport('geojson')} >
-        {translations['_ol_kit.LayerPanelActions.geojson']}
-      </div>]
+        <div
+          key="exportShp"
+          data-testid="LayerPanel.exportShapefile"
+          disableGutters={false}
+          disabled={this.isExportable()}
+          onClick={() => this.handleExport('shp')}
+        >
+          {translations['_ol_kit.LayerPanelActions.shapefile']}
+        </div>,
+        <div
+          key="exportGeoJSON"
+          data-testid="LayerPanel.exportGeoJSON"
+          disableGutters={false}
+          disabled={this.isExportable()}
+          onClick={() => this.handleExport('geojson')}
+        >
+          {translations['_ol_kit.LayerPanelActions.geojson']}
+        </div>]
     )
   }
 }
@@ -85,12 +80,12 @@ LayerPanelActionExport.propTypes = {
   layers: PropTypes.array,
 
   /** An object of translation key/value pairs */
-  translations: PropTypes.object
+  translations: PropTypes.object,
 }
 
 LayerPanelActionExport.defaultProps = {
   handleMenuClose: () => {},
-  onExportFeatures: exportFeatures
+  onExportFeatures: exportFeatures,
 }
 
 export default connectToContext(LayerPanelActionExport)

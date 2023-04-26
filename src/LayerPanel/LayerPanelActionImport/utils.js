@@ -13,7 +13,7 @@ import olFormatKML from 'ol/format/KML'
 import Papa from 'papaparse'
 import shp from 'shpjs'
 
-export function arrRegexIndexOf (arr, re) {
+export function arrRegexIndexOf(arr, re) {
   for (const i in arr) {
     if (arr[i].match(re)) {
       return Number(i)
@@ -30,14 +30,14 @@ export function arrRegexIndexOf (arr, re) {
  * @param {Blob} [file] - the file to be converted.  Accepts, 'kmz', 'kml', 'geojson', 'wkt', 'csv', 'zip', and 'json' file types.
  * @param {olMap} [map] - the openlayers map
  */
-export function convertFileToLayer (file, map) {
+export function convertFileToLayer(file, map) {
   return new Promise((resolve, reject) => {
     read(file)
       .then(getFormatForFileType)
       .then((res) => {
         resolve({
           name: file.name,
-          layer: convertFormatToLayer(res, map, file.name)
+          layer: convertFormatToLayer(res, map, file.name),
         })
       })
       .catch(reject)
@@ -52,14 +52,14 @@ export function convertFileToLayer (file, map) {
  * @param {Blob} [file] - the file to be converted.  Accepts, 'kmz', 'kml', 'geojson', 'wkt', 'csv', 'zip', and 'json' file types.
  * @param {olMap} [map] - the openlayers map
  */
-export function convertFileToFeatures (file, map) {
+export function convertFileToFeatures(file, map) {
   return new Promise((resolve, reject) => {
     read(file)
       .then(getFormatForFileType)
       .then((res) => {
         resolve({
           name: file.name,
-          features: convertFormatToFeatures(res, map)
+          features: convertFormatToFeatures(res, map),
         })
       })
       .catch(reject)
@@ -73,16 +73,16 @@ const acceptedExtensions = [
   'wkt',
   'csv',
   'zip',
-  'json'
+  'json',
 ]
 
-export function validFile (file, fileTypes) {
+export function validFile(file, fileTypes) {
   return file && fileTypes.find((type) => file.name.endsWith(type.extension.toLowerCase()))
 }
 
-export function createFeaturesVectorSource (features = []) {
+export function createFeaturesVectorSource(features = []) {
   const vectorSource = new olSourceVector({
-    wrapX: true
+    wrapX: true,
   })
 
   vectorSource.addFeatures(features)
@@ -90,7 +90,7 @@ export function createFeaturesVectorSource (features = []) {
   return vectorSource
 }
 
-export function stackedJsonStringToJsonArray (stackedJsonString) {
+export function stackedJsonStringToJsonArray(stackedJsonString) {
   const splitString = stackedJsonString.split('}{')
 
   return splitString.map((s) => {
@@ -103,48 +103,42 @@ export function stackedJsonStringToJsonArray (stackedJsonString) {
   })
 }
 
-export function jsonArrayToFeatureArray (jsonArray, format) {
+export function jsonArrayToFeatureArray(jsonArray, format) {
   // Convert Array<JSON> into Array<Array<Features>>
-  const deepFeaturesArray = jsonArray.map((json) => {
-    return format.readFeatures(json)
-  })
+  const deepFeaturesArray = jsonArray.map((json) => format.readFeatures(json))
 
   // Return flattened Array<Features> results using reduce
-  return deepFeaturesArray.reduce((accumulator, value) => {
-    return accumulator.concat(value)
-  }, [])
+  return deepFeaturesArray.reduce((accumulator, value) => accumulator.concat(value), [])
 }
 
-export function getFeaturesFromFormat (format, results) {
+export function getFeaturesFromFormat(format, results) {
   if (!format || !results) return []
   // The conversion service returns stacked feature collections (e.g. '{FeatureCollection}{FeatureCollection}{FeatureCollection}') when there are multiple shapefiles within the payload zip archive
   if (typeof results === 'string' && results.includes('}{')) {
     const jsonArray = stackedJsonStringToJsonArray(results)
 
     return jsonArrayToFeatureArray(jsonArray, format)
-  } else {
-    return format.readFeatures(results)
   }
+  return format.readFeatures(results)
 }
 
-export function transformFeature (opts) {
-  const getCode = args => {
+export function transformFeature(opts) {
+  const getCode = (args) => {
     const {
       code,
       projection,
-      map
+      map,
     } = args
 
     if (code) {
       return code
-    } else if (projection) {
+    } if (projection) {
       return projection.getCode()
-    } else {
-      try {
-        return map.getView().getProjection().getCode()
-      } catch (e) {
-        throw new Error('Arguments are invalid.')
-      }
+    }
+    try {
+      return map.getView().getProjection().getCode()
+    } catch (e) {
+      throw new Error('Arguments are invalid.')
     }
   }
   const proj = getCode(opts)
@@ -152,21 +146,19 @@ export function transformFeature (opts) {
   return new olFeature({ ...opts.feature.getProperties(), geometry: opts.feature.clone().getGeometry().transform('EPSG:4326', proj) })
 }
 
-export function convertFormatToLayer ({ format, results }, map, fileName) {
+export function convertFormatToLayer({ format, results }, map, fileName) {
   const features = convertFormatToFeatures({ format, results }, map, fileName)
 
-  const buildLayer = (feats) => {
-    return new olLayerVector({
-      source: createFeaturesVectorSource(feats),
-      renderMode: 'image',
-      name: fileName
-    })
-  }
+  const buildLayer = (feats) => new olLayerVector({
+    source: createFeaturesVectorSource(feats),
+    renderMode: 'image',
+    name: fileName,
+  })
 
   return Array.isArray(features) ? features.map(buildLayer) : [buildLayer(features)]
 }
 
-export function convertFormatToFeatures ({ format, results }, map) {
+export function convertFormatToFeatures({ format, results }, map) {
   if (!format || !results) throw new Error('File failed to properly')
 
   const getFeatures = (res) => {
@@ -174,26 +166,22 @@ export function convertFormatToFeatures ({ format, results }, map) {
 
     return getFeaturesFromFormat(format, res)
   }
-  const nonGeomFeatures = f => f.getGeometry()
-  const convert = (res) => {
-    return {
-      featureArray: (getFeatures(res)
-        .filter(nonGeomFeatures)
-        .map(feature => transformFeature({ feature, map }))),
-      fileName: res.fileName
-    }
-  }
+  const nonGeomFeatures = (f) => f.getGeometry()
+  const convert = (res) => ({
+    featureArray: (getFeatures(res)
+      .filter(nonGeomFeatures)
+      .map((feature) => transformFeature({ feature, map }))),
+    fileName: res.fileName,
+  })
 
   return Array.isArray(results) ? results.map(convert) : [convert(results)]
 }
 
-export function getFileType (file) {
-  return acceptedExtensions.find((type) => {
-    return file.name.endsWith(type)
-  })
+export function getFileType(file) {
+  return acceptedExtensions.find((type) => file.name.endsWith(type))
 }
 
-export function getOlFormat (extension) {
+export function getOlFormat(extension) {
   switch (extension.toLowerCase()) {
     case 'kml':
       return new olFormatKML()
@@ -208,7 +196,7 @@ export function getOlFormat (extension) {
   }
 }
 
-export function read (file) {
+export function read(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
 
@@ -216,7 +204,7 @@ export function read (file) {
       resolve({
         file,
         reader,
-        results: reader.result
+        results: reader.result,
       })
     }
 
@@ -225,7 +213,7 @@ export function read (file) {
   })
 }
 
-export function getFormatForFileType ({ file, reader, results }) {
+export function getFormatForFileType({ file, reader, results }) {
   const extension = getFileType(file).toLowerCase()
 
   // If the type doesn't match the whitelist, bail
@@ -234,39 +222,36 @@ export function getFormatForFileType ({ file, reader, results }) {
   // for formats with no OL format, special flows are used
   if (extension === 'kmz') {
     return processKMZ(file)
-  } else if (extension === 'zip') {
+  } if (extension === 'zip') {
     return processShapefile(file)
-  } else if (extension === 'csv') {
+  } if (extension === 'csv') {
     return processCSV(reader.result)
-  } else {
-    return Promise.resolve({
-      results: results,
-      format: getOlFormat(extension)
-    })
   }
+  return Promise.resolve({
+    results,
+    format: getOlFormat(extension),
+  })
 }
 
-export function processKMZ (file) {
-  return JSZip.loadAsync(file).then(zip => {
-    const match = zip.filter((relativePath, file) => {
-      return relativePath.endsWith('.kml')
-    })[0]
+export function processKMZ(file) {
+  return JSZip.loadAsync(file).then((zip) => {
+    const match = zip.filter((relativePath, file) => relativePath.endsWith('.kml'))[0]
 
     return match.async('string')
-  }).then(results => ({ format: new olFormatKML(), results }))
+  }).then((results) => ({ format: new olFormatKML(), results }))
 }
 
-export function processShapefile (file) {
+export function processShapefile(file) {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader()
 
     fileReader.readAsArrayBuffer(file)
     fileReader.onloadend = function (e) {
       shp(e.target.result)
-        .then(geojson => {
+        .then((geojson) => {
           resolve({
             results: geojson,
-            format: new olFormatGeoJSON()
+            format: new olFormatGeoJSON(),
           })
         })
         .catch(reject)
@@ -274,17 +259,17 @@ export function processShapefile (file) {
   })
 }
 
-export function processCSV (result) {
+export function processCSV(result) {
   return new Promise((resolve, reject) => {
     Papa.parse(result, {
       complete: (res) => {
         resolve(convertCsvArrayToCollection(res.data))
-      }
+      },
     })
   })
 }
 
-export function convertCsvArrayToCollection (csvArr) {
+export function convertCsvArrayToCollection(csvArr) {
   if (!csvArr || !(csvArr instanceof Array) || !csvArr.length) return false
 
   const columns = csvArr.shift()
@@ -297,7 +282,7 @@ export function convertCsvArrayToCollection (csvArr) {
     if (!Number(row[longIndex]) || !Number(row[latIndex])) return false
 
     const feature = new olFeature({
-      geometry: new olGeomPoint([Number(row[longIndex]), Number(row[latIndex])])
+      geometry: new olGeomPoint([Number(row[longIndex]), Number(row[latIndex])]),
     })
 
     const properties = {}
@@ -313,6 +298,6 @@ export function convertCsvArrayToCollection (csvArr) {
 
   return {
     results: new olCollection(features),
-    format: olFormatFeature
+    format: olFormatFeature,
   }
 }

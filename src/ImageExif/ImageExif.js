@@ -6,13 +6,13 @@ import { Circle, LineString, Point } from 'ol/geom'
 import GeoJSON from 'ol/format/GeoJSON'
 import { Icon, Stroke, Style } from 'ol/style'
 import PropTypes from 'prop-types'
-import en from 'locales/en'
 import { useDropzone } from 'react-dropzone'
 import ExifReader from 'exifreader'
 import VectorSource from 'ol/source/Vector'
 import { fromLonLat } from 'ol/proj'
-import arrow from './arrow.png'
 import { v4 as uuidv4 } from 'uuid'
+import arrow from './arrow.png'
+import en from '~/src/locales/en'
 import ugh from '../ugh'
 
 import './styled.css'
@@ -21,32 +21,29 @@ const format = new GeoJSON()
 const projectionOpts = {
   decimals: 8,
   dataProjection: 'EPSG:4326',
-  featureProjection: 'EPSG:3857'
+  featureProjection: 'EPSG:3857',
 }
 
-const olToGeojson = (feature) => {
-  return format.writeFeatureObject(feature, projectionOpts)
-}
+const olToGeojson = (feature) => format.writeFeatureObject(feature, projectionOpts)
 
 const geojsonToOl = (feature) => {
   if (feature.type === 'FeatureCollection') {
     return format.readFeatures(feature, projectionOpts)
-  } else {
-    return format.readFeature(feature, projectionOpts)
   }
+  return format.readFeature(feature, projectionOpts)
 }
 
-function ImageExif (props) {
+function ImageExif(props) {
   const { map, translations } = props
-  const styleFunction = feature => {
+  const styleFunction = (feature) => {
     const geometry = feature.getGeometry()
     const styles = [
       // linestring
       new Style({
         stroke: new Stroke({
           color: '#ffcc33',
-          width: 2
-        })
+          width: 2,
+        }),
       })]
 
     geometry.forEachSegment((start, end) => {
@@ -62,16 +59,16 @@ function ImageExif (props) {
             src: arrow,
             anchor: [0.75, 0.5],
             rotateWithView: true,
-            rotation: -rotation
-          })
-        })
+            rotation: -rotation,
+          }),
+        }),
       )
     })
 
     return styles
   }
 
-  const onDrop = useCallback(acceptedFiles => {
+  const onDrop = useCallback((acceptedFiles) => {
     const unlocatableFiles = []
 
     acceptedFiles.forEach((file, i, arr) => {
@@ -98,7 +95,7 @@ function ImageExif (props) {
           const tagKeys = Object.keys(tags).sort()
           const sortedProperties = {}
 
-          tagKeys.forEach(x => {
+          tagKeys.forEach((x) => {
             sortedProperties[x] = tags[x].description
           })
 
@@ -134,8 +131,8 @@ function ImageExif (props) {
               stroke: new Stroke({
                 lineDash: [4, 8],
                 color: '#ff0000',
-                width: 2
-              })
+                width: 2,
+              }),
             }))
             features.push(errorRadiusFeature)
           }
@@ -178,10 +175,10 @@ function ImageExif (props) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ accept: 'image/*', onDrop })
 
   return (
-    <div className='container'>
-      <span className='title'>{translations['_ol_kit.ImageExif.title']}</span>
-      <div className='innerContainer'>
-        <div className='inputContainer'>
+    <div className="container">
+      <span className="title">{translations['_ol_kit.ImageExif.title']}</span>
+      <div className="innerContainer">
+        <div className="inputContainer">
           <div {...getRootProps()}>
             <input {...getInputProps()} />
             {
@@ -201,13 +198,13 @@ ImageExif.propTypes = {
   translations: PropTypes.shape({
     '_ol_kit.ImageExif.title': PropTypes.string,
     '_ol_kit.ImageExif.dragActive': PropTypes.string,
-    '_ol_kit.ImageExif.dragInactive': PropTypes.string
+    '_ol_kit.ImageExif.dragInactive': PropTypes.string,
   }).isRequired,
-  map: PropTypes.object
+  map: PropTypes.object,
 }
 
 ImageExif.defaultProps = {
-  translations: en
+  translations: en,
 }
 
 export default connectToContext(ImageExif)

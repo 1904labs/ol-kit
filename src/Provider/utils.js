@@ -1,8 +1,9 @@
 import React from 'react'
-import ugh from 'ugh'
-import { ProviderContext } from 'Provider'
-import { MultiMapContext, SafeParent } from 'MultiMapManager'
-import { ErrorBoundary } from 'ErrorBoundary'
+import ugh from '~/src/ugh'
+import { ProviderContext } from '~/src/Provider'
+import { MultiMapContext, SafeParent } from '~/src/MultiMapManager'
+import { ErrorBoundary } from '~/src/ErrorBoundary'
+
 let contextConflictWarning = false
 
 /**
@@ -13,10 +14,10 @@ let contextConflictWarning = false
  * @param {Component} component - A React component you want wrapped
  * @returns {Component} A wrapped React component which will automatically be passed a reference to provider context
  */
-export function connectToContext (Component) {
+export function connectToContext(Component) {
   if (!Component) return ugh.throw('Pass a React component to \'connectToContext\'')
 
-  return explicitProps => { // eslint-disable-line react/display-name
+  return function (explicitProps) { // eslint-disable-line react/display-name
     const { defaultProps = {} } = Component
 
     // if no context exists, just render the component with inline props
@@ -34,15 +35,14 @@ export function connectToContext (Component) {
             ? ( // eslint-disable-line multiline-ternary
               <MultiMapContext.Consumer>
                 {
-                  (providerProps = {}) => {
-                    return (
-                      <SafeParent
-                        defaultProps={defaultProps}
-                        explicitProps={explicitProps}
-                        providerProps={providerProps}
-                        Component={Component} />
-                    )
-                  }
+                  (providerProps = {}) => (
+                    <SafeParent
+                      defaultProps={defaultProps}
+                      explicitProps={explicitProps}
+                      providerProps={providerProps}
+                      Component={Component}
+                    />
+                  )
                 }
               </MultiMapContext.Consumer>
             ) : (
@@ -55,7 +55,7 @@ export function connectToContext (Component) {
 
                     if (propTypes) {
                     // filter out any props that do not need to get passed to this wrapped component
-                      Object.keys(providerProps).forEach(key => {
+                      Object.keys(providerProps).forEach((key) => {
                         if (!propTypes[key]) delete filteredProviderProps[key]
                       })
                     }
@@ -71,7 +71,8 @@ export function connectToContext (Component) {
                       // persistState={persistState}
                         {...defaultProps}
                         {...filteredProviderProps}
-                        {...explicitProps} />
+                        {...explicitProps}
+                      />
                     )
                   }
                 }

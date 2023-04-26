@@ -12,13 +12,13 @@ import olSourceVector from 'ol/source/Vector'
  * @param {Layer} layer - A vector layer that will be used to create heatmap layer
  * @returns {HeatmapLayer} HeatmapLayer
  */
- export function addHeatmapLayer (map, layer, opts = {}) {
+export function addHeatmapLayer(map, layer, opts = {}) {
   if (!(map instanceof olMap)) return ugh.error('addHeatmapLayer requires a valid openlayers map as arg')
-  
+
   // set defaults that will be read by HeatmapControls component
   const {
     blur = 60,
-    radius = 60
+    radius = 60,
   } = opts
   const title = opts?.title || `Heatmap from ${layer.get('title') || 'vector'}`
   const features = layer.getSource().getFeatures()
@@ -26,10 +26,10 @@ import olSourceVector from 'ol/source/Vector'
   const heatmapLayer = new HeatmapLayer({
     title,
     source: new olSourceVector({
-      features
+      features,
     }),
     blur: parseInt(blur, 10),
-    radius: parseInt(radius, 10)
+    radius: parseInt(radius, 10),
   })
 
   map.addLayer(heatmapLayer)

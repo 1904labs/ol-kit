@@ -10,7 +10,7 @@ import olSourceCluster from 'ol/source/Cluster'
 import olFeature from 'ol/Feature'
 import olGeomPoint from 'ol/geom/Point'
 import debounce from 'lodash.debounce'
-import ugh from 'ugh'
+import ugh from '~/src/ugh.js'
 
 /**
  * Creates a new feature with point geometry at the location of the pixel and attributes describing the pixel's value
@@ -42,7 +42,7 @@ export const getPixelValue = (layer, event) => {
     red,
     green,
     blue,
-    alpha
+    alpha,
   })
 }
 
@@ -65,7 +65,7 @@ export const addMovementListener = (map, callback) => {
   const keys = [
     map.on('change:size', slowDebounce),
     map.getView().on('change:resolution', slowDebounce),
-    map.getView().on('change:center', fastDebounce)
+    map.getView().on('change:center', fastDebounce),
   ]
 
   return keys
@@ -83,21 +83,19 @@ export const removeMovementListener = (keys = []) => {
   keys.forEach(({ target, type, listener }) => target.un(type, listener))
 }
 
-const setParentLayer = ({ features, layer }) => {
-  return new Promise(resolve => {
-    const parentLayer = layer.get('_ol_kit_parent')
-    const parent = parentLayer || layer
+const setParentLayer = ({ features, layer }) => new Promise((resolve) => {
+  const parentLayer = layer.get('_ol_kit_parent')
+  const parent = parentLayer || layer
 
-    features.forEach((feature, i) => {
-      // true makes this performant with a silent trigger: https://openlayers.org/en/latest/apidoc/module-ol_Feature.html#set
-      feature.set('_ol_kit_parent', parent, true)
+  features.forEach((feature, i) => {
+    // true makes this performant with a silent trigger: https://openlayers.org/en/latest/apidoc/module-ol_Feature.html#set
+    feature.set('_ol_kit_parent', parent, true)
 
-      return feature
-    })
-
-    resolve({ features, layer })
+    return feature
   })
-}
+
+  resolve({ features, layer })
+})
 
 const wfsSelector = (layer, event, opts) => {
   let features = []
@@ -108,7 +106,7 @@ const wfsSelector = (layer, event, opts) => {
   const featuresAtPixel = map.getFeaturesAtPixel(pixel, {
     layerFilter: () => true,
     hitTolerance: opts.hitTolerance ? opts.hitTolerance : 3,
-    checkWrapped: true
+    checkWrapped: true,
   })
 
   if (source instanceof olSourceCluster) {
@@ -119,9 +117,9 @@ const wfsSelector = (layer, event, opts) => {
   } else {
     const sourceFeatures = source.getFeatures()
 
-    sourceFeatures.forEach(sourceFeature => {
+    sourceFeatures.forEach((sourceFeature) => {
       // check if any feature on layer source is also at click location
-      const isAtPixel = featuresAtPixel ? featuresAtPixel.find(f => f === sourceFeature) : null
+      const isAtPixel = featuresAtPixel ? featuresAtPixel.find((f) => f === sourceFeature) : null
 
       if (isAtPixel) features.push(sourceFeature)
     })
@@ -136,18 +134,18 @@ const vectorTileSelector = (layer, event, opts) => {
   const featuresAtPixel = map.getFeaturesAtPixel(pixel, {
     layerFilter: () => true,
     hitTolerance: opts.hitTolerance ? opts.hitTolerance : 3,
-    checkWrapped: true
+    checkWrapped: true,
   })
 
-  return new Promise(async resolve => { // eslint-disable-line no-async-promise-executor
+  return new Promise(async (resolve) => { // eslint-disable-line no-async-promise-executor
     const vectorTileSourceFeatures = await layer.getSource()
       .getFeaturesInExtent(map.getView().calculateExtent(map.getSize()))
-    const matchingFeaturesAtPixel = vectorTileSourceFeatures.filter(sourceFeature => {
+    const matchingFeaturesAtPixel = vectorTileSourceFeatures.filter((sourceFeature) => {
       const { ol_uid } = sourceFeature // eslint-disable-line camelcase
 
       let isFeatureAtClick = false
 
-      featuresAtPixel.forEach(feat => {
+      featuresAtPixel.forEach((feat) => {
         if (feat?.ol_uid === ol_uid) isFeatureAtClick = true // eslint-disable-line camelcase
       })
 
@@ -178,11 +176,11 @@ export const getLayersAndFeaturesForEvent = (event, opts = {}) => {
 
   if (!(map instanceof olMap) || !Array.isArray(pixel)) return ugh.error('getLayersAndFeaturesForEvent requires a valid openlayers map & pixel location (as an array)') // eslint-disable-line
 
-  const promises = map.getLayers().getArray().map(layer => {
+  const promises = map.getLayers().getArray().map((layer) => {
     if (layer instanceof olVectorTile) {
       // handle vector tile features
       return vectorTileSelector(layer, event, opts)
-    } else if (layer.isVectorLayer || layer instanceof olLayerVector || !layer.getLayerState().managed) { // layer.getLayerState().managed is an undocumented ol prop that lets us ignore select's vector layer
+    } if (layer.isVectorLayer || layer instanceof olLayerVector || !layer.getLayerState().managed) { // layer.getLayerState().managed is an undocumented ol prop that lets us ignore select's vector layer
       // handle non vector tile wfs layers
       return wfsSelector(layer, event, opts)
     }
@@ -195,7 +193,7 @@ export const getLayersAndFeaturesForEvent = (event, opts = {}) => {
       // this logic handles clicks on GeoserverLayers
       const geoserverLayer = layer.get('_ol_kit_parent')
       const coords = map.getCoordinateFromPixel(pixel)
-      const wmsPromise = new Promise(async resolve => { // eslint-disable-line no-async-promise-executor
+      const wmsPromise = new Promise(async (resolve) => { // eslint-disable-line no-async-promise-executor
         const rawFeatures = await geoserverLayer.fetchFeaturesAtClick(coords, map)
         const { features } = await setParentLayer({ features: rawFeatures, layer })
 
@@ -242,18 +240,18 @@ export const getPopupPositionFromFeatures = (event, features = [], opts = {}) =>
   const fullWidth = width + arrowHeight
   const [mapX, mapY] = map.getSize()
 
-  const getPadding = (idx) => opts.viewPadding ? opts.viewPadding[idx] : calculateViewPadding(map)[idx]
+  const getPadding = (idx) => (opts.viewPadding ? opts.viewPadding[idx] : calculateViewPadding(map)[idx])
   const padding = {
     top: getPadding(0),
     right: getPadding(1),
     bottom: getPadding(2),
-    left: getPadding(3)
+    left: getPadding(3),
   }
 
   // find bbox for passed features
-  const getFitsForFeatures = rawFeatures => {
+  const getFitsForFeatures = (rawFeatures) => {
     // create a new array so original features are not mutated when _ol_kit_parent is nullified
-    const features = rawFeatures.map(feature => {
+    const features = rawFeatures.map((feature) => {
       const clone = feature.clone()
 
       // this removes a ref to _ol_kit_parent to solve circularJSON bug
@@ -269,11 +267,11 @@ export const getPopupPositionFromFeatures = (event, features = [], opts = {}) =>
       top: getMidPixel([[minX, maxY], [maxX, maxY]]),
       right: getMidPixel([[maxX, maxY], [maxX, minY]]),
       bottom: getMidPixel([[minX, minY], [maxX, minY]]),
-      left: getMidPixel([[minX, minY], [minX, maxY]])
+      left: getMidPixel([[minX, minY], [minX, maxY]]),
     }
   }
 
-  const getMidPixel = lineCoords => {
+  const getMidPixel = (lineCoords) => {
     const centerFeature = centroid(lineString(lineCoords))
     const coords = fromLonLat(centerFeature.geometry.coordinates)
 
@@ -286,7 +284,7 @@ export const getPopupPositionFromFeatures = (event, features = [], opts = {}) =>
   const fitsLeft = ([x, y]) => x + padding.left >= fullWidth && y >= (height / 2) + padding.top && y + (height / 2) <= mapY - padding.bottom // eslint-disable-line
 
   // the order of these checks determine which side is tried first (right, left, top, and then bottom)
-  const getPosition = bbox => {
+  const getPosition = (bbox) => {
     if (fitsRight(bbox.right)) return { arrow: 'left', pixel: bbox.right, fits: true }
     if (fitsLeft(bbox.left)) return { arrow: 'right', pixel: bbox.left, fits: true }
     if (fitsAbove(bbox.top)) return { arrow: 'bottom', pixel: bbox.top, fits: true }
@@ -324,7 +322,7 @@ export const calculateViewPadding = (map, opts = {}) => {
   const boundaryElements = Array.from(document.getElementsByClassName('_popup_boundary'))
   const [mapX, mapY] = map.getSize()
 
-  boundaryElements.forEach(elem => {
+  boundaryElements.forEach((elem) => {
     const bbox = elem.getBoundingClientRect()
     const isOffScreen = bbox.x < 0 || bbox.x >= mapX || bbox.y < navbarOffset || bbox.y >= mapY
 
@@ -364,7 +362,7 @@ export const calculateViewPadding = (map, opts = {}) => {
  * @param {Object} properties - A feature attribute object
  * @returns {Object} A filtered attribute object
  */
-export const sanitizeProperties = properties => {
+export const sanitizeProperties = (properties) => {
   const blacklist = ['geom', 'geometry']
   const sanitized = {}
 
@@ -385,15 +383,14 @@ export const positionContainer = (arrowDirection, [x, y], width, height) => {
 
   if (arrowDirection === 'top') {
     return { top: y + 16, left: x - safeWidth / 2 }
-  } else if (arrowDirection === 'right') {
+  } if (arrowDirection === 'right') {
     return { top: y - safeHeight / 2, left: x - safeWidth - 16 }
-  } else if (arrowDirection === 'bottom') {
+  } if (arrowDirection === 'bottom') {
     return { top: y - safeHeight - 16, left: x - safeWidth / 2 }
-  } else if (arrowDirection === 'left') {
+  } if (arrowDirection === 'left') {
     return { top: y - safeHeight / 2, left: x + 16 }
-  } else {
-    return { top: y, left: x }
   }
+  return { top: y, left: x }
 }
 
 // PopupBase accepts strings or numbers as valid props for width/heigh, CSS only accepts strings (some of which can't be parsed into numbers), and the positioning logic only accepts numbers so we have a few functions here to make sure that everyone is happy with the provided input.
@@ -404,17 +401,14 @@ const safeDimension = (input) => {
   return safeInput
 }
 
-const hasNumber = (input) => {
-  return !isNaN(parseFloat(input))
-}
+const hasNumber = (input) => !isNaN(parseFloat(input))
 
 // Safely wrap an input pixel value with 'px' if it needs it
 export const appendPx = (input) => {
   if (typeof input === 'number') {
     return `${input}px`
-  } else if (typeof input === 'string' && hasNumber(input)) {
+  } if (typeof input === 'string' && hasNumber(input)) {
     return input.endsWith('px') ? input : `${input}px`
-  } else {
-    return input
   }
+  return input
 }

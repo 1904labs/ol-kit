@@ -1,7 +1,7 @@
 import olMap from 'ol/Map'
 import VectorSource from 'ol/source/Vector'
-import { VectorLayer } from 'classes'
-import ugh from 'ugh'
+import { VectorLayer } from '~/src/classes'
+import ugh from '~/src/ugh'
 
 let mergedIndex = 1
 
@@ -14,7 +14,7 @@ let mergedIndex = 1
  * @param {Object[]} [features] - An array of the features to be included in the new layer
  * @returns {Layer} VectorLayer
  */
-export function addVectorLayer (map, features = [], opts = {}) {
+export function addVectorLayer(map, features = [], opts = {}) {
   if (!(map instanceof olMap)) return ugh.error('addVectorLayer requires a valid openlayers map as arg')
   if (!Array.isArray(features)) return ugh.error('addVectorLayer second arg must be an array of features')
 
@@ -22,7 +22,7 @@ export function addVectorLayer (map, features = [], opts = {}) {
   const source = new VectorSource({ features })
   const layer = new VectorLayer({
     source,
-    title
+    title,
   })
   mergedIndex++
 

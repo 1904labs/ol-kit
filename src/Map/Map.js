@@ -3,18 +3,18 @@ import PropTypes from 'prop-types'
 import { nanoid } from 'nanoid'
 import debounce from 'lodash.debounce'
 
+import olInteractionSelect from 'ol/interaction/Select'
 import MapLogo from './MapLogo'
 import {
   createMap,
   updateMapFromUrl,
   updateUrlFromMap,
   replaceZoomBoxCSS,
-  addSelectInteraction
+  addSelectInteraction,
 } from './utils'
-import { connectToContext } from 'Provider'
-import en from 'locales/en'
-import ugh from 'ugh'
-import olInteractionSelect from 'ol/interaction/Select'
+import { connectToContext } from '~/src/Provider'
+import en from '~/src/locales/en'
+import ugh from '~/src/ugh'
 
 import './styled.css'
 
@@ -25,11 +25,11 @@ import './styled.css'
  * @since 0.1.0
  */
 class Map extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
-      mapInitialized: false
+      mapInitialized: false,
     }
 
     // map is passed as a prop- use this flag to determine whether a map/portal should be created
@@ -43,7 +43,7 @@ class Map extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const {
       addMapToContext,
       contextProps,
@@ -57,12 +57,14 @@ class Map extends React.Component {
       updateUrlFromView,
       updateViewFromUrl,
       urlViewParam,
-      visible
+      visible,
     } = this.props
 
     // if no map was passed, create the map
     this.map = !this.passedMap
-      ? createMap({ isSyncableMap: isMultiMap, synced, target: this.target, visible })
+      ? createMap({
+        isSyncableMap: isMultiMap, synced, target: this.target, visible,
+      })
       : passedMap
 
     if (this.passedMap && !this.passedMap.getTargetElement()) {
@@ -81,9 +83,9 @@ class Map extends React.Component {
       mapId: this.target,
       selectInteraction: this.selectInteraction,
       translations, // this can be hoisted to <Provider> only in the future
-      ...contextProps
+      ...contextProps,
     }
-    const onMapReady = map => {
+    const onMapReady = (map) => {
       const allSystemsGo = () => {
         addMapToContext(mapConfig)
         this.setState({ mapInitialized: true })
@@ -102,10 +104,10 @@ class Map extends React.Component {
             // result of onMapInit may contain contextProps
             mapConfig = {
               ...mapConfig,
-              ...contextProps
+              ...contextProps,
             }
           })
-          .catch(e => ugh.error('Error caught in \'onMapInit\'', e))
+          .catch((e) => ugh.error('Error caught in \'onMapInit\'', e))
           .finally(allSystemsGo) // always initialize app
         : allSystemsGo()
     }
@@ -131,15 +133,15 @@ class Map extends React.Component {
     }
   }
 
-  initializeSelect = map => {
+  initializeSelect = (map) => {
     const { selectInteraction } = this.props
 
     // check the map to see if select interaction has been added
     const selectInteractionOnMap = map.getInteractions().getArray()
       // Layer panel also adds a select interaction
-      .filter(interaction => interaction._ol_kit_origin !== '_ol_kit_layer_panel_hover')
+      .filter((interaction) => interaction._ol_kit_origin !== '_ol_kit_layer_panel_hover')
       // this checks if the select interaction created or passed in is the same instance on the map and never double adds
-      .find(interaction => interaction instanceof olInteractionSelect)
+      .find((interaction) => interaction instanceof olInteractionSelect)
 
     if (selectInteraction) {
       // if select is passed as a prop always use that one first
@@ -157,24 +159,28 @@ class Map extends React.Component {
     }
   }
 
-  render () {
-    const { children, fullScreen, logoPosition, style, translations } = this.props
+  render() {
+    const {
+      children, fullScreen, logoPosition, style, translations,
+    } = this.props
     const { mapInitialized } = this.state
 
     return (
       <>
-        {!this.passedMap &&
-          <div className='styledMap'
+        {!this.passedMap
+          && (
+          <div
+            className="styledMap"
             id={this.target}
             fullScreen={fullScreen}
-            style={style}>
+            style={style}
+          >
             <MapLogo logoPosition={logoPosition} translations={translations} />
           </div>
-        }
+          )}
         {mapInitialized // wait for map to initialize before rendering children
           ? children
-          : null
-        }
+          : null}
       </>
     )
   }
@@ -196,7 +202,7 @@ Map.defaultProps = {
   style: {},
   synced: true,
   translations: en,
-  visible: true
+  visible: true,
 }
 
 Map.propTypes = {
@@ -205,7 +211,7 @@ Map.propTypes = {
   /** any ol-kit children components will automatically be passed a reference to the map object via the `map` prop */
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]),
   /** custom props that get added to Provider context and passed to connectToContext components */
   contextProps: PropTypes.object,
@@ -242,7 +248,7 @@ Map.propTypes = {
   /** object of string key/values (see: locales) */
   translations: PropTypes.object,
   /** (only used with isMultiMap) sets initial visibility state for a SyncableMap */
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
 }
 
 export default connectToContext(Map)

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { convertXYtoLatLong } from 'Map'
-import { connectToContext } from 'Provider'
+import { convertXYtoLatLong } from '../Map'
+import { connectToContext } from '~/src/Provider'
 import ContextMenuCoordinateGroup from './ContextMenuCoords'
 
 import './styled.css'
@@ -13,20 +13,20 @@ import './styled.css'
  * @since 0.16.0
  */
 class ContextMenu extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       show: false,
       showSnackbar: false,
-      pixel: { x: 0, y: 0 }
+      pixel: { x: 0, y: 0 },
     }
 
     // debounce time was changed from 400 to 50 due to inaccurate pointer/coords location
     this.pointerMoveHandler = this.debounce(this.pointerMoveHandler, 50)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { map } = this.props
 
     // bind to right click events
@@ -39,7 +39,7 @@ class ContextMenu extends React.Component {
     map.on('pointermove', this.pointerMoveHandler)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     const { map } = this.props
 
     document.removeEventListener('contextmenu', this.rightClickHandler)
@@ -56,26 +56,26 @@ class ContextMenu extends React.Component {
     }
   }
 
-  pointerMoveHandler = e => {
+  pointerMoveHandler = (e) => {
     if (!e.dragging) this.setState({ pointerX: e.pixel[0], pointerY: e.pixel[1] })
   }
 
-  clickHandler = e => {
+  clickHandler = (e) => {
     // if not within the map, another menu handles the event
     if (!this.isWithinMap(e)) return
 
     this.setState({ show: false })
   }
 
-  isWithinMap = e => {
+  isWithinMap = (e) => {
     const { map } = this.props
     const rect = map.getTargetElement().getBoundingClientRect()
 
-    return e.x >= rect.left && e.x <= rect.right &&
-      e.y >= rect.top && e.y <= rect.bottom
+    return e.x >= rect.left && e.x <= rect.right
+      && e.y >= rect.top && e.y <= rect.bottom
   }
 
-  rightClickHandler = e => {
+  rightClickHandler = (e) => {
     const { map } = this.props
     const { pointerX, pointerY } = this.state
 
@@ -91,46 +91,51 @@ class ContextMenu extends React.Component {
     // get any features at the event location (in OL v4 no features returns null which is bad; switch to empty array)
     const features = map.getFeaturesAtPixel([pointerX, pointerY])
 
-    this.setState({ show: true, features, pixel: { x: e.x, y: e.y }, coords: { lat, long } })
-  }
-
-  closeContextMenu = msg => {
     this.setState({
-      show: false,
-      showSnackbar: !!msg, // only show snackbar if there's a message passed
-      snackbarMessage: msg
+      show: true, features, pixel: { x: e.x, y: e.y }, coords: { lat, long },
     })
   }
 
-  onCopy = copiedFeatures => {
+  closeContextMenu = (msg) => {
+    this.setState({
+      show: false,
+      showSnackbar: !!msg, // only show snackbar if there's a message passed
+      snackbarMessage: msg,
+    })
+  }
+
+  onCopy = (copiedFeatures) => {
     this.setState({ copiedFeatures })
   }
 
-  render () {
+  render() {
     const { children, map, keepDefaults } = this.props
-    const { show, pixel, features, coords } = this.state
+    const {
+      show, pixel, features, coords,
+    } = this.state
 
     // we render children if passed; otherwise, we default to a helpful context menu
     const getChildren = () => {
-      const props = { map, pixel, coords, features, closeContextMenu: this.closeContextMenu }
+      const props = {
+        map, pixel, coords, features, closeContextMenu: this.closeContextMenu,
+      }
       const defaults = [
-        <ContextMenuCoordinateGroup key={'coordgroup'} {...props} />
+        <ContextMenuCoordinateGroup key="coordgroup" {...props} />,
       ]
       // this logic allows defaults, custom or a mix (defaults render on top & custom below)
       const contents = children ? [...(keepDefaults ? defaults : []), ...React.Children.toArray(children)] : defaults
 
-      return React.Children.map(contents, c => React.cloneElement(c, props))
+      return React.Children.map(contents, (c) => React.cloneElement(c, props))
     }
 
     return (
-      <React.Fragment>
-        <div
-          className='container'
-          style={{ top: pixel.y, left: pixel.x, display: show ? 'block' : 'none' }}
-          innerRef={node => { this.contextMenuRef = node }}>
-          {show && getChildren()}
-        </div>
-      </React.Fragment>
+      <div
+        className="container"
+        style={{ top: pixel.y, left: pixel.x, display: show ? 'block' : 'none' }}
+        ref={(node) => { this.contextMenuRef = node }}
+      >
+        {show && getChildren()}
+      </div>
     )
   }
 }
@@ -143,11 +148,11 @@ ContextMenu.propTypes = {
   children: PropTypes.node,
 
   /** A boolean to indicate if the default context menu items should be left and custom items appended only */
-  keepDefaults: PropTypes.bool
+  keepDefaults: PropTypes.bool,
 }
 
 ContextMenu.defaultProps = {
-  keepDefaults: false
+  keepDefaults: false,
 }
 
 export default connectToContext(ContextMenu)

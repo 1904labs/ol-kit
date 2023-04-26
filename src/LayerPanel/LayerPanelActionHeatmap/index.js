@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import olLayerVector from 'ol/layer/Vector'
-import { connectToContext } from 'Provider'
-import en from 'locales/en'
+import { connectToContext } from '~/src/Provider'
+import en from '~/src/locales/en'
 import { addHeatmapLayer } from './utils'
 
 /**
@@ -23,25 +23,22 @@ class LayerPanelActionHeatmap extends Component {
   hasVisibleVectorLayers = () => {
     const visibleLayers = this.getVisibleLayers()
 
-    return visibleLayers.filter(layer => {
-      return this.isValidVectorLayer(layer)
-    }).length > 1 // at least two layers required for a merge
+    return visibleLayers.filter((layer) => this.isValidVectorLayer(layer)).length > 1 // at least two layers required for a merge
   }
 
-  isValidVectorLayer = (layer) => {
-    return (layer instanceof olLayerVector || (layer && layer.isVectorLayer))
-  }
+  isValidVectorLayer = (layer) => (layer instanceof olLayerVector || (layer && layer.isVectorLayer))
 
-  render () {
+  render() {
     const { layer, translations } = this.props
 
     return (
       <div
-        key='heatmap'
-        data-testid='LayerPanel.heatmap'
+        key="heatmap"
+        data-testid="LayerPanel.heatmap"
         disableGutters={false}
         disabled={!this.isValidVectorLayer(layer)}
-        onClick={this.handleCreateHeatmap} >
+        onClick={this.handleCreateHeatmap}
+      >
         {translations['_ol_kit.LayerPanelActions.heatmap']}
       </div>
     )
@@ -62,13 +59,13 @@ LayerPanelActionHeatmap.propTypes = {
   onCreateHeatmap: PropTypes.func,
 
   /** An object of translation key/value pairs */
-  translations: PropTypes.object.isRequired
+  translations: PropTypes.object.isRequired,
 }
 
 LayerPanelActionHeatmap.defaultProps = {
   handleMenuClose: () => {},
   onCreateHeatmap: () => {},
-  translations: en
+  translations: en,
 }
 
 export default connectToContext(LayerPanelActionHeatmap)

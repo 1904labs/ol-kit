@@ -6,20 +6,20 @@ import { prettyDOM } from '@testing-library/dom'
 import olMap from 'ol/Map'
 import olView from 'ol/View'
 import olInteractionSelect from 'ol/interaction/Select'
-import { Map, createMap } from 'Map'
-import { connectToContext } from 'Provider'
+import { Map, createMap } from '~/src/Map'
+import { connectToContext } from '~/src/Provider'
 
 describe('<Map />', () => {
   it('should render with a map prop', (done) => {
     const mockMap = new olMap({
       view: new olView({
         center: [],
-        zoom: 5
-      })
+        zoom: 5,
+      }),
     })
 
     // still fires callback with the passed map after optional animations
-    const onMapInit = jest.fn(map => {
+    const onMapInit = jest.fn((map) => {
       // returned map should be an openlayers map
       expect(map).toBeInstanceOf(olMap)
       // onMapInit should be called with the passed map prop
@@ -34,7 +34,7 @@ describe('<Map />', () => {
     // set the url with a view param
     window.history.replaceState(null, '', `${window.location.pathname}?view=49.618551,-97.280674,8.00,0.91`)
     let testMap = null
-    const onMapInit = map => {
+    const onMapInit = (map) => {
       // hoist map to closure for later expect
       testMap = map
       // returned map should be an openlayers map
@@ -59,7 +59,7 @@ describe('<Map />', () => {
   it.skip('should read the url and set the map location', (done) => {
     // set the url with a view param
     window.history.replaceState(null, '', `${window.location.pathname}?view=49.618551,-97.280674,8.00,0.91`)
-    const onMapInit = map => {
+    const onMapInit = (map) => {
       // updated map center, zoom & rotation from url
       expect(map.getView().getCenter()).toEqual([-10829235.09370645, 6380475.798452517])
       expect(map.getView().getZoom()).toBe(8)
@@ -73,24 +73,29 @@ describe('<Map />', () => {
   })
 
   it('should attach contextProps from onMapInit to context', async (done) => {
-    const onMapInit = async map => {
+    const onMapInit = async (map) => {
       const contextProps = {
-        catchphrase: 'to infinity and beyond'
+        catchphrase: 'to infinity and beyond',
       }
 
       // object returned from onMapInit will pass contextProps to all wrapped components
       return { contextProps }
     }
 
-    function Comp (props) {
+    function Comp(props) {
       return <div>{props.catchphrase}</div>
     }
     // setting propTypes is required for connectToContext to attach props correctly
     Comp.propTypes = {
-      catchphrase: PropTypes.string
+      catchphrase: PropTypes.string,
     }
     const WrappedComp = connectToContext(Comp)
-    const { container, getByText } = render(<Map onMapInit={onMapInit}><><WrappedComp /><WrappedComp catchphrase='clever girl' /></></Map>)
+    const { container, getByText } = render(<Map onMapInit={onMapInit}>
+      <>
+        <WrappedComp />
+        <WrappedComp catchphrase="clever girl" />
+      </>
+    </Map>)
 
     // wait for async child render
     await waitFor(() => {}, { container })
@@ -109,7 +114,7 @@ describe('<Map />', () => {
 describe('select interaction', () => {
   it('should add a select interaction to the map by default', async () => {
     let testMap
-    const onMapInit = jest.fn(map => {
+    const onMapInit = jest.fn((map) => {
       testMap = map
     })
 
@@ -118,9 +123,7 @@ describe('select interaction', () => {
     // wait for async map init
     await waitFor(() => expect(onMapInit).toHaveBeenCalled())
 
-    const selectInteractionsOnMap = testMap.getInteractions().getArray().filter(interaction => {
-      return interaction instanceof olInteractionSelect
-    })
+    const selectInteractionsOnMap = testMap.getInteractions().getArray().filter((interaction) => interaction instanceof olInteractionSelect)
 
     expect(selectInteractionsOnMap.length).toBe(1)
   })
@@ -138,9 +141,7 @@ describe('select interaction', () => {
     // wait for async child render
     await waitFor(() => {}, { container })
 
-    const selectInteractionsOnMap = testMap.getInteractions().getArray().filter(interaction => {
-      return interaction instanceof olInteractionSelect
-    })
+    const selectInteractionsOnMap = testMap.getInteractions().getArray().filter((interaction) => interaction instanceof olInteractionSelect)
 
     expect(selectInteractionsOnMap.length).toBe(1)
     // make sure the select insteraction Map uses is the same instance created and passed in
@@ -157,9 +158,7 @@ describe('select interaction', () => {
     // wait for async child render
     await waitFor(() => {}, { container })
 
-    const selectInteractionsOnMap = testMap.getInteractions().getArray().filter(interaction => {
-      return interaction instanceof olInteractionSelect
-    })
+    const selectInteractionsOnMap = testMap.getInteractions().getArray().filter((interaction) => interaction instanceof olInteractionSelect)
 
     expect(selectInteractionsOnMap.length).toBe(1)
     // make sure the select insteraction Map uses is the same instance created and passed in

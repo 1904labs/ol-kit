@@ -13,37 +13,37 @@ import VectorSource from 'ol/source/Vector'
 import { extend, createEmpty } from 'ol/extent'
 import qs from 'qs'
 
-import ugh from 'ugh'
-import { SyncableMap } from 'classes'
+import ugh from '~/src/ugh'
+import { SyncableMap } from '~/src/classes'
 
 const OLKIT_ZOOMBOX_ID = '_ol-kit-css-zoombox-style'
 const DEFAULT_SELECT_NAME = '_ol_kit_default_select'
 const DEFAULT_SELECT_STYLE = new olStyle({
   stroke: new olStroke({
     color: 'cyan',
-    width: 3
+    width: 3,
   }),
   image: new olCircle({
     radius: 5,
     fill: new olFill({
-      color: '#ffffff'
+      color: '#ffffff',
     }),
     stroke: new olStroke({
       color: 'cyan',
-      width: 2
-    })
+      width: 2,
+    }),
   }),
   fill: new olFill({
-    color: 'rgba(255,255,255,0.01)'
-  })
+    color: 'rgba(255,255,255,0.01)',
+  }),
 })
 
-export function replaceZoomBoxCSS (dragStyle) {
+export function replaceZoomBoxCSS(dragStyle) {
   const exists = document.getElementById(OLKIT_ZOOMBOX_ID)
   const dragStyleString = Object.entries(dragStyle)
     .map(([k, v]) => `${k}:${v}`)
     .join(';')
-    .replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)
+    .replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)
 
   if (!exists) {
     const style = window.document.createElement('style')
@@ -65,7 +65,7 @@ export function replaceZoomBoxCSS (dragStyle) {
  * @param {String} [opts.target] - html id tag that map will into which the map will render
  * @returns {ol.Map} A newly constructed [ol.Map]{@link https://openlayers.org/en/latest/apidoc/module-ol_Map-Map.html}
  */
-export function createMap (opts = {}) {
+export function createMap(opts = {}) {
   if (!opts.target) return ugh.throw('You must pass an options object with a DOM target for the map')
   if (typeof opts.target !== 'string' && opts.target instanceof Element !== true) return ugh.throw('The target should either by a string id of an existing DOM element or the element itself')
 
@@ -74,17 +74,17 @@ export function createMap (opts = {}) {
   const map = new MapClass({
     view: new View({
       center: [-10686671.119494, 4721671.569715], // centered over US in EPSG:3857
-      zoom: 5
+      zoom: 5,
     }),
     layers: [
       new TileLayer({
         className: '_ol_kit_basemap_layer',
         _ol_kit_basemap: 'osm', // used by BasemapManager
-        source: new OSM()
-      })
+        source: new OSM(),
+      }),
     ],
     controls: [],
-    ...opts
+    ...opts,
   })
 
   return map
@@ -99,7 +99,7 @@ export function createMap (opts = {}) {
  * @param {String} viewParam - the query param that will be used to update the url with view info
  * @returns {String} The url that is set within the function
  */
-export function updateUrlFromMap (map, viewParam = 'view') {
+export function updateUrlFromMap(map, viewParam = 'view') {
   if (!(map instanceof Map)) return ugh.throw('\'updateUrlFromMap\' requires a valid openlayers map as the first argument')
   const query = qs.parse(window.location.search, { ignoreQueryPrefix: true })
   const coords = transform(map.getView().getCenter(), map.getView().getProjection().getCode(), 'EPSG:4326')
@@ -122,7 +122,7 @@ export function updateUrlFromMap (map, viewParam = 'view') {
  * @param {String} viewParam - the query param that will be read to update the map position
  * @returns {Promise} Resolved with transformed center coords after the map has been updated by url info
  */
-export function updateMapFromUrl (map, viewParam = 'view') {
+export function updateMapFromUrl(map, viewParam = 'view') {
   const promise = new Promise((resolve, reject) => {
     const query = qs.parse(window.location.search, { ignoreQueryPrefix: true })
 
@@ -136,7 +136,7 @@ export function updateMapFromUrl (map, viewParam = 'view') {
     map.once('postrender', () => resolve(coords))
     map.getView().animate({
       rotation,
-      duration: 0
+      duration: 0,
     })
   })
 
@@ -152,7 +152,7 @@ export function updateMapFromUrl (map, viewParam = 'view') {
  * @param {Object} opts - include x, y, & zoom options
  * @returns {Array} Coordinates used to update the map
  */
-export function centerAndZoom (map, opts = {}) {
+export function centerAndZoom(map, opts = {}) {
   if (!(map instanceof Map)) return ugh.throw('\'centerAndZoom\' requires a valid openlayers map as the first argument')
   const transformedCoords = transform([Number(opts.x), Number(opts.y)], 'EPSG:4326', map.getView().getProjection().getCode())
 
@@ -172,7 +172,7 @@ export function centerAndZoom (map, opts = {}) {
  * @param {Number} y - the x coordinate
  * @returns {Object} An object containing a `longitude` and `latitude` property
  */
-export function convertXYtoLatLong (map, x, y) {
+export function convertXYtoLatLong(map, x, y) {
   const coords = map.getCoordinateFromPixel([x, y])
   const transformed = transform(coords, map.getView().getProjection().getCode(), 'EPSG:4326')
   const longitude = Number((Number(transformed[0] || 0) % 180).toFixed(6))
@@ -180,7 +180,7 @@ export function convertXYtoLatLong (map, x, y) {
 
   return {
     longitude,
-    latitude
+    latitude,
   }
 }
 
@@ -192,11 +192,11 @@ export function convertXYtoLatLong (map, x, y) {
  * @param {Object} opts - select interaction opts
  * @returns {ol.interaction.Select} https://openlayers.org/en/latest/apidoc/module-ol_interaction_Select-Select.html
  */
-export function createSelectInteraction (opts = {}) {
+export function createSelectInteraction(opts = {}) {
   return new olInteractionSelect({
     hitTolerance: 3,
     style: [DEFAULT_SELECT_STYLE],
-    ...opts
+    ...opts,
   })
 }
 
@@ -210,7 +210,7 @@ export function createSelectInteraction (opts = {}) {
  * @param {Object} opts - select interaction opts
  * @returns {Object} object - { layer: {ol.layer.Vector} https://openlayers.org/en/latest/apidoc/module-ol_layer_Vector-VectorLayer.html, select: {ol.interaction.Select} https://openlayers.org/en/latest/apidoc/module-ol_interaction_Select-Select.html }
  */
-export function addSelectInteraction (map, name = DEFAULT_SELECT_NAME, opts = {}) {
+export function addSelectInteraction(map, name = DEFAULT_SELECT_NAME, opts = {}) {
   if (!(map instanceof Map)) return ugh.throw('\'addSelectInteraction\' requires a valid openlayers map as the first argument')
 
   const select = createSelectInteraction(opts)
@@ -234,11 +234,11 @@ export function addSelectInteraction (map, name = DEFAULT_SELECT_NAME, opts = {}
  * @param {String} name - identifier to find _ol_kit_origin on the select interaction
  * @returns {Object} object - { layer: {ol.layer.Vector} https://openlayers.org/en/latest/apidoc/module-ol_layer_Vector-VectorLayer.html, select: {ol.interaction.Select} https://openlayers.org/en/latest/apidoc/module-ol_interaction_Select-Select.html }
  */
-export function getSelectInteraction (map, name = DEFAULT_SELECT_NAME) {
+export function getSelectInteraction(map, name = DEFAULT_SELECT_NAME) {
   if (!(map instanceof Map)) return ugh.throw('\'getSelectInteraction\' requires a valid openlayers map as the first argument')
 
   const interactions = map.getInteractions().getArray()
-  const select = interactions.find(interaction => interaction instanceof olInteractionSelect && interaction.get('_ol_kit_origin') === name)
+  const select = interactions.find((interaction) => interaction instanceof olInteractionSelect && interaction.get('_ol_kit_origin') === name)
 
   if (!select) return ugh.throw(`Select interaction with name '${name}' could not be found on the map`)
 
@@ -252,7 +252,7 @@ export function getSelectInteraction (map, name = DEFAULT_SELECT_NAME) {
  * @param {ol.Map} map Open Layers map
  * @param {ol.Extent} extent New extent definition
  */
-export function setMapExtent (map, extent) {
+export function setMapExtent(map, extent) {
   if (!(map instanceof Map)) return ugh.throw('\'setMapExtent\' requires a valid openlayers map as the first argument')
   map.getView().fit(extent, map.getSize())
 }
@@ -264,7 +264,7 @@ export function setMapExtent (map, extent) {
  * @param {ol.Feature[]} featureList List of Open Layers features
  * @returns {ol.Extent} Map extent
  */
-export function getExtentForFeatures (featureList) {
+export function getExtentForFeatures(featureList) {
   const extent = featureList.reduce((acc, f) => extend(acc, f.getGeometry().getExtent()), createEmpty())
 
   return extent

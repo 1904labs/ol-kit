@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { nanoid } from 'nanoid'
-import { VectorLayer, Preferences } from '../classes'
 import olSourceVector from 'ol/source/Vector'
 import { createBox } from 'ol/interaction/Draw'
+import { VectorLayer, Preferences } from '../classes'
 import Draw from './Draw'
-import { Measure } from 'Measure'
-import { SnapPreference, CoordinateLabelPreference } from 'Preferences'
-import { connectToContext } from 'Provider'
+import { Measure } from '~/src/Measure'
+import { SnapPreference, CoordinateLabelPreference } from '~/src/Preferences'
+import { connectToContext } from '~/src/Provider'
 import { styleMeasure } from './utils'
 
 import './styled.css'
@@ -19,7 +19,7 @@ import './styled.css'
  * @since 0.18.0
  */
 class DrawContainer extends React.Component {
-  constructor () {
+  constructor() {
     super()
 
     this.state = {}
@@ -41,7 +41,7 @@ class DrawContainer extends React.Component {
     return {
       uomType: uom,
       distanceUOM: distanceUOM || (uom === 'imperial' ? 'feet' : 'meters'),
-      areaUOM: areaUOM || (uom === 'imperial' ? 'acres' : 'hectares')
+      areaUOM: areaUOM || (uom === 'imperial' ? 'acres' : 'hectares'),
     }
   }
 
@@ -57,40 +57,41 @@ class DrawContainer extends React.Component {
     this.setState(newValues)
 
     if (isMeasure) {
-      const styleFunc = styleMeasure.bind(this,
+      const styleFunc = styleMeasure.bind(
+        this,
         map,
         feature,
         map.getView().getResolution(),
-        { distanceUOM, areaUOM, map })
+        { distanceUOM, areaUOM, map },
+      )
 
       feature.setStyle(styleFunc)
     }
   }
 
-  getLayer () {
+  getLayer() {
     const { feature } = this.state
     const title = feature.get('_vmf_type') === '_vmf_measurement' ? 'Measurements Layer' : 'Annotations Layer'
     const layers = this.props.map.getLayers().getArray()
-    const exists = layers.find(l => l.get('_vmf_title') === title)
+    const exists = layers.find((l) => l.get('_vmf_title') === title)
 
     if (exists) {
       return exists
-    } else {
-      const layer = new VectorLayer({
-        className: `_ol_kit_${title}`,
-        _vmf_id: nanoid(),
-        _vmf_title: title,
-        title: 'Annotations',
-        source: new olSourceVector()
-      })
-
-      this.props.map.addLayer(layer)
-
-      return layer
     }
+    const layer = new VectorLayer({
+      className: `_ol_kit_${title}`,
+      _vmf_id: nanoid(),
+      _vmf_title: title,
+      title: 'Annotations',
+      source: new olSourceVector(),
+    })
+
+    this.props.map.addLayer(layer)
+
+    return layer
   }
 
-  onDrawEnd (feature) {
+  onDrawEnd(feature) {
     console.debug('%cDrawEnd', 'color: cyan; font-style: italic;', feature) // eslint-disable-line
 
     const layer = this.getLayer()
@@ -103,7 +104,7 @@ class DrawContainer extends React.Component {
     this.setState({ feature: null })
   }
 
-  onDrawStart (feature, { target }) {
+  onDrawStart(feature, { target }) {
     const { map } = this.props
     const { distanceUOM, areaUOM } = this.getUoms()
     const pointLabels = this.safeGetPreference('_POINT_LABELS_ENABLED')
@@ -135,11 +136,11 @@ class DrawContainer extends React.Component {
     console.debug('%cDrawStart', 'color: magenta; font-style: italic;') // eslint-disable-line
   }
 
-  onInteractionAdded (interaction) {
+  onInteractionAdded(interaction) {
     console.debug('%cInteractionAdded', 'color: yellow; font-style: italic;', interaction) // eslint-disable-line
   }
 
-  onDrawCancel (interaction) {
+  onDrawCancel(interaction) {
     console.debug('%cDrawCancel', 'color: white; background-color: red; border-radius: 4px; font-style: italic;', interaction) // eslint-disable-line
     this.setState({ feature: null })
   }
@@ -164,18 +165,19 @@ class DrawContainer extends React.Component {
     switch (status) {
       case 'loading':
         return (
-          <div className='progressWrapper' key={nanoid()}>
+          <div className="progressWrapper" key={nanoid()}>
             <p>loading...</p>
           </div>
         )
       case 'success':
         return (
-          <React.Fragment key={'Snap'}>
+          <React.Fragment key="Snap">
             <SnapPreference
               translations={translations}
               preferences={payload}
               onChange={this.handleToggle}
-              compact={false} />
+              compact={false}
+            />
           </React.Fragment>
         )
       default:
@@ -184,7 +186,9 @@ class DrawContainer extends React.Component {
   }
 
   renderMeasure = () => {
-    const { uom, translations, showCoordinateLabels, preferences, showMeasurements } = this.props
+    const {
+      uom, translations, showCoordinateLabels, preferences, showMeasurements,
+    } = this.props
 
     if (!showMeasurements) return null
     const { feature, geometryType, drawMode } = this.state
@@ -193,20 +197,23 @@ class DrawContainer extends React.Component {
     switch (status) {
       case 'loading':
         return (
-          <div className='progressWrapper' key={nanoid()}>
+          <div className="progressWrapper" key={nanoid()}>
             <p>loading...</p>
           </div>
         )
       case 'success':
         return (
-          <React.Fragment key={'Measure'}>
+          <React.Fragment key="Measure">
             {
               showCoordinateLabels
-                ? <CoordinateLabelPreference
-                  compact={true}
-                  translations={translations}
-                  preferences={payload}
-                  onChange={this.handleToggle} />
+                ? (
+                  <CoordinateLabelPreference
+                    compact
+                    translations={translations}
+                    preferences={payload}
+                    onChange={this.handleToggle}
+                  />
+                )
                 : null
             }
             <Measure
@@ -216,7 +223,8 @@ class DrawContainer extends React.Component {
               onUomChange={this.handleUomChange}
               geometryType={geometryType}
               preferences={payload}
-              drawMode={drawMode} />
+              drawMode={drawMode}
+            />
           </React.Fragment>
         )
       default:
@@ -224,24 +232,25 @@ class DrawContainer extends React.Component {
     }
   }
 
-  render () {
+  render() {
     const { preferences, children, style } = this.props
     const drawChildren = children || [
       this.renderMeasure(),
       <Draw
         {...this.props}
-        key={'Draw'}
+        key="Draw"
         preferences={preferences.payload}
         onDrawFinish={this.onDrawEnd}
         onDrawBegin={this.onDrawStart}
         onInteractionAdded={this.onInteractionAdded}
         onDrawCancel={this.onDrawCancel}
-        selectInteraction={this.props.selectInteraction} />,
-      this.renderPreferences()
+        selectInteraction={this.props.selectInteraction}
+      />,
+      this.renderPreferences(),
     ]
 
     return (
-      <div className='container' style={style}>
+      <div className="container" style={style}>
         {drawChildren}
       </div>
     )
@@ -276,8 +285,8 @@ DrawContainer.propTypes = {
   /** pass child comps to opt out of the default controls */
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ])
+    PropTypes.node,
+  ]),
 }
 
 DrawContainer.defaultProps = {
@@ -286,7 +295,7 @@ DrawContainer.defaultProps = {
   showMeasurements: true,
   showCoordinateLabels: true,
   preferences: { status: 'success', payload: new Preferences() },
-  selectedFeature: () => {}
+  selectedFeature: () => {},
 }
 
 export default connectToContext(DrawContainer)

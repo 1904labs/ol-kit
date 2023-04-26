@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import olInteractionDraw from 'ol/interaction/Draw'
 
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 import PopupBase from './PopupBase'
 import PopupDefaultInsert from './PopupInsert/PopupDefaultInsert'
-import { addMovementListener, getLayersAndFeaturesForEvent, getPopupPositionFromFeatures, removeMovementListener } from './utils'
+import {
+  addMovementListener, getLayersAndFeaturesForEvent, getPopupPositionFromFeatures, removeMovementListener,
+} from './utils'
 
 import './styled.css'
 
@@ -16,7 +18,7 @@ import './styled.css'
  * @since 0.2.0
  */
 class Popup extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -27,9 +29,9 @@ class Popup extends Component {
       popupPosition: {
         arrow: 'none',
         fits: false,
-        pixel: [0, 0]
+        pixel: [0, 0],
       },
-      show: false
+      show: false,
     }
 
     this.timer = 0
@@ -37,7 +39,7 @@ class Popup extends Component {
     this.defaultState = this.state
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { map } = this.props
 
     // bind to map click events
@@ -45,7 +47,7 @@ class Popup extends Component {
     map.on('dblclick', this.mapDoubleClickHandler)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     const { map } = this.props
 
     map.un('click', this.mapClickHandler)
@@ -58,7 +60,7 @@ class Popup extends Component {
     this.hidePopup()
   }
 
-  mapClickHandler = e => {
+  mapClickHandler = (e) => {
     this.timer = setTimeout(() => {
       if (!this.isDoubleClick) {
         // Get the interactions from the map as an array.
@@ -72,7 +74,7 @@ class Popup extends Component {
     }, 300)
   }
 
-  checkForFeaturesAtClick = e => {
+  checkForFeaturesAtClick = (e) => {
     const { map } = this.props
     /**
       this util returns an array of promises for each layer at the click location that resolve once wms features
@@ -114,13 +116,11 @@ class Popup extends Component {
       clickPixel: e.pixel,
       loading: true,
       popupPosition: popupPositionWhileLoading,
-      show: true
+      show: true,
     }, () => onMapClick(this.state))
 
     const layers = await Promise.all(promises)
-    const parsedFeatures = layers.reduce((acc, { features }) => {
-      return [...acc, ...features]
-    }, [])
+    const parsedFeatures = layers.reduce((acc, { features }) => [...acc, ...features], [])
 
     if (!parsedFeatures.length) return this.hidePopup()
 
@@ -140,19 +140,23 @@ class Popup extends Component {
     this.setState({ ...this.defaultState }, () => onMapClick(this.state))
   }
 
-  onDragEnd = e => {
+  onDragEnd = (e) => {
     // if drag occurs in PopupBase, update pixel in state here
     this.setState({
       popupPosition: {
         ...this.state.popupPosition,
-        pixel: e.pinnedPixel
-      }
+        pixel: e.pinnedPixel,
+      },
     })
   }
 
-  render () {
-    const { actions, children, map, show: propShow } = this.props
-    const { features, loading, popupPosition: { arrow, pixel }, show: stateShow } = this.state
+  render() {
+    const {
+      actions, children, map, show: propShow,
+    } = this.props
+    const {
+      features, loading, popupPosition: { arrow, pixel }, show: stateShow,
+    } = this.state
     const show = typeof propShow === 'boolean' ? propShow : stateShow // keep show prop as source of truth over state
 
     return (
@@ -170,7 +174,7 @@ class Popup extends Component {
                 />
               )}
             </PopupBase>,
-            map.getTargetElement()
+            map.getTargetElement(),
           )
         )
     )
@@ -179,19 +183,19 @@ class Popup extends Component {
 
 Popup.defaultProps = {
   onMapClick: () => {},
-  show: undefined
+  show: undefined,
 }
 
 Popup.propTypes = {
   /** components passed to PopupDefaultInsert to render as actions */
   actions: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]),
   /** Pass components as children of Popup component */
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]),
   /** a reference to openlayers map object */
   map: PropTypes.object.isRequired,
@@ -211,7 +215,7 @@ Popup.propTypes = {
   */
   onMapClick: PropTypes.func,
   /** boolean that is respected over internal state */
-  show: PropTypes.bool
+  show: PropTypes.bool,
 }
 
 export default connectToContext(Popup)

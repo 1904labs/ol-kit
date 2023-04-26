@@ -18,8 +18,8 @@ import olGeomMultiLinestring from 'ol/geom/MultiLineString'
  * @param {Object} [opts] - Object of optional params for olLayerVector
  */
 class VectorTileLayer extends olVectorTile {
-  constructor (opts) {
-    if (!opts?.className) opts.className = `_ol_kit_vector_layer_${nanoid()}`
+  constructor(opts) {
+    if (!opts?.className) opts.className = `_ol_kit_vector_layer_${nanoid()}` // eslint-disable-line
     super(opts)
 
     this.parser = new OpenLayersParser()
@@ -29,8 +29,6 @@ class VectorTileLayer extends olVectorTile {
     this.isVectorTileLayer = true
     if (!opts?.style) this._setInitialStyle()
     this.setDefaultVectorStyles()
-
-    return this
   }
 
   /**
@@ -39,13 +37,14 @@ class VectorTileLayer extends olVectorTile {
    * @since 1.4.0
    * @returns {Array} VectorTileLayer attributes
    */
-  getAttributes () {
-    // Vector tile layers don't have the convention that all features have to share the same attributes so we have to get all of the features and summarize their attributes.
+  getAttributes() {
+    // Vector tile layers don't have the convention that all features have to share the same
+    // attributes so we have to get all of the features and summarize their attributes.
     return this.getSource()
       .getFeaturesInExtent([-Infinity, -Infinity, Infinity, Infinity]) // get all available features
-      .reduce((attributes, feature) => {
-        return [...new Set([...attributes, ...Object.keys(feature.getProperties())]).values()]
-      }, [])
+      .reduce((attributes, feature) => [
+        ...new Set([...attributes, ...Object.keys(feature.getProperties())]).values(),
+      ], [])
   }
 
   /**
@@ -55,8 +54,8 @@ class VectorTileLayer extends olVectorTile {
    * @param {String} - olFeature property
    * @returns {Array} VectorTileLayer values of a specific attribute
    */
-  fetchValuesForAttribute (attribute) {
-    const dupes = this.getSource().getFeaturesInExtent([-Infinity, -Infinity, Infinity, Infinity]).map(feature => feature.getProperties()[`${attribute}`])
+  fetchValuesForAttribute(attribute) {
+    const dupes = this.getSource().getFeaturesInExtent([-Infinity, -Infinity, Infinity, Infinity]).map((feature) => feature.getProperties()[`${attribute}`])
 
     return [...new Set(dupes)]
   }
@@ -67,7 +66,7 @@ class VectorTileLayer extends olVectorTile {
    * @since 1.4.0
    * @param {Object} - Geostyler OpenLayers Parser rules object {@link https://github.com/geostyler/geostyler-openlayers-parser}
    */
-  setUserVectorStyles (styles) {
+  setUserVectorStyles(styles) {
     this.userStyles = styles
 
     this._applyVectorStyles()
@@ -79,7 +78,7 @@ class VectorTileLayer extends olVectorTile {
    * @since 1.4.0
    * @returns {Object} Geostyler rules object
    */
-  getUserVectorStyles () {
+  getUserVectorStyles() {
     return this.userStyles
   }
 
@@ -88,8 +87,8 @@ class VectorTileLayer extends olVectorTile {
    * @function
    * @since 1.4.0
    */
-  setDefaultVectorStyles () {
-    return this.parser.readStyle(this.getStyle()()).then(style => {
+  setDefaultVectorStyles() {
+    return this.parser.readStyle(this.getStyle()()).then((style) => {
       this._defaultStylesCache = style.rules
       this.defaultStyles = style.rules
     })
@@ -101,7 +100,7 @@ class VectorTileLayer extends olVectorTile {
    * @since 1.4.0
    * @returns {Object} Geostyler rules object
    */
-  getDefaultVectorStyles () {
+  getDefaultVectorStyles() {
     return this.defaultStyles
   }
 
@@ -111,7 +110,7 @@ class VectorTileLayer extends olVectorTile {
    * @since 1.4.0
    * @param {Object} - Geostyler OpenLayers Parser rules object {@link https://github.com/geostyler/geostyler-openlayers-parser}
    */
-  updateDefaultVectorStyles (styles) {
+  updateDefaultVectorStyles(styles) {
     this.defaultStyles = styles
 
     this._applyVectorStyles()
@@ -122,14 +121,14 @@ class VectorTileLayer extends olVectorTile {
    * @function
    * @since 1.4.0
    */
-  resetDefaultVectorStyles () {
+  resetDefaultVectorStyles() {
     this.defaultStyles = this._defaultStylesCache
 
     this._applyVectorStyles()
   }
 
-  _applyVectorStyles () {
-    const filteredUserStyles = this.getUserVectorStyles().filter(style => {
+  _applyVectorStyles() {
+    const filteredUserStyles = this.getUserVectorStyles().filter((style) => {
       // do a safe check for the filter key
       if (!Array.isArray(style.filter)) return true
       const attributeValue = style.filter[1][2]
@@ -141,19 +140,19 @@ class VectorTileLayer extends olVectorTile {
       name: this.get('title') || 'Custom Vector Style',
       rules: [
         ...this.getDefaultVectorStyles(),
-        ...filteredUserStyles
-      ]
+        ...filteredUserStyles,
+      ],
     }
 
     return this.parser
       .writeStyle(style)
-      .then(olStyle => {
+      .then((olStyle) => {
         // update the sld_body which is what geoserver uses to style the layer
         this.setStyle(olStyle)
       })
   }
 
-  _setInitialStyle () {
+  _setInitialStyle() {
     let style = {}
     const hasFeatures = this.getSource().getFeaturesInExtent([0, 0, Infinity, Infinity]).length
     const geomType = hasFeatures
@@ -166,17 +165,17 @@ class VectorTileLayer extends olVectorTile {
         image: new olStyleCircle({
           fill: new olStyleFill({ color: 'rgba(255,255,255,0.5)' }),
           stroke: new olStyleStroke({ color: '#3399CC', width: 2 }),
-          radius: 5
-        })
+          radius: 5,
+        }),
       })]
     } else if (geomType instanceof olGeomLinestring || geomType instanceof olGeomMultiLinestring) {
       style = [new olStyleStyle({
-        stroke: new olStyleStroke({ color: '#3399CC', width: 2 })
+        stroke: new olStyleStroke({ color: '#3399CC', width: 2 }),
       })]
     } else {
       style = [new olStyleStyle({
         fill: new olStyleFill({ color: 'rgba(255,255,255,0.5)' }),
-        stroke: new olStyleStroke({ color: '#3399CC', width: 2 })
+        stroke: new olStyleStroke({ color: '#3399CC', width: 2 }),
       })]
     }
 

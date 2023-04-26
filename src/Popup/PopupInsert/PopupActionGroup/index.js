@@ -10,15 +10,15 @@ import './styled.css'
  * @example ./example.md
  */
 class PopupActionGroup extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
-      showFlyout: false
+      showFlyout: false,
     }
   }
 
-  onHover (hover, delay = false) {
+  onHover(hover, delay = false) {
     if (delay) {
       // allow a slight delay to account for mousing over scroll bars
       // when moving to flyout on certain browsers/OS
@@ -33,35 +33,38 @@ class PopupActionGroup extends Component {
     }
   }
 
-  render () {
+  render() {
     const { title, children, feature } = this.props
     const { right, top } = this.el ? this.el.getBoundingClientRect() : { right: 0, top: 0 }
-    const transformedChildren = React.Children.map(children, c => {
-      return React.cloneElement(c, { ...(feature && { feature }) })
-    })
+    const transformedChildren = React.Children.map(children, (c) => React.cloneElement(c, { ...(feature && { feature }) }))
 
     return (
       <div style={{ position: 'relative' }} ref={(element) => { this.el = element }}>
-        <div className='container' onMouseEnter={() => this.onHover(true)}
+        <div
+          className="container"
+          onMouseEnter={() => this.onHover(true)}
           onMouseLeave={() => this.onHover(false, true)}
-          hover={this.state.showFlyout}>
+          hover={this.state.showFlyout}
+        >
           {title}
-          <div className='actionIcon'>
-            <i className='zmdi zmdi-caret-right'></i>
+          <div className="actionIcon">
+            <i className="zmdi zmdi-caret-right" />
           </div>
         </div>
-        {this.state.showFlyout &&
-          ReactDOM.createPortal(
-            <div className='flyout'
+        {this.state.showFlyout
+          && ReactDOM.createPortal(
+            <div
+              className="flyout"
               left={right}
               top={top}
               showFlyout={this.state.showFlyout}
               onMouseEnter={() => this.onHover(true)}
-              onMouseLeave={() => this.onHover(false)}>
+              onMouseLeave={() => this.onHover(false)}
+            >
               {transformedChildren}
             </div>,
-            document.body)
-        }
+            document.body,
+          )}
       </div>
     )
   }
@@ -73,9 +76,9 @@ PopupActionGroup.propTypes = {
 
   /** Title of the action group to display on the root level */
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  
+
   /** Openlayers feature currently shown in popup */
-  feature: PropTypes.object
+  feature: PropTypes.object,
 }
 
 export default PopupActionGroup

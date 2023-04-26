@@ -1,19 +1,19 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import ugh from 'ugh'
-import { connectToContext } from 'Provider'
-import Selector from 'LayerStyler/_Selector'
-import GenericSymbolizer from './_GenericSymbolizer'
 import escapeRegExp from 'lodash.escaperegexp'
+import ugh from '~/src/ugh'
+import { connectToContext } from '~/src/Provider'
+import Selector from '~/src/LayerStyler/_Selector'
+import GenericSymbolizer from './_GenericSymbolizer'
 
 import './styled.css'
 
 class StyleGroup extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { styles } = this.props
 
-    styles.map(style => {
+    styles.map((style) => {
       if (style.name === 'New Auto Style') {
         const attributeValue = style.filter[1][1] instanceof Array
           ? style.filter[1][1][1][1]
@@ -26,9 +26,7 @@ class StyleGroup extends Component {
 
   onSymbolizerChange = (symbolizers, index) => {
     const { styles, onStylesChange } = this.props
-    const newStyles = styles.map((style, i) => {
-      return i === index ? { ...style, symbolizers } : style
-    })
+    const newStyles = styles.map((style, i) => (i === index ? { ...style, symbolizers } : style))
 
     onStylesChange(newStyles)
   }
@@ -75,7 +73,7 @@ class StyleGroup extends Component {
     this.props.getValuesForAttribute(event.target.value)
 
     try {
-      onStylesChange(newStyles.map(s => {
+      onStylesChange(newStyles.map((s) => {
         // styles will look like this ['&&', ['==', 'attribute', 'value'] ...]
         // so to change the attribute we're styling, we need to hit [1][1]
         s.filter[1][1] = event.target.value
@@ -99,17 +97,17 @@ class StyleGroup extends Component {
         newStyles[idx].filter[1] = ['||',
           ['*=',
             ['FN_strMatches', att, `.*,( )??${escapeRegExp(val)}( )??$`],
-            true
+            true,
           ],
           ['*=',
             ['FN_strMatches', att, `.*,( )??${escapeRegExp(val)}( )??,.*`],
-            true
+            true,
           ],
           ['*=',
             ['FN_strMatches', att, `^${escapeRegExp(val)}( )??,.*`],
-            true
+            true,
           ],
-          ['==', att, val]
+          ['==', att, val],
         ]
       } else {
         newStyles[idx].filter[1][2] = val
@@ -129,13 +127,14 @@ class StyleGroup extends Component {
       const value = removedFirstHalf.slice(0, nextStartToRemove)
 
       return value
-    } else {
-      return regExp
     }
+    return regExp
   }
 
-  render () {
-    const { translations, styles, attributes, attributeValues } = this.props
+  render() {
+    const {
+      translations, styles, attributes, attributeValues,
+    } = this.props
     // since styles are grouped, if the first doesn't have filter, neither will the others
     const hasFilter = styles[0].filter
 
@@ -159,64 +158,67 @@ class StyleGroup extends Component {
     }
 
     return (
-      <div className='card'>
-        {styles.length &&
-          <div className='attributesContainer'>
-            {hasFilter &&
-              <div className='half'>
+      <div className="card">
+        {styles.length
+          && (
+          <div className="attributesContainer">
+            {hasFilter
+              && (
+              <div className="half">
                 <form style={{ width: '100%', margin: '15px' }}>
-                  <label htmlFor='attribute-selector'>{translations['_ol_kit.StyleGroup.chooseAttribute']}</label>
+                  <label htmlFor="attribute-selector">{translations['_ol_kit.StyleGroup.chooseAttribute']}</label>
                   <select
                     inputProps={{ 'data-testid': 'StyleGroup.attributeSelector' }}
                     value={getAttributeValue(styles[0].filter)}
-                    onChange={this.debounceAttributeChange}>
-                    {attributes.map((a, i) => {
-                      return <option key={i} value={a}>{a}</option>
-                    })}
+                    onChange={this.debounceAttributeChange}
+                  >
+                    {attributes.map((a, i) => <option key={i} value={a}>{a}</option>)}
                   </select>
                 </form>
               </div>
-            }
-            <div className='half'>
-              <div className='deleteGroup'>
-                <span className='deleteGroupText' onClick={this.onDeleteStyleGroup}>{translations['_ol_kit.StyleGroup.delete']}</span>
+              )}
+            <div className="half">
+              <div className="deleteGroup">
+                <span className="deleteGroupText" onClick={this.onDeleteStyleGroup}>{translations['_ol_kit.StyleGroup.delete']}</span>
               </div>
             </div>
           </div>
-        }
+          )}
         <div>
-          {styles.map((s, i) => {
+          {styles.map((s, i) =>
             // some styles are hidden when displaying zoomed in/out stylings
-            return s.hidden
+            (s.hidden
               ? null
               : (
                 <Fragment key={i}>
-                  <div className='stylesContainer' key={`${getAttributeValue(s.filter)}-${i}`}>
-                    {hasFilter &&
-                      <div className='half'>
+                  <div className="stylesContainer" key={`${getAttributeValue(s.filter)}-${i}`}>
+                    {hasFilter
+                      && (
+                      <div className="half">
                         <Selector
-                          data-testid={'StyleGroup.attributeValueSelector'}
+                          data-testid="StyleGroup.attributeValueSelector"
                           style={{ flex: 1 }}
                           header={translations['_ol_kit.StyleGroup.value']}
                           onClick={() => this.props.getValuesForAttribute(getAttributeValue(s.filter))}
                           selected={getSelectedValue(s.filter)}
-                          options={attributeValues.map(v => `${v}`) /* string interpolation here ensures booleans display properly */}
-                          onValueChange={(e) => this.debounceValueChange(i, e)} />
+                          options={attributeValues.map((v) => `${v}`) /* string interpolation here ensures booleans display properly */}
+                          onValueChange={(e) => this.debounceValueChange(i, e)}
+                        />
                       </div>
-                    }
+                      )}
                   </div>
-                  <div className='styleContainer' key={i}>
+                  <div className="styleContainer" key={i}>
                     <GenericSymbolizer
                       symbolizers={s.symbolizers}
                       translations={translations}
                       onSymbolizerChange={(s) => this.onSymbolizerChange(s, i)}
-                      onSymbolizerDelete={(s) => this.onSymbolizerDelete(i)} />
+                      onSymbolizerDelete={(s) => this.onSymbolizerDelete(i)}
+                    />
                   </div>
                 </Fragment>
-              )
-          })}
-          <div className='addNew' onClick={this.onNewStyleValue}>
-            <div style={{ paddingRight: '5px' }} ><i class="zmdi zmdi-plus-circle"></i></div>
+              )))}
+          <div className="addNew" onClick={this.onNewStyleValue}>
+            <div style={{ paddingRight: '5px' }}><i className="zmdi zmdi-plus-circle" /></div>
             {translations['_ol_kit.StyleGroup.addValue']}
           </div>
         </div>
@@ -239,12 +241,12 @@ StyleGroup.propTypes = {
   onStylesChange: PropTypes.func.isRequired,
   getValuesForAttribute: PropTypes.func,
   attributeValues: PropTypes.array,
-  commaDelimitedAttributes: PropTypes.array
+  commaDelimitedAttributes: PropTypes.array,
 }
 
 StyleGroup.defaultProps = {
   onStylesChange: () => { },
-  attributeValues: []
+  attributeValues: [],
 }
 
 export default connectToContext(StyleGroup)

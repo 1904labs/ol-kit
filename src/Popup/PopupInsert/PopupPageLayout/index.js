@@ -9,11 +9,11 @@ import '../styled.css'
  * @example ./example.md
  */
 class PopupPageLayout extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
-      selectedIdx: props.selectedIdx
+      selectedIdx: props.selectedIdx,
     }
 
     this.dataProp = this.dataProp.bind(this)
@@ -22,18 +22,18 @@ class PopupPageLayout extends Component {
   }
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps ({ selectedIdx }) {
+  UNSAFE_componentWillReceiveProps({ selectedIdx }) {
     if (this.state.selectedIdx !== selectedIdx) this.setState({ selectedIdx })
   }
 
   // this method returns either the data prop passed to the child or the idx of the child
-  dataProp (idx) {
+  dataProp(idx) {
     const child = this.props.children[idx]
 
     return child.props.data || idx
   }
 
-  prevPage () {
+  prevPage() {
     const currIdx = this.state.selectedIdx
     const nextIdx = this.state.selectedIdx - 1
 
@@ -45,7 +45,7 @@ class PopupPageLayout extends Component {
     }
   }
 
-  nextPage () {
+  nextPage() {
     const currIdx = this.state.selectedIdx
     const nextIdx = this.state.selectedIdx + 1
     const childLength = this.props.children.length
@@ -58,18 +58,16 @@ class PopupPageLayout extends Component {
     }
   }
 
-  render () {
+  render() {
     const { children } = this.props
     const { selectedIdx } = this.state
 
-    const childrenWithProps = React.Children.map(children, child =>
-      React.cloneElement(child, {
-        onNextPage: this.nextPage,
-        onPrevPage: this.prevPage,
-        pageCount: Array.isArray(children) ? children.length : 1,
-        currentPage: selectedIdx + 1
-      })
-    )
+    const childrenWithProps = React.Children.map(children, (child) => React.cloneElement(child, {
+      onNextPage: this.nextPage,
+      onPrevPage: this.prevPage,
+      pageCount: Array.isArray(children) ? children.length : 1,
+      currentPage: selectedIdx + 1,
+    }))
 
     return (
       <div data-testid={this.props['data-testid']}>
@@ -82,21 +80,21 @@ class PopupPageLayout extends Component {
 PopupPageLayout.defaultProps = {
   children: [],
   'data-testid': undefined,
-  selectedIdx: 0
+  selectedIdx: 0,
 }
 
 PopupPageLayout.propTypes = {
   /** An array of components which are rendered as individual pages */
   children: PropTypes.node.isRequired,
 
-   /** Internal prop used for testing */
+  /** Internal prop used for testing */
   'data-testid': PropTypes.string,
 
   /** The index of the currently shown page */
   selectedIdx: PropTypes.number,
 
   /** Callback fired when a user navigates the page layout or closes the popup. The callback is passed the current page index and the next page index or `null` if the popup was closed. If the children of the layout passed a `data` prop, this is passed instead of the index for easier consumption. */
-  onPageChange: PropTypes.func
+  onPageChange: PropTypes.func,
 }
 
 export default PopupPageLayout

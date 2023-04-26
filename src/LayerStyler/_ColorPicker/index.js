@@ -22,17 +22,17 @@ const colors = [
   '#795548',
   '#607d8b',
   '#000000',
-  '#ffffff'
-] 
+  '#ffffff',
+]
 
 class ColorPicker extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       colorPickerOpen: false,
       uid: Math.floor((Math.random() * 10000)),
-      yClick: 0
+      yClick: 0,
     }
   }
 
@@ -40,14 +40,14 @@ class ColorPicker extends Component {
     this.props.handleSelect(opts.hex)
   }
 
-  handleOffClick = e => {
+  handleOffClick = (e) => {
     if (this.state.colorPickerOpen) {
       // assume off-click until proven wrong
       let offClick = true
 
       // loop through elements in clicked path to determine off-click
-      e.composedPath().forEach(elem => {
-        elem.classList && elem.classList.forEach(className => {
+      e.composedPath().forEach((elem) => {
+        elem.classList && elem.classList.forEach((className) => {
           // uid in className avoids bug where two color pickers can be open at once
           const { uid } = this.state
 
@@ -60,23 +60,23 @@ class ColorPicker extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     document.addEventListener('click', this.handleOffClick)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     document.removeEventListener('click', this.handleOffClick)
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     // hacky dom manipulations to force styling on the BlockPicker component
     if (!prevState.colorPickerOpen && this.state.colorPickerOpen) {
       // add border to white swatch
-      Array.from(document.querySelectorAll('[title="#ffffff"]')).forEach(elem => {
+      Array.from(document.querySelectorAll('[title="#ffffff"]')).forEach((elem) => {
         elem.style.border = '1px solid #d8d8d8'
       })
       // shrink hex colored header & remove the hex code
-      Array.from(document.getElementsByClassName('block-picker')).forEach(elem => {
+      Array.from(document.getElementsByClassName('block-picker')).forEach((elem) => {
         const header = elem.children[1]
 
         header.style.height = '12px'
@@ -85,29 +85,33 @@ class ColorPicker extends Component {
     }
   }
 
-  render () {
+  render() {
     const { currentColor, left } = this.props
     const { colorPickerOpen, uid, yClick } = this.state
 
     return (
-      <div className='container'>
+      <div className="container">
         <div
           className={`current-color-${uid}`}
-          color={currentColor} onClick={(e) => {
+          color={currentColor}
+          onClick={(e) => {
             this.setState({ colorPickerOpen: !colorPickerOpen, yClick: e.clientY })
           }}
-          style={{ 
+          style={{
             background: props.color,
-            border:  (props.color === '#ffffff' || props.color === '#fff') ? 'border: 1px solid #ccc' : '' 
-          }}/>
-        {colorPickerOpen &&
-          <div style={{ 
+            border: (props.color === '#ffffff' || props.color === '#fff') ? 'border: 1px solid #ccc' : '',
+          }}
+        />
+        {colorPickerOpen
+          && (
+          <div style={{
             left: props.left,
-            top: yClick + 20
-          }}>
+            top: yClick + 20,
+          }}
+          >
             <BlockPicker color={currentColor} colors={colors} onChangeComplete={this.handleColorChange} />
           </div>
-        }
+          )}
       </div>
     )
   }
@@ -120,12 +124,12 @@ ColorPicker.propTypes = {
   /** Callback function which passes the hex value of the color selected */
   handleSelect: PropTypes.func,
 
-  left: PropTypes.number
+  left: PropTypes.number,
 }
 
 ColorPicker.defaultProps = {
   currentColor: '#ffffff',
-  handleSelect: () => { }
+  handleSelect: () => { },
 }
 
 export default ColorPicker

@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import olFeature from 'ol/Feature'
 import olLayerVector from 'ol/layer/Vector'
-import { connectToContext } from 'Provider'
-import en from 'locales/en'
+import { connectToContext } from '~/src/Provider'
+import en from '~/src/locales/en'
 import { addVectorLayer } from '../LayerPanelActionMerge/utils'
 import { mergeLayerFeatures } from './utils'
 
@@ -14,7 +14,9 @@ import { mergeLayerFeatures } from './utils'
  */
 class LayerPanelActionMergeFeatures extends Component {
   handleMerge = () => {
-    const { map, layer, onMergeFeatures, handleMenuClose } = this.props
+    const {
+      map, layer, onMergeFeatures, handleMenuClose,
+    } = this.props
     // merge all feature geoms into new geometry
     const mergedGeometry = mergeLayerFeatures(layer)
     // create new ol feature w new geometry
@@ -25,13 +27,9 @@ class LayerPanelActionMergeFeatures extends Component {
     handleMenuClose()
   }
 
-  isValidVectorLayer = (layer) => {
-    return (layer instanceof olLayerVector || (layer && layer.isVectorLayer))
-  }
+  isValidVectorLayer = (layer) => (layer instanceof olLayerVector || (layer && layer.isVectorLayer))
 
-  getVisibleLayers = () => {
-    return this.props.layers.filter(layer => layer.getVisible())
-  }
+  getVisibleLayers = () => this.props.layers.filter((layer) => layer.getVisible())
 
   featuresAreMergable = () => {
     const { layer } = this.props
@@ -39,19 +37,20 @@ class LayerPanelActionMergeFeatures extends Component {
     const features = layer.getSource().getFeatures()
     const featureTypes = features.map((feature) => feature.getGeometry().getType())
     const distinctTypes = [...new Set(featureTypes)]
-    return (distinctTypes.length === 1 && features.length > 1 && layer.getVisible())  ? true : false
+    return !!((distinctTypes.length === 1 && features.length > 1 && layer.getVisible()))
   }
 
-  render () {
+  render() {
     const { translations } = this.props
 
     return (
       <div
-        key='mergeFeatures'
-        data-testid='LayerPanelAction.mergeFeatures'
+        key="mergeFeatures"
+        data-testid="LayerPanelAction.mergeFeatures"
         disableGutters={false}
         disabled={!this.featuresAreMergable()}
-        onClick={this.handleMerge} >
+        onClick={this.handleMerge}
+      >
         {translations['_ol_kit.LayerPanelActions.mergeFeatures']}
       </div>
     )
@@ -72,13 +71,13 @@ LayerPanelActionMergeFeatures.propTypes = {
   onMergeFeatures: PropTypes.func,
 
   /** An object of translation key/value pairs */
-  translations: PropTypes.object.isRequired
+  translations: PropTypes.object.isRequired,
 }
 
 LayerPanelActionMergeFeatures.defaultProps = {
   handleMenuClose: () => {},
   onMergeFeatures: () => {},
-  translations: en
+  translations: en,
 }
 
 export default connectToContext(LayerPanelActionMergeFeatures)

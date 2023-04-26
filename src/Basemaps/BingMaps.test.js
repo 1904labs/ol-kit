@@ -2,14 +2,14 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { prettyDOM } from '@testing-library/dom'
-import { Map } from 'Map'
-import BingMaps from './BingMaps'
 import olMap from 'ol/Map'
 import olLayerVector from 'ol/layer/Vector'
+import { Map } from '~/src/Map'
+import BingMaps from './BingMaps'
 
 const TEXT_IDENTIFIER = 'Bing Maps'
 const mockSourceOpts = {
-  key: ''
+  key: '',
 }
 
 describe('<BingMaps />', () => {
@@ -51,13 +51,13 @@ describe('<BingMaps />', () => {
 
     const map = new olMap({
       layers: [
-        mockLayer
-      ]
+        mockLayer,
+      ],
     })
     const { container, getByText } = render(
       <Map map={map}>
         <BingMaps sourceOpts={mockSourceOpts} layerTypeID={mockLayerTypeID} />
-      </Map>
+      </Map>,
     )
 
     // wait for async child render
@@ -73,7 +73,7 @@ describe('<BingMaps />', () => {
     const { container, getByText } = render(
       <Map>
         <BingMaps sourceOpts={mockSourceOpts} onBasemapChanged={callback} />
-      </Map>
+      </Map>,
     )
 
     // wait for async child render
@@ -90,7 +90,7 @@ describe('<BingMaps />', () => {
     const wrapper = mount(
       <Map onMapInit={onMapInit}>
         <BingMaps sourceOpts={mockSourceOpts} onBasemapChanged={callback} />
-      </Map>
+      </Map>,
     )
 
     // wait for async child render

@@ -4,12 +4,12 @@ import PropTypes from 'prop-types'
 import '../styled.css'
 
 export class SnapPreference extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       snappingEnabled: props.preferences.get('_SNAPPING_ENABLED') || false,
-      snappingTolerance: props.preferences.get('_SNAPPING_TOLERANCE') || 5
+      snappingTolerance: props.preferences.get('_SNAPPING_TOLERANCE') || 5,
     }
     this.updateSnapEnable = this.updateSnapEnable.bind(this)
     this.updateSnapTolerance = this.updateSnapTolerance.bind(this)
@@ -17,7 +17,7 @@ export class SnapPreference extends React.Component {
 
   updateSnapEnable = () => {
     this.setState({ snappingEnabled: !this.state.snappingEnabled })
-    this.props.preferences.put('_SNAPPING_ENABLED', !this.state.snappingEnabled).then(response => {
+    this.props.preferences.put('_SNAPPING_ENABLED', !this.state.snappingEnabled).then((response) => {
       this.props.onChange({ type: '_SNAPPING_ENABLED', response })
     })
   }
@@ -27,12 +27,12 @@ export class SnapPreference extends React.Component {
     const parsedNum = Number(e.target.value)
 
     this.setState({ snappingTolerance: parsedNum })
-    this.props.preferences.put('_SNAPPING_TOLERANCE', parsedNum).then(response => {
+    this.props.preferences.put('_SNAPPING_TOLERANCE', parsedNum).then((response) => {
       this.props.onChange({ type: '_SNAPPING_TOLERANCE', response })
     })
   }
 
-  render () {
+  render() {
     const { translations, compact } = this.props
     const { snappingEnabled, snappingTolerance } = this.state
 
@@ -41,18 +41,26 @@ export class SnapPreference extends React.Component {
         { !compact ? (<h5><b>{translations['_ol_kit.settings.snapping.title']}</b></h5>) : null }
         { !compact ? (<p>{translations['_ol_kit.settings.snapping.description']}</p>) : null }
         <form>
-          <div className='switchContainer' compact={compact ? true : undefined} id='snapBuffer'>
-            <label compact={compact ? true : undefined} htmlFor='snapBuffer'>{compact ? translations['_ol_kit.settings.snapping.title'] : translations['_ol_kit.settings.turnOnOff']}</label>
-            <switch color='primary'
+          <div className="switchContainer" compact={compact ? true : undefined} id="snapBuffer">
+            <label compact={compact ? true : undefined} htmlFor="snapBuffer">{compact ? translations['_ol_kit.settings.snapping.title'] : translations['_ol_kit.settings.turnOnOff']}</label>
+            <switch
+              color="primary"
               checked={snappingEnabled}
               onChange={this.updateSnapEnable}
-              value={snappingEnabled}/>
+              value={snappingEnabled}
+            />
           </div>
-          {snappingEnabled &&
-            <input type='text' compact={compact ? true : undefined} styles={{ bottom: '5px' }}
-              label='Pixel Tolerance'
+          {snappingEnabled
+            && (
+            <input
+              type="text"
+              compact={compact ? true : undefined}
+              styles={{ bottom: '5px' }}
+              label="Pixel Tolerance"
               value={snappingTolerance}
-              onChange={this.updateSnapTolerance} />}
+              onChange={this.updateSnapTolerance}
+            />
+            )}
         </form>
       </div>
     )
@@ -67,7 +75,7 @@ SnapPreference.propTypes = {
   persistSnappingTolerance: PropTypes.func,
   preferences: PropTypes.object,
   onChange: PropTypes.func,
-  compact: PropTypes.bool
+  compact: PropTypes.bool,
 }
 
 export default SnapPreference

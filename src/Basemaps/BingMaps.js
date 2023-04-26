@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import olLayerTile from 'ol/layer/Tile'
 import olSourceBingMaps from 'ol/source/BingMaps'
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 
 import './styled.css'
 
@@ -14,7 +14,7 @@ const DEFAULT_OPTS = {
   cacheSize: 4096,
   maxZoom: 19,
   reprojectionErrorThreshold: 0,
-  wrapX: true
+  wrapX: true,
 }
 
 /**
@@ -28,22 +28,24 @@ class BasemapBingMaps extends React.Component {
     this.forceUpdate()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.map.getLayers().on('change', this.handleLayersChange)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.map.getLayers().un('change', this.handleLayersChange)
   }
 
   onClick = () => {
-    const { map, layerTypeID, layerID, sourceOpts, onBasemapChanged } = this.props
+    const {
+      map, layerTypeID, layerID, sourceOpts, onBasemapChanged,
+    } = this.props
     const opts = { ...DEFAULT_OPTS, ...sourceOpts }
     const source = new olSourceBingMaps(opts)
     const layer = new olLayerTile({
       className: '_ol_kit_basemap_layer',
       [layerTypeID]: layerID, // make sure we can identify this layer as a layer that has been created from the ol-kit basemap component.
-      source
+      source,
     })
     const layers = map.getLayers()
     const layerArray = layers.getArray()
@@ -58,15 +60,17 @@ class BasemapBingMaps extends React.Component {
     onBasemapChanged(layer)
   }
 
-  render () {
-    const { translations, thumbnail, map, layerTypeID, layerID } = this.props
+  render() {
+    const {
+      translations, thumbnail, map, layerTypeID, layerID,
+    } = this.props
     const layerArray = map.getLayers().getArray()
     const isActive = layerArray.length ? layerArray[0].get(layerTypeID) === layerID : false
 
     return (
-      <div className='_ol_kit_basemapOption basemapOption' isActive={isActive} onClick={this.onClick}>
-        <div className='basemapThumbnail' style={{ backgroundImage: thumbnail }}/>
-        <label className='label'>{translations['_ol_kit.BingMaps.title']}</label>
+      <div className="_ol_kit_basemapOption basemapOption" isActive={isActive} onClick={this.onClick}>
+        <div className="basemapThumbnail" style={{ backgroundImage: thumbnail }} />
+        <label className="label">{translations['_ol_kit.BingMaps.title']}</label>
       </div>
     )
   }
@@ -81,7 +85,7 @@ BasemapBingMaps.propTypes = {
   layerID: PropTypes.oneOfType([PropTypes.symbol, PropTypes.string]),
   /** Object with key/value pairs for translated strings */
   translations: PropTypes.shape({
-    '_ol_kit.BingMaps.title': PropTypes.string
+    '_ol_kit.BingMaps.title': PropTypes.string,
   }),
   /** A string containing an http url or data url to a thumbnail image */
   thumbnail: PropTypes.string,
@@ -89,15 +93,15 @@ BasemapBingMaps.propTypes = {
   onBasemapChanged: PropTypes.func,
   /** The options object that will be used to create the ol/source/BingMaps (https://openlayers.org/en/latest/apidoc/module-ol_source_BingMaps-BingMaps.html) instance for the layer that this component adds to the map.  While there are default sourceOpts it is required that an object containing at least a valid BingMaps Maps key is passed down to this component (https://www.microsoft.com/en-us/maps/create-a-bing-maps-key). */
   sourceOpts: PropTypes.shape({
-    key: PropTypes.string.isRequired
-  }).isRequired
+    key: PropTypes.string.isRequired,
+  }).isRequired,
 }
 
 BasemapBingMaps.defaultProps = {
   onBasemapChanged: () => {},
   layerTypeID: '_ol_kit_basemap',
   thumbnail: '',
-  layerID: 'bingAerial'
+  layerID: 'bingAerial',
 }
 
 export default connectToContext(BasemapBingMaps)

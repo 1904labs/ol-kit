@@ -1,14 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { PopupActionItem } from 'Popup'
+import { PopupActionItem } from '~/src/Popup'
 
 /**
  * @component
  * @category Popup
  * @example ./example.md
  */
-const PopupActionLink = ({ href, target, windowFeatures, ...props }) => {
+function PopupActionLink({
+  href, target, windowFeatures, ...props
+}) {
   const onClick = (event, feature) => {
     window.open(href, target, windowFeatures)
 
@@ -42,18 +44,18 @@ PopupActionLink.propTypes = {
 
   /** Determines how link should be open - _blank means new tab */
   target: PropTypes.oneOf([
-    '_blank', '_self', '_parent', '_top'
+    '_blank', '_self', '_parent', '_top',
   ]),
 
   /** A DOMString containing a comma-separated list of window features given with their
    * corresponding values in the form "name=value". See https://developer.mozilla.org/en-US/docs/Web/API/Window/open#window_features
    * for more details */
-  windowFeatures: PropTypes.array
+  windowFeatures: PropTypes.array,
 }
 
 PopupActionLink.defaultProps = {
   onClick: () => {},
-  target: '_blank'
+  target: '_blank',
 }
 
 export default PopupActionLink

@@ -18,7 +18,7 @@ left: ${({ arrow, height, pixel, width }) => positionContainer(arrow, pixel, wid
 top: ${({ arrow, height, pixel, width }) => positionContainer(arrow, pixel, width, height).top}px; */
 
 
-.arrowBox::after .arrowBox::before {
+.arrowBox::after, .arrowBox::before {
   border: solid transparent;
   content: " ";
   height: 0;

@@ -17,15 +17,15 @@ const LAYER_TYPE_ID = '_ol_kit_basemap'
  * @since 0.1.0
  */
 class BasemapManager extends React.Component {
-  static getLayerTypeID () {
+  static getLayerTypeID() {
     return LAYER_TYPE_ID
   }
 
-  render () {
+  render() {
     const { children } = this.props
 
     return (
-      <div className='container'>
+      <div className="container">
         <OpenStreetMap layerTypeID={LAYER_TYPE_ID} />
         <StamenTerrain layerTypeID={LAYER_TYPE_ID} />
         <StamenTonerDark layerTypeID={LAYER_TYPE_ID} />
@@ -41,10 +41,10 @@ BasemapManager.propTypes = {
   /** Pass components as children of BasemapManager component */
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]),
   /** Object with key/value pairs for translated strings */
-  translations: PropTypes.object
+  translations: PropTypes.object,
 }
 
 export default BasemapManager

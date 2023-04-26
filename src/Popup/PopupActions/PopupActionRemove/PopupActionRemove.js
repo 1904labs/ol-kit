@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { PopupActionItem } from 'Popup'
-import { connectToContext } from 'Provider'
+import { PopupActionItem } from '~/src/Popup'
+import { connectToContext } from '~/src/Provider'
 
 class ActionRemove extends Component {
   remove = () => {
-    const { feature, parentLayerKey, onActionEnd, onClose } = this.props
+    const {
+      feature, parentLayerKey, onActionEnd, onClose,
+    } = this.props
 
     if (typeof onActionEnd === 'function') {
       onActionEnd(feature)
@@ -15,14 +17,15 @@ class ActionRemove extends Component {
     }
   }
 
-  render () {
+  render() {
     const { translations } = this.props
 
     return (
       <PopupActionItem
         title={translations['_ol_kit.PopupActionRemove.title']}
         onClick={() => this.remove()}
-        style={{ color: '#c0392b' }} />
+        style={{ color: '#c0392b' }}
+      />
     )
   }
 }
@@ -37,15 +40,15 @@ ActionRemove.propTypes = {
   onClose: PropTypes.func,
   /** Object with key/value pairs for translated strings */
   translations: PropTypes.shape({
-    '_ol_kit.PopupActionRemove.title': PropTypes.string
-  }).isRequired
+    '_ol_kit.PopupActionRemove.title': PropTypes.string,
+  }).isRequired,
 }
 
 ActionRemove.defaultProps = {
   parentLayerKey: '_ol_kit_parent',
   translations: {
-    '_ol_kit.PopupActionRemove.title': 'Remove Feature'
-  }
+    '_ol_kit.PopupActionRemove.title': 'Remove Feature',
+  },
 }
 
 export default connectToContext(ActionRemove)

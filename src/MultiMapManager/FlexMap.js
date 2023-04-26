@@ -5,10 +5,12 @@ import { connectToContext } from '../Provider/utils' // direct import required h
 import './styled.css'
 
 class FlexMap extends React.Component {
-  render () {
-    const { children, index, maps, numberOfColumns, numberOfRows, total, visibleState } = this.props
+  render() {
+    const {
+      children, index, maps, numberOfColumns, numberOfRows, total, visibleState,
+    } = this.props
     const totalMaps = total || maps.length
-    const visibleMapCount = visibleState.filter(_ => _).length
+    const visibleMapCount = visibleState.filter((_) => _).length
 
     let columns = numberOfColumns || (visibleMapCount % 2 === 1) ? 1 : 2
     const rows = numberOfRows || (visibleMapCount > 2) ? 2 : 1
@@ -22,14 +24,16 @@ class FlexMap extends React.Component {
     }
 
     return (
-      <div className='flexMapStyled'
+      <div
+        className="flexMapStyled"
         styled={{
           height: `${100 / rows}%`,
           flexGrow: !index && (totalMaps % 2) ? '2' : '1',
           flexShrink: !index && (totalMaps % 2) ? '1' : '2',
           display: !visibleState[index] ? 'none' : 'flex',
-          width: needsAdjustment ? `${100 / adjustedColumns}%` : `${100 / columns}%`
-        }}>
+          width: needsAdjustment ? `${100 / adjustedColumns}%` : `${100 / columns}%`,
+        }}
+      >
         {children}
       </div>
     )
@@ -41,7 +45,7 @@ FlexMap.defaultProps = {
   numberOfColumns: 0,
   numberOfRows: 0,
   total: 0,
-  visibleState: []
+  visibleState: [],
 }
 
 FlexMap.propTypes = {
@@ -51,7 +55,7 @@ FlexMap.propTypes = {
   numberOfColumns: PropTypes.number,
   numberOfRows: PropTypes.number,
   total: PropTypes.number,
-  visibleState: PropTypes.array
+  visibleState: PropTypes.array,
 }
 
 export default connectToContext(FlexMap)

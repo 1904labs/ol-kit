@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 import { createProject, loadProject } from './utils'
 
 import './styled.css'
@@ -29,7 +29,7 @@ class ProjectMenu extends React.Component {
     const upload = document.getElementById('myFile')
     const reader = new FileReader()
 
-    reader.addEventListener('load', e => {
+    reader.addEventListener('load', (e) => {
       const data = e.target.result
       const project = JSON.parse(data)
 
@@ -38,17 +38,17 @@ class ProjectMenu extends React.Component {
     reader.readAsBinaryString(upload.files[0])
   }
 
-  render () {
+  render() {
     return (
-      <div className='projectMenuContainer'>
-        <a id='_ol_kit_project_download_anchor' style={{ display: 'none' }}></a>
-        <div className='miniContainer'>
-          <div className='miniHeader'>Save this map as an ol-kit project file:</div>
-          <button id='_ol_kit_create_project' onClick={this.onCreateProject}>Save Project</button>
+      <div className="projectMenuContainer">
+        <a id="_ol_kit_project_download_anchor" style={{ display: 'none' }} />
+        <div className="miniContainer">
+          <div className="miniHeader">Save this map as an ol-kit project file:</div>
+          <button id="_ol_kit_create_project" onClick={this.onCreateProject}>Save Project</button>
         </div>
-        <div className='miniContainer'>
-          <div className='miniHeader'>Load a map from a project file:</div>
-          <input type='file' id='myFile' accept='.olkproj' onChange={this.onLoadProject} />
+        <div className="miniContainer">
+          <div className="miniHeader">Load a map from a project file:</div>
+          <input type="file" id="myFile" accept=".olkproj" onChange={this.onLoadProject} />
         </div>
       </div>
     )
@@ -57,7 +57,7 @@ class ProjectMenu extends React.Component {
 
 ProjectMenu.propTypes = {
   /** a reference to openlayers map object */
-  map: PropTypes.object.isRequired
+  map: PropTypes.object.isRequired,
 }
 
 export default connectToContext(ProjectMenu)

@@ -1,13 +1,15 @@
 import React, { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connectToContext } from 'Provider'
-import { Draw, DrawPin } from '../Draw'
-import { VectorLayer } from '../classes'
 import olSourceVector from 'ol/source/Vector'
 import olFormatPolyline from 'ol/format/Polyline'
 import { toLonLat } from 'ol/proj'
 import olGeomLineString from 'ol/geom/LineString'
-import { startPin, endPin, waypointPin, routeStyle } from './utils'
+import { VectorLayer } from '../classes'
+import { Draw, DrawPin } from '../Draw'
+import { connectToContext } from '~/src/Provider'
+import {
+  startPin, endPin, waypointPin, routeStyle,
+} from './utils'
 
 import './styled.css'
 
@@ -15,11 +17,11 @@ const getDirections = async (locations, apiKey) => {
   const waypoints = locations
   const origin = waypoints.shift().reverse()
   const destination = waypoints.pop().reverse()
-  const formatedWaypoints = waypoints.map(c => c.reverse()).join('|')
+  const formatedWaypoints = waypoints.map((c) => c.reverse()).join('|')
 
   return fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&waypoints=${formatedWaypoints}&key=${apiKey}`)
-    .then(response => response.json())
-    .then(json => {
+    .then((response) => response.json())
+    .then((json) => {
       if (json.status === 'ZERO_RESULTS') {
         throw new Error('No valid route found')
       } else if (json.status === 'REQUEST_DENIED') {
@@ -37,9 +39,9 @@ const getDirections = async (locations, apiKey) => {
     })
 }
 
-export function getStepFeatures (feature) {
-  const legs = feature.getProperties().legs
-  const steps = legs.map(leg => leg.steps).flat()
+export function getStepFeatures(feature) {
+  const { legs } = feature.getProperties()
+  const steps = legs.map((leg) => leg.steps).flat()
   const format = new olFormatPolyline()
 
   return steps.map((step, i) => {
@@ -66,7 +68,7 @@ export function getStepFeatures (feature) {
  * @category GoogleDirections
  * @since 1.8.0
  */
-function GoogleDirections (props) {
+function GoogleDirections(props) {
   const { map, apiKey, translations } = props
   const [coords, setCoords] = useState([])
 
@@ -77,7 +79,7 @@ function GoogleDirections (props) {
       setCoords(coordinates)
 
       return geometry
-    }
+    },
   )
 
   const onDrawBegin = (feature) => {
@@ -85,22 +87,22 @@ function GoogleDirections (props) {
     feature.setStyle([waypointPin, startPin, endPin])
   }
   const onDrawFinish = async (feature) => {
-    const waypoints = feature.getGeometry().getCoordinates().map(coord => toLonLat(coord))
+    const waypoints = feature.getGeometry().getCoordinates().map((coord) => toLonLat(coord))
     const route = await getDirections(waypoints, apiKey)
 
     const routeLayer = new VectorLayer({
       title: 'Google Directions - Overview',
       source: new olSourceVector({
-        features: [route]
+        features: [route],
       }),
-      style: [startPin, endPin, routeStyle]
+      style: [startPin, endPin, routeStyle],
     })
     const stepLayer = new VectorLayer({
       title: 'Google Directions - Step by Step',
       source: new olSourceVector({
-        features: getStepFeatures(route)
+        features: getStepFeatures(route),
       }),
-      style: [routeStyle]
+      style: [routeStyle],
     })
 
     map.addLayer(routeLayer)
@@ -109,7 +111,7 @@ function GoogleDirections (props) {
   }
 
   return (
-    <div className='container'>
+    <div className="container">
       <p>
         {!coords.length ? translations['_ol_kit.directions.placeOriginPoint'] : translations['_ol_kit.directions.placeWaypoint']}
       </p>
@@ -119,7 +121,7 @@ function GoogleDirections (props) {
         onDrawCancel={() => setCoords([])}
         drawOpts={{ geometryFunction: geometryFunctionCalback, style: [waypointPin, startPin, endPin] }}
       >
-        <DrawPin type={'LineString'} tooltipTitle={translations['_ol_kit.directions.waypointLabel']} />
+        <DrawPin type="LineString" tooltipTitle={translations['_ol_kit.directions.waypointLabel']} />
       </Draw>
     </div>
   )
@@ -132,7 +134,7 @@ GoogleDirections.propTypes = {
   You can find instructions on how to do that here https://developers.google.com/places/web-service/intro */
   apiKey: PropTypes.string.isRequired,
   /** translations object */
-  translations: PropTypes.object
+  translations: PropTypes.object,
 }
 
 export default connectToContext(GoogleDirections)

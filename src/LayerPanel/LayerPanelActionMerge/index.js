@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import olLayerVector from 'ol/layer/Vector'
-import { connectToContext } from 'Provider'
-import en from 'locales/en'
+import { connectToContext } from '~/src/Provider'
+import en from '~/src/locales/en'
 import { addVectorLayer } from './utils'
 
 /**
@@ -24,10 +24,10 @@ class LayerPanelActionMerge extends Component {
 
   collectVectorFeatures = () => {
     let title = 'Merged: '
-    const originalFeatures = this.getVisibleLayers().filter(layer => this.isValidVectorLayer(layer)).map((layer, i) => {
+    const originalFeatures = this.getVisibleLayers().filter((layer) => this.isValidVectorLayer(layer)).map((layer, i) => {
       const multi = i === 0 ? '' : ', '
       const thisTitle = multi + layer.get('title')
-      
+
       // add layer title to full string
       title += thisTitle
 
@@ -35,7 +35,7 @@ class LayerPanelActionMerge extends Component {
     })
 
     // clone important so new features are not connected to original
-    const features = originalFeatures.flat().map(feature => {
+    const features = originalFeatures.flat().map((feature) => {
       const cloned = feature.clone()
 
       cloned.setStyle(feature.getStyle())
@@ -49,29 +49,24 @@ class LayerPanelActionMerge extends Component {
   hasVisibleVectorLayers = () => {
     const visibleLayers = this.getVisibleLayers()
 
-    return visibleLayers.filter(layer => {
-      return this.isValidVectorLayer(layer)
-    }).length > 1 // at least two layers required for a merge
+    return visibleLayers.filter((layer) => this.isValidVectorLayer(layer)).length > 1 // at least two layers required for a merge
   }
 
-  isValidVectorLayer = (layer) => {
-    return (layer instanceof olLayerVector || (layer && layer.isVectorLayer))
-  }
+  isValidVectorLayer = (layer) => (layer instanceof olLayerVector || (layer && layer.isVectorLayer))
 
-  getVisibleLayers = () => {
-    return this.props.layers.filter(layer => layer.getVisible())
-  }
+  getVisibleLayers = () => this.props.layers.filter((layer) => layer.getVisible())
 
-  render () {
+  render() {
     const { translations } = this.props
 
     return (
       <div
-        key='merge'
-        data-testid='LayerPanel.merge'
+        key="merge"
+        data-testid="LayerPanel.merge"
         disableGutters={false}
         disabled={!this.hasVisibleVectorLayers()}
-        onClick={this.handleMerge} >
+        onClick={this.handleMerge}
+      >
         {translations['_ol_kit.LayerPanelActions.merge']}
       </div>
     )
@@ -92,13 +87,13 @@ LayerPanelActionMerge.propTypes = {
   onMergeLayers: PropTypes.func,
 
   /** An object of translation key/value pairs */
-  translations: PropTypes.object.isRequired
+  translations: PropTypes.object.isRequired,
 }
 
 LayerPanelActionMerge.defaultProps = {
   handleMenuClose: () => {},
   onMergeLayers: () => {},
-  translations: en
+  translations: en,
 }
 
 export default connectToContext(LayerPanelActionMerge)

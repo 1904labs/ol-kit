@@ -1,24 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Event from 'ol/events/Event'
-import en from 'locales/en'
+import olGeomPoint from 'ol/geom/Point'
+import en from '~/src/locales/en'
 import { sanitizeProperties } from '../utils'
-import { connectToContext } from 'Provider'
-import { PopupActionCopyWkt } from 'Popup/PopupActions/PopupActionCopyWkt'
-import { PopupActionGoogleMaps } from 'Popup/PopupActions/PopupActionGoogleMaps'
-import { PopupActionRemove } from 'Popup/PopupActions/PopupActionRemove'
-import { PopupActionDuplicate } from 'Popup/PopupActions/PopupActionDuplicate'
-import { PopupActionCut } from 'Popup/PopupActions/PopupActionCut'
-import { PopupActionEdit } from 'Popup/PopupActions/PopupActionEdit'
-import { PopupActionZoomToExtent } from 'Popup/PopupActions/PopupActionZoomToExtent'
+import { connectToContext } from '~/src/Provider'
+import { PopupActionCopyWkt } from '~/src/Popup/PopupActions/PopupActionCopyWkt'
+import { PopupActionGoogleMaps } from '~/src/Popup/PopupActions/PopupActionGoogleMaps'
+import { PopupActionRemove } from '~/src/Popup/PopupActions/PopupActionRemove'
+import { PopupActionDuplicate } from '~/src/Popup/PopupActions/PopupActionDuplicate'
+import { PopupActionCut } from '~/src/Popup/PopupActions/PopupActionCut'
+import { PopupActionEdit } from '~/src/Popup/PopupActions/PopupActionEdit'
+import { PopupActionZoomToExtent } from '~/src/Popup/PopupActions/PopupActionZoomToExtent'
 import PopupDefaultPage from './PopupDefaultPage'
 import PopupPageLayout from './PopupPageLayout'
-import olGeomPoint from 'ol/geom/Point'
 
 import './styled.css'
 
 class SelectEvent extends Event {
-  constructor (type, selected, deselected, mapBrowserEvent) {
+  constructor(type, selected, deselected, mapBrowserEvent) {
     super(type)
     this.selected = selected
     this.deselected = deselected
@@ -31,7 +31,7 @@ class SelectEvent extends Event {
  * @category Popup
  */
 class PopupDefaultInsert extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -39,7 +39,7 @@ class PopupDefaultInsert extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { features } = this.props
 
     if (features.length) {
@@ -48,7 +48,7 @@ class PopupDefaultInsert extends Component {
     }
   }
 
-  UNSAFE_componentWillReceiveProps (nextProps) { // eslint-disable-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
     const selectedIdx = typeof nextProps.selectedIdx === 'number' ? nextProps.selectedIdx : this.state.selectedIdx
 
     if (selectedIdx !== this.state.selectedIdx) {
@@ -64,7 +64,7 @@ class PopupDefaultInsert extends Component {
     }
   }
 
-  selectFeature = feature => {
+  selectFeature = (feature) => {
     const { selectInteraction } = this.props
     const deselected = selectInteraction.getFeatures().getArray()
     const selected = [feature]
@@ -88,30 +88,32 @@ class PopupDefaultInsert extends Component {
     }
   }
 
-  render () {
-    const { actions, features, loading, onClose, onSettingsClick, propertiesFilter, translations, onEdit } = this.props
+  render() {
+    const {
+      actions, features, loading, onClose, onSettingsClick, propertiesFilter, translations, onEdit,
+    } = this.props
     const { selectedIdx } = this.state
 
-    const getChildren = feature => {
+    const getChildren = (feature) => {
       const pointGeom = feature.getGeometry() instanceof olGeomPoint
 
-      let defaultActions = [<PopupActionCopyWkt key={'wkt'} />,
-        <PopupActionDuplicate key='dupe' />,
-        <PopupActionRemove key='remove' />,
-        <PopupActionGoogleMaps key='nav' />,
-        <PopupActionEdit key='edit' onEdit={onEdit} />,
-        <PopupActionZoomToExtent key='zoom' />]
+      let defaultActions = [<PopupActionCopyWkt key="wkt" />,
+        <PopupActionDuplicate key="dupe" />,
+        <PopupActionRemove key="remove" />,
+        <PopupActionGoogleMaps key="nav" />,
+        <PopupActionEdit key="edit" onEdit={onEdit} />,
+        <PopupActionZoomToExtent key="zoom" />]
 
-      if (!pointGeom) defaultActions = [...defaultActions, <PopupActionCut key='cut' />]
+      if (!pointGeom) defaultActions = [...defaultActions, <PopupActionCut key="cut" />]
 
-      return React.Children.map(actions || defaultActions, c => React.cloneElement(c, { feature }))
+      return React.Children.map(actions || defaultActions, (c) => React.cloneElement(c, { feature }))
     }
 
     // dedupe the features to remove possible duplicates introduced in ol6
     const dedupedFeatures = [...new Set(features).values()]
 
     return (
-      <PopupPageLayout selectedIdx={selectedIdx} onPageChange={this.onPageChange} data-testid='popup-insert-default'>
+      <PopupPageLayout selectedIdx={selectedIdx} onPageChange={this.onPageChange} data-testid="popup-insert-default">
         {dedupedFeatures.length
           ? dedupedFeatures.map((f, i) => (
             <PopupDefaultPage
@@ -122,16 +124,19 @@ class PopupDefaultInsert extends Component {
               onSettingsClick={onSettingsClick}
               title={f.get('title') || `Feature ${i + 1}`}
               translations={translations}
-              subtitle={f.get('featuretype') || null}>
+              subtitle={f.get('featuretype') || null}
+            >
               {getChildren(f)}
             </PopupDefaultPage>
           ))
-          : <PopupDefaultPage
-            title={loading ? 'Loading features' : 'Select a feature'}
-            loading={loading}
-            onClose={onClose}
-            translations={translations} />
-        }
+          : (
+            <PopupDefaultPage
+              title={loading ? 'Loading features' : 'Select a feature'}
+              loading={loading}
+              onClose={onClose}
+              translations={translations}
+            />
+          )}
       </PopupPageLayout>
     )
   }
@@ -150,7 +155,7 @@ PopupDefaultInsert.propTypes = {
   /** components passed to render as actions */
   actions: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]),
   /** array from which to select a feature */
   features: PropTypes.array,
@@ -172,7 +177,7 @@ PopupDefaultInsert.propTypes = {
   translations: PropTypes.shape({
     '_ol_kit.PopupDefaultPage.details': PropTypes.string,
     '_ol_kit.PopupDefaultPage.actions': PropTypes.string,
-    '_ol_kit.PopupDefaultPage.customize': PropTypes.string
+    '_ol_kit.PopupDefaultPage.customize': PropTypes.string,
   }).isRequired,
   onEdit: PropTypes.func,
 }

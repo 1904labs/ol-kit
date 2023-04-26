@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { stamenTerrain, osm, stamenTonerDark, stamenTonerLite } from './thumbnails'
+import {
+  stamenTerrain, osm, stamenTonerDark, stamenTonerLite,
+} from './thumbnails'
 import OpenStreetMap from './OpenStreetMap'
 import BlankWhite from './BlankWhite'
 import StamenTerrain from './StamenTerrain'
 import StamenTonerDark from './StamenTonerDark'
 import StamenTonerLite from './StamenTonerLite'
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 
 import './styled.css'
 
@@ -17,12 +19,12 @@ import './styled.css'
  * @since 0.7.0
  */
 class BasemapContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       showBasemaps: false,
-      basemapOptions: props.basemapOptions
+      basemapOptions: props.basemapOptions,
     }
   }
 
@@ -30,7 +32,7 @@ class BasemapContainer extends Component {
     this.setState({ showBasemaps: false })
   }
 
-  componentDidUpdate (_, prevState) {
+  componentDidUpdate(_, prevState) {
     if (prevState.showBasemaps !== this.state.showBasemaps && this.state.showBasemaps === true) {
       this.props.map.on('click', this.hideBasemaps)
     } else {
@@ -41,14 +43,14 @@ class BasemapContainer extends Component {
   onBasemapChanged = (layer) => {
     const { layerTypeID } = this.props
     const clonedBasemapOptions = [...this.state.basemapOptions]
-    const newBasemap = clonedBasemapOptions.find(basemap => basemap.key === layer.get(layerTypeID))
+    const newBasemap = clonedBasemapOptions.find((basemap) => basemap.key === layer.get(layerTypeID))
     const newIndexOfBasemap = clonedBasemapOptions.indexOf(newBasemap)
     const selectedBasemap = clonedBasemapOptions.splice(newIndexOfBasemap, 1)
 
     this.setState({ showBasemaps: false, basemapOptions: [...selectedBasemap, ...clonedBasemapOptions] })
   }
 
-  render () {
+  render() {
     const { showBasemaps, basemapOptions } = this.state
     const { variation, style, translations } = this.props
 
@@ -57,56 +59,59 @@ class BasemapContainer extends Component {
       const translationKey = (key) => {
         if (key === 'osm') {
           return 'OpenStreetMap'
-        } else {
-          return key[0].toUpperCase() + key.slice(1)
         }
+        return key[0].toUpperCase() + key.slice(1)
       }
 
       if (showBasemaps) {
         return (
           <div
-            className='basemapSliderContainer'
+            className="basemapSliderContainer"
             style={{
               left: 0,
               botom: 14 + (i * 90),
               variation,
               zIndex,
-              ...style
+              ...style,
             }}
-            key={i}>
+            key={i}
+          >
             {React.cloneElement(basemap, { onBasemapChanged: (layer) => this.onBasemapChanged(layer) })}
           </div>
         )
-      } else {
-        return (
-          <div
-            className='basemapSliderContainer'
-            variation={variation}
-            style={style}
-            zIndex={zIndex}
-            onClick={() => this.setState({ showBasemaps: true })}
-            key={i}
-            noBoxShadow={i !== 0}>
-            <div className='basemapOption'>
-              <div className='basemapThumbnail' thumbnail={basemap.props.thumbnail} />
-              <label className='label'>{translations[`_ol_kit.${translationKey(basemap.key)}.title`]}</label>
-            </div>
-          </div>
-        )
       }
+      return (
+        <div
+          className="basemapSliderContainer"
+          style={{
+            left: 0,
+            botom: 14 + (i * 90),
+            variation,
+            zIndex,
+            ...style,
+          }}
+          onClick={() => this.setState({ showBasemaps: true })}
+          key={i}
+        >
+          <div className="basemapOption">
+            <div className="basemapThumbnail" thumbnail={basemap.props.thumbnail} />
+            <label className="label">{translations[`_ol_kit.${translationKey(basemap.key)}.title`]}</label>
+          </div>
+        </div>
+      )
     })
   }
 }
 
 BasemapContainer.defaultProps = {
   basemapOptions: [
-    <OpenStreetMap key='osm' thumbnail={osm} />,
-    <StamenTerrain key='stamenTerrain' thumbnail={stamenTerrain} />,
-    <StamenTonerDark key='stamenTonerDark' thumbnail={stamenTonerDark} />,
-    <StamenTonerLite key='stamenTonerLite' thumbnail={stamenTonerLite} />,
-    <BlankWhite key='blankWhite' />
+    <OpenStreetMap key="osm" thumbnail={osm} />,
+    <StamenTerrain key="stamenTerrain" thumbnail={stamenTerrain} />,
+    <StamenTonerDark key="stamenTonerDark" thumbnail={stamenTonerDark} />,
+    <StamenTonerLite key="stamenTonerLite" thumbnail={stamenTonerLite} />,
+    <BlankWhite key="blankWhite" />,
   ],
-  layerTypeID: '_ol_kit_basemap'
+  layerTypeID: '_ol_kit_basemap',
 }
 
 BasemapContainer.propTypes = {
@@ -125,10 +130,10 @@ BasemapContainer.propTypes = {
     '_ol_kit.OpenStreetMap.title': PropTypes.string,
     '_ol_kit.StamenTerrain.title': PropTypes.string,
     '_ol_kit.StamenTonerDark.title': PropTypes.string,
-    '_ol_kit.StamenTonerLite.title': PropTypes.string
+    '_ol_kit.StamenTonerLite.title': PropTypes.string,
   }).isRequired,
   /** light or dark variation for styling */
-  variation: PropTypes.string
+  variation: PropTypes.string,
 }
 
 export default connectToContext(BasemapContainer)

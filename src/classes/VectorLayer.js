@@ -18,8 +18,8 @@ import olGeomMultiLinestring from 'ol/geom/MultiLineString'
  * @param {Object} [opts] - Object of optional params for olLayerVector
  */
 class VectorLayer extends olLayerVector {
-  constructor (opts) {
-    if (!opts?.className) opts.className = `_ol_kit_vector_layer_${nanoid()}`
+  constructor(opts) {
+    if (!opts?.className) opts.className = `_ol_kit_vector_layer_${nanoid()}` // eslint-disable-line
     super(opts)
 
     this.parser = new OpenLayersParser()
@@ -29,8 +29,6 @@ class VectorLayer extends olLayerVector {
     this.isVectorLayer = true
     if (!opts?.style) this._setInitialStyle()
     this.setDefaultVectorStyles()
-
-    return this
   }
 
   /**
@@ -39,7 +37,7 @@ class VectorLayer extends olLayerVector {
    * @since 0.1.0
    * @returns {Array} VectorLayer attributes
    */
-  getAttributes () {
+  getAttributes() {
     return Object.keys(this.getSource().getFeatures()[0].getProperties())
   }
 
@@ -50,8 +48,8 @@ class VectorLayer extends olLayerVector {
    * @param {String} - olFeature property
    * @returns {Array} VectorLayer values of a specific attribute
    */
-  fetchValuesForAttribute (attribute) {
-    const dupes = this.getSource().getFeatures().map(feature => feature.getProperties()[`${attribute}`])
+  fetchValuesForAttribute(attribute) {
+    const dupes = this.getSource().getFeatures().map((feature) => feature.getProperties()[`${attribute}`])
 
     return [...new Set(dupes)]
   }
@@ -62,7 +60,7 @@ class VectorLayer extends olLayerVector {
    * @since 0.1.0
    * @param {Object} - Geostyler OpenLayers Parser rules object {@link https://github.com/geostyler/geostyler-openlayers-parser}
    */
-  setUserVectorStyles (styles) {
+  setUserVectorStyles(styles) {
     this.userStyles = styles
 
     this._applyVectorStyles()
@@ -74,7 +72,7 @@ class VectorLayer extends olLayerVector {
    * @since 0.1.0
    * @returns {Object} Geostyler rules object
    */
-  getUserVectorStyles () {
+  getUserVectorStyles() {
     return this.userStyles
   }
 
@@ -83,8 +81,8 @@ class VectorLayer extends olLayerVector {
    * @function
    * @since 0.1.0
    */
-  setDefaultVectorStyles () {
-    return this.parser.readStyle(this.getStyleFunction()()).then(style => {
+  setDefaultVectorStyles() {
+    return this.parser.readStyle(this.getStyleFunction()()).then((style) => {
       this._defaultStylesCache = style.output.rules
       this.defaultStyles = style.output.rules
     })
@@ -96,7 +94,7 @@ class VectorLayer extends olLayerVector {
    * @since 0.1.0
    * @returns {Object} Geostyler rules object
    */
-  getDefaultVectorStyles () {
+  getDefaultVectorStyles() {
     return this.defaultStyles
   }
 
@@ -106,7 +104,7 @@ class VectorLayer extends olLayerVector {
    * @since 0.1.0
    * @param {Object} - Geostyler OpenLayers Parser rules object {@link https://github.com/geostyler/geostyler-openlayers-parser}
    */
-  updateDefaultVectorStyles (styles) {
+  updateDefaultVectorStyles(styles) {
     this.defaultStyles = styles
 
     this._applyVectorStyles()
@@ -117,14 +115,14 @@ class VectorLayer extends olLayerVector {
    * @function
    * @since 0.1.0
    */
-  resetDefaultVectorStyles () {
+  resetDefaultVectorStyles() {
     this.defaultStyles = this._defaultStylesCache
 
     this._applyVectorStyles()
   }
 
-  _applyVectorStyles () {
-    const filteredUserStyles = this.getUserVectorStyles().filter(style => {
+  _applyVectorStyles() {
+    const filteredUserStyles = this.getUserVectorStyles().filter((style) => {
       // do a safe check for the filter key
       if (!Array.isArray(style.filter)) return true
       const attributeValue = style.filter[1][2]
@@ -158,7 +156,7 @@ class VectorLayer extends olLayerVector {
       })
   }
 
-  _setInitialStyle () {
+  _setInitialStyle() {
     let style = {}
     const hasFeatures = this.getSource().getFeatures().length
     const geomType = hasFeatures ? this.getSource().getFeatures()[0].getGeometry() : null

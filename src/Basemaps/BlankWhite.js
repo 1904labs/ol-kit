@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import olLayerVector from 'ol/layer/Vector'
 import olSourceVector from 'ol/source/Vector'
-import { connectToContext } from 'Provider' // eslint-disable-line
+import { connectToContext } from '~/src/Provider' // eslint-disable-line
 
 import './styled.css'
 
@@ -17,11 +17,11 @@ class BasemapBlankWhite extends React.Component {
     this.forceUpdate()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.map.getLayers().on('change', this.handleLayersChange)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.map.getLayers().un('change', this.handleLayersChange)
   }
 
@@ -30,7 +30,7 @@ class BasemapBlankWhite extends React.Component {
     const layer = new olLayerVector({
       className: '_ol_kit_basemap_layer',
       [layerTypeID]: 'blankWhite', // make sure we can identify this layer as a layer that has been created from the ol-kit basemap component.
-      source: new olSourceVector()
+      source: new olSourceVector(),
     })
     const layers = map.getLayers()
     const layerArray = layers.getArray()
@@ -45,15 +45,17 @@ class BasemapBlankWhite extends React.Component {
     onBasemapChanged(layer)
   }
 
-  render () {
-    const { translations, thumbnail, map, layerTypeID } = this.props
+  render() {
+    const {
+      translations, thumbnail, map, layerTypeID,
+    } = this.props
     const layerArray = map.getLayers().getArray()
     const isActive = layerArray.length ? layerArray[0].get(layerTypeID) === 'blankWhite' : false
 
     return (
-      <div className='_ol_kit_basemapOption basemapOption' isActive={isActive} onClick={this.onClick}>
-        <div className='basemapThumbnail' style={{ backgroundImage: thumbnail }}/>
-        <label className='label'>{translations['_ol_kit.BlankWhite.title']}</label>
+      <div className="_ol_kit_basemapOption basemapOption" isActive={isActive} onClick={this.onClick}>
+        <div className="basemapThumbnail" style={{ backgroundImage: thumbnail }} />
+        <label className="label">{translations['_ol_kit.BlankWhite.title']}</label>
       </div>
     )
   }
@@ -64,20 +66,20 @@ BasemapBlankWhite.propTypes = {
   map: PropTypes.object.isRequired,
   /** Object with key/value pairs for translated strings */
   translations: PropTypes.shape({
-    '_ol_kit.BlankWhite.title': PropTypes.string
+    '_ol_kit.BlankWhite.title': PropTypes.string,
   }),
   /** A string containing an http url or data url to a thumbnail image */
   thumbnail: PropTypes.string,
   /** A unique string or symbol property name that will be set directly on the layer when it is created with a value containing a string identifying the type of basemap layer (e.g. '_ol_kit_basemap': 'osm').  This property should be a shared ID used to identify individual layers as 'basemap' layers.  */
   layerTypeID: PropTypes.oneOfType([PropTypes.symbol, PropTypes.string]),
   /** A callback that is fired when the basemap layer has been changed.  It is called with the updated layer. */
-  onBasemapChanged: PropTypes.func
+  onBasemapChanged: PropTypes.func,
 }
 
 BasemapBlankWhite.defaultProps = {
   thumbnail: '',
   onBasemapChanged: () => {},
-  layerTypeID: '_ol_kit_basemap'
+  layerTypeID: '_ol_kit_basemap',
 }
 
 export default connectToContext(BasemapBlankWhite)

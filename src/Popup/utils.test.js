@@ -9,8 +9,8 @@ import olText from 'ol/style/Text'
 import olFill from 'ol/style/Fill'
 import olStroke from 'ol/style/Stroke'
 import olCircle from 'ol/style/Circle'
-import { createMap } from 'Map'
-import { getLayersAndFeaturesForEvent, sanitizeProperties } from 'Popup'
+import { createMap } from '~/src/Map'
+import { getLayersAndFeaturesForEvent, sanitizeProperties } from '~/src/Popup'
 
 describe('Popup utils', () => {
   global.document.body.innerHTML = '<div id="map"></div>'

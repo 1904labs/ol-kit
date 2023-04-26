@@ -1,22 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import olFeature from 'ol/Feature'
+import olDrawInteraction from 'ol/interaction/Draw'
+import olSnapInteraction from 'ol/interaction/Snap'
+import olLayerVector from 'ol/layer/Vector'
+import olSourceVector from 'ol/source/Vector'
+import olGeomCircle from 'ol/geom/Circle'
+import { fromCircle } from 'ol/geom/Polygon'
+import olCollection from 'ol/Collection'
 import Line from './Line'
 import Box from './Box'
 import Circle from './Circle'
 import Point from './Point'
 import Polygon from './Polygon'
 import Freehand from './Freehand'
-import { DrawToolbar } from 'DrawToolbar'
-import olFeature from 'ol/Feature'
-import olDrawInteraction from 'ol/interaction/Draw'
-import olSnapInteraction from 'ol/interaction/Snap'
+import { DrawToolbar } from '~/src/DrawToolbar'
 import { VectorLayer } from '../classes'
-import olLayerVector from 'ol/layer/Vector'
-import olSourceVector from 'ol/source/Vector'
-import olGeomCircle from 'ol/geom/Circle'
-import { fromCircle } from 'ol/geom/Polygon'
-import olCollection from 'ol/Collection'
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 import { getStyledFeatures } from './utils'
 
 import './styled.css'
@@ -30,19 +30,19 @@ const OL_DRAW_TYPES = ['Point', 'LineString', 'LinearRing', 'Polygon', 'MultiPoi
  * @since 0.18.0
  */
 class Draw extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       type: '',
       freehand: false,
       feature: null,
-      interactions: []
+      interactions: [],
     }
     this.escFunction = this.escFunction.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { selectInteraction } = this.props
 
     if (selectInteraction) {
@@ -52,7 +52,7 @@ class Draw extends React.Component {
     document.addEventListener('keydown', this.escFunction, false)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     const { selectInteraction } = this.props
     const { interactions } = this.state
 
@@ -61,7 +61,7 @@ class Draw extends React.Component {
     document.removeEventListener('keydown', this.escFunction, false)
   }
 
-  escFunction (event) {
+  escFunction(event) {
     if (event.keyCode === 27) { // esc key
       this.handleDrawCancel()
     }
@@ -74,7 +74,9 @@ class Draw extends React.Component {
 
   addInteraction = (opts) => {
     const { type, freehand, geometryFunction } = opts
-    const { map, source, drawOpts, onInteractionAdded, preferences, getStyledFeatures } = this.props
+    const {
+      map, source, drawOpts, onInteractionAdded, preferences, getStyledFeatures,
+    } = this.props
     const { interactions } = this.state
 
     // if there's an existing interaction, cancel before we start a new one
@@ -83,7 +85,9 @@ class Draw extends React.Component {
     if (!OL_DRAW_TYPES.includes(type)) throw new Error(`${type} is not a valid draw type`)
 
     // construct the interaction parameters from the source and the optional draw options provideed from props and the arguments
-    const drawInteractionOpts = { source, stopClick: true, ...drawOpts, ...opts }
+    const drawInteractionOpts = {
+      source, stopClick: true, ...drawOpts, ...opts,
+    }
     const drawInteraction = new olDrawInteraction(drawInteractionOpts)
     const newInteractions = [drawInteraction]
     const snap = preferences ? preferences.get?.('_SNAPPING_ENABLED') : this.props.snap
@@ -93,7 +97,7 @@ class Draw extends React.Component {
       const snapOpts = preferences ? { pixelTolerance: preferences.get?.('_SNAPPING_TOLERANCE') } : this.props.snapOpts
       const mapLayers = map.getLayers().getArray()
       const res = map.getView().getResolution()
-      const vectorLayers = mapLayers.filter(layer => layer instanceof olLayerVector || layer instanceof VectorLayer)
+      const vectorLayers = mapLayers.filter((layer) => layer instanceof olLayerVector || layer instanceof VectorLayer)
       const snapFeatures = new olCollection(getStyledFeatures(vectorLayers, res).map(([feature]) => feature))
       const snapInteractionOpts = { features: snapFeatures, ...snapOpts }
       const snapInteraction = new olSnapInteraction(snapInteractionOpts)
@@ -105,12 +109,14 @@ class Draw extends React.Component {
 
     // store some draw state and then add the interactions to the map
     this.setState(
-      { interactions: newInteractions, type, freehand, geometryFunction },
+      {
+        interactions: newInteractions, type, freehand, geometryFunction,
+      },
       () => {
-        this.state.interactions.forEach(interaction => map.addInteraction(interaction))
+        this.state.interactions.forEach((interaction) => map.addInteraction(interaction))
         // callback function for implementors
         onInteractionAdded(drawInteraction)
-      }
+      },
     )
   }
 
@@ -133,13 +139,13 @@ class Draw extends React.Component {
   getDrawInteraction = () => {
     const { interactions } = this.state
 
-    return interactions.find(interaction => interaction instanceof olDrawInteraction)
+    return interactions.find((interaction) => interaction instanceof olDrawInteraction)
   }
 
   getSnapInteraction = () => {
     const { interactions } = this.state
 
-    return interactions.find(interaction => interaction instanceof olSnapInteraction)
+    return interactions.find((interaction) => interaction instanceof olSnapInteraction)
   }
 
   handleDrawFinish = (feature) => {
@@ -155,7 +161,7 @@ class Draw extends React.Component {
     // finish the drawing (this will trigger the drawend event)
     if (drawInteraction && !haveFeature) drawInteraction.finishDrawing()
 
-    interactions.forEach(interaction => map.removeInteraction(interaction))
+    interactions.forEach((interaction) => map.removeInteraction(interaction))
     this.setState({ interactions: [], type: null, measureFeature: null })
     const geom = feature.getGeometry()
     const geomIsCircle = geom instanceof olGeomCircle
@@ -183,41 +189,70 @@ class Draw extends React.Component {
     } catch (e) {
       console.warn(`Openlayers was unable to finish the drawing due to`, e) // eslint-disable-line
     }
-    interactions.forEach(interaction => map.removeInteraction(interaction))
+    interactions.forEach((interaction) => map.removeInteraction(interaction))
 
     // callback function for implementors
     onDrawCancel(drawInteraction)
     this.setState({ interactions: [], type: null, feature: null })
   }
 
-  render () {
-    const { type, freehand, geometryFunction, interactions } = this.state
+  render() {
+    const {
+      type, freehand, geometryFunction, interactions,
+    } = this.state
     const { translations } = this.props
 
     return (
-      <div data-testid='Draw.container'>
+      <div data-testid="Draw.container">
         {this.props.children
-          ? React.Children.map(this.props.children, child => {
+          ? React.Children.map(this.props.children, (child) => {
             const moddedChild = React.cloneElement(child, {
-              ...{ addInteraction: this.addInteraction, type, freehand, geometryFunction }, ...child.props
+              ...{
+                addInteraction: this.addInteraction, type, freehand, geometryFunction,
+              },
+              ...child.props,
             })
 
             return moddedChild
           })
-          : <div className='buttonContainer'>
-            <Point addInteraction={this.addInteraction} type={type}
-              tooltipTitle={translations['_ol_kit.draw.pointTooltip']} />
-            <Line addInteraction={this.addInteraction} type={type}
-              freehand={freehand} tooltipTitle={translations['_ol_kit.draw.lineTooltip']} />
-            <Polygon addInteraction={this.addInteraction} type={type}
-              tooltipTitle={translations['_ol_kit.draw.polygonTooltip']} />
-            <Circle addInteraction={this.addInteraction} type={type}
-              geometryFunction={geometryFunction} tooltipTitle={translations['_ol_kit.draw.circleTooltip']} />
-            <Box addInteraction={this.addInteraction} type={type}
-              geometryFunction={geometryFunction} tooltipTitle={translations['_ol_kit.draw.boxTooltip']} />
-            <Freehand addInteraction={this.addInteraction} type={type} freehand={freehand}
-              tooltipTitle={translations['_ol_kit.draw.freehandTooltip']} />
-          </div>}
+          : (
+            <div className="buttonContainer">
+              <Point
+                addInteraction={this.addInteraction}
+                type={type}
+                tooltipTitle={translations['_ol_kit.draw.pointTooltip']}
+              />
+              <Line
+                addInteraction={this.addInteraction}
+                type={type}
+                freehand={freehand}
+                tooltipTitle={translations['_ol_kit.draw.lineTooltip']}
+              />
+              <Polygon
+                addInteraction={this.addInteraction}
+                type={type}
+                tooltipTitle={translations['_ol_kit.draw.polygonTooltip']}
+              />
+              <Circle
+                addInteraction={this.addInteraction}
+                type={type}
+                geometryFunction={geometryFunction}
+                tooltipTitle={translations['_ol_kit.draw.circleTooltip']}
+              />
+              <Box
+                addInteraction={this.addInteraction}
+                type={type}
+                geometryFunction={geometryFunction}
+                tooltipTitle={translations['_ol_kit.draw.boxTooltip']}
+              />
+              <Freehand
+                addInteraction={this.addInteraction}
+                type={type}
+                freehand={freehand}
+                tooltipTitle={translations['_ol_kit.draw.freehandTooltip']}
+              />
+            </div>
+          )}
         {
           (Array.isArray(interactions) && interactions.length) ? (<DrawToolbar onFinish={this.handleDrawFinish} onCancel={this.handleDrawCancel} />) : null // eslint-disable-line
         }
@@ -270,7 +305,7 @@ Draw.propTypes = {
   children: PropTypes.node,
 
   /* A preferences object */
-  preferences: PropTypes.object
+  preferences: PropTypes.object,
 }
 
 Draw.defaultProps = {
@@ -282,7 +317,7 @@ Draw.defaultProps = {
   onDrawFinish: () => { },
   onDrawBegin: () => { },
   onInteractionAdded: () => { },
-  onDrawCancel: () => { }
+  onDrawCancel: () => { },
 }
 
 export default connectToContext(Draw)

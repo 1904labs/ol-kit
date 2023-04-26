@@ -1,22 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Snackbar } from 'Snackbar'
 import olFeature from 'ol/Feature'
-import VectorLayer from 'classes/VectorLayer'
 import olSourceVector from 'ol/source/Vector'
+import { Snackbar } from '~/src/Snackbar'
+import VectorLayer from '~/src/classes/VectorLayer'
 
-import { PopupActionItem } from 'Popup'
-import { connectToContext } from 'Provider'
+import { PopupActionItem } from '~/src/Popup'
+import { connectToContext } from '~/src/Provider'
 
 class ActionDuplicate extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = { showSnackbar: false }
   }
 
   duplicate = () => {
-    const { feature, onActionEnd, map, translations } = this.props
+    const {
+      feature, onActionEnd, map, translations,
+    } = this.props
     const geometry = feature.getGeometry().clone()
     const clone = new olFeature({ geometry, name: 'Duplicated shape' })
 
@@ -25,7 +27,7 @@ class ActionDuplicate extends Component {
     } else {
       const layer = new VectorLayer({
         title: translations['_ol_kit.PopupActionDuplicate.title'],
-        source: new olSourceVector()
+        source: new olSourceVector(),
       })
 
       clone.setStyle(null)
@@ -37,7 +39,7 @@ class ActionDuplicate extends Component {
     this.setState({ showSnackbar: true })
   }
 
-  render () {
+  render() {
     const { translations } = this.props
     const { showSnackbar } = this.state
 
@@ -49,7 +51,8 @@ class ActionDuplicate extends Component {
           closeSnackbar={() => this.setState({ showSnackbar: false })}
           duration={5000}
           message={translations['_ol_kit.PopupActionDuplicate.alert']}
-          variant='info'/>
+          variant="info"
+        />
       </>
     )
   }
@@ -67,15 +70,15 @@ ActionDuplicate.propTypes = {
   /** Object with key/value pairs for translated strings */
   translations: PropTypes.shape({
     '_ol_kit.PopupActionDuplicate.alert': PropTypes.string,
-    '_ol_kit.PopupActionDuplicate.title': PropTypes.string
-  }).isRequired
+    '_ol_kit.PopupActionDuplicate.title': PropTypes.string,
+  }).isRequired,
 }
 
 ActionDuplicate.defaultProps = {
   translations: {
     '_ol_kit.PopupActionDuplicate.alert': 'Shape duplicated!',
-    '_ol_kit.PopupActionDuplicate.title': 'Duplicate Shape'
-  }
+    '_ol_kit.PopupActionDuplicate.title': 'Duplicate Shape',
+  },
 }
 
 export default connectToContext(ActionDuplicate)

@@ -9,19 +9,24 @@ import './styled.css'
  * @example ./example.md
  */
 class PopupActionItem extends Component {
-  render () {
-    const { children, feature, title, disabled, onClick, style } = this.props
+  render() {
+    const {
+      children, feature, title, disabled, onClick, style,
+    } = this.props
 
     return (
-      <div className='action' role='button' onClick={disabled ? () => {} : (e) => onClick(e, feature)}>
-        {title ? <div
-          className='item'
-          style={{
-            color: props.disabled ? 'gray' : 'black'
-          }}
-          disabled={disabled}>
+      <div className="action" role="button" onClick={disabled ? () => {} : (e) => onClick(e, feature)}>
+        {title ? (
+          <div
+            className="item"
+            style={{
+              color: props.disabled ? 'gray' : 'black',
+            }}
+            disabled={disabled}
+          >
             {title}
-          </div> : children}
+          </div>
+        ) : children}
       </div>
     )
   }
@@ -42,14 +47,14 @@ PopupActionItem.propTypes = {
 
   /** Styles applied to <Item> */
   style: PropTypes.object,
-  
+
   /** OpenLayers feature on which the action is being done */
-  feature: PropTypes.object
+  feature: PropTypes.object,
 }
 
 PopupActionItem.defaultProps = {
   disabled: false,
-  style: {}
+  style: {},
 }
 
 export default PopupActionItem

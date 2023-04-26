@@ -6,24 +6,29 @@ import DragBarIcon from './svgIcons/DragBarIcon'
 
 import './styled.css'
 
-const Slider = ({ initialPosition, onDrag, innerRef }) => {
+function Slider({ initialPosition, onDrag, innerRef }) {
   const limit = window.innerWidth * 0.2
   const leftBound = (window.innerWidth - limit - (window.innerWidth - initialPosition)) * -1
   const rightBound = window.innerWidth - initialPosition - limit
 
   return (
     ReactDOM.createPortal(
-      <Draggable axis={'x'} bounds={{ left: leftBound, right: rightBound }} onDrag={onDrag}>
-        <div className='dragBar'
-        style={{
-          height: props.height ? props.height : '100%',
-          top: props.yOffset || '55',
-          left: position - 5 // the left position is half of the width subtracted from the position to center the div
-        }} position={initialPosition} yOffset={55} ref={innerRef}>
-          <DragBarIcon color={'lightgray'} />
+      <Draggable axis="x" bounds={{ left: leftBound, right: rightBound }} onDrag={onDrag}>
+        <div
+          className="dragBar"
+          style={{
+            height: props.height ? props.height : '100%',
+            top: props.yOffset || '55',
+            left: position - 5, // the left position is half of the width subtracted from the position to center the div
+          }}
+          position={initialPosition}
+          yOffset={55}
+          ref={innerRef}
+        >
+          <DragBarIcon color="lightgray" />
         </div>
       </Draggable>,
-      document.body
+      document.body,
     )
   )
 }
@@ -36,7 +41,7 @@ Slider.propTypes = {
   onDrag: PropTypes.func,
 
   /** A reference to the inner DOM node */
-  innerRef: PropTypes.func
+  innerRef: PropTypes.func,
 }
 
 export default Slider

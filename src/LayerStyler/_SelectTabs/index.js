@@ -4,43 +4,45 @@ import PropTypes from 'prop-types'
 import './styled.css'
 
 class SelectTabs extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
-      selectedIdx: props.selectedIdx
+      selectedIdx: props.selectedIdx,
     }
   }
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps ({ selectedIdx }) {
+  UNSAFE_componentWillReceiveProps({ selectedIdx }) {
     if (selectedIdx !== this.props.selectedIdx) this.setState({ selectedIdx })
   }
 
-  onChange (i) {
+  onChange(i) {
     this.setState({ selectedIdx: i })
 
     if (this.props.onChange) this.props.onChange(i)
   }
 
-  render () {
+  render() {
     const { children } = this.props
     const { selectedIdx } = this.state
 
     return (
-      <div className='tabsContainer'>
-        <div className='tabList'>
-          <div className='flex'>
-            {React.Children.map(children, (child, i) => {
-              return (<button className='tabButton'
+      <div className="tabsContainer">
+        <div className="tabList">
+          <div className="flex">
+            {React.Children.map(children, (child, i) => (
+              <button
+                className="tabButton"
                 key={child.props.title}
                 onClick={this.onChange.bind(this, i)}
                 selected={selectedIdx === i}
-                {...child.props}>
+                {...child.props}
+              >
                 {child.props.title}
-                {selectedIdx === i ? <span className='tabSlider' /> : null}
-              </button>)
-            })}
+                {selectedIdx === i ? <span className="tabSlider" /> : null}
+              </button>
+            ))}
           </div>
         </div>
         <div style={{ maxHeight: 450, overflow: 'scroll' }}>
@@ -59,11 +61,11 @@ SelectTabs.propTypes = {
   children: PropTypes.node.isRequired,
 
   /** The index of the currently shown popup */
-  selectedIdx: PropTypes.number
+  selectedIdx: PropTypes.number,
 }
 
 SelectTabs.defaultProps = {
-  selectedIdx: 0
+  selectedIdx: 0,
 }
 
 export default SelectTabs

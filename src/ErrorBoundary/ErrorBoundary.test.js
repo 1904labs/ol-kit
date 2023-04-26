@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, waitFor } from '@testing-library/react'
-import { Map } from 'Map'
 import { MultiMapManager, FlexMap, FullScreenFlex } from 'MultiMapManager'
+import { Map } from '~/src/Map'
 
 const Bomb = () => {
   throw new Error('Blew up during render')
@@ -22,28 +22,27 @@ describe('ErrorBoundary', () => {
       'map0',
       'map1',
       'map2',
-      'map3'
+      'map3',
     ]
 
     const { container, getByText } = render(
       <MultiMapManager groups={[['map0', 'map1'], ['map2', 'map3']]}>
         <FullScreenFlex>
-          {mapKeys.map((key, i, array) => {
-            return (
-              <FlexMap
-                key={key}
-                index={i}
-                total={array.length}
-                numberOfRows={2}
-                numberOfColumns={2}>
-                <Map id={key} isMultiMap>
-                  { i % 2 === 0 && <Bomb />}
-                </Map>
-              </FlexMap>
-            )
-          })}
+          {mapKeys.map((key, i, array) => (
+            <FlexMap
+              key={key}
+              index={i}
+              total={array.length}
+              numberOfRows={2}
+              numberOfColumns={2}
+            >
+              <Map id={key} isMultiMap>
+                { i % 2 === 0 && <Bomb />}
+              </Map>
+            </FlexMap>
+          ))}
         </FullScreenFlex>
-      </MultiMapManager>
+      </MultiMapManager>,
     )
 
     // wait for async child render

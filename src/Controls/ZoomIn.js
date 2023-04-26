@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import ControlGroupButton from './ControlGroupButton'
 import { zoomDelta } from './utils'
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 
 import './styled.css'
 
@@ -13,7 +13,7 @@ import './styled.css'
  * @category Controls
  * @since 0.14.0
  */
-function ZoomIn (props) {
+function ZoomIn(props) {
   const { map } = props
 
   let mouseDownTime
@@ -49,19 +49,20 @@ function ZoomIn (props) {
 
   return (
     <ControlGroupButton
-      id='_ol_kit_zoom_in'
-      data-testid='_ol_kit_zoom_in'
+      id="_ol_kit_zoom_in"
+      data-testid="_ol_kit_zoom_in"
       onMouseOut={() => stopZoom()}
       onMouseUp={() => stopZoom()}
-      onMouseDown={() => handleMouseDown()}>
-        +
+      onMouseDown={() => handleMouseDown()}
+    >
+      +
     </ControlGroupButton>
   )
 }
 
 ZoomIn.defaultProps = {
   increment: 0.5,
-  holdIncrement: 0.2
+  holdIncrement: 0.2,
 }
 
 ZoomIn.propTypes = {
@@ -70,7 +71,7 @@ ZoomIn.propTypes = {
   /** delta for the amount of zoom */
   increment: PropTypes.number,
   /** delta for the amount of zoom when holding down */
-  holdIncrement: PropTypes.number
+  holdIncrement: PropTypes.number,
 }
 
 export default connectToContext(ZoomIn)

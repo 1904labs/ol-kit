@@ -9,9 +9,11 @@ import olStyleText from 'ol/style/Text'
 import olPoint from 'ol/geom/Point'
 import centroid from '@turf/centroid'
 
-import { pointsFromVertices, olKitTurf, pairCoordinates, getCoordinates, getText, calculateScale } from './utils'
+import {
+  pointsFromVertices, olKitTurf, pairCoordinates, getCoordinates, getText, calculateScale,
+} from './utils'
 
-function resolveStyleFunctionArgs (args) {
+function resolveStyleFunctionArgs(args) {
   // Using function.prototype.bind with additional arguments injects those arguments at the zeroth index of the arguements object and since opts is optional we need to handle a variable arguement object
   const argLength = args.length
   const feature = args[argLength - 2] || args
@@ -29,7 +31,7 @@ function resolveStyleFunctionArgs (args) {
  * @param {number} resolution - the resolution of the map
  * @returns {object} The style object for the passed feature
  */
-function styleText (...args) {
+function styleText(...args) {
   const { feature, resolution, opts } = resolveStyleFunctionArgs(args)
   const label = feature.get('_vmf_label')
   const isMeasurement = feature.get('_vmf_type') === '_vmf_measurement'
@@ -48,37 +50,37 @@ function styleText (...args) {
     stroke: new olStyleStroke({
       // show a black outline unless the text color is black; then show a white outline
       color: label.color === '#000000' ? '#ffffff' : '#000000',
-      width: 3
+      width: 3,
     }),
     text: getText(label, resolution, opts),
     scale: calculateScale(opts.store.map, feature),
     fill: new olStyleFill({
-      color: label.color || '#ffffff'
+      color: label.color || '#ffffff',
     }),
     image: new olStyleCircle({
       radius: 7,
       fill: new olStyleFill({
-        color: '#ffcc33'
-      })
+        color: '#ffcc33',
+      }),
     }),
     rotateWithView: false,
-    overflow: true
+    overflow: true,
   }
 
   return new olStyleText(styleOpts)
 }
 
-function coordinateLabels (multiPoint, resolution, opts) {
-  return multiPoint.getPoints().map(point => coordinateLabel(point, resolution, opts))
+function coordinateLabels(multiPoint, resolution, opts) {
+  return multiPoint.getPoints().map((point) => coordinateLabel(point, resolution, opts))
 }
 
-function coordinateLabel (pointGeometry, resolution, opts) {
+function coordinateLabel(pointGeometry, resolution, opts) {
   const geom = pointGeometry.clone()
   const pointFeature = new olFeature({
     geometry: geom,
     _vmf_label: {
-      fontSize: 16
-    }
+      fontSize: 16,
+    },
   })
 
   return new olStyleStyle({
@@ -87,20 +89,20 @@ function coordinateLabel (pointGeometry, resolution, opts) {
       placement: 'point',
       maxAngle: Math.PI / 4,
       textAlign: undefined,
-      textBaseline: 'hanging'
+      textBaseline: 'hanging',
     }, pointFeature, resolution),
-    geometry: geom
+    geometry: geom,
   })
 }
 
-function lengthLabel (lineGeometry, resolution, opts) {
+function lengthLabel(lineGeometry, resolution, opts) {
   const geom = lineGeometry.clone()
   const perimeterFeature = new olFeature({
     geometry: geom,
     _vmf_type: '_vmf_measurement',
     _vmf_label: {
-      fontSize: 16
-    }
+      fontSize: 16,
+    },
   })
 
   return new olStyleStyle({
@@ -109,13 +111,13 @@ function lengthLabel (lineGeometry, resolution, opts) {
       placement: 'line',
       maxAngle: Math.PI / 4,
       textAlign: undefined,
-      textBaseline: 'hanging'
+      textBaseline: 'hanging',
     }, perimeterFeature, resolution),
-    geometry: geom
+    geometry: geom,
   })
 }
 
-function perimeterSegmentLabels (polygonGeometry, resolution, opts) {
+function perimeterSegmentLabels(polygonGeometry, resolution, opts) {
   const labelStyles = []
   const clonedGeom = polygonGeometry.clone()
   const perimeterCoords = clonedGeom.getLinearRing(0).getCoordinates()
@@ -129,50 +131,50 @@ function perimeterSegmentLabels (polygonGeometry, resolution, opts) {
       geometry: segmentGeom,
       _vmf_type: '_vmf_measurement',
       _vmf_label: {
-        fontSize: 16
-      }
+        fontSize: 16,
+      },
     })
 
     labelStyles.push(new olStyleStyle({
       text: styleText({
         store: opts,
         placement: 'line',
-        textBaseline: 'hanging'
+        textBaseline: 'hanging',
       }, segmentFeature, resolution),
-      geometry: segmentGeom
+      geometry: segmentGeom,
     }))
   }
 
   return labelStyles
 }
 
-function areaLabel (polygonGeometry, resolution, opts) {
+function areaLabel(polygonGeometry, resolution, opts) {
   const areaGeometry = polygonGeometry.clone()
   const areaFeature = new olFeature({
     geometry: areaGeometry,
     _vmf_type: '_vmf_measurement',
     _vmf_label: {
-      fontSize: 16
-    }
+      fontSize: 16,
+    },
   })
 
   return new olStyleStyle({
     text: styleText({
-      store: opts
+      store: opts,
     }, areaFeature, resolution),
-    geometry: areaGeometry
+    geometry: areaGeometry,
   })
 }
 
-function centroidLabel (geometry, resolution, opts) {
+function centroidLabel(geometry, resolution, opts) {
   const point = geometry.getType() === 'Circle ' ? new olPoint(geometry.clone().getCenter()) : olKitTurf(centroid, [geometry]).getGeometry()
   const pointFeature = new olFeature({
     geometry: point,
     _vmf_type: '_vmf_measurement', // styleText determines the type of label to render based on the feature's type so we need this temporary feature to be a 'measurement' feature
     _vmf_label: {
-      fontSize: 16
+      fontSize: 16,
     },
-    _ol_kit_needs_centroid_label: true
+    _ol_kit_needs_centroid_label: true,
   })
 
   return new olStyleStyle({
@@ -181,13 +183,13 @@ function centroidLabel (geometry, resolution, opts) {
       placement: 'point',
       maxAngle: Math.PI / 4,
       textAlign: undefined,
-      textBaseline: 'hanging'
+      textBaseline: 'hanging',
     }, pointFeature, resolution),
-    geometry: point
+    geometry: point,
   })
 }
 
-function getVertices (args) {
+function getVertices(args) {
   const { feature } = resolveStyleFunctionArgs(args)
   const geometry = feature.getGeometry()
   const layout = geometry.getLayout()
@@ -220,30 +222,30 @@ function getVertices (args) {
  * @param {number} resolution - the resolution of the map
  * @returns {object} The style object for the passed feature
  */
-export function immediateEditStyle (...args) {
+export function immediateEditStyle(...args) {
   const { feature, resolution, opts = {} } = resolveStyleFunctionArgs(args)
   const fill = new olStyleFill({
-    color: 'rgba(0, 0, 255, 0.2)'
+    color: 'rgba(0, 0, 255, 0.2)',
   })
   const stroke = new olStyleStroke({
     color: 'blue',
-    width: 3
+    width: 3,
   })
   const image = new olStyleCircle({
     radius: 7,
     fill: new olStyleFill({
-      color: '#ffcc33'
-    })
+      color: '#ffcc33',
+    }),
   })
   const vertexGeometry = getVertices(args)
   const vertices = [new olStyleStyle({
     image: new olStyleCircle({
       radius: 5,
       fill: new olStyleFill({
-        color: 'orange'
-      })
+        color: 'orange',
+      }),
     }),
-    geometry: vertexGeometry
+    geometry: vertexGeometry,
   })]
 
   // checking to see if opts.geometry is defined allows us to call this function recursively for geometry collections
@@ -261,41 +263,41 @@ export function immediateEditStyle (...args) {
   switch (type) {
     case 'Point':
       return [new olStyleStyle({
-        image
+        image,
       }), ...vertexLabels]
     case 'LineString': {
       const lengthLabels = needsDistanceLabels ? [lengthLabel(geometry, resolution, opts)] : []
 
       return [new olStyleStyle({
         stroke,
-        image
+        image,
       }), ...vertices, ...lengthLabels, ...vertexLabels]
     }
     case 'MultiLineString': {
       const lineStrings = geometry.getLineStrings()
       const lengthLabels = needsDistanceLabels
-        ? lineStrings.map(lineString => lengthLabel(lineString, resolution, opts))
+        ? lineStrings.map((lineString) => lengthLabel(lineString, resolution, opts))
         : []
 
       return [new olStyleStyle({
         stroke,
-        image
+        image,
       }), ...vertices, ...lengthLabels, ...vertexLabels]
     }
     case 'MultiPolygon': {
       const polygons = geometry.getPolygons()
       // create a label for each polygon
       const perimeterLabels = needsDistanceLabels
-        ? polygons.map(polygon => perimeterSegmentLabels(polygon, resolution, opts))
+        ? polygons.map((polygon) => perimeterSegmentLabels(polygon, resolution, opts))
         : []
       const areaLabels = needsAreaLabels
-        ? polygons.map(polygon => areaLabel(polygon, resolution, opts))
+        ? polygons.map((polygon) => areaLabel(polygon, resolution, opts))
         : []
 
       return [new olStyleStyle({
         stroke,
         fill,
-        image
+        image,
       }), ...vertices, ...areaLabels, ...perimeterLabels.flat(Infinity), ...vertexLabels]
     }
     case 'Polygon': {
@@ -308,14 +310,12 @@ export function immediateEditStyle (...args) {
       return [new olStyleStyle({
         stroke,
         fill,
-        image
+        image,
       }), ...vertices, ...labels]
     }
     case 'GeometryCollection': {
       // Recursive.  Since feature stores our metadata it needs to be preserved.  Therefore we pass the geometry we want to use through the opts object.
-      const componentStyles = geometry.getGeometries().map(geom => {
-        return immediateEditStyle.apply(this, [Object.assign(opts, { geometry: geom }), feature, resolution])
-      })
+      const componentStyles = geometry.getGeometries().map((geom) => immediateEditStyle.apply(this, [Object.assign(opts, { geometry: geom }), feature, resolution]))
       const flatStyles = componentStyles.flat(Infinity)
 
       return flatStyles
@@ -328,14 +328,14 @@ export function immediateEditStyle (...args) {
 
       return [new olStyleStyle({
         stroke,
-        fill
+        fill,
       }), ...labels]
     }
     default:
       return [new olStyleStyle({
         stroke,
         fill,
-        image
+        image,
       }), ...vertices]
   }
 }

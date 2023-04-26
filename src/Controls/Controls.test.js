@@ -9,10 +9,10 @@ let mockMap
 describe('<Controls />', () => {
   // jest does not reset the DOM after each test, so we do this manually
   beforeEach(() => {
-    document.body.innerHTML = `<div id='map' width='1200px' height='800px'></div>`
+    document.body.innerHTML = '<div id=\'map\' width=\'1200px\' height=\'800px\'></div>'
     mockMap = new olMap({
       controls: [],
-      target: 'map'
+      target: 'map',
     })
   })
 
@@ -22,17 +22,17 @@ describe('<Controls />', () => {
     expect(wrapper).toMatchSnapshot()
   })
   it('should shallow controls in top left', () => {
-    const wrapper = shallow(<Controls map={mockMap} position='top-left' />)
+    const wrapper = shallow(<Controls map={mockMap} position="top-left" />)
 
     expect(wrapper).toMatchSnapshot()
   })
   it('should shallow controls in top right', () => {
-    const wrapper = shallow(<Controls map={mockMap} position='top-right' />)
+    const wrapper = shallow(<Controls map={mockMap} position="top-right" />)
 
     expect(wrapper).toMatchSnapshot()
   })
   it('should shallow controls in bottom left', () => {
-    const wrapper = shallow(<Controls map={mockMap} position='bottom-left' />)
+    const wrapper = shallow(<Controls map={mockMap} position="bottom-left" />)
 
     expect(wrapper).toMatchSnapshot()
   })
@@ -85,7 +85,7 @@ describe('Zoom control interactions', () => {
     expect(mockMap.getView().getZoom()).toBe(8.5)
   })
 
-  it('a click and hold should continuously zoom the map in', done => {
+  it('a click and hold should continuously zoom the map in', (done) => {
     // zoom is undefined if we don't set it programmatically
     mockMap.getView().setZoom(8)
 
@@ -122,7 +122,7 @@ describe('Zoom control interactions', () => {
     expect(mockMap.getView().getZoom()).toBe(7.5)
   })
 
-  it('a click and hold should continuously zoom the map out', done => {
+  it('a click and hold should continuously zoom the map out', (done) => {
     // zoom is undefined if we don't set it programmatically
     mockMap.getView().setZoom(8)
 

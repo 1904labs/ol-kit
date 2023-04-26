@@ -8,24 +8,24 @@ import PropTypes from 'prop-types'
  * @since 1.7.0
  */
 export default class SafeParent extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       parentContextKey: null,
-      parentLookupAttempted: false
+      parentLookupAttempted: false,
     }
 
     this.ref = React.createRef()
   }
 
-  contextKeyLookup () {
+  contextKeyLookup() {
     const { Component, providerProps } = this.props
     const keys = Object.keys(providerProps)
     const { current } = this.ref
 
     if (current && !Component.isMultiMap) {
-      const parentContextKey = keys.find(key => current.closest(`#${key}`) || current.closest(`#${key} ~ *`)) // search the dom, starting at the placeholder ref created in the initial render and moving up; searching first for the map div itself and then siblings of the map div to handle how the <Map> component currently handles children.
+      const parentContextKey = keys.find((key) => current.closest(`#${key}`) || current.closest(`#${key} ~ *`)) // search the dom, starting at the placeholder ref created in the initial render and moving up; searching first for the map div itself and then siblings of the map div to handle how the <Map> component currently handles children.
 
       this.setState({ parentContextKey, parentLookupAttempted: true })
     } else if (current && Component.isMultiMap) {
@@ -35,19 +35,21 @@ export default class SafeParent extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.contextKeyLookup()
   }
 
-  render () {
-    const { Component, defaultProps, explicitProps, providerProps } = this.props
+  render() {
+    const {
+      Component, defaultProps, explicitProps, providerProps,
+    } = this.props
     const { parentContextKey, parentLookupAttempted } = this.state
     const contextKey = explicitProps._ol_kit_context_id || parentContextKey
     const filteredProviderProps = { ...providerProps, ...providerProps[contextKey] } // always pass all props in context, then override with specific map context
 
     if (Component.propTypes) {
       // filter out any props from context that do not need to get passed to this wrapped component
-      Object.keys(providerProps).forEach(key => {
+      Object.keys(providerProps).forEach((key) => {
         if (!Component.propTypes[key]) delete filteredProviderProps[key]
       })
     }
@@ -72,5 +74,5 @@ SafeParent.propTypes = {
   /** original props provided directly to the Component- these always take precedence */
   explicitProps: PropTypes.object,
   /** props provided from React context (set in the MultiMapManager and passed down) */
-  providerProps: PropTypes.object
+  providerProps: PropTypes.object,
 }

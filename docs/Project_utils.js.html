@@ -83,11 +83,11 @@
             <pre class="prettyprint source linenums"><code>import Map from 'ol/Map'
 import LayerVector from 'ol/layer/Vector'
 import GeoJSON from 'ol/format/GeoJSON'
-import { loadDataLayer } from 'DataLayers'
-import { loadBasemapLayer } from 'Basemaps'
+import { loadDataLayer } from '~/src/DataLayers'
+import { loadBasemapLayer } from '~/src/Basemaps'
 import { transform } from 'ol/proj'
-import { centerAndZoom } from 'Map'
-import ugh from 'ugh'
+import { centerAndZoom } from '~/src/Map'
+import ugh from '~/src/ugh'
 import packageJson from '../../package.json'
 const { version } = packageJson
 const readOpts = { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' }

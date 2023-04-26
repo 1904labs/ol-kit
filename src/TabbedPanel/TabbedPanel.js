@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 
 import './styled.css'
 
@@ -10,12 +10,12 @@ import './styled.css'
  * @since 1.4.0
  */
 class TabbedPanel extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       activeIndex: 0,
-      showPanel: true
+      showPanel: true,
     }
   }
 
@@ -31,33 +31,33 @@ class TabbedPanel extends Component {
     this.setState({ showPanel: false })
   }
 
-  render () {
+  render() {
     const { children, translations } = this.props
     const { activeIndex, showPanel } = this.state
 
     return (
-      <>
-        <div
-          className='card _popup_boundary'
-          style={{ height: showPanel ? `auto` : '48px' }}
-          numoftabs={children.length || 1} >
-          <div style={{ display: 'flex', background: 'rgb(237, 237, 237)' }}>
-            <div className='initialTab' onClick={this.togglePanel} icon={showPanel ? <i class='zmdi zmdi-chevron-down' data-testid='MapPanel.close'></i> : <i class='zmdi zmdi-chevron-right' data-testid='MapPanel.open'></i>} />
-            <div
-              className='tabs'
-              open={showPanel}
-              value={activeIndex}
-              onChange={this.handleChange}
-              variant='scrollable'
-              scrollButtons='auto'>
-              {React.Children.map(children, (child, i) => {
-                if (child) return <div className='div' key={i + 1} label={child.props.tabIcon || child.props.label} />
-              })}
-            </div>
+      <div
+        className="card _popup_boundary"
+        style={{ height: showPanel ? 'auto' : '48px' }}
+        numoftabs={children.length || 1}
+      >
+        <div style={{ display: 'flex', background: 'rgb(237, 237, 237)' }}>
+          <div className="initialTab" onClick={this.togglePanel} icon={showPanel ? <i className="zmdi zmdi-chevron-down" data-testid="MapPanel.close" /> : <i className="zmdi zmdi-chevron-right" data-testid="MapPanel.open" />} />
+          <div
+            className="tabs"
+            open={showPanel}
+            value={activeIndex}
+            onChange={this.handleChange}
+            variant="scrollable"
+            scrollButtons="auto"
+          >
+            {React.Children.map(children, (child, i) => {
+              if (child) return <div className="div" key={i + 1} label={child.props.tabIcon || child.props.label} />
+            })}
           </div>
-          {translations && React.Children.toArray(children)[activeIndex]}
         </div>
-      </>
+        {translations && React.Children.toArray(children)[activeIndex]}
+      </div>
     )
   }
 }
@@ -72,7 +72,7 @@ TabbedPanel.propTypes = {
   opacity: PropTypes.number,
 
   /** Object with key/value pairs for translated strings */
-  translations: PropTypes.object
+  translations: PropTypes.object,
 }
 
 export default connectToContext(TabbedPanel)

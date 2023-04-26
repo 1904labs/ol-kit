@@ -8,11 +8,13 @@ import './styled.css'
  * @since 0.5.0
  */
 class LayerPanelListItem extends Component {
-  render () {
-    const { title, item, children, handleDoubleClick } = this.props
+  render() {
+    const {
+      title, item, children, handleDoubleClick,
+    } = this.props
 
     return (
-      <div className='listItem' key={title} onDoubleClick={() => { handleDoubleClick(item) }}>
+      <div className="listItem" key={title} onDoubleClick={() => { handleDoubleClick(item) }}>
         {children}
       </div>
     )
@@ -30,11 +32,11 @@ LayerPanelListItem.propTypes = {
   children: PropTypes.node,
 
   /** callback that is called when item is doubleClicked */
-  handleDoubleClick: PropTypes.func
+  handleDoubleClick: PropTypes.func,
 }
 
 LayerPanelListItem.defaultProps = {
-  handleDoubleClick: () => {}
+  handleDoubleClick: () => {},
 }
 
 export default LayerPanelListItem

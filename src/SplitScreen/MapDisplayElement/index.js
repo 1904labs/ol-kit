@@ -8,20 +8,28 @@ import './styled.css'
  * @category SplitScreen
  */
 class MapDisplayElement extends Component {
-  render () {
-    const { translations, toggleSyncMap, synced, index, grow, disabled, mapNumber } = this.props
+  render() {
+    const {
+      translations, toggleSyncMap, synced, index, grow, disabled, mapNumber,
+    } = this.props
 
     return (
       <button
-        className='primaryButton'
+        className="primaryButton"
         grow={grow}
         synced={synced}
         disabled={disabled}
-        onClick={toggleSyncMap.bind(this, index)}>
+        onClick={toggleSyncMap.bind(this, index)}
+      >
         {disabled
-          ? <i className='zmdi zmdi-lock SvgIconWrapper'/>
-          : <div>{translations['_ol_kit.MapDisplayElement.map']} {mapNumber}</div>
-        }
+          ? <i className="zmdi zmdi-lock SvgIconWrapper" />
+          : (
+            <div>
+              {translations['_ol_kit.MapDisplayElement.map']}
+              {' '}
+              {mapNumber}
+            </div>
+          )}
       </button>
     )
   }
@@ -47,13 +55,13 @@ MapDisplayElement.propTypes = {
   disabled: PropTypes.bool,
 
   /** The number of the map being represented */
-  mapNumber: PropTypes.number
+  mapNumber: PropTypes.number,
 }
 
 MapDisplayElement.defaultProps = {
   translations: {
-    '_ol_kit.MapDisplayElement.map': 'Map'
-  }
+    '_ol_kit.MapDisplayElement.map': 'Map',
+  },
 }
 
 export default MapDisplayElement

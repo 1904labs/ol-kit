@@ -4,32 +4,31 @@ import { nanoid } from 'nanoid'
 import './styled.css'
 
 class Selector extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const options = this.formatOptions(props.options)
 
     this.state = {
       options,
-      value: props.selected
+      value: props.selected,
     }
 
     this.inputId = nanoid(6)
   }
 
-  formatOptions = (options = []) => {
+  formatOptions = (options = []) =>
     // turn array of strings into array of options objects that react-select can read
-    return options.map(option => ({
+    options.map((option) => ({
       value: option,
-      label: option
+      label: option,
     }))
-  }
 
   clickHandler = () => this.forceUpdate() // Force an update to figure out if the component is still focused or not.
 
   getInputId = () => `${this.inputId}_input` // calculates the input id
 
-  getActiveElementId = () => document.activeElement ? document.activeElement.id : null
+  getActiveElementId = () => (document.activeElement ? document.activeElement.id : null)
 
   hasFocus = () => this.getActiveElementId() === this.getInputId() // Select.onFocus alone is not sufficient to determine if the component has focus or not so we determine this by querying the document for the active element and comparing it to our component's input id. This could be stored in state but it's not really the state of the component itself but a DOM comparison.
 
@@ -60,21 +59,21 @@ class Selector extends Component {
   isMenuOpen = () => {
     const { value, options = [] } = this.state
     const hasFocus = this.hasFocus()
-    const noValueSelected = !options.some(thing => thing.value === value)
+    const noValueSelected = !options.some((thing) => thing.value === value)
 
     return hasFocus && options.length && noValueSelected
   }
 
-  componentDidMount () {
+  componentDidMount() {
     document.addEventListener('click', this.clickHandler)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     document.removeEventListener('click', this.clickHandler)
   }
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const options = this.formatOptions(nextProps.options)
 
     if (options && options !== this.state.options) this.setState({ options })
@@ -83,8 +82,10 @@ class Selector extends Component {
     if (nextProps.selected !== '' && nextProps.selected !== this.state.value) this.setState({ value: nextProps.selected })
   }
 
-  render () {
-    const { header, subHeader, disabled, selected, isLoading, styles } = this.props
+  render() {
+    const {
+      header, subHeader, disabled, selected, isLoading, styles,
+    } = this.props
     const { value, options = [] } = this.state
     const hasFocus = this.hasFocus()
     const isValid = value !== ''
@@ -98,37 +99,44 @@ class Selector extends Component {
 
     const customStyles = {
       container: (provided, state) => ({ ...provided, fontSize: state.selectProps.isLoading ? '6px !important' : null }),
-      loadingIndicator: provided => ({ ...provided, marginRight: '10px' })
+      loadingIndicator: (provided) => ({ ...provided, marginRight: '10px' }),
     }
 
     return (
-      <div className='container' style={{ background: styles.background ? styles.background : 'white', ...styles }} selected={selected} disabled={disabled}>
-        <div className='group'>
+      <div className="container" style={{ background: styles.background ? styles.background : 'white', ...styles }} selected={selected} disabled={disabled}>
+        <div className="group">
           <select
             autoFocus={false /* autoFocus would open the menu on mount which blocks some of the ui */}
             placeholder={'' /* 'header' serves as the placeholder so we don't want one in the text input */}
             {...defaultValueProp}
             inputId={this.getInputId()}
-            isSearchable={true}
+            isSearchable
             isClearable={options.length}
             isLoading={isLoading}
             onChange={this.handleChange}
             onClick={this.props.onClick}
             isDisabled={disabled}
-            menuPlacement='top'
-            styles={customStyles}>
-              {options.map(option => <option value={option.value}>{option.label}</option>)}
+            menuPlacement="top"
+            styles={customStyles}
+          >
+            {options.map((option) => <option value={option.value}>{option.label}</option>)}
           </select>
-          <span className='bar' focus={hasFocus} />
-          <span className='highlight' focus={hasFocus} />
-          {header && <label className='header'
+          <span className="bar" focus={hasFocus} />
+          <span className="highlight" focus={hasFocus} />
+          {header && (
+          <label
+            className="header"
             style={{
               top: props.focus || props.valid || props.disabled ? '-20px' : '21px',
               color: props.focus || props.valid || props.disabled ? '#5264AE' : '#8a8a8a',
-              fontSize: props.focus ? '14px' : '0.8em'
+              fontSize: props.focus ? '14px' : '0.8em',
             }}
-            htmlFor={this.getInputId()}>{header}</label>}
-          {subHeader && <div className='subheader'>{subHeader}</div>}
+            htmlFor={this.getInputId()}
+          >
+            {header}
+          </label>
+          )}
+          {subHeader && <div className="subheader">{subHeader}</div>}
         </div>
       </div>
     )
@@ -142,7 +150,7 @@ Selector.defaultProps = {
   selected: '',
   autocomplete: 'off',
   disabled: false,
-  isLoading: false
+  isLoading: false,
 }
 
 Selector.propTypes = {
@@ -152,7 +160,7 @@ Selector.propTypes = {
   header: PropTypes.string,
   selected: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.number
+    PropTypes.number,
   ]),
   subHeader: PropTypes.string,
   autocomplete: PropTypes.string,
@@ -161,7 +169,7 @@ Selector.propTypes = {
 
   /** Show loading indicator on select input */
   isLoading: PropTypes.bool,
-  styles: PropTypes.object
+  styles: PropTypes.object,
 }
 
 export default Selector

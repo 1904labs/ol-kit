@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import ZoomIn from './ZoomIn'
 import ZoomOut from './ZoomOut'
 import ControlGroup from './ControlGroup'
-import { connectToContext } from 'Provider' // eslint-disable-line
+import { connectToContext } from '~/src/Provider' // eslint-disable-line
 
 import './styled.css'
 
@@ -14,7 +14,7 @@ import './styled.css'
  * @category Controls
  * @since 0.1.0
  */
-function ZoomControls (props) {
+function ZoomControls(props) {
   const { orientation } = props
 
   return (
@@ -30,7 +30,7 @@ ZoomControls.propTypes = {
   map: PropTypes.object.isRequired,
 
   /** the orientation of the zoom controls */
-  orientation: PropTypes.oneOf(['vertical', 'horizontal'])
+  orientation: PropTypes.oneOf(['vertical', 'horizontal']),
 }
 
 export default connectToContext(ZoomControls)

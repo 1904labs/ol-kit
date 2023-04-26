@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 
 import './styled.css'
 
@@ -10,7 +10,7 @@ import './styled.css'
  * @since 0.5.0
  */
 class LayerPanelActionImport extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = { value: null }
@@ -34,22 +34,22 @@ class LayerPanelActionImport extends Component {
     return !!(file && fileTypes.find((type) => file.name.endsWith(type.extension.toLowerCase())))
   }
 
-  render () {
+  render() {
     const { fileTypes, translations } = this.props
 
     return (
       <div disableGutters={false}>
-        <label htmlFor='file-upload'>
+        <label htmlFor="file-upload">
           {translations['_ol_kit.LayerPanelActions.import']}
         </label>
         <input
           value={this.state.value || ''}
-          type='file'
-          accept={fileTypes.map(f => f.extension).join(',')}
-          id='file-upload'
-          hidden={true}
+          type="file"
+          accept={fileTypes.map((f) => f.extension).join(',')}
+          id="file-upload"
+          hidden
           onChange={(e) => this.onFileChange('file-upload')}
-          className='uploadInput'
+          className="uploadInput"
         />
       </div>
     )
@@ -60,7 +60,7 @@ LayerPanelActionImport.propTypes = {
   /** Array of file types and their corresponding extensions */
   fileTypes: PropTypes.arrayOf(PropTypes.exact({
     display: PropTypes.string,
-    extension: PropTypes.string
+    extension: PropTypes.string,
   })).isRequired,
 
   /** A callback function that returns the file thats being imported */
@@ -70,42 +70,42 @@ LayerPanelActionImport.propTypes = {
   handleMenuClose: PropTypes.func,
 
   /** An object of translation key/value pairs */
-  translations: PropTypes.object
+  translations: PropTypes.object,
 }
 
 LayerPanelActionImport.defaultProps = {
   fileTypes: [
     {
       display: 'KML',
-      extension: '.kml'
+      extension: '.kml',
     },
     {
       display: 'Compressed KML',
-      extension: '.kmz'
+      extension: '.kmz',
     },
     {
       display: 'GeoJSON',
-      extension: '.geojson'
+      extension: '.geojson',
     },
     {
       display: 'JSON',
-      extension: '.json'
+      extension: '.json',
     },
     {
       display: 'WKT',
-      extension: '.wkt'
+      extension: '.wkt',
     },
     {
       display: 'CSV',
-      extension: '.csv'
+      extension: '.csv',
     },
     {
       display: 'Shapefile ZIP',
-      extension: '.zip'
-    }
+      extension: '.zip',
+    },
   ],
   handleMenuClose: () => {},
-  handleImport: () => {}
+  handleImport: () => {},
 }
 
 export default connectToContext(LayerPanelActionImport)

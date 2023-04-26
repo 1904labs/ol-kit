@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { centerAndZoom } from 'Map'
-import { connectToContext } from 'Provider'
-import VectorLayer from '../classes/VectorLayer'
 import olCollection from 'ol/Collection'
 import olVectorSource from 'ol/source/Vector'
 import olFeature from 'ol/Feature'
@@ -13,6 +10,9 @@ import olCircleStyle from 'ol/style/Circle'
 import olPoint from 'ol/geom/Point'
 import { useForm } from 'react-hook-form'
 import { fromLonLat } from 'ol/proj'
+import VectorLayer from '../classes/VectorLayer'
+import { connectToContext } from '~/src/Provider'
+import { centerAndZoom } from '~/src/Map'
 
 import './styled.css'
 
@@ -21,28 +21,26 @@ import './styled.css'
  * @category GooglePlacesSearch
  * @since 0.8.0
  */
-function GooglePlacesSearch (props) {
+function GooglePlacesSearch(props) {
   const { map, apiKey } = props
   const { handleSubmit, register } = useForm()
   const [_, setError] = useState(null) // eslint-disable-line
 
-  const dataLoader = (searchString) => {
-    return fetch(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${searchString}&inputtype=textquery&fields=geometry,formatted_address&key=${apiKey}`)
-      .then(response => response.json())
-      .then(json => {
-        if (json.status === 'ZERO_RESULTS') {
-          throw new Error('Place not found')
-        } else if (json.status === 'REQUEST_DENIED') {
-          throw new Error('The provided API key is invalid')
-        } else {
-          return {
-            x: json.candidates[0].geometry.location.lng,
-            y: json.candidates[0].geometry.location.lat,
-            formatted_address: json.candidates[0].formatted_address
-          }
+  const dataLoader = (searchString) => fetch(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${searchString}&inputtype=textquery&fields=geometry,formatted_address&key=${apiKey}`)
+    .then((response) => response.json())
+    .then((json) => {
+      if (json.status === 'ZERO_RESULTS') {
+        throw new Error('Place not found')
+      } else if (json.status === 'REQUEST_DENIED') {
+        throw new Error('The provided API key is invalid')
+      } else {
+        return {
+          x: json.candidates[0].geometry.location.lng,
+          y: json.candidates[0].geometry.location.lat,
+          formatted_address: json.candidates[0].formatted_address,
         }
-      })
-  }
+      }
+    })
 
   const onSubmit = async (data) => {
     try {
@@ -63,10 +61,10 @@ function GooglePlacesSearch (props) {
             fill: new olFill({ color }),
             stroke: new olStroke({
               color,
-              width: 3
-            })
-          })
-        })
+              width: 3,
+            }),
+          }),
+        }),
       )
       feature.getStyle().getImage().setOpacity(0.5)
       vectorLayer.getSource().getFeaturesCollection().clear()
@@ -82,22 +80,23 @@ function GooglePlacesSearch (props) {
   // }
 
   return (
-    <div className='searchBarContainer'>
+    <div className="searchBarContainer">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='root' >
+        <div className="root">
           <input
-            className='input'
-            type='text'
-            name='searchPlace'
-            placeholder='Search Google Maps'
+            className="input"
+            type="text"
+            name="searchPlace"
+            placeholder="Search Google Maps"
             ref={register}
           />
           <button
-            type='submit'
-            className='iconButton'
-            aria-label='search'
-            size='large'>
-            <i class='zmdi zmdi-search'></i>
+            type="submit"
+            className="iconButton"
+            aria-label="search"
+            size="large"
+          >
+            <i className="zmdi zmdi-search" />
           </button>
         </div>
       </form>
@@ -110,7 +109,7 @@ GooglePlacesSearch.propTypes = {
   map: PropTypes.object.isRequired,
   /* Note that you will need to create an account with Google and get an API key. Be sure to turn on all location based permissions.
    You can find instructions on how to do that here https://developers.google.com/places/web-service/intro */
-  apiKey: PropTypes.string.isRequired
+  apiKey: PropTypes.string.isRequired,
 }
 
 export default connectToContext(GooglePlacesSearch)

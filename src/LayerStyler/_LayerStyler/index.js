@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { connectToContext } from 'Provider'
-import SelectTabs from 'LayerStyler/_SelectTabs'
+import { connectToContext } from '~/src/Provider'
+import SelectTabs from '~/src/LayerStyler/_SelectTabs'
 import StyleGroup from './_StyleGroup'
 
 import './styled.css'
@@ -11,7 +11,7 @@ const DEFAULT_STYLE = {
   name: 'New Auto Style',
   filter: [
     '&&',
-    ['==', '', '']
+    ['==', '', ''],
   ],
   symbolizers: [{
     kind: 'Mark',
@@ -19,18 +19,18 @@ const DEFAULT_STYLE = {
     radius: 4,
     strokeColor: '#000000',
     strokeWidth: 2,
-    wellKnownName: 'circle'
+    wellKnownName: 'circle',
   }, {
     kind: 'Line',
     color: '#ffffff',
-    width: 7
+    width: 7,
   }, {
     kind: 'Fill',
     color: '#ffffff',
     opacity: 1,
     outlineColor: '#000000',
-    outlineWidth: 4
-  }]
+    outlineWidth: 4,
+  }],
 }
 
 class LayerStyler extends Component {
@@ -45,7 +45,7 @@ class LayerStyler extends Component {
 
     // we do this stringify/parse here to perform a quick & dirty deep clone
     const defaultClone = JSON.parse(JSON.stringify(DEFAULT_STYLE))
-    const styling = [defaultClone, ...styles.map(group => group.reverse())]
+    const styling = [defaultClone, ...styles.map((group) => group.reverse())]
 
     onStylesChange(styling)
   }
@@ -60,10 +60,10 @@ class LayerStyler extends Component {
     // in the z index stack
     newStyles[i] = stylesArr
 
-    onStylesChange(newStyles.map(group => group.reverse()))
+    onStylesChange(newStyles.map((group) => group.reverse()))
   }
 
-  render () {
+  render() {
     const {
       translations,
       collapsed,
@@ -74,14 +74,14 @@ class LayerStyler extends Component {
       showNewButtons,
       getValuesForAttribute,
       commaDelimitedAttributes,
-      onDefaultStyleReset
+      onDefaultStyleReset,
     } = this.props
     const zoomedInStyles = []
     const zoomedOutStyles = []
 
     if (isDefaultStyler) {
       // for default styler push the symbolizers into the appropriate arrays: kind 'Mark' is zoomed out (point), kind 'Fill' is zoomed in
-      styles.forEach(styleGroup => styleGroup.forEach(style => {
+      styles.forEach((styleGroup) => styleGroup.forEach((style) => {
         if (style.symbolizers[0].kind === 'Mark') zoomedOutStyles.push(style)
         else zoomedInStyles.push(style)
       }))
@@ -91,90 +91,99 @@ class LayerStyler extends Component {
 
     return (
       <div>
-        <div className='buttonContainer'>
-          <div className='leftSide'>
-            <span className='styleGroupHeading' id={heading}>
+        <div className="buttonContainer">
+          <div className="leftSide">
+            <span className="styleGroupHeading" id={heading}>
               {heading}
-              {showNewButtons &&
+              {showNewButtons
+                && (
                 <div
-                  className='addNew'
-                  data-testid={'LayerStyler.addStyle'}
-                  onClick={this.createStyleGroup}>
-                  <i class="zmdi zmdi-plus-circle"></i>
+                  className="addNew"
+                  data-testid="LayerStyler.addStyle"
+                  onClick={this.createStyleGroup}
+                >
+                  <i className="zmdi zmdi-plus-circle" />
                 </div>
-              }
-              {onDefaultStyleReset && <div className='resetText' onClick={onDefaultStyleReset}>{translations['_ol_kit.LayerStyler.reset']}</div>}
+                )}
+              {onDefaultStyleReset && <div className="resetText" onClick={onDefaultStyleReset}>{translations['_ol_kit.LayerStyler.reset']}</div>}
             </span>
           </div>
-          <div className='collapseText'>
-            {styles.length > 0 && <div className='button' onClick={this.collapse}>{collapsed ? translations['_ol_kit.LayerStyler.show'] : translations['_ol_kit.LayerStyler.hide']}</div>}
+          <div className="collapseText">
+            {styles.length > 0 && <div className="button" onClick={this.collapse}>{collapsed ? translations['_ol_kit.LayerStyler.show'] : translations['_ol_kit.LayerStyler.hide']}</div>}
           </div>
         </div>
         {!showTabs && !collapsed
           ? (
             styles.map((styleGroup, i) => {
-              const mutatedStyleGroup = styleGroup.map(style => ({ ...style, hidden: false }))
+              const mutatedStyleGroup = styleGroup.map((style) => ({ ...style, hidden: false }))
 
-              return <StyleGroup
-                inputProps={{
-                  'data-testid': 'LayerStyler.StyleGroup'
-                }}
-                translations={translations}
-                commaDelimitedAttributes={commaDelimitedAttributes}
-                styles={mutatedStyleGroup}
-                getValuesForAttribute={getValuesForAttribute}
-                attributeValues={this.props.attributeValues}
-                attributes={attributes}
-                onStylesChange={(styles) => this.onStylesChange(styles, i)}
-                key={i} />
-            })) : null
-        }
+              return (
+                <StyleGroup
+                  inputProps={{
+                    'data-testid': 'LayerStyler.StyleGroup',
+                  }}
+                  translations={translations}
+                  commaDelimitedAttributes={commaDelimitedAttributes}
+                  styles={mutatedStyleGroup}
+                  getValuesForAttribute={getValuesForAttribute}
+                  attributeValues={this.props.attributeValues}
+                  attributes={attributes}
+                  onStylesChange={(styles) => this.onStylesChange(styles, i)}
+                  key={i}
+                />
+              )
+            })) : null}
         {showTabs && !collapsed
           ? (
             <SelectTabs>
               <div title={translations['_ol_kit.LayerStyler.zoomedIn']}>
                 {styles.map((styleGroup, i) => {
-                  const mutatedStyleGroup = styleGroup.map(style => {
+                  const mutatedStyleGroup = styleGroup.map((style) => {
                     // pass a hidden flag for non zoomed in styles to the StyleGroup component to keep the indexes on styles aligned
-                    const hidden = !zoomedInStyles.find(zStyle => zStyle.name === style.name)
+                    const hidden = !zoomedInStyles.find((zStyle) => zStyle.name === style.name)
 
                     return { ...style, hidden }
                   })
 
-                  return <StyleGroup
-                    translations={translations}
-                    commaDelimitedAttributes={commaDelimitedAttributes}
-                    styles={mutatedStyleGroup}
-                    getValuesForAttribute={getValuesForAttribute}
-                    attributeValues={this.props.attributeValues}
-                    attributes={attributes}
-                    onStylesChange={(styles) => this.onStylesChange(styles, i)}
-                    key={i} />
+                  return (
+                    <StyleGroup
+                      translations={translations}
+                      commaDelimitedAttributes={commaDelimitedAttributes}
+                      styles={mutatedStyleGroup}
+                      getValuesForAttribute={getValuesForAttribute}
+                      attributeValues={this.props.attributeValues}
+                      attributes={attributes}
+                      onStylesChange={(styles) => this.onStylesChange(styles, i)}
+                      key={i}
+                    />
+                  )
                 })}
               </div>
               <div title={translations['_ol_kit.LayerStyler.zoomedOut']}>
                 {styles.map((styleGroup, i) => {
-                  const mutatedStyleGroup = styleGroup.map(style => {
+                  const mutatedStyleGroup = styleGroup.map((style) => {
                     // pass a hidden flag for non zoomed out styles to the StyleGroup component to keep the indexes on styles aligned
-                    const hidden = !zoomedOutStyles.find(zStyle => zStyle.name === style.name)
+                    const hidden = !zoomedOutStyles.find((zStyle) => zStyle.name === style.name)
 
                     return { ...style, hidden }
                   })
 
-                  return <StyleGroup
-                    translations={translations}
-                    commaDelimitedAttributes={commaDelimitedAttributes}
-                    styles={mutatedStyleGroup}
-                    getValuesForAttribute={getValuesForAttribute}
-                    attributeValues={this.props.attributeValues}
-                    attributes={attributes}
-                    onStylesChange={(styles) => this.onStylesChange(styles, i)}
-                    key={i} />
+                  return (
+                    <StyleGroup
+                      translations={translations}
+                      commaDelimitedAttributes={commaDelimitedAttributes}
+                      styles={mutatedStyleGroup}
+                      getValuesForAttribute={getValuesForAttribute}
+                      attributeValues={this.props.attributeValues}
+                      attributes={attributes}
+                      onStylesChange={(styles) => this.onStylesChange(styles, i)}
+                      key={i}
+                    />
+                  )
                 })}
               </div>
             </SelectTabs>
-          ) : null
-        }
+          ) : null}
       </div>
     )
   }
@@ -215,7 +224,7 @@ LayerStyler.propTypes = {
   getValuesForAttribute: PropTypes.func,
 
   attributeValues: PropTypes.array,
-  commaDelimitedAttributes: PropTypes.array
+  commaDelimitedAttributes: PropTypes.array,
 }
 
 LayerStyler.defaultProps = {
@@ -224,7 +233,7 @@ LayerStyler.defaultProps = {
   attributes: [],
   collapsed: false,
   isDefaultStyler: false,
-  showNewButtons: false
+  showNewButtons: false,
 }
 
 export default connectToContext(LayerStyler)

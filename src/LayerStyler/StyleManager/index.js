@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import HeatmapLayer from 'ol/layer/Heatmap'
 import cloneDeep from 'lodash.clonedeep'
 
-import { connectToContext } from 'Provider'
-import { HeatmapControls } from 'Heatmap'
-import LabelStyler from 'LayerStyler/_LabelStyler'
-import LayerStyler from 'LayerStyler/_LayerStyler'
-import SelectTabs from 'LayerStyler/_SelectTabs'
+import { connectToContext } from '~/src/Provider'
+import { HeatmapControls } from '~/src/Heatmap'
+import LabelStyler from '~/src/LayerStyler/_LabelStyler'
+import LayerStyler from '~/src/LayerStyler/_LayerStyler'
+import SelectTabs from '~/src/LayerStyler/_SelectTabs'
 
 import './styled.css'
 
@@ -25,25 +25,25 @@ const DEFAULT_LABEL_STYLE = {
       PointPlacement: {
         AnchorPoint: {
           AnchorPointX: 0.5,
-          AnchorPointY: 0.5
+          AnchorPointY: 0.5,
         },
         Displacement: {
           DisplacementX: 0,
-          DisplacementY: 0
+          DisplacementY: 0,
         },
-        Rotation: 0
-      }
+        Rotation: 0,
+      },
     }],
     fontStyle: 'normal',
-    fontWeight: 'bold'
-  }]
+    fontWeight: 'bold',
+  }],
 }
 
-const getNonLabelStyles = (ss = []) => ss.filter(s => s.symbolizers[0].kind !== 'Text')
-const getLabelStyle = (ss = []) => ss.find(s => s.symbolizers[0].kind === 'Text')
+const getNonLabelStyles = (ss = []) => ss.filter((s) => s.symbolizers[0].kind !== 'Text')
+const getLabelStyle = (ss = []) => ss.find((s) => s.symbolizers[0].kind === 'Text')
 
 class StyleManager extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -51,11 +51,11 @@ class StyleManager extends Component {
       activeIdx: null,
       userCollapsed: false,
       defaultCollapsed: true,
-      values: []
+      values: [],
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { layers } = this.props
 
     // this auto-selects the item if there is only one layer to manage
@@ -65,23 +65,23 @@ class StyleManager extends Component {
   handleLayerChange = ({ target }) => {
     const { layers, getTitleForLayer } = this.props
     const options = layers.map(getTitleForLayer)
-    const activeIdx = options.findIndex(t => t === target.value)
+    const activeIdx = options.findIndex((t) => t === target.value)
 
     this.setState({ activeIdx })
   }
 
-  onCollapseToggle (type) {
+  onCollapseToggle(type) {
     this.setState({ [type]: !this.state[type] })
   }
 
-  onFilterChange = filters => {
+  onFilterChange = (filters) => {
     const { activeIdx } = this.state
     const { layers, onFilterChange } = this.props
 
     onFilterChange(layers[activeIdx], filters)
   }
 
-  onLabelStyleChange = styles => {
+  onLabelStyleChange = (styles) => {
     const { activeIdx } = this.state
     const { layers, userStyles, onUserStyleChange } = this.props
 
@@ -90,7 +90,7 @@ class StyleManager extends Component {
     onUserStyleChange(layers[activeIdx], newStyles)
   }
 
-  onUserStyleChange = styleGroup => {
+  onUserStyleChange = (styleGroup) => {
     const { activeIdx } = this.state
     const { layers, userStyles, onUserStyleChange } = this.props
     const newStyles = [...styleGroup.flat()]
@@ -103,7 +103,7 @@ class StyleManager extends Component {
     onUserStyleChange(layers[activeIdx], newStyles)
   }
 
-  onDefaultStyleChange = styleGroup => {
+  onDefaultStyleChange = (styleGroup) => {
     const { activeIdx } = this.state
     const { layers, onDefaultStyleChange } = this.props
 
@@ -117,7 +117,7 @@ class StyleManager extends Component {
     onDefaultStyleReset(layers[activeIdx])
   }
 
-  render () {
+  render() {
     const {
       translations,
       layers,
@@ -127,23 +127,23 @@ class StyleManager extends Component {
       getAttributesForLayer,
       getValuesForAttribute,
       attributeValues,
-      getCommaDelimitedAttributesForLayer
+      getCommaDelimitedAttributesForLayer,
     } = this.props
 
     const {
       activeIdx,
       userCollapsed,
-      defaultCollapsed
+      defaultCollapsed,
     } = this.state
 
-    const groupStyles = styles => {
+    const groupStyles = (styles) => {
       // since filters include both keys & values (and values won't be the same)
       // we need to drop the values from the filters so we can group by similar filters
       // default to an empty array b/c there are styles without filters which will choke
       const trimFilters = (f = []) => {
         if (typeof f[2] === 'string') return f.slice(0, -1)
 
-        return f.map(sf => {
+        return f.map((sf) => {
           if (!Array.isArray(sf)) return sf
 
           if (typeof sf[2] === 'string') return sf.slice(0, -1)
@@ -161,35 +161,34 @@ class StyleManager extends Component {
       })
 
       // the reverse here is to compensate for the fact that we store the styles with the most important last in the array
-      return Object.values(dedup).map(group => group.reverse())
+      return Object.values(dedup).map((group) => group.reverse())
     }
     const layerTitles = layers.map(getTitleForLayer)
     const layerSelected = activeIdx !== null // eslint-disable-line
 
     return (
-      <div data-testid='StyleManager'>
+      <div data-testid="StyleManager">
         {layers.length !== 0 ? (
-          <div className='headerContainer'>
-            <div className='inputContainer'>
+          <div className="headerContainer">
+            <div className="inputContainer">
               <form style={{ width: '300px', margin: '20px' }}>
-                <label htmlFor='layer-selector'>{translations['_ol_kit.StyleManager.chooseLayer']}</label>
+                <label htmlFor="layer-selector">{translations['_ol_kit.StyleManager.chooseLayer']}</label>
                 <select
                   value={layerTitles[activeIdx] || ''}
                   onChange={this.handleLayerChange}
-                  type='text'
+                  type="text"
                   inputProps={{
                     id: 'layer-selector',
-                    'data-testid': 'StyleManager.chooseLayer'
-                  }}>
-                  {layerTitles.map(t => {
-                    return <option key={t} value={t}>{t}</option>
-                  })}
+                    'data-testid': 'StyleManager.chooseLayer',
+                  }}
+                >
+                  {layerTitles.map((t) => <option key={t} value={t}>{t}</option>)}
                 </select>
               </form>
             </div>
           </div>
         ) : (
-          <div className='noLayerText'>{translations['_ol_kit.StyleManager.noLayerText']}</div>
+          <div className="noLayerText">{translations['_ol_kit.StyleManager.noLayerText']}</div>
         )}
         {layerSelected && (
           layers[activeIdx] instanceof HeatmapLayer ? (
@@ -199,23 +198,24 @@ class StyleManager extends Component {
               <div title={translations['_ol_kit.StyleManager.styleTab']}>
                 <LayerStyler
                   inputProps={{
-                    'data-testid': 'StyleManager.customStyles'
+                    'data-testid': 'StyleManager.customStyles',
                   }}
                   translations={translations}
                   heading={`${translations['_ol_kit.StyleManager.customStyles']} (${getNonLabelStyles(userStyles[activeIdx])?.length})`}
-                  showNewButtons={true}
+                  showNewButtons
                   collapsed={userCollapsed}
-                  getValuesForAttribute={attribute => getValuesForAttribute(layers[activeIdx], attribute)}
+                  getValuesForAttribute={(attribute) => getValuesForAttribute(layers[activeIdx], attribute)}
                   attributeValues={attributeValues}
                   layer={layers[activeIdx]}
                   commaDelimitedAttributes={getCommaDelimitedAttributesForLayer?.(layers[activeIdx])}
                   attributes={getAttributesForLayer(layers[activeIdx])}
                   styles={groupStyles(getNonLabelStyles(userStyles[activeIdx]))}
                   onCollapseToggle={() => this.onCollapseToggle('userCollapsed')}
-                  onStylesChange={this.onUserStyleChange} />
+                  onStylesChange={this.onUserStyleChange}
+                />
                 <LayerStyler
                   inputProps={{
-                    'data-testid': 'StyleManager.defaultStyles'
+                    'data-testid': 'StyleManager.defaultStyles',
                   }}
                   translations={translations}
                   heading={`${translations['_ol_kit.StyleManager.defaultStyles']} (${defaultStyles[activeIdx]?.length || '0'})`}
@@ -225,14 +225,16 @@ class StyleManager extends Component {
                   onCollapseToggle={() => this.onCollapseToggle('defaultCollapsed')}
                   onStylesChange={this.onDefaultStyleChange}
                   onDefaultStyleReset={this.onDefaultStyleReset}
-                  isDefaultStyler={true} />
+                  isDefaultStyler
+                />
               </div>
-              <div data-testid={'StyleManager.labelTab'} title={translations['_ol_kit.StyleManager.labelTab']}>
+              <div data-testid="StyleManager.labelTab" title={translations['_ol_kit.StyleManager.labelTab']}>
                 <LabelStyler
                   translations={translations}
                   style={getLabelStyle(userStyles[activeIdx]) || cloneDeep(DEFAULT_LABEL_STYLE)}
                   attributes={getAttributesForLayer(layers[activeIdx])}
-                  onStylesChange={this.onLabelStyleChange} />
+                  onStylesChange={this.onLabelStyleChange}
+                />
               </div>
             </SelectTabs>
           )
@@ -285,7 +287,7 @@ StyleManager.propTypes = {
   onDefaultStyleReset: PropTypes.func.isRequired,
 
   /** callback invoked which returns attributes on the layer which are comma separated */
-  getCommaDelimitedAttributesForLayer: PropTypes.func.isRequired
+  getCommaDelimitedAttributesForLayer: PropTypes.func.isRequired,
 }
 
 export default connectToContext(StyleManager)

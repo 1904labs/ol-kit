@@ -10,9 +10,9 @@ import {
   addSelectInteraction,
   createMap,
   getSelectInteraction,
-  updateMapFromUrl
-} from 'Map'
-import { connectToContext } from 'Provider'
+  updateMapFromUrl,
+} from '~/src/Map'
+import { connectToContext } from '~/src/Provider'
 
 describe('createMap', () => {
   // jest does not reset the DOM after each test, so we do this manually
@@ -53,8 +53,8 @@ describe('createMap', () => {
 describe('connectToContext', () => {
   it('should render without passing a map', () => {
     // Map has not been mounted; no MapContext, so just render the Child
-    const Consumer = connectToContext(props => <div>child comp</div>)
-    const wrapper = mount(<Consumer inlineProp={true} />)
+    const Consumer = connectToContext((props) => <div>child comp</div>)
+    const wrapper = mount(<Consumer inlineProp />)
 
     // make sure connectToContext is passing inline props down to children
     expect(wrapper.props().inlineProp).toBe(true)
@@ -63,10 +63,12 @@ describe('connectToContext', () => {
   })
 
   it('should pass a map prop to children', async () => {
-    const Child = props => <div>child comp</div>
+    function Child(props) {
+      return <div>child comp</div>
+    }
     const Consumer = connectToContext(Child)
     const onMapInit = jest.fn()
-    const wrapper = mount(<Map onMapInit={onMapInit}><Consumer inlineProp={true} /></Map>)
+    const wrapper = mount(<Map onMapInit={onMapInit}><Consumer inlineProp /></Map>)
 
     // wait for async child render
     await waitFor(() => expect(onMapInit).toHaveBeenCalled())
@@ -82,16 +84,18 @@ describe('connectToContext', () => {
   })
 
   it('should filter out unneeded providerProps', async () => {
-    const Child = props => <div>child comp</div>
+    function Child(props) {
+      return <div>child comp</div>
+    }
 
     // this is defined to make sure uneeded propTypes get filtered out
     Child.propTypes = {
       inlineProp: PropTypes.bool,
-      map: PropTypes.object
+      map: PropTypes.object,
     }
     const Consumer = connectToContext(Child)
     const onMapInit = jest.fn()
-    const wrapper = mount(<Map onMapInit={onMapInit}><Consumer inlineProp={true} /></Map>)
+    const wrapper = mount(<Map onMapInit={onMapInit}><Consumer inlineProp /></Map>)
 
     // wait for async child render
     await waitFor(() => expect(onMapInit).toHaveBeenCalled())
@@ -193,7 +197,7 @@ describe('updateUrlFromMap', () => {
     // set the url with a competing url param
     window.history.replaceState(null, '', `${window.location.pathname}?existingParam=true&otherParam=false`)
 
-    const onMapInit = async map => {
+    const onMapInit = async (map) => {
       const query = qs.parse(window.location.search, { ignoreQueryPrefix: true })
 
       // existingParam is set above when the url is reset^ (make sure it still exists)
@@ -219,14 +223,12 @@ describe('selectInteractions', () => {
   it('should create and find default select interaction', async () => {
     global.document.body.innerHTML = '<div id="map"></div>'
 
-    const onMapInit = async map => {
+    const onMapInit = async (map) => {
       const defaultSelect = getSelectInteraction(map)
 
       // find default select without providing a name arg
       expect(defaultSelect).toBeInstanceOf(olInteractionSelect)
-      const selectInteractionsOnMap = map.getInteractions().getArray().filter(interaction => {
-        return interaction instanceof olInteractionSelect
-      })
+      const selectInteractionsOnMap = map.getInteractions().getArray().filter((interaction) => interaction instanceof olInteractionSelect)
 
       expect(selectInteractionsOnMap.length).toBe(1)
 
@@ -237,9 +239,7 @@ describe('selectInteractions', () => {
       expect(layer).toBeInstanceOf(olVectorLayer)
       // new select should be on the map
       expect(getSelectInteraction(map, 'custom_test_select')).toBeInstanceOf(olInteractionSelect)
-      const selectInteractionsOnMapAgain = map.getInteractions().getArray().filter(interaction => {
-        return interaction instanceof olInteractionSelect
-      })
+      const selectInteractionsOnMapAgain = map.getInteractions().getArray().filter((interaction) => interaction instanceof olInteractionSelect)
 
       expect(selectInteractionsOnMapAgain.length).toBe(2)
     }
@@ -251,7 +251,7 @@ describe('selectInteractions', () => {
   it('should throw an error getting a select interaction by bad name', async () => {
     global.document.body.innerHTML = '<div id="map"></div>'
 
-    const onMapInit = async map => {
+    const onMapInit = async (map) => {
       // this named select has never been added to the map- should throw error
       expect(getSelectInteraction(map, 'bad_bad_fake_name')).toThrowErrorMatchingSnapshot()
     }

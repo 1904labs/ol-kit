@@ -44,6 +44,5 @@ console.log(chalk.yellow(`
   /// ol-kit an open source mapping framework ///
   ///////////////////////////////////////////////\n`))
 
-
 prompt.getProjectDirectoryName()
   .then(prompt.finish)

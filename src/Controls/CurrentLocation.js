@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ControlGroupButton from './ControlGroupButton'
-import { centerAndZoom } from 'Map'
-import { connectToContext } from 'Provider'
-import ugh from 'ugh'
+import { centerAndZoom } from '~/src/Map'
+import { connectToContext } from '~/src/Provider'
+import ugh from '~/src/ugh'
 
 import './styled.css'
 
@@ -24,7 +24,7 @@ class CurrentLocation extends React.Component {
           x: position.coords.longitude,
           y: position.coords.latitude,
           zoom: 13,
-          showPointIcon: true
+          showPointIcon: true,
         }
 
         centerAndZoom(map, opts)
@@ -34,11 +34,12 @@ class CurrentLocation extends React.Component {
     }
   }
 
-  render () {
+  render() {
     return (
       <ControlGroupButton
         onClick={this.gotoCurrentLocation}
-        data-testid='_ol_kit_current_location'>
+        data-testid="_ol_kit_current_location"
+      >
         {/* <GpsFixedIcon style={{ fontSize: '1.2rem' }} /> */}
       </ControlGroupButton>
     )
@@ -47,7 +48,7 @@ class CurrentLocation extends React.Component {
 
 CurrentLocation.propTypes = {
   /** reference to Openlayers map object */
-  map: PropTypes.object.isRequired
+  map: PropTypes.object.isRequired,
 }
 
 export default connectToContext(CurrentLocation)

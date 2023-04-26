@@ -10,17 +10,21 @@ import './styled.css'
  * @since 0.18.0
  */
 class DrawCircle extends Component {
-  render () {
-    const { addInteraction, type, geometryFunction, tooltipTitle } = this.props
+  render() {
+    const {
+      addInteraction, type, geometryFunction, tooltipTitle,
+    } = this.props
 
     return (
-      <div className='tooltip' title={tooltipTitle}>
-        <button className='iconButton'
-          data-testid='Draw.circle'
-          size='small'
-          onClick={() => addInteraction({ type: 'Circle' })}>
+      <div className="tooltip" title={tooltipTitle}>
+        <button
+          className="iconButton"
+          data-testid="Draw.circle"
+          size="small"
+          onClick={() => addInteraction({ type: 'Circle' })}
+        >
           <span htmlColor={type === 'Circle' && !geometryFunction ? '#1976D2' : '#656565'}>
-            <i class='zmdi zmdi-circle-o'></i>
+            <i className="zmdi zmdi-circle-o" />
           </span>
         </button>
       </div>
@@ -39,7 +43,7 @@ DrawCircle.propTypes = {
   addInteraction: PropTypes.func,
 
   /** a title for the tooltip */
-  tooltipTitle: PropTypes.string
+  tooltipTitle: PropTypes.string,
 }
 
 export default DrawCircle

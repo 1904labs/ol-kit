@@ -7,23 +7,23 @@ import PropTypes from 'prop-types'
  * @since 0.5.0
  */
 class LayerPanelMenu extends Component {
-  render () {
-    const { handleMenuClose, open, anchorEl, children, layer } = this.props
+  render() {
+    const {
+      handleMenuClose, open, anchorEl, children, layer,
+    } = this.props
 
-    const menuItemsWithProps = React.Children.map(children, item =>
-      React.cloneElement(item, {
-        // we don't wont to spread props.children we overwrite it with the items children
-        ...this.props,
-        children: item.props.children,
-        onClick: () => {
-          handleMenuClose()
-          item.props.onClick(layer)
-        }
-      })
-    )
+    const menuItemsWithProps = React.Children.map(children, (item) => React.cloneElement(item, {
+      // we don't wont to spread props.children we overwrite it with the items children
+      ...this.props,
+      children: item.props.children,
+      onClick: () => {
+        handleMenuClose()
+        item.props.onClick(layer)
+      },
+    }))
 
     return (
-      <div data-testid='LayerPanel.menu' anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
+      <div data-testid="LayerPanel.menu" anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
         {menuItemsWithProps}
       </div>
     )
@@ -44,7 +44,7 @@ LayerPanelMenu.propTypes = {
   children: PropTypes.array,
 
   /** An openlayers `ol.layer` */
-  layer: PropTypes.object
+  layer: PropTypes.object,
 }
 
 export default LayerPanelMenu

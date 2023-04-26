@@ -2,10 +2,10 @@ import { nanoid } from 'nanoid'
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import en from 'locales/en'
+import en from '~/src/locales/en'
 import { calculateAreaAndDistance } from './utils'
-import { MeasureLabelPreference } from 'Preferences'
-import { connectToContext } from 'Provider'
+import { MeasureLabelPreference } from '~/src/Preferences'
+import { connectToContext } from '~/src/Provider'
 
 import './styled.css'
 
@@ -13,49 +13,49 @@ const UNIT_OPTIONS = {
   imperial: [
     {
       name: 'feet',
-      translationsKey: '_ol_kit.units.feet'
+      translationsKey: '_ol_kit.units.feet',
     },
     {
       name: 'yards',
-      translationsKey: '_ol_kit.units.yards'
+      translationsKey: '_ol_kit.units.yards',
     },
     {
       name: 'miles',
-      translationsKey: '_ol_kit.units.miles'
+      translationsKey: '_ol_kit.units.miles',
     },
     {
       name: 'nautical-miles',
-      translationsKey: '_ol_kit.units.nauticalmiles'
+      translationsKey: '_ol_kit.units.nauticalmiles',
     },
     {
       name: 'acres',
       translationsKey: '_ol_kit.units.acres',
-      strictAreaUnit: true
-    }
+      strictAreaUnit: true,
+    },
   ],
   metric: [
     {
       name: 'meters',
-      translationsKey: '_ol_kit.units.meters'
+      translationsKey: '_ol_kit.units.meters',
     },
     {
       name: 'kilometers',
-      translationsKey: '_ol_kit.units.kilometers'
+      translationsKey: '_ol_kit.units.kilometers',
     },
     {
       name: 'nautical-miles',
-      translationsKey: '_ol_kit.units.nauticalmiles'
+      translationsKey: '_ol_kit.units.nauticalmiles',
     },
     {
       name: 'hectares',
       translationsKey: '_ol_kit.units.hectares',
-      strictAreaUnit: true
-    }
-  ]
+      strictAreaUnit: true,
+    },
+  ],
 }
 
 class Measure extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -64,17 +64,17 @@ class Measure extends React.Component {
       areaUOM: props.uom === 'imperial' ? 'acres' : 'hectares',
       distance: '',
       area: '',
-      isAreaUnit: false
+      isAreaUnit: false,
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { uom } = this.props
 
     this.setState({
       uomType: uom,
       distanceUOM: uom === 'imperial' ? 'feet' : 'meters',
-      areaUOM: uom === 'imperial' ? 'acres' : 'hectares'
+      areaUOM: uom === 'imperial' ? 'acres' : 'hectares',
     })
   }
 
@@ -91,9 +91,7 @@ class Measure extends React.Component {
     this.setState({ distance: distanceString, area: areaString, geometry: featureGeometry })
   }
 
-  toLocaleString = (distance) => {
-    return distance ? distance.toLocaleString([window.navigator.language, 'en-US']) : ''
-  }
+  toLocaleString = (distance) => (distance ? distance.toLocaleString([window.navigator.language, 'en-US']) : '')
 
   handleUomChange = (evt) => {
     const { onUomChange, preferences } = this.props
@@ -106,7 +104,7 @@ class Measure extends React.Component {
         uom: distanceUOM,
         areaUom: areaUOM,
         distanceUOM,
-        areaUOM
+        areaUOM,
       })
     })
   }
@@ -122,7 +120,7 @@ class Measure extends React.Component {
         uom: distanceUOM,
         areaUom: areaUOM,
         distanceUOM,
-        areaUOM
+        areaUOM,
       })
     })
   }
@@ -131,21 +129,20 @@ class Measure extends React.Component {
     this.setMeasurementTextLabels()
   }
 
-  getFeatureId = feature => {
+  getFeatureId = (feature) => {
     const currentId = feature.getId()
 
     if (currentId) {
       return currentId
-    } else {
-      const newId = nanoid()
-
-      feature.setId(newId)
-
-      return newId
     }
+    const newId = nanoid()
+
+    feature.setId(newId)
+
+    return newId
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const { feature, geometryType } = this.props
     const prevFeature = prevProps.feature
 
@@ -170,48 +167,58 @@ class Measure extends React.Component {
     }
   }
 
-  render () {
-    const { distanceUOM, areaUOM, distance, area, uomType } = this.state
+  render() {
+    const {
+      distanceUOM, areaUOM, distance, area, uomType,
+    } = this.state
     const { translations, preferences, drawMode } = this.props
     const removeSquared = (name) => (name === 'acres') || (name === 'hectares')
     const disableDistanceMeasurement = drawMode === 'Circle'
 
     return (
       <div>
-        <div className='uomContainer'>
+        <div className="uomContainer">
           <MeasureLabelPreference
-            uomOptions={UNIT_OPTIONS[uomType].map(({ name, translationsKey, strictAreaUnit }) => {
-              return !strictAreaUnit
-                ? <option data-testid={`_ol_kit-Measure-uom-${name}`} key={name} value={name}>{translations[translationsKey]}</option>
-                : null
-            })}
-            compact={true}
+            uomOptions={UNIT_OPTIONS[uomType].map(({ name, translationsKey, strictAreaUnit }) => (!strictAreaUnit
+              ? <option data-testid={`_ol_kit-Measure-uom-${name}`} key={name} value={name}>{translations[translationsKey]}</option>
+              : null))}
+            compact
             translations={translations}
             preferences={preferences}
             onChange={this.handleUomChange.bind(this)}
-            enabledPreferenceKey={'_DISTANCE_LABEL_ENABLED'}
-            valuePreferenceKey={'_DISTANCE_LABEL_UOM'}
+            enabledPreferenceKey="_DISTANCE_LABEL_ENABLED"
+            valuePreferenceKey="_DISTANCE_LABEL_UOM"
             defaultUOM={distanceUOM}
-            disabled={disableDistanceMeasurement}>
-            <span>{translations['_ol_kit.Measurement.distance']} {distance}</span>
+            disabled={disableDistanceMeasurement}
+          >
+            <span>
+              {translations['_ol_kit.Measurement.distance']}
+              {' '}
+              {distance}
+            </span>
           </MeasureLabelPreference>
         </div>
-        <div className='uomContainer'>
+        <div className="uomContainer">
           <MeasureLabelPreference
             uomOptions={UNIT_OPTIONS[uomType].map(({ name, translationsKey }) => {
               const translation = translations[translationsKey]
 
               return <option key={name} value={name}>{removeSquared(name) ? translation : `sq ${translation}`}</option>
             })}
-            compact={true}
+            compact
             translations={translations}
             preferences={preferences}
             onChange={this.handleAreaUomChange.bind(this)}
-            enabledPreferenceKey={'_AREA_LABEL_ENABLED'}
-            valuePreferenceKey={'_AREA_LABEL_UOM'}
+            enabledPreferenceKey="_AREA_LABEL_ENABLED"
+            valuePreferenceKey="_AREA_LABEL_UOM"
             defaultUOM={areaUOM}
-            disabled={false}>
-            <span>{translations['_ol_kit.Measurement.area']} {area}</span>
+            disabled={false}
+          >
+            <span>
+              {translations['_ol_kit.Measurement.area']}
+              {' '}
+              {area}
+            </span>
           </MeasureLabelPreference>
         </div>
       </div>
@@ -228,13 +235,13 @@ Measure.propTypes = {
   onUomChange: PropTypes.func,
   geometryType: PropTypes.string,
   preferences: PropTypes.object,
-  drawMode: PropTypes.string
+  drawMode: PropTypes.string,
 }
 
 Measure.defaultProps = {
   translations: en,
   onUomChange: () => {},
-  uom: 'imperial'
+  uom: 'imperial',
 }
 
 export default connectToContext(Measure)

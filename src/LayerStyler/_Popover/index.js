@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 class PopoverBuilder extends React.Component {
-  constructor () {
+  constructor() {
     super()
 
     this.state = {
-      open: false
+      open: false,
     }
   }
 
@@ -18,40 +18,42 @@ class PopoverBuilder extends React.Component {
     this.setState({ open: false })
   }
 
-  render () {
+  render() {
     const { open } = this.state
     const { children, disabled, title } = this.props
 
     return (
-      <React.Fragment>
+      <>
         <button
           disabled={disabled}
-          buttonRef={node => {
+          buttonRef={(node) => {
             this.anchorEl = node
           }}
-          variant='contained'
-          onClick={this.handleClickButton}>
+          variant="contained"
+          onClick={this.handleClickButton}
+        >
           {title}
         </button>
         <div
           style={{
             overflowX: 'visible',
-            overflowY: 'visible'
+            overflowY: 'visible',
           }}
           open={open}
           onClose={this.handleClose}
           anchorEl={this.anchorEl}
           anchorOrigin={{
             vertical: 'top',
-            horizontal: 'left'
+            horizontal: 'left',
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'left'
-          }}>
+            horizontal: 'left',
+          }}
+        >
           {children}
         </div>
-      </React.Fragment>
+      </>
     )
   }
 }
@@ -60,14 +62,14 @@ PopoverBuilder.propTypes = {
   /** Children to be shown inside the popover when open */
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]),
 
   /** If true the popover button will be disabled */
   disabled: PropTypes.bool,
 
   /** Title to show in the button which triggers the popover */
-  title: PropTypes.string
+  title: PropTypes.string,
 }
 
 export default PopoverBuilder

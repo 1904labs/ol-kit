@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import StyleManager from 'LayerStyler/StyleManager'
 import HeatmapLayer from 'ol/layer/Heatmap'
 import olFormatFilterAnd from 'ol/format/filter/And'
 import olFormatFilterOr from 'ol/format/filter/Or'
 import olFormatFilterEqualTo from 'ol/format/filter/EqualTo'
 import olFormatFilterIsLike from 'ol/format/filter/IsLike'
-import olFilterFunction from '../classes/FilterFunction'
-import ugh from 'ugh'
-
 import escapeRegExp from 'lodash.escaperegexp'
+import olFilterFunction from '../classes/FilterFunction'
+import ugh from '~/src/ugh'
 
-import { addMovementListener, removeMovementListener } from 'Popup'
-import { connectToContext } from 'Provider'
+import StyleManager from '~/src/LayerStyler/StyleManager'
+
+import { addMovementListener, removeMovementListener } from '~/src/Popup'
+import { connectToContext } from '~/src/Provider'
 
 /**
  * UI to choose color, stroke, fill etc. for styles and labels on layers
@@ -20,17 +20,17 @@ import { connectToContext } from 'Provider'
  * @category LayerStyler
  */
 class LayerStyler extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       attributeValues: [],
       listeners: [],
-      whitelistedLayers: props.whitelistedLayers
+      whitelistedLayers: props.whitelistedLayers,
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { map } = this.props
     const layers = map.getLayers()
 
@@ -47,21 +47,19 @@ class LayerStyler extends React.Component {
     this.setState({ listeners: [...listeners, onAddKey, onRemoveKey] })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     const { listeners } = this.state
 
     removeMovementListener(listeners)
   }
 
-  getTitleForLayer = (layer) => {
-    return layer?.get?.('title') || layer?.getTypeName?.() || 'untitled layer'
-  }
+  getTitleForLayer = (layer) => layer?.get?.('title') || layer?.getTypeName?.() || 'untitled layer'
 
-  getAttributesForLayer = layer => {
+  getAttributesForLayer = (layer) => {
     if (layer) {
       if (layer.isGeoserverLayer) {
         return layer.getAttributes().sort((a, b) => a.localeCompare(b))
-      } else if (layer.isVectorLayer || layer.isVectorTileLayer) {
+      } if (layer.isVectorLayer || layer.isVectorTileLayer) {
         return layer.getAttributes().sort((a, b) => a.localeCompare(b))
       }
     }
@@ -71,7 +69,7 @@ class LayerStyler extends React.Component {
     if (layer) {
       if (layer.isGeoserverLayer) {
         const { typeName } = layer
-        const whitelistedLayer = this.state.whitelistedLayers.find(l => l.typename === typeName)
+        const whitelistedLayer = this.state.whitelistedLayers.find((l) => l.typename === typeName)
         const opts = whitelistedLayer ? { commaDelimitedAttributes: whitelistedLayer.commaDelimitedAttributes } : {}
         const attributeValues = await layer.fetchValuesForAttribute(this.props.map, attribute, opts)
 
@@ -87,7 +85,7 @@ class LayerStyler extends React.Component {
   getCommaDelimitedAttributesForLayer = (layer) => {
     if (layer && layer.isGeoserverLayer) {
       const { typeName } = layer
-      const whitelistedLayer = this.state.whitelistedLayers.find(l => l.typename === typeName)
+      const whitelistedLayer = this.state.whitelistedLayers.find((l) => l.typename === typeName)
 
       return whitelistedLayer ? whitelistedLayer.commaDelimitedAttributes : []
     }
@@ -96,7 +94,7 @@ class LayerStyler extends React.Component {
   onFilterChange = (layer, filters) => {
     if (layer && layer.isGeoserverLayer) {
       const { typeName } = layer
-      const whitelistedLayer = this.state.whitelistedLayers.find(l => l.typename === typeName)
+      const whitelistedLayer = this.state.whitelistedLayers.find((l) => l.typename === typeName)
       const opts = whitelistedLayer ? { commaDelimitedAttributes: whitelistedLayer.commaDelimitedAttributes } : {}
 
       layer.setWMSFilters(filters, opts)
@@ -116,20 +114,18 @@ class LayerStyler extends React.Component {
           new olFormatFilterIsLike(new olFilterFunction('strMatches', attribute, `^${escapeRegExp(value)}( )??,.*`), true, '*', '.', '!'),
           new olFormatFilterIsLike(new olFilterFunction('strMatches', attribute, `.*,( )??${escapeRegExp(value)}( )??,.*`), true, '*', '.', '!'),
           new olFormatFilterIsLike(new olFilterFunction('strMatches', attribute, `.*,( )??${escapeRegExp(value)}( )??,.*`), true, '*', '.', '!'),
-          new olFormatFilterEqualTo(attribute, escapeRegExp(value))
+          new olFormatFilterEqualTo(attribute, escapeRegExp(value)),
         )
-      } else {
-        return new olFormatFilterEqualTo(attribute, value)
       }
+      return new olFormatFilterEqualTo(attribute, value)
     })
 
     if (filters[0]?.logical === 'AND' && filters.length > 1) {
       return new olFormatFilterAnd(...olFilters)
-    } else if (filters[0]?.logical === 'OR' && filters.length > 1) {
+    } if (filters[0]?.logical === 'OR' && filters.length > 1) {
       return new olFormatFilterOr(...olFilters)
-    } else {
-      return olFilters[0]
     }
+    return olFilters[0]
   }
 
   onDefaultStyleChange = (layer, styles) => {
@@ -168,9 +164,7 @@ class LayerStyler extends React.Component {
   getValidLayers = () => {
     const { map } = this.props
     const layers = map.getLayers().getArray()
-    const validLayers = layers.filter(layer => {
-      return !layer.get('_ol_kit_basemap') && (layer.isGeoserverLayer || layer.isVectorLayer || layer.isVectorTileLayer || layer instanceof HeatmapLayer)
-    })
+    const validLayers = layers.filter((layer) => !layer.get('_ol_kit_basemap') && (layer.isGeoserverLayer || layer.isVectorLayer || layer.isVectorTileLayer || layer instanceof HeatmapLayer))
 
     if (layers.length - validLayers.length > 1) {
       ugh.warn('In order to use ManageLayers, the layer must be either an VectorLayer or GeoserverLayer')
@@ -179,7 +173,7 @@ class LayerStyler extends React.Component {
     return validLayers
   }
 
-  render () {
+  render() {
     const layers = this.getValidLayers()
     const { attributeValues } = this.state
     const { translations } = this.props
@@ -188,9 +182,9 @@ class LayerStyler extends React.Component {
       <StyleManager
         layers={layers}
         translations={translations}
-        filters={layers.map(l => l.isGeoserverLayer && l.getWMSFilters())}
-        userStyles={layers.map(l => l.isGeoserverLayer ? l.getUserWMSStyles() : l.getUserVectorStyles?.())}
-        defaultStyles={layers.map(l => l.isGeoserverLayer ? l.getDefaultWMSStyles() : l.getDefaultVectorStyles?.())}
+        filters={layers.map((l) => l.isGeoserverLayer && l.getWMSFilters())}
+        userStyles={layers.map((l) => (l.isGeoserverLayer ? l.getUserWMSStyles() : l.getUserVectorStyles?.()))}
+        defaultStyles={layers.map((l) => (l.isGeoserverLayer ? l.getDefaultWMSStyles() : l.getDefaultVectorStyles?.()))}
         getCommaDelimitedAttributesForLayer={this.getCommaDelimitedAttributesForLayer}
         getTitleForLayer={this.getTitleForLayer}
         getValuesForAttribute={this.getValuesForAttribute}
@@ -200,13 +194,14 @@ class LayerStyler extends React.Component {
         onUserStyleChange={this.onUserStyleChange}
         onDefaultStyleChange={this.onDefaultStyleChange}
         onDefaultStyleReset={this.onDefaultStyleReset}
-        {...this.props} />
+        {...this.props}
+      />
     )
   }
 }
 
 LayerStyler.defaultProps = {
-  whitelistedLayers: []
+  whitelistedLayers: [],
 }
 
 LayerStyler.propTypes = {
@@ -217,7 +212,7 @@ LayerStyler.propTypes = {
   translations: PropTypes.object.isRequired,
 
   /** An array of layer typenames that will be used for a whitelist */
-  whitelistedLayers: PropTypes.array
+  whitelistedLayers: PropTypes.array,
 }
 
 export default connectToContext(LayerStyler)

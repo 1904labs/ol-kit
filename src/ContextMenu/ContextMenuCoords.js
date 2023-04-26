@@ -1,7 +1,7 @@
 import Clipboard from 'clipboard'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connectToContext } from 'Provider'
+import { connectToContext } from '~/src/Provider'
 
 import './styled.css'
 
@@ -11,10 +11,10 @@ import './styled.css'
  * @since 0.16.0
  */
 class ContextMenuCoords extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     const { closeContextMenu, coords, translations } = this.props
     const clipboard = new Clipboard('#coordCopier', {
-      text: this.copyCoords
+      text: this.copyCoords,
     })
 
     clipboard.on('success', () => {
@@ -32,21 +32,22 @@ class ContextMenuCoords extends React.PureComponent {
     return `${coords.lat}, ${coords.long}`
   }
 
-  renderCoord (text, coord) {
+  renderCoord(text, coord) {
     return (
-      <div className='coordGroup'>
-        <div>{text}</div><span className='coordRaw'>{coord}</span>
+      <div className="coordGroup">
+        <div>{text}</div>
+        <span className="coordRaw">{coord}</span>
       </div>
     )
   }
 
-  render () {
+  render() {
     const { coords, translations } = this.props
     const latDisplay = this.renderCoord(translations['_ol_kit_.ContextMenuCoords.lat'], coords.lat)
     const longDisplay = this.renderCoord(translations['_ol_kit_.ContextMenuCoords.long'], coords.long)
 
     return (
-      <div className='coordWrapper' id='coordCopier'>
+      <div className="coordWrapper" id="coordCopier">
         {latDisplay}
         {longDisplay}
       </div>
@@ -61,13 +62,13 @@ ContextMenuCoords.propTypes = {
   /** The pixel location of the click (passed automatically by ContextMenu) */
   pixel: PropTypes.shape({
     x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired
+    y: PropTypes.number.isRequired,
   }).isRequired,
 
   /** The coords of the click (passed automatically by ContextMenu) */
   coords: PropTypes.shape({
     lat: PropTypes.number.isRequired,
-    long: PropTypes.number.isRequired
+    long: PropTypes.number.isRequired,
   }).isRequired,
 
   /** The features at the location of the click (passed automatically by ContextMenu) */
@@ -76,14 +77,14 @@ ContextMenuCoords.propTypes = {
   /** A function which called when the context menu item is finished */
   closeContextMenu: PropTypes.func.isRequired,
 
-  translations: PropTypes.object
+  translations: PropTypes.object,
 }
 
 ContextMenuCoords.defaultProps = {
   translations: {
     '_ol_kit_.ContextMenuCoords.lat': 'latitude',
-    '_ol_kit_.ContextMenuCoords.long': 'longitude'
-  }
+    '_ol_kit_.ContextMenuCoords.long': 'longitude',
+  },
 }
 
 export default connectToContext(ContextMenuCoords)
